@@ -7,5 +7,25 @@
   "emptyPlantsHint": "No plants yet – add your first plant.",
   "@emptyPlantsHint": {
     "description": "Friendly hint on the home screen when the user has not added any plants yet."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Title of the settings screen and tooltip of the settings button."
+  },
+  "appearanceSection": "Appearance",
+  "@appearanceSection": {
+    "description": "Section title for the theme options in the settings."
+  },
+  "themeModeSystem": "System",
+  "@themeModeSystem": {
+    "description": "Theme option: follow the phone's light/dark setting."
+  },
+  "themeModeLight": "Light",
+  "@themeModeLight": {
+    "description": "Theme option: always light."
+  },
+  "themeModeDark": "Dark",
+  "@themeModeDark": {
+    "description": "Theme option: always dark."
   }
 }

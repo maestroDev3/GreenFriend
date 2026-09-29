@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
 
+import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
 import 'locale_resolution.dart';
+import 'settings_controller.dart';
 import 'theme.dart';
 
-/// The root widget that sets up localization, theme and the home screen.
+/// The root widget that sets up settings, localization, theme and the home
+/// screen.
 class GreenFriendApp extends StatelessWidget {
-  const GreenFriendApp({super.key});
+  const GreenFriendApp({super.key, required this.settings});
+
+  final SettingsController settings;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localeListResolutionCallback: resolveLocale,
-      home: const HomeScreen(),
+    return SettingsScope(
+      controller: settings,
+      child: ListenableBuilder(
+        listenable: settings,
+        builder: (context, _) => MaterialApp(
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: switch (settings.themeMode) {
+            AppThemeMode.system => ThemeMode.system,
+            AppThemeMode.light => ThemeMode.light,
+            AppThemeMode.dark => ThemeMode.dark,
+          },
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localeListResolutionCallback: resolveLocale,
+          home: const HomeScreen(),
+        ),
+      ),
     );
   }
 }
