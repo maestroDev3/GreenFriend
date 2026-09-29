@@ -15,10 +15,9 @@ import '../domain/plant_repository.dart';
 class SharedPreferencesPlantRepository implements PlantRepository {
   SharedPreferencesPlantRepository(
     this._preferences, {
-    Clock clock = DateTime.now,
+    this.clock = DateTime.now,
     Random? random,
-  }) : _clock = clock,
-       _random = random ?? Random.secure() {
+  }) : _random = random ?? Random.secure() {
     _plants = _read();
   }
 
@@ -28,8 +27,10 @@ class SharedPreferencesPlantRepository implements PlantRepository {
   /// Unreadable data is kept here instead of being lost.
   static const backupKey = 'plants.v1.unreadable';
 
+  /// Supplies the time used in generated ids.
+  final Clock clock;
+
   final SharedPreferences _preferences;
-  final Clock _clock;
   final Random _random;
   final _changes = StreamController<List<Plant>>.broadcast();
   late List<Plant> _plants;
@@ -110,7 +111,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
   }
 
   String _newId() {
-    final time = _clock().microsecondsSinceEpoch.toRadixString(36);
+    final time = clock().microsecondsSinceEpoch.toRadixString(36);
     final noise = _random.nextInt(1 << 32).toRadixString(36);
     return '$time-$noise';
   }
