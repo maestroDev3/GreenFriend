@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appTitle": "Green Friend",
+  "@appTitle": {
+    "description": "The app name, shown in the app bar and the task switcher."
+  },
+  "emptyPlantsHint": "No plants yet – add your first plant.",
+  "@emptyPlantsHint": {
+    "description": "Friendly hint on the home screen when the user has not added any plants yet."
+  }
+}
