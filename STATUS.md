@@ -8,7 +8,10 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #3 Create, edit and delete plants – Epic #1 Foundation (being refined)
+- #3 Create, edit and delete plants – Epic #1 Foundation
+  - Done: #40 plant model, #41 local storage
+  - Waiting for CI: #42 add plant (PR #46), #43 edit/delete (draft PR #47)
+  - **Blocked:** GitHub Actions does not start jobs (billing / spending limit) – no CI, no merges, no APK until fixed
 
 ## Up next
 
@@ -37,5 +40,6 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 - Plant identification (#15): which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
 - Android only, or iOS later?
-- Plant database for #14: external database/API (decided) – which one is open, research pending
+- Plant database for #14: external database/API (decided) – which one is open; research in the Claude project (`plant-database-research.md`)
+- Plant photo before the journal epic? CLAUDE.md currently allows camera/gallery only with the journal epic (#10)
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
