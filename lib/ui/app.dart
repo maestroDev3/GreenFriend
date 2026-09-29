@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/plant_repository.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
@@ -10,9 +11,14 @@ import 'theme.dart';
 /// The root widget that sets up settings, localization, theme and the home
 /// screen.
 class GreenFriendApp extends StatelessWidget {
-  const GreenFriendApp({super.key, required this.settings});
+  const GreenFriendApp({
+    super.key,
+    required this.settings,
+    required this.plants,
+  });
 
   final SettingsController settings;
+  final PlantRepository plants;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,7 @@ class GreenFriendApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
-          home: const HomeScreen(),
+          home: HomeScreen(plants: plants),
         ),
       ),
     );
