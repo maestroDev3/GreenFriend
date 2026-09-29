@@ -6,9 +6,7 @@ import '../support/pump_app.dart';
 
 void main() {
   group('HomeScreen', () {
-    testWidgets('shows the app title and the empty-state hint', (
-      tester,
-    ) async {
+    testWidgets('shows the app title and the empty-state hint', (tester) async {
       await tester.pumpApp(const HomeScreen());
 
       expect(find.text('Green Friend'), findsOneWidget);
