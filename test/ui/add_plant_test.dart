@@ -44,9 +44,7 @@ void main() {
       expect(find.text('No plants yet – add your first plant.'), findsNothing);
     });
 
-    testWidgets('lets long texts wrap with large system fonts', (
-      tester,
-    ) async {
+    testWidgets('lets long texts wrap with large system fonts', (tester) async {
       final repository = FakePlantRepository([
         Plant(
           id: '1',

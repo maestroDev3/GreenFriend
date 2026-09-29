@@ -13,9 +13,9 @@ Future<void> pumpWithDeviceLocale(WidgetTester tester, Locale locale) async {
   addTearDown(tester.platformDispatcher.clearLocalesTestValue);
   await tester.pumpWidget(
     GreenFriendApp(
-        settings: SettingsController(FakeSettingsRepository()),
-        plants: FakePlantRepository(),
-      ),
+      settings: SettingsController(FakeSettingsRepository()),
+      plants: FakePlantRepository(),
+    ),
   );
   await tester.pumpAndSettle();
 }

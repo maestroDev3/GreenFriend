@@ -18,7 +18,10 @@ void main() {
     });
 
     testWidgets('shows the German hint for locale de', (tester) async {
-      await tester.pumpApp(HomeScreen(plants: FakePlantRepository()), locale: const Locale('de'));
+      await tester.pumpApp(
+        HomeScreen(plants: FakePlantRepository()),
+        locale: const Locale('de'),
+      );
 
       expect(
         find.text('Noch keine Pflanzen – füge deine erste Pflanze hinzu.'),
