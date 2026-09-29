@@ -27,5 +27,23 @@ void main() {
 
       expect(await (await repository()).loadThemeMode(), AppThemeMode.system);
     });
+
+    test('returns System without a stored language', () async {
+      expect(await (await repository()).loadLanguage(), AppLanguage.system);
+    });
+
+    test('stores and reads the language', () async {
+      await (await repository()).saveLanguage(AppLanguage.german);
+
+      expect(await (await repository()).loadLanguage(), AppLanguage.german);
+    });
+
+    test('falls back to System for an unknown stored language', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesSettingsRepository.languageKey: 'klingon',
+      });
+
+      expect(await (await repository()).loadLanguage(), AppLanguage.system);
+    });
   });
 }

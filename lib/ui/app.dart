@@ -28,6 +28,11 @@ class GreenFriendApp extends StatelessWidget {
             AppThemeMode.light => ThemeMode.light,
             AppThemeMode.dark => ThemeMode.dark,
           },
+          locale: switch (settings.language) {
+            AppLanguage.system => null,
+            AppLanguage.english => const Locale('en'),
+            AppLanguage.german => const Locale('de'),
+          },
           onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,

@@ -6,5 +6,9 @@
   "appearanceSection": "Darstellung",
   "themeModeSystem": "System",
   "themeModeLight": "Hell",
-  "themeModeDark": "Dunkel"
+  "themeModeDark": "Dunkel",
+  "languageSection": "Sprache",
+  "languageSystem": "System",
+  "languageEnglish": "English",
+  "languageGerman": "Deutsch"
 }

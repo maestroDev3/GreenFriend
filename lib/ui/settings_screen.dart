@@ -4,7 +4,7 @@ import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
 import 'settings_controller.dart';
 
-/// Lets the user choose the app's appearance.
+/// Lets the user choose the app's appearance and language.
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -24,6 +24,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 for (final mode in AppThemeMode.values)
                   _ChoiceTile(
+                    tileKey: ValueKey('theme-${mode.name}'),
                     label: switch (mode) {
                       AppThemeMode.system => l10n.themeModeSystem,
                       AppThemeMode.light => l10n.themeModeLight,
@@ -31,6 +32,26 @@ class SettingsScreen extends StatelessWidget {
                     },
                     selected: settings.themeMode == mode,
                     onTap: () => settings.setThemeMode(mode),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          _SectionTitle(l10n.languageSection),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                for (final language in AppLanguage.values)
+                  _ChoiceTile(
+                    tileKey: ValueKey('language-${language.name}'),
+                    label: switch (language) {
+                      AppLanguage.system => l10n.languageSystem,
+                      AppLanguage.english => l10n.languageEnglish,
+                      AppLanguage.german => l10n.languageGerman,
+                    },
+                    selected: settings.language == language,
+                    onTap: () => settings.setLanguage(language),
                   ),
               ],
             ),
@@ -57,11 +78,14 @@ class _SectionTitle extends StatelessWidget {
 
 class _ChoiceTile extends StatelessWidget {
   const _ChoiceTile({
+    required this.tileKey,
     required this.label,
     required this.selected,
     required this.onTap,
   });
 
+  /// Identifies the option in tests.
+  final Key tileKey;
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -69,6 +93,7 @@ class _ChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: tileKey,
       title: Text(label),
       selected: selected,
       trailing: selected ? const Icon(Icons.check) : null,
