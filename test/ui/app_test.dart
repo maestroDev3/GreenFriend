@@ -3,11 +3,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/l10n/app_localizations.dart';
 import 'package:green_friend/ui/app.dart';
+import 'package:green_friend/ui/settings_controller.dart';
+
+import '../support/fake_settings_repository.dart';
 
 Future<void> pumpWithDeviceLocale(WidgetTester tester, Locale locale) async {
   tester.platformDispatcher.localesTestValue = [locale];
   addTearDown(tester.platformDispatcher.clearLocalesTestValue);
-  await tester.pumpWidget(const GreenFriendApp());
+  await tester.pumpWidget(
+    GreenFriendApp(settings: SettingsController(FakeSettingsRepository())),
+  );
   await tester.pumpAndSettle();
 }
 

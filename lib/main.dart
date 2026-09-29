@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/shared_preferences_settings_repository.dart';
 import 'ui/app.dart';
 import 'ui/font_licenses.dart';
+import 'ui/settings_controller.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();
-  runApp(const GreenFriendApp());
+
+  final preferences = await SharedPreferences.getInstance();
+  final settings = SettingsController(
+    SharedPreferencesSettingsRepository(preferences),
+  );
+  await settings.load();
+
+  runApp(GreenFriendApp(settings: settings));
 }
