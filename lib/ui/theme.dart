@@ -20,9 +20,7 @@ abstract final class BrandColors {
 /// The light theme: cream background, forest green for headings and
 /// important buttons, beige cards.
 final ThemeData lightTheme = _buildTheme(
-  ColorScheme.fromSeed(
-    seedColor: BrandColors.forestGreen,
-  ).copyWith(
+  ColorScheme.fromSeed(seedColor: BrandColors.forestGreen).copyWith(
     primary: BrandColors.forestGreen,
     onPrimary: BrandColors.cream,
     secondary: BrandColors.botanicalGreen,
