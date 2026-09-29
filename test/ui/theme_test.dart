@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/ui/app.dart';
+import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/theme.dart';
 
 import '../support/contrast.dart';
+import '../support/fake_settings_repository.dart';
 
 void expectReadable(Color text, Color background) {
   expect(contrastRatio(text, background), greaterThanOrEqualTo(4.5));
@@ -92,7 +94,9 @@ void main() {
   }
 
   testWidgets('GreenFriendApp uses the light and dark theme', (tester) async {
-    await tester.pumpWidget(const GreenFriendApp());
+    await tester.pumpWidget(
+      GreenFriendApp(settings: SettingsController(FakeSettingsRepository())),
+    );
 
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.theme, same(lightTheme));
