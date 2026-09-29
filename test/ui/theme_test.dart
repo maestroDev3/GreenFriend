@@ -7,6 +7,10 @@ import 'package:green_friend/ui/theme.dart';
 
 import '../support/contrast.dart';
 
+void expectReadable(Color text, Color background) {
+  expect(contrastRatio(text, background), greaterThanOrEqualTo(4.5));
+}
+
 void main() {
   group('lightTheme', () {
     final scheme = lightTheme.colorScheme;
@@ -53,14 +57,12 @@ void main() {
       final scheme = theme.colorScheme;
 
       test('meets WCAG AA contrast for text', () {
-        expect(contrastRatio(scheme.onPrimary, scheme.primary),
-            greaterThanOrEqualTo(4.5));
-        expect(contrastRatio(scheme.onSurface, scheme.surface),
-            greaterThanOrEqualTo(4.5));
-        expect(contrastRatio(scheme.primary, scheme.surface),
-            greaterThanOrEqualTo(4.5));
-        expect(contrastRatio(scheme.onSurface, theme.cardTheme.color!),
-            greaterThanOrEqualTo(4.5));
+        final card = theme.cardTheme.color ?? scheme.surface;
+
+        expectReadable(scheme.onPrimary, scheme.primary);
+        expectReadable(scheme.onSurface, scheme.surface);
+        expectReadable(scheme.primary, scheme.surface);
+        expectReadable(scheme.onSurface, card);
       });
 
       test('uses rounded shapes', () {
