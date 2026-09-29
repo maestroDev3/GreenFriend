@@ -1,0 +1,101 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:green_friend/data/shared_preferences_plant_repository.dart';
+import 'package:green_friend/domain/plant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<SharedPreferencesPlantRepository> openRepository() async =>
+    SharedPreferencesPlantRepository(await SharedPreferences.getInstance());
+
+Future<List<Plant>> currentPlants(SharedPreferencesPlantRepository repo) =>
+    repo.watchPlants().first;
+
+void main() {
+  group('SharedPreferencesPlantRepository', () {
+    setUp(() => SharedPreferences.setMockInitialValues({}));
+
+    test('starts empty', () async {
+      expect(await currentPlants(await openRepository()), isEmpty);
+    });
+
+    test('keeps plants across a restart', () async {
+      final plant = await (await openRepository()).add(
+        name: 'Monstera',
+        species: 'Monstera deliciosa',
+        location: 'Living room',
+      );
+
+      expect(await currentPlants(await openRepository()), [plant]);
+    });
+
+    test('generates unique ids', () async {
+      final repository = await openRepository();
+
+      final first = await repository.add(name: 'Aloe');
+      final second = await repository.add(name: 'Aloe');
+
+      expect(first.id, isNot(second.id));
+    });
+
+    test('updates and deletes plants', () async {
+      final repository = await openRepository();
+      final aloe = await repository.add(name: 'Aloe');
+      final pothos = await repository.add(name: 'Pothos');
+
+      await repository.update(aloe.copyWith(location: 'Bathroom'));
+      await repository.delete(pothos.id);
+
+      expect(await currentPlants(await openRepository()), [
+        aloe.copyWith(location: 'Bathroom'),
+      ]);
+    });
+
+    test('throws for unknown plants', () async {
+      final repository = await openRepository();
+
+      expect(
+        () => repository.update(Plant(id: 'x', name: 'Ghost')),
+        throwsStateError,
+      );
+      expect(() => repository.delete('x'), throwsStateError);
+    });
+
+    test('emits the list on subscription and after every change', () async {
+      final repository = await openRepository();
+      final emitted = <List<String>>[];
+      final subscription = repository.watchPlants().listen(
+        (plants) => emitted.add([for (final plant in plants) plant.name]),
+      );
+      await pumpEventQueue();
+
+      final pothos = await repository.add(name: 'Pothos');
+      await repository.add(name: 'aloe');
+      await repository.update(pothos.copyWith(name: 'Zebra plant'));
+      await repository.delete(pothos.id);
+      await pumpEventQueue();
+      await subscription.cancel();
+
+      expect(emitted, [
+        <String>[],
+        ['Pothos'],
+        ['aloe', 'Pothos'],
+        ['aloe', 'Zebra plant'],
+        ['aloe'],
+      ]);
+    });
+
+    test('starts empty on corrupt data and keeps a backup of it', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey: 'not json',
+      });
+
+      final repository = await openRepository();
+      final preferences = await SharedPreferences.getInstance();
+
+      expect(await currentPlants(repository), isEmpty);
+      expect(
+        preferences.getString(SharedPreferencesPlantRepository.backupKey),
+        'not json',
+      );
+    });
+  });
+}
