@@ -15,8 +15,15 @@ Future<SettingsController> loadedSettings(FakeSettingsRepository repo) async {
   return settings;
 }
 
-bool isSelected(WidgetTester tester, String label) =>
-    tester.widget<ListTile>(find.widgetWithText(ListTile, label)).selected;
+bool isSelected(WidgetTester tester, Key key) =>
+    tester.widget<ListTile>(find.byKey(key)).selected;
+
+const themeSystem = ValueKey('theme-system');
+const themeLight = ValueKey('theme-light');
+const themeDark = ValueKey('theme-dark');
+const languageSystem = ValueKey('language-system');
+const languageEnglish = ValueKey('language-english');
+const languageGerman = ValueKey('language-german');
 
 ThemeMode appThemeMode(WidgetTester tester) =>
     tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode ??
@@ -47,16 +54,16 @@ void main() {
       await tester.pumpApp(const SettingsScreen(), settings: settings);
 
       expect(find.text('Settings'), findsOneWidget);
-      expect(isSelected(tester, 'System'), isFalse);
-      expect(isSelected(tester, 'Light'), isTrue);
-      expect(isSelected(tester, 'Dark'), isFalse);
+      expect(isSelected(tester, themeSystem), isFalse);
+      expect(isSelected(tester, themeLight), isTrue);
+      expect(isSelected(tester, themeDark), isFalse);
     });
 
     testWidgets('shows the theme options in German', (tester) async {
       await tester.pumpApp(const SettingsScreen(), locale: const Locale('de'));
 
       expect(find.text('Einstellungen'), findsOneWidget);
-      expect(find.text('System'), findsOneWidget);
+      expect(find.text('System'), findsNWidgets(2));
       expect(find.text('Hell'), findsOneWidget);
       expect(find.text('Dunkel'), findsOneWidget);
     });
@@ -81,7 +88,7 @@ void main() {
 
       await tester.tap(find.byTooltip('Settings'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Dark'));
+      await tester.tap(find.byKey(themeDark));
       await tester.pumpAndSettle();
 
       expect(appThemeMode(tester), ThemeMode.dark);
@@ -96,6 +103,68 @@ void main() {
       await tester.pumpWidget(GreenFriendApp(settings: settings));
 
       expect(appThemeMode(tester), ThemeMode.dark);
+    });
+  });
+
+  group('language', () {
+    testWidgets('offers System, English and Deutsch with the current one '
+        'selected', (tester) async {
+      final settings = await loadedSettings(
+        FakeSettingsRepository(language: AppLanguage.german),
+      );
+
+      await tester.pumpApp(const SettingsScreen(), settings: settings);
+      await tester.scrollUntilVisible(find.byKey(languageGerman), 100);
+
+      expect(find.text('Language'), findsOneWidget);
+      expect(find.text('English'), findsOneWidget);
+      expect(find.text('Deutsch'), findsOneWidget);
+      expect(isSelected(tester, languageSystem), isFalse);
+      expect(isSelected(tester, languageEnglish), isFalse);
+      expect(isSelected(tester, languageGerman), isTrue);
+    });
+
+    testWidgets('follows the device language without a stored choice', (
+      tester,
+    ) async {
+      final settings = await loadedSettings(FakeSettingsRepository());
+
+      await tester.pumpWidget(GreenFriendApp(settings: settings));
+
+      final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+      expect(app.locale, isNull);
+    });
+
+    testWidgets('switches to German immediately and saves the choice', (
+      tester,
+    ) async {
+      final repository = FakeSettingsRepository();
+      final settings = await loadedSettings(repository);
+      await tester.pumpWidget(GreenFriendApp(settings: settings));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip('Settings'));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.byKey(languageGerman), 100);
+      await tester.tap(find.byKey(languageGerman));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Einstellungen'), findsOneWidget);
+      expect(repository.language, AppLanguage.german);
+    });
+
+    testWidgets('restores the saved language on app start', (tester) async {
+      final settings = await loadedSettings(
+        FakeSettingsRepository(language: AppLanguage.german),
+      );
+
+      await tester.pumpWidget(GreenFriendApp(settings: settings));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text('Noch keine Pflanzen – füge deine erste Pflanze hinzu.'),
+        findsOneWidget,
+      );
     });
   });
 }
