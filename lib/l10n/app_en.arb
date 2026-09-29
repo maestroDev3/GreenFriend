@@ -27,5 +27,21 @@
   "themeModeDark": "Dark",
   "@themeModeDark": {
     "description": "Theme option: always dark."
+  },
+  "languageSection": "Language",
+  "@languageSection": {
+    "description": "Section title for the language options in the settings."
+  },
+  "languageSystem": "System",
+  "@languageSystem": {
+    "description": "Language option: follow the device language."
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Language option for English, always written in English."
+  },
+  "languageGerman": "Deutsch",
+  "@languageGerman": {
+    "description": "Language option for German, always written in German."
   }
 }

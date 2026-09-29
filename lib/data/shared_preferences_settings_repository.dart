@@ -8,6 +8,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
 
   /// Versioned key, so the stored format can change later with a migration.
   static const themeModeKey = 'settings.v1.themeMode';
+  static const languageKey = 'settings.v1.language';
 
   final SharedPreferences _preferences;
 
@@ -20,5 +21,16 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   @override
   Future<void> saveThemeMode(AppThemeMode mode) async {
     await _preferences.setString(themeModeKey, mode.name);
+  }
+
+  @override
+  Future<AppLanguage> loadLanguage() async {
+    final stored = _preferences.getString(languageKey);
+    return AppLanguage.values.asNameMap()[stored] ?? AppLanguage.system;
+  }
+
+  @override
+  Future<void> saveLanguage(AppLanguage language) async {
+    await _preferences.setString(languageKey, language.name);
   }
 }

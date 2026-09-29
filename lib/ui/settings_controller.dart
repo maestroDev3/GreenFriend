@@ -8,12 +8,16 @@ class SettingsController extends ChangeNotifier {
 
   final SettingsRepository _repository;
   AppThemeMode _themeMode = AppThemeMode.system;
+  AppLanguage _language = AppLanguage.system;
 
   AppThemeMode get themeMode => _themeMode;
+
+  AppLanguage get language => _language;
 
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
+    _language = await _repository.loadLanguage();
     notifyListeners();
   }
 
@@ -22,6 +26,13 @@ class SettingsController extends ChangeNotifier {
     _themeMode = mode;
     notifyListeners();
     await _repository.saveThemeMode(mode);
+  }
+
+  Future<void> setLanguage(AppLanguage language) async {
+    if (language == _language) return;
+    _language = language;
+    notifyListeners();
+    await _repository.saveLanguage(language);
   }
 }
 
