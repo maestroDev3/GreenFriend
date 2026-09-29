@@ -36,9 +36,7 @@ void main() {
       expect(find.widgetWithText(TextFormField, 'Living room'), findsOneWidget);
     });
 
-    testWidgets('saves the changes and shows them in the list', (
-      tester,
-    ) async {
+    testWidgets('saves the changes and shows them in the list', (tester) async {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(HomeScreen(plants: repository));
       await openMonstera(tester);

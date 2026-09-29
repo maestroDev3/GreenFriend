@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../l10n/app_localizations.dart';
 
-/// Form to add a new plant.
+/// Form to add a new plant or to edit and delete an existing one.
 class PlantFormScreen extends StatefulWidget {
-  const PlantFormScreen({super.key, required this.plants});
+  const PlantFormScreen({super.key, required this.plants, this.plant});
 
   final PlantRepository plants;
+
+  /// The plant to edit; `null` creates a new plant.
+  final Plant? plant;
 
   @override
   State<PlantFormScreen> createState() => _PlantFormScreenState();
@@ -15,9 +19,9 @@ class PlantFormScreen extends StatefulWidget {
 
 class _PlantFormScreenState extends State<PlantFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _name = TextEditingController();
-  final _species = TextEditingController();
-  final _location = TextEditingController();
+  late final _name = TextEditingController(text: widget.plant?.name);
+  late final _species = TextEditingController(text: widget.plant?.species);
+  late final _location = TextEditingController(text: widget.plant?.location);
   var _saving = false;
 
   @override
@@ -31,11 +35,47 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   Future<void> _save() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
-    await widget.plants.add(
-      name: _name.text,
-      species: _species.text,
-      location: _location.text,
+    if (widget.plant case final existing?) {
+      await widget.plants.update(
+        Plant(
+          id: existing.id,
+          name: _name.text,
+          species: _species.text,
+          location: _location.text,
+        ),
+      );
+    } else {
+      await widget.plants.add(
+        name: _name.text,
+        species: _species.text,
+        location: _location.text,
+      );
+    }
+    if (!mounted) return;
+    Navigator.of(context).pop();
+  }
+
+  Future<void> _delete(Plant plant) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deletePlantQuestion(plant.name)),
+        content: Text(l10n.deletePlantMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
     );
+    if (confirmed != true) return;
+    await widget.plants.delete(plant.id);
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -44,7 +84,19 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.newPlantTitle)),
+      appBar: AppBar(
+        title: Text(
+          widget.plant == null ? l10n.newPlantTitle : l10n.editPlantTitle,
+        ),
+        actions: [
+          if (widget.plant case final plant?)
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: l10n.deletePlant,
+              onPressed: () => _delete(plant),
+            ),
+        ],
+      ),
       body: Form(
         key: _formKey,
         child: ListView(
