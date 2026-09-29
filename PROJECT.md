@@ -2,9 +2,9 @@
 
 ## GitHub repository
 
-- **Repository name:** `green-friend`
+- **Repository name:** `GreenFriend`
 - **Description:** Plant care companion: watering reminders, care tips and a growth journal.
-- **Topics:** `flutter` `dart` `android` `tdd` `green-friend`
+- **Topics:** `flutter` `dart` `android` `tdd` `greenfriend`
 
 ## Claude project
 
@@ -17,7 +17,7 @@ Android app (Flutter) for houseplants: watering and fertilizing reminders, light
 
 ```
 This project belongs to the app “Green Friend” – Plant care companion: watering reminders, care tips and a growth journal.
-Repository: github.com/maestroDev3/green-friend
+Repository: github.com/maestroDev3/GreenFriend
 
 - CLAUDE.md (working rules) and STATUS.md (current state) in the repo are authoritative.
   Read STATUS.md at the start of every conversation.
@@ -38,7 +38,7 @@ Repository: github.com/maestroDev3/green-friend
 
 ```
 The attached ZIP contains the starter files for Green Friend. Extract its contents
-into the root of github.com/maestroDev3/green-friend (create the repo if it does not exist yet,
+into the root of github.com/maestroDev3/GreenFriend (create the repo if it does not exist yet,
 private, default branch main), commit ("chore: add working rules, skill and CI")
 and push to main.
 Then run the "First start" from CLAUDE.md: create labels, create epics and stories
