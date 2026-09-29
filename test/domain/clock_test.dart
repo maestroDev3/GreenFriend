@@ -11,7 +11,10 @@ void main() {
     });
 
     test('keeps the calendar date of a UTC input', () {
-      expect(dayOf(DateTime.utc(2026, 9, 29, 23, 30)), DateTime.utc(2026, 9, 29));
+      expect(
+        dayOf(DateTime.utc(2026, 9, 29, 23, 30)),
+        DateTime.utc(2026, 9, 29),
+      );
     });
 
     test('maps two times on the same day to the same value', () {
@@ -25,8 +28,10 @@ void main() {
       final monday = dayOf(DateTime(2026, 9, 28, 22));
       final thursday = dayOf(DateTime(2026, 10, 1, 6));
 
-      expect(dayOf(DateTime(2026, 9, 29, 7)).difference(monday),
-          const Duration(days: 1));
+      expect(
+        dayOf(DateTime(2026, 9, 29, 7)).difference(monday),
+        const Duration(days: 1),
+      );
       expect(thursday.difference(monday), const Duration(days: 3));
     });
 
