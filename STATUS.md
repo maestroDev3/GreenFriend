@@ -8,17 +8,17 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Nothing yet.
+- #2 Project setup – Epic #1 Foundation
 
 ## Up next
 
-- #2 Project setup (`ready`) – Epic #1 Foundation
+- #3 Create, edit and delete plants (to be refined)
 
 ## Backlog by epic
 
 | Epic | Stories (in order) |
 |---|---|
-| #1 Foundation | #2 Project setup (`ready`) → #3 Create, edit and delete plants → #28 Plant detail page → #4 Home screen: plants that need attention today on top → #29 App navigation: bottom bar |
+| #1 Foundation | #2 Project setup (`in-progress`) → #3 Create, edit and delete plants → #28 Plant detail page → #4 Home screen: plants that need attention today on top → #29 App navigation: bottom bar |
 | #5 Care and reminders | #6 Watering interval and due-date logic → #7 Reminders as notifications → #8 Confirm care and history → #9 Fertilizing and repotting → #25 Care calendar: what is due when and where |
 | #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
 | #10 Growth journal | #11 Photos and notes per plant → #12 Timeline with before/after |
@@ -36,5 +36,5 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 - Plant identification (#15): which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
 - Android only, or iOS later?
-- Plant data source for #14: own curated list or an external database/API
+- Plant database for #14: external database/API (decided) – which one is open, research pending
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS

@@ -132,6 +132,6 @@ commit comment).
 ## Open decisions (only the user decides)
 
 - Plant identification (#15): which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
-- Plant data source for #14: own curated list or an external database/API
+- Plant database for #14: external database/API (decided) – which one is open, research pending
 - Android only, or iOS later?
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
