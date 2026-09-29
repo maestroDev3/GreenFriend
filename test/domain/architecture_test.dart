@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-List<File> dartFiles(String directory) => Directory(directory)
-    .listSync(recursive: true)
-    .whereType<File>()
-    .where((file) => file.path.endsWith('.dart'))
-    .toList();
+List<File> dartFiles(String directory) =>
+    Directory(directory)
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((file) => file.path.endsWith('.dart'))
+        .toList();
 
 final _dataImport = RegExp("import '(\\.\\./data/|package:green_friend/data/)");
 

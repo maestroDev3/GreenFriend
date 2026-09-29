@@ -53,10 +53,7 @@ void main() {
     });
 
     testWidgets('shows the theme options in German', (tester) async {
-      await tester.pumpApp(
-        const SettingsScreen(),
-        locale: const Locale('de'),
-      );
+      await tester.pumpApp(const SettingsScreen(), locale: const Locale('de'));
 
       expect(find.text('Einstellungen'), findsOneWidget);
       expect(find.text('System'), findsOneWidget);
