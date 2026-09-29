@@ -130,3 +130,4 @@ commit comment).
 
 - Plant identification: which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
 - Android only, or iOS later?
+- Weather for outdoor plants (#26): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
