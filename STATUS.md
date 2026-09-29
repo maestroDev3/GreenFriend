@@ -8,25 +8,25 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Nothing yet – the repo only contains the working rules, skill and CI.
+- Nothing yet.
 
 ## Up next
 
-- “First start” from CLAUDE.md: create labels, epics and stories as issues,
-  run the Scaffold workflow, refine the first story “Project setup”.
+- #2 Project setup (`ready`) – Epic #1 Foundation
 
-## Planned epics (no issue numbers yet)
+## Backlog by epic
 
 | Epic | Stories (in order) |
 |---|---|
-| Foundation | Project setup (scaffold, green CI, theme, `pumpApp`) → Create, edit and delete plants → Plant list with “Due today” on top |
-| Care and reminders | Watering interval and due-date logic → Reminders as notifications → Confirm care and history → Fertilizing and repotting |
-| Growth journal | Photos and notes per plant → Timeline with before/after |
-| Plant knowledge | Local catalog with care and light tips per species → Plant identification from photo (after decision) |
-| Data safety | Backup and export |
+| #1 Foundation | #2 Project setup (`ready`) → #3 Create, edit and delete plants → #4 Plant list with “Due today” on top |
+| #5 Care and reminders | #6 Watering interval and due-date logic → #7 Reminders as notifications → #8 Confirm care and history → #9 Fertilizing and repotting |
+| #10 Growth journal | #11 Photos and notes per plant → #12 Timeline with before/after |
+| #13 Plant knowledge | #14 Local catalog with care and light tips per species → #15 Plant identification from photo (after decision) |
+| #16 Data safety | #17 Backup and export |
 
 ## Recently done
 
+- First start: labels, epics and stories as issues, Flutter project scaffolded, CI green
 - Repo created with CLAUDE.md, STATUS.md, Flutter skill and CI
 
 ## Open decisions (user only)
