@@ -17,7 +17,10 @@ Claude works in this repo **autonomously**. This file is binding.
 Green Friend makes sure no houseplant dries out again. Every plant has its own
 profile with watering and fertilizing intervals; the app reminds you on time and
 you confirm with one tap. A growth journal with photos and notes shows how each
-plant develops. Later: plant identification from a photo.
+plant develops.
+Guiding principle: as much as possible happens automatically. A photo identifies
+the plant, its care profile comes from the plant database, the care tasks land in
+the calendar, and the user only gets a notification like “Water these plants today”.
 Domain terms:
 
 - **Plant** – `Plant` – name, species, location, intervals, photo
@@ -128,6 +131,7 @@ commit comment).
 
 ## Open decisions (only the user decides)
 
-- Plant identification: which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
+- Plant identification (#15): which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
+- Plant data source for #14: own curated list or an external database/API
 - Android only, or iOS later?
-- Weather for outdoor plants (#26): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
+- Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
