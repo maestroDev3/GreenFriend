@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from assets/icon/app_icon.svg -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:scaleX="0.155" android:scaleY="0.155" android:translateX="13.39" android:translateY="14.01">
+        <path android:pathData="M256 456 C254 420 258 380 256 344"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="14"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <group android:translateX="252" android:translateY="352" android:rotation="-46">
+            <path android:pathData="M0 0 C-29.7 -6.15 -54 -49.2 -52.38 -96.35 C-50.22 -143.5 -22.68 -176.3 -18.9 -205 Q-7.56 -102.5 0 0 Z"
+                android:fillColor="#FFFFFFFF" />
+            <path android:pathData="M0 0 C29.7 -6.15 54 -49.2 52.38 -96.35 C50.22 -143.5 22.68 -176.3 -18.9 -205 Q-7.56 -102.5 0 0 Z"
+                android:fillColor="#FFFFFFFF" />
+        </group>
+        <group android:translateX="260" android:translateY="354" android:rotation="47">
+            <path android:pathData="M0 0 C-31.9 -6.66 -58 -53.28 -56.26 -104.34 C-53.94 -155.4 -24.36 -190.92 20.3 -222 Q8.12 -111 0 0 Z"
+                android:fillColor="#FFFFFFFF" />
+            <path android:pathData="M0 0 C31.9 -6.66 58 -53.28 56.26 -104.34 C53.94 -155.4 24.36 -190.92 20.3 -222 Q8.12 -111 0 0 Z"
+                android:fillColor="#FFFFFFFF" />
+        </group>
+        <path android:pathData="M222 57.25 C225.64 65.05 235 72.85 235 81.3 A13 13 0 0 1 209 81.3 C209 72.85 218.36 65.05 222 57.25 Z"
+            android:fillColor="#FFFFFFFF" />
+        <path android:pathData="M292 98.25 C296.76 108.45 309 118.65 309 129.7 A17 17 0 0 1 275 129.7 C275 118.65 287.24 108.45 292 98.25 Z"
+            android:fillColor="#FFFFFFFF" />
+        <path android:pathData="M256 157.25 C261.88 169.85 277 182.45 277 196.1 A21 21 0 0 1 235 196.1 C235 182.45 250.12 169.85 256 157.25 Z"
+            android:fillColor="#FFFFFFFF" />
+    </group>
+</vector>
