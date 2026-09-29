@@ -106,9 +106,9 @@ ThemeData _buildTheme(ColorScheme scheme, {required Color cardColor}) {
 /// Playfair Display for headings, Inter for body text and labels, following
 /// the sizes of the design spec.
 TextTheme _textTheme(ColorScheme scheme) {
-  TextStyle heading(double size, double weight) =>
+  TextStyle heading(double size, int weight) =>
       _style('PlayfairDisplay', size, weight, scheme.primary);
-  TextStyle body(double size, double weight) =>
+  TextStyle body(double size, int weight) =>
       _style('Inter', size, weight, scheme.onSurface);
 
   return TextTheme(
@@ -130,13 +130,12 @@ TextTheme _textTheme(ColorScheme scheme) {
   );
 }
 
-TextStyle _style(String family, double size, double weight, Color color) {
+TextStyle _style(String family, double size, int weight, Color color) {
   return TextStyle(
     fontFamily: family,
     fontSize: size,
-    fontWeight: FontWeight.lerp(FontWeight.w100, FontWeight.w900,
-        (weight - 100) / 800),
-    fontVariations: [FontVariation('wght', weight)],
+    fontWeight: FontWeight.values[weight ~/ 100 - 1],
+    fontVariations: [FontVariation('wght', weight.toDouble())],
     color: color,
   );
 }
