@@ -6,9 +6,7 @@ import 'fake_plant_repository.dart';
 void main() {
   group('FakePlantRepository', () {
     test('emits the current list first and after every change', () async {
-      final repository = FakePlantRepository([
-        Plant(id: 'a', name: 'Aloe'),
-      ]);
+      final repository = FakePlantRepository([Plant(id: 'a', name: 'Aloe')]);
       final emitted = <List<String>>[];
       final subscription = repository.watchPlants().listen(
         (plants) => emitted.add([for (final plant in plants) plant.name]),

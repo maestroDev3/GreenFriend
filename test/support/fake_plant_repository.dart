@@ -5,8 +5,7 @@ import 'package:green_friend/domain/plant_repository.dart';
 
 /// In-memory [PlantRepository] for tests.
 class FakePlantRepository implements PlantRepository {
-  FakePlantRepository([List<Plant> plants = const []])
-    : _plants = [...plants];
+  FakePlantRepository([List<Plant> plants = const []]) : _plants = [...plants];
 
   final List<Plant> _plants;
   final _changes = StreamController<List<Plant>>.broadcast();
