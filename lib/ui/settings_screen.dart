@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 for (final mode in AppThemeMode.values)
                   _ChoiceTile(
-                    key: ValueKey('theme-${mode.name}'),
+                    tileKey: ValueKey('theme-${mode.name}'),
                     label: switch (mode) {
                       AppThemeMode.system => l10n.themeModeSystem,
                       AppThemeMode.light => l10n.themeModeLight,
@@ -44,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 for (final language in AppLanguage.values)
                   _ChoiceTile(
-                    key: ValueKey('language-${language.name}'),
+                    tileKey: ValueKey('language-${language.name}'),
                     label: switch (language) {
                       AppLanguage.system => l10n.languageSystem,
                       AppLanguage.english => l10n.languageEnglish,
@@ -78,12 +78,14 @@ class _SectionTitle extends StatelessWidget {
 
 class _ChoiceTile extends StatelessWidget {
   const _ChoiceTile({
-    super.key,
+    required this.tileKey,
     required this.label,
     required this.selected,
     required this.onTap,
   });
 
+  /// Identifies the option in tests.
+  final Key tileKey;
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -91,6 +93,7 @@ class _ChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: tileKey,
       title: Text(label),
       selected: selected,
       trailing: selected ? const Icon(Icons.check) : null,
