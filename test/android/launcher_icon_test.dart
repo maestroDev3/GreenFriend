@@ -50,11 +50,10 @@ void main() {
         'xxxhdpi': 192,
       };
       for (final MapEntry(key: density, value: size) in sizes.entries) {
-        expect(
-          pngSize('$res/mipmap-$density/ic_launcher.png'),
-          (size, size),
-          reason: density,
-        );
+        expect(pngSize('$res/mipmap-$density/ic_launcher.png'), (
+          size,
+          size,
+        ), reason: density);
       }
     });
 
