@@ -63,6 +63,7 @@ ThemeData _buildTheme(ColorScheme scheme, {required Color cardColor}) {
     useMaterial3: true,
     colorScheme: scheme,
     scaffoldBackgroundColor: scheme.surface,
+    textTheme: _textTheme(scheme),
     appBarTheme: AppBarTheme(
       backgroundColor: scheme.surface,
       foregroundColor: scheme.primary,
@@ -99,5 +100,42 @@ ThemeData _buildTheme(ColorScheme scheme, {required Color cardColor}) {
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
     ),
+  );
+}
+
+/// Playfair Display for headings, Inter for body text and labels, following
+/// the sizes of the design spec.
+TextTheme _textTheme(ColorScheme scheme) {
+  TextStyle heading(double size, int weight) =>
+      _style('PlayfairDisplay', size, weight, scheme.primary);
+  TextStyle body(double size, int weight) =>
+      _style('Inter', size, weight, scheme.onSurface);
+
+  return TextTheme(
+    displayLarge: heading(48, 600),
+    displayMedium: heading(40, 600),
+    displaySmall: heading(34, 600),
+    headlineLarge: heading(32, 600),
+    headlineMedium: heading(28, 600),
+    headlineSmall: heading(24, 600),
+    titleLarge: heading(22, 500),
+    titleMedium: body(16, 600),
+    titleSmall: body(14, 600),
+    bodyLarge: body(16, 400),
+    bodyMedium: body(14, 400),
+    bodySmall: body(12, 400),
+    labelLarge: body(14, 600),
+    labelMedium: body(12, 500),
+    labelSmall: body(11, 500),
+  );
+}
+
+TextStyle _style(String family, double size, int weight, Color color) {
+  return TextStyle(
+    fontFamily: family,
+    fontSize: size,
+    fontWeight: FontWeight.values[weight ~/ 100 - 1],
+    fontVariations: [FontVariation('wght', weight.toDouble())],
+    color: color,
   );
 }
