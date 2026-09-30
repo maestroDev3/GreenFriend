@@ -17,9 +17,7 @@ class FakeCareLogRepository implements CareLogRepository {
       newestFirst(_logs.where((log) => log.plantId == plantId));
 
   @override
-  Stream<List<CareLog>> watchLogs(String plantId) => Stream.multi((
-    controller,
-  ) {
+  Stream<List<CareLog>> watchLogs(String plantId) => Stream.multi((controller) {
     controller.add(_of(plantId));
     final subscription = _changes.stream.listen(
       (_) => controller.add(_of(plantId)),
