@@ -6,6 +6,7 @@ import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/settings_screen.dart';
 
+import '../support/fake_backup.dart';
 import '../support/fake_journal_repository.dart';
 import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
@@ -94,6 +95,8 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          backupArchive: FakeBackupArchive(),
+          fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -113,6 +116,8 @@ void main() {
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
         GreenFriendApp(
+          backupArchive: FakeBackupArchive(),
+          fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -139,6 +144,8 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          backupArchive: FakeBackupArchive(),
+          fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -177,6 +184,8 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          backupArchive: FakeBackupArchive(),
+          fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -197,6 +206,8 @@ void main() {
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
         GreenFriendApp(
+          backupArchive: FakeBackupArchive(),
+          fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -224,6 +235,8 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          backupArchive: FakeBackupArchive(),
+          fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),

@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../domain/backup_files.dart';
 import '../l10n/app_localizations.dart';
+import 'backup_screen.dart';
 import 'settings_screen.dart';
 
 /// Settings and information about the app.
 class MoreScreen extends StatelessWidget {
-  const MoreScreen({super.key});
+  const MoreScreen({
+    super.key,
+    required this.backupArchive,
+    required this.fileSharing,
+  });
+
+  final BackupArchive backupArchive;
+  final FileSharing fileSharing;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +35,19 @@ class MoreScreen extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const SettingsScreen(),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.backup_outlined),
+                  title: Text(l10n.backupTitle),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => BackupScreen(
+                        archive: backupArchive,
+                        files: fileSharing,
+                      ),
                     ),
                   ),
                 ),

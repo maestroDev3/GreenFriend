@@ -4,10 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'data/file_photo_store.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
+import 'data/platform_file_sharing.dart';
 import 'data/shared_preferences_care_log_repository.dart';
 import 'data/shared_preferences_journal_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
+import 'data/zip_backup_archive.dart';
 import 'ui/app.dart';
 import 'ui/font_licenses.dart';
 import 'ui/reminder_sync.dart';
@@ -36,14 +38,25 @@ Future<void> main() async {
     localizations: () => appLocalizationsFor(settings),
   ).start();
 
+  final careLogs = SharedPreferencesCareLogRepository(preferences);
+  final journal = SharedPreferencesJournalRepository(preferences);
+  final photos = await FilePhotoStore.create();
+
   runApp(
     GreenFriendApp(
       settings: settings,
       plants: plants,
-      careLogs: SharedPreferencesCareLogRepository(preferences),
-      journal: SharedPreferencesJournalRepository(preferences),
-      photos: await FilePhotoStore.create(),
+      careLogs: careLogs,
+      journal: journal,
+      photos: photos,
       photoPicker: ImagePickerPhotoPicker(),
+      backupArchive: ZipBackupArchive(
+        plants: plants,
+        careLogs: careLogs,
+        journal: journal,
+        photos: photos,
+      ),
+      fileSharing: PlatformFileSharing(),
     ),
   );
 }

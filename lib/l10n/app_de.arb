@@ -100,5 +100,14 @@
   "afterLabel": "Nachher · {date}",
   "daysLater": "{days, plural, =0{Am selben Tag} =1{1 Tag später} other{{days} Tage später}}",
   "chooseBefore": "Vorher-Foto",
-  "chooseAfter": "Nachher-Foto"
+  "chooseAfter": "Nachher-Foto",
+  "backupTitle": "Backup",
+  "backupExplanation": "Speichere alle Pflanzen, den Pflegeverlauf, Tagebucheinträge und Fotos in einer Datei – zum Beispiel für ein neues Handy.",
+  "exportBackup": "Backup exportieren",
+  "restoreBackup": "Backup wiederherstellen",
+  "restoreQuestion": "Alle Daten ersetzen?",
+  "restoreWarning": "Alle Pflanzen, der Pflegeverlauf und die Tagebucheinträge auf diesem Handy werden durch das Backup ersetzt.",
+  "replace": "Ersetzen",
+  "backupRestored": "Backup wiederhergestellt",
+  "notABackup": "Diese Datei ist kein Green-Friend-Backup."
 }

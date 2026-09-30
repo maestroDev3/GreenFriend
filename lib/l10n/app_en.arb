@@ -581,5 +581,41 @@
   "chooseAfter": "After photo",
   "@chooseAfter": {
     "description": "Heading of the choice of the later photo."
+  },
+  "backupTitle": "Backup",
+  "@backupTitle": {
+    "description": "Title of the backup screen and its entry under More."
+  },
+  "backupExplanation": "Save all plants, care history, journal entries and photos in one file – for example to move to a new phone.",
+  "@backupExplanation": {
+    "description": "Explains what the backup contains."
+  },
+  "exportBackup": "Export backup",
+  "@exportBackup": {
+    "description": "Button that creates and shares the backup file."
+  },
+  "restoreBackup": "Restore backup",
+  "@restoreBackup": {
+    "description": "Button that picks a backup file and restores it."
+  },
+  "restoreQuestion": "Replace all data?",
+  "@restoreQuestion": {
+    "description": "Title of the dialog that confirms restoring a backup."
+  },
+  "restoreWarning": "All plants, care history and journal entries on this phone will be replaced by the backup.",
+  "@restoreWarning": {
+    "description": "Text of the dialog that confirms restoring a backup."
+  },
+  "replace": "Replace",
+  "@replace": {
+    "description": "Button that confirms replacing the data."
+  },
+  "backupRestored": "Backup restored",
+  "@backupRestored": {
+    "description": "Snackbar after a successful restore."
+  },
+  "notABackup": "This file is not a Green Friend backup.",
+  "@notABackup": {
+    "description": "Snackbar when the picked file is not a valid backup."
   }
 }

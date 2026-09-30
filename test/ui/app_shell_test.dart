@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/app_shell.dart';
+import 'package:green_friend/ui/backup_screen.dart';
 import 'package:green_friend/ui/calendar_screen.dart';
 import 'package:green_friend/ui/plant_detail_screen.dart';
 import 'package:green_friend/ui/settings_screen.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_backup.dart';
 import '../support/fake_journal_repository.dart';
 import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
@@ -22,6 +24,8 @@ Future<void> pumpShell(
 }) {
   return tester.pumpApp(
     AppShell(
+      backupArchive: FakeBackupArchive(),
+      fileSharing: FakeFileSharing(),
       journal: FakeJournalRepository(),
       photos: FakePhotoStore(),
       photoPicker: FakePhotoPicker(),
@@ -115,6 +119,16 @@ void main() {
       for (final label in ['Start', 'Pflanzen', 'Kalender', 'Mehr']) {
         expect(find.text(label), findsOneWidget, reason: label);
       }
+    });
+
+    testWidgets('opens the backup from More', (tester) async {
+      await pumpShell(tester);
+
+      await openTab(tester, 'More');
+      await tester.tap(find.text('Backup'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(BackupScreen), findsOneWidget);
     });
   });
 }
