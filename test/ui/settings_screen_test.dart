@@ -6,6 +6,8 @@ import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/settings_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/fake_settings_repository.dart';
@@ -44,7 +46,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
         ),
@@ -88,7 +90,7 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpWidget(
-        GreenFriendApp(
+        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -104,7 +106,7 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
-        GreenFriendApp(
+        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -127,7 +129,7 @@ void main() {
       );
 
       await tester.pumpWidget(
-        GreenFriendApp(
+        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -162,7 +164,7 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpWidget(
-        GreenFriendApp(
+        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -179,7 +181,7 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
-        GreenFriendApp(
+        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -203,7 +205,7 @@ void main() {
       );
 
       await tester.pumpWidget(
-        GreenFriendApp(
+        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),

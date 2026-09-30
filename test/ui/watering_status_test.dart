@@ -4,6 +4,8 @@ import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -39,7 +41,7 @@ void main() {
   group('watering status on the plant cards', () {
     testWidgets('shows overdue, today and upcoming in English', (tester) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(plants),
           clock: fixedNow,
@@ -57,7 +59,7 @@ void main() {
 
     testWidgets('shows the status in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(plants),
           clock: fixedNow,
@@ -78,7 +80,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository([plant('Ficus')]),
           clock: fixedNow,
@@ -93,7 +95,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(plants),
           clock: fixedNow,

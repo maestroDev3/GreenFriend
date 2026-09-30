@@ -4,6 +4,8 @@ import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/plant_detail_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -23,7 +25,7 @@ void main() {
       final plants = FakePlantRepository([monstera()]);
       final logs = FakeCareLogRepository();
       await tester.pumpApp(
-        HomeScreen(plants: plants, careLogs: logs, clock: fixedNow),
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), plants: plants, careLogs: logs, clock: fixedNow),
       );
       expect(find.text('Water in 4 days'), findsOneWidget);
 
@@ -40,7 +42,7 @@ void main() {
       final plants = FakePlantRepository([monstera()]);
       final logs = FakeCareLogRepository();
       await tester.pumpApp(
-        HomeScreen(plants: plants, careLogs: logs, clock: fixedNow),
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), plants: plants, careLogs: logs, clock: fixedNow),
       );
 
       await tester.tap(find.text('Watered'));
@@ -57,7 +59,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           plants: FakePlantRepository([monstera(every: null)]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
@@ -69,7 +71,7 @@ void main() {
 
     testWidgets('shows the texts in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
           plants: FakePlantRepository([monstera()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
@@ -89,7 +91,7 @@ void main() {
     final plants = FakePlantRepository([monstera()]);
     final logs = FakeCareLogRepository();
     await tester.pumpApp(
-      PlantDetailScreen(
+      PlantDetailScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
         plants: plants,
         careLogs: logs,
         plantId: '1',

@@ -5,6 +5,8 @@ import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/plant_detail_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -27,7 +29,7 @@ Future<void> pumpDetail(
   Locale locale = const Locale('en'),
 }) async {
   await tester.pumpApp(
-    PlantDetailScreen(
+    PlantDetailScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
       plants: FakePlantRepository([monstera()]),
       careLogs: logs,
       plantId: '1',
@@ -97,7 +99,7 @@ void main() {
       waterLog('other', DateTime(2026, 9, 21), plantId: '2'),
     ]);
     await tester.pumpApp(
-      HomeScreen(
+      HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
         plants: FakePlantRepository([monstera()]),
         careLogs: logs,
         clock: fixedNow,

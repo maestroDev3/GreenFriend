@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/plant_form_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -27,7 +29,7 @@ Future<void> pumpForm(
   Locale locale = const Locale('en'),
 }) {
   return tester.pumpApp(
-    PlantFormScreen(
+    PlantFormScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), 
       plants: plants,
       careLogs: FakeCareLogRepository(),
       plant: plant,
