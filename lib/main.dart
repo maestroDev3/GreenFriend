@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/bundled_species_catalog.dart';
 import 'data/file_photo_store.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
@@ -44,6 +45,7 @@ Future<void> main() async {
 
   runApp(
     GreenFriendApp(
+      species: BundledSpeciesCatalog(),
       settings: settings,
       plants: plants,
       careLogs: careLogs,

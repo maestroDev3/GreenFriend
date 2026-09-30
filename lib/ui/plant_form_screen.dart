@@ -10,6 +10,7 @@ import '../domain/care_status.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
+import '../domain/species.dart';
 import '../l10n/app_localizations.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
@@ -22,6 +23,7 @@ class PlantFormScreen extends StatefulWidget {
     required this.careLogs,
     required this.journal,
     required this.photos,
+    required this.species,
     this.plant,
     this.clock = DateTime.now,
   });
@@ -30,6 +32,9 @@ class PlantFormScreen extends StatefulWidget {
   final CareLogRepository careLogs;
   final JournalRepository journal;
   final PhotoStore photos;
+
+  /// The plant database used to suggest species and their care profile.
+  final SpeciesCatalog species;
 
   /// Supplies today's date as the default last watering, fertilizing and
   /// repotting.
@@ -47,6 +52,12 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   late final _name = TextEditingController(text: widget.plant?.name);
   late final _species = TextEditingController(text: widget.plant?.species);
   late final _location = TextEditingController(text: widget.plant?.location);
+  final _speciesFocus = FocusNode();
+
+  /// Care profile the plant is linked to; cleared when the species text is
+  /// edited away from [_linkedName].
+  late String? _speciesId = widget.plant?.speciesId;
+  late String? _linkedName = widget.plant?.species;
   late final _today = dayOf(widget.clock());
   late final _water = _ScheduleInput(
     interval: widget.plant?.wateringIntervalDays,
@@ -74,6 +85,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   @override
   void initState() {
     super.initState();
+    _species.addListener(_unlinkIfEdited);
     for (final (_, input) in _schedules) {
       input.controller.addListener(() => setState(() {}));
     }
@@ -84,10 +96,27 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _name.dispose();
     _species.dispose();
     _location.dispose();
+    _speciesFocus.dispose();
     for (final (_, input) in _schedules) {
       input.controller.dispose();
     }
     super.dispose();
+  }
+
+  void _unlinkIfEdited() {
+    if (_speciesId != null && _species.text.trim() != _linkedName) {
+      setState(() => _speciesId = null);
+    }
+  }
+
+  void _applySpecies(Species species, String name) {
+    setState(() {
+      _speciesId = species.id;
+      _linkedName = name;
+      _water.controller.text = '${species.wateringIntervalDays}';
+      _fertilize.controller.text = '${species.fertilizingIntervalDays}';
+      _repot.controller.text = '${species.repottingIntervalMonths}';
+    });
   }
 
   Future<void> _save() async {
@@ -102,6 +131,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           id: existing.id,
           name: _name.text,
           species: _species.text,
+          speciesId: _speciesId,
           location: _location.text,
           wateringIntervalDays: water,
           lastWateredOn: _water.lastToSave(water),
@@ -115,6 +145,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       await widget.plants.add(
         name: _name.text,
         species: _species.text,
+        speciesId: _speciesId,
         location: _location.text,
         wateringIntervalDays: water,
         lastWateredOn: _water.lastToSave(water),
@@ -174,6 +205,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final language = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -203,11 +235,36 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
                   : null,
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _species,
-              decoration: InputDecoration(labelText: l10n.plantSpeciesLabel),
-              textCapitalization: TextCapitalization.sentences,
-              textInputAction: TextInputAction.next,
+            RawAutocomplete<Species>(
+              textEditingController: _species,
+              focusNode: _speciesFocus,
+              displayStringForOption: (species) =>
+                  species.displayName(language),
+              optionsBuilder: (value) => widget.species
+                  .search(value.text, languageCode: language)
+                  .take(8),
+              onSelected: (species) =>
+                  _applySpecies(species, species.displayName(language)),
+              fieldViewBuilder: (context, controller, focusNode, _) =>
+                  TextFormField(
+                    controller: controller,
+                    focusNode: focusNode,
+                    decoration: InputDecoration(
+                      labelText: l10n.plantSpeciesLabel,
+                      helperText: _speciesId == null
+                          ? null
+                          : l10n.speciesLinkedHint,
+                      helperMaxLines: 3,
+                    ),
+                    textCapitalization: TextCapitalization.sentences,
+                    textInputAction: TextInputAction.next,
+                  ),
+              optionsViewBuilder: (context, onSelected, options) =>
+                  _SpeciesOptions(
+                    options: options.toList(),
+                    language: language,
+                    onSelected: onSelected,
+                  ),
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -231,6 +288,48 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               child: Text(l10n.save),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Species suggestions shown below the species field while typing.
+class _SpeciesOptions extends StatelessWidget {
+  const _SpeciesOptions({
+    required this.options,
+    required this.language,
+    required this.onSelected,
+  });
+
+  final List<Species> options;
+  final String language;
+  final ValueChanged<Species> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Material(
+        elevation: 4,
+        borderRadius: BorderRadius.circular(12),
+        clipBehavior: Clip.antiAlias,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 280),
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: options.length,
+            itemBuilder: (context, index) {
+              final species = options[index];
+              return ListTile(
+                key: ValueKey('species-option-${species.id}'),
+                title: Text(species.displayName(language)),
+                subtitle: Text(species.scientificName),
+                onTap: () => onSelected(species),
+              );
+            },
+          ),
         ),
       ),
     );

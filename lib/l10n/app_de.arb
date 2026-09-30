@@ -109,5 +109,6 @@
   "restoreWarning": "Alle Pflanzen, der Pflegeverlauf und die Tagebucheinträge auf diesem Handy werden durch das Backup ersetzt.",
   "replace": "Ersetzen",
   "backupRestored": "Backup wiederhergestellt",
-  "notABackup": "Diese Datei ist kein Green-Friend-Backup."
+  "notABackup": "Diese Datei ist kein Green-Friend-Backup.",
+  "speciesLinkedHint": "Pflegewerte aus der Pflanzendatenbank – bei Bedarf anpassen."
 }
