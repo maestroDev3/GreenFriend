@@ -15,7 +15,13 @@ Future<void> openNewPlantForm(
   WidgetTester tester,
   FakePlantRepository repo,
 ) async {
-  await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repo, clock: fixedNow));
+  await tester.pumpApp(
+    HomeScreen(
+      careLogs: FakeCareLogRepository(),
+      plants: repo,
+      clock: fixedNow,
+    ),
+  );
   await tester.tap(find.text('Add plant'));
   await tester.pumpAndSettle();
   await tester.enterText(field('Name'), 'Monstera');
@@ -79,7 +85,13 @@ void main() {
           lastWateredOn: DateTime(2026, 9, 27),
         ),
       ]);
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository, clock: fixedNow));
+      await tester.pumpApp(
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+          clock: fixedNow,
+        ),
+      );
 
       await tester.tap(find.text('Monstera'));
       await tester.pumpAndSettle();
@@ -101,7 +113,13 @@ void main() {
           lastWateredOn: DateTime(2026, 9, 27),
         ),
       ]);
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository, clock: fixedNow));
+      await tester.pumpApp(
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+          clock: fixedNow,
+        ),
+      );
       await tester.tap(find.text('Monstera'));
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Edit plant'));
@@ -115,7 +133,11 @@ void main() {
 
     testWidgets('shows the interval texts in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(), clock: fixedNow),
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(),
+          clock: fixedNow,
+        ),
         locale: const Locale('de'),
       );
       await tester.tap(find.text('Pflanze hinzufügen'));

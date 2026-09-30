@@ -39,12 +39,17 @@ void main() {
   group('watering status on the plant cards', () {
     testWidgets('shows overdue, today and upcoming in English', (tester) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(plants),
+          clock: fixedNow,
+        ),
       );
 
       expect(find.text('Overdue by 2 days'), findsOneWidget);
       expect(find.text('Overdue by 1 day'), findsOneWidget);
       expect(find.text('Water today'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Water in 1 day'), 100);
       expect(find.text('Water in 1 day'), findsOneWidget);
       await tester.scrollUntilVisible(find.text('Water in 3 days'), 100);
       expect(find.text('Water in 3 days'), findsOneWidget);
@@ -52,13 +57,18 @@ void main() {
 
     testWidgets('shows the status in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(plants),
+          clock: fixedNow,
+        ),
         locale: const Locale('de'),
       );
 
       expect(find.text('Seit 2 Tagen überfällig'), findsOneWidget);
       expect(find.text('Seit 1 Tag überfällig'), findsOneWidget);
       expect(find.text('Heute gießen'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('In 1 Tag gießen'), 100);
       expect(find.text('In 1 Tag gießen'), findsOneWidget);
       await tester.scrollUntilVisible(find.text('In 3 Tagen gießen'), 100);
       expect(find.text('In 3 Tagen gießen'), findsOneWidget);
@@ -68,7 +78,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), 
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository([plant('Ficus')]),
           clock: fixedNow,
         ),
@@ -82,7 +93,11 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(plants),
+          clock: fixedNow,
+        ),
       );
 
       final scheme = lightTheme.colorScheme;

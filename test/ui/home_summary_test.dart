@@ -30,7 +30,11 @@ Future<void> pumpHome(
   Locale locale = const Locale('en'),
 }) {
   return tester.pumpApp(
-    HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
+    HomeScreen(
+      careLogs: FakeCareLogRepository(),
+      plants: FakePlantRepository(plants),
+      clock: fixedNow,
+    ),
     locale: locale,
   );
 }

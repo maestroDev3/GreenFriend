@@ -30,7 +30,12 @@ Future<void> openMonstera(
 void main() {
   group('editing a plant', () {
     testWidgets('opens the form with the plant values', (tester) async {
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repositoryWithMonstera()));
+      await tester.pumpApp(
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: repositoryWithMonstera(),
+        ),
+      );
 
       await openMonstera(tester);
 
@@ -47,7 +52,9 @@ void main() {
       tester,
     ) async {
       final repository = repositoryWithMonstera();
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository));
+      await tester.pumpApp(
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+      );
       await openMonstera(tester);
 
       await tester.enterText(
@@ -70,7 +77,10 @@ void main() {
 
     testWidgets('shows the edit texts in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: repositoryWithMonstera()),
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: repositoryWithMonstera(),
+        ),
         locale: const Locale('de'),
       );
 
@@ -86,7 +96,9 @@ void main() {
       tester,
     ) async {
       final repository = repositoryWithMonstera();
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository));
+      await tester.pumpApp(
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+      );
       await openMonstera(tester);
 
       await tester.tap(find.byTooltip('Delete plant'));
@@ -104,7 +116,9 @@ void main() {
       tester,
     ) async {
       final repository = repositoryWithMonstera();
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository));
+      await tester.pumpApp(
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+      );
       await openMonstera(tester);
 
       await tester.tap(find.byTooltip('Delete plant'));

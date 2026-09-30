@@ -11,7 +11,8 @@ void main() {
   group('plant list navigation', () {
     testWidgets('opens the detail page when a plant is tapped', (tester) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), 
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository([Plant(id: '1', name: 'Monstera')]),
         ),
       );
@@ -28,7 +29,9 @@ void main() {
       final repository = FakePlantRepository([
         Plant(id: '1', name: 'Monstera'),
       ]);
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository));
+      await tester.pumpApp(
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+      );
 
       await tester.tap(find.text('Monstera'));
       await tester.pumpAndSettle();

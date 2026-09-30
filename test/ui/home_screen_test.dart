@@ -9,7 +9,12 @@ import '../support/pump_app.dart';
 void main() {
   group('HomeScreen', () {
     testWidgets('shows the app title and the empty-state hint', (tester) async {
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository()));
+      await tester.pumpApp(
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(),
+        ),
+      );
 
       expect(find.text('Green Friend'), findsOneWidget);
       expect(
@@ -20,7 +25,10 @@ void main() {
 
     testWidgets('shows the German hint for locale de', (tester) async {
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository()),
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(),
+        ),
         locale: const Locale('de'),
       );
 

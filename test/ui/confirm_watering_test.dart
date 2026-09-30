@@ -19,9 +19,7 @@ Plant monstera({int? every = 7}) => Plant(
 
 void main() {
   group('confirming watering on the home screen', () {
-    testWidgets('marks the plant as watered today and logs it', (
-      tester,
-    ) async {
+    testWidgets('marks the plant as watered today and logs it', (tester) async {
       final plants = FakePlantRepository([monstera()]);
       final logs = FakeCareLogRepository();
       await tester.pumpApp(

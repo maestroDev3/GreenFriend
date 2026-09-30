@@ -36,7 +36,12 @@ void main() {
     testWidgets('has a settings button that opens the settings', (
       tester,
     ) async {
-      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository()));
+      await tester.pumpApp(
+        HomeScreen(
+          careLogs: FakeCareLogRepository(),
+          plants: FakePlantRepository(),
+        ),
+      );
 
       await tester.tap(find.byTooltip('Settings'));
       await tester.pumpAndSettle();
@@ -76,7 +81,11 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpWidget(
-        GreenFriendApp(careLogs: FakeCareLogRepository(), settings: settings, plants: FakePlantRepository()),
+        GreenFriendApp(
+          careLogs: FakeCareLogRepository(),
+          settings: settings,
+          plants: FakePlantRepository(),
+        ),
       );
 
       expect(appThemeMode(tester), ThemeMode.system);
@@ -88,7 +97,11 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
-        GreenFriendApp(careLogs: FakeCareLogRepository(), settings: settings, plants: FakePlantRepository()),
+        GreenFriendApp(
+          careLogs: FakeCareLogRepository(),
+          settings: settings,
+          plants: FakePlantRepository(),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -107,7 +120,11 @@ void main() {
       );
 
       await tester.pumpWidget(
-        GreenFriendApp(careLogs: FakeCareLogRepository(), settings: settings, plants: FakePlantRepository()),
+        GreenFriendApp(
+          careLogs: FakeCareLogRepository(),
+          settings: settings,
+          plants: FakePlantRepository(),
+        ),
       );
 
       expect(appThemeMode(tester), ThemeMode.dark);
@@ -138,7 +155,11 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpWidget(
-        GreenFriendApp(careLogs: FakeCareLogRepository(), settings: settings, plants: FakePlantRepository()),
+        GreenFriendApp(
+          careLogs: FakeCareLogRepository(),
+          settings: settings,
+          plants: FakePlantRepository(),
+        ),
       );
 
       final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -151,7 +172,11 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
-        GreenFriendApp(careLogs: FakeCareLogRepository(), settings: settings, plants: FakePlantRepository()),
+        GreenFriendApp(
+          careLogs: FakeCareLogRepository(),
+          settings: settings,
+          plants: FakePlantRepository(),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -171,7 +196,11 @@ void main() {
       );
 
       await tester.pumpWidget(
-        GreenFriendApp(careLogs: FakeCareLogRepository(), settings: settings, plants: FakePlantRepository()),
+        GreenFriendApp(
+          careLogs: FakeCareLogRepository(),
+          settings: settings,
+          plants: FakePlantRepository(),
+        ),
       );
       await tester.pumpAndSettle();
 
