@@ -60,11 +60,13 @@ void main() {
         ),
       );
 
-      expect(tester.takeException(), isNull);
-      expect(
-        find.text('A very long plant name that needs more than one line'),
-        findsOneWidget,
+      final name = find.text(
+        'A very long plant name that needs more than one line',
       );
+      await tester.scrollUntilVisible(name, 200);
+
+      expect(tester.takeException(), isNull);
+      expect(name, findsOneWidget);
     });
 
     testWidgets('shows the button in German', (tester) async {
