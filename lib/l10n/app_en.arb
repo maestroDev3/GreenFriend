@@ -119,5 +119,29 @@
         "example": "Sep 30, 2026"
       }
     }
+  },
+  "waterToday": "Water today",
+  "@waterToday": {
+    "description": "Watering status on a plant card: the plant needs water today."
+  },
+  "waterInDays": "{days, plural, =1{Water in 1 day} other{Water in {days} days}}",
+  "@waterInDays": {
+    "description": "Watering status on a plant card: days until the next watering.",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "overdueDays": "{days, plural, =1{Overdue by 1 day} other{Overdue by {days} days}}",
+  "@overdueDays": {
+    "description": "Watering status on a plant card: days the watering is overdue.",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
   }
 }

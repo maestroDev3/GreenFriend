@@ -26,5 +26,8 @@
   "delete": "Löschen",
   "wateringIntervalLabel": "Gießen alle (Tage)",
   "wateringIntervalInvalid": "Gib eine Zahl von 1 bis 365 ein",
-  "lastWatered": "Zuletzt gegossen: {date}"
+  "lastWatered": "Zuletzt gegossen: {date}",
+  "waterToday": "Heute gießen",
+  "waterInDays": "{days, plural, =1{In 1 Tag gießen} other{In {days} Tagen gießen}}",
+  "overdueDays": "{days, plural, =1{Seit 1 Tag überfällig} other{Seit {days} Tagen überfällig}}"
 }
