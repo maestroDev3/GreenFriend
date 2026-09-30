@@ -14,6 +14,7 @@ import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 import 'journal_entry_screen.dart';
 import 'plant_form_screen.dart';
+import 'timeline_screen.dart';
 import 'watering_actions.dart';
 import 'widgets/watering_label.dart';
 
@@ -65,6 +66,18 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
           photos: widget.photos,
           photoPicker: widget.photoPicker,
           clock: widget.clock,
+        ),
+      ),
+    );
+  }
+
+  void _openTimeline() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => TimelineScreen(
+          plantId: widget.plantId,
+          journal: widget.journal,
+          photos: widget.photos,
         ),
       ),
     );
@@ -142,6 +155,7 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
                       entries: snapshot.data ?? const [],
                       photos: widget.photos,
                       onAdd: _addEntry,
+                      onTimeline: _openTimeline,
                       onDelete: _deleteEntry,
                     ),
                   ),
@@ -342,12 +356,14 @@ class _Journal extends StatelessWidget {
     required this.entries,
     required this.photos,
     required this.onAdd,
+    required this.onTimeline,
     required this.onDelete,
   });
 
   final List<JournalEntry> entries;
   final PhotoStore photos;
   final VoidCallback onAdd;
+  final VoidCallback onTimeline;
   final ValueChanged<JournalEntry> onDelete;
 
   @override
@@ -358,16 +374,23 @@ class _Journal extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
+        Text(l10n.journalTitle, style: theme.textTheme.titleLarge),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
           children: [
-            Expanded(
-              child: Text(l10n.journalTitle, style: theme.textTheme.titleLarge),
-            ),
             OutlinedButton.icon(
               onPressed: onAdd,
               icon: const Icon(Icons.add),
               label: Text(l10n.addJournalEntry),
             ),
+            if (entries.isNotEmpty)
+              TextButton.icon(
+                onPressed: onTimeline,
+                icon: const Icon(Icons.timeline),
+                label: Text(l10n.timelineTitle),
+              ),
           ],
         ),
         const SizedBox(height: 8),
