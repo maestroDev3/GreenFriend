@@ -525,5 +525,19 @@
   "deleteJournalEntryQuestion": "Delete this entry?",
   "@deleteJournalEntryQuestion": {
     "description": "Title of the dialog that confirms deleting a journal entry."
+  },
+  "timelineTitle": "Timeline",
+  "@timelineTitle": {
+    "description": "Title of the journal timeline and its button."
+  },
+  "timelineDay": "Day {day}",
+  "@timelineDay": {
+    "description": "Timeline entry: day counted from the first journal entry.",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "31"
+      }
+    }
   }
 }

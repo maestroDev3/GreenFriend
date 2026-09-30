@@ -92,5 +92,7 @@
   "choosePhoto": "Foto auswählen",
   "journalNote": "Notiz",
   "deleteJournalEntry": "Eintrag löschen",
-  "deleteJournalEntryQuestion": "Diesen Eintrag löschen?"
+  "deleteJournalEntryQuestion": "Diesen Eintrag löschen?",
+  "timelineTitle": "Zeitleiste",
+  "timelineDay": "Tag {day}"
 }
