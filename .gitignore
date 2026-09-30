@@ -51,3 +51,8 @@ screenshots/failures/
 
 # Generated localizations (flutter gen-l10n)
 /lib/l10n/app_localizations*.dart
+
+# Release signing (created by CI from secrets, never committed)
+/android/key.properties
+*.jks
+*.keystore
