@@ -16,7 +16,9 @@ Future<void> pumpWithDeviceLocale(WidgetTester tester, Locale locale) async {
   tester.platformDispatcher.localesTestValue = [locale];
   addTearDown(tester.platformDispatcher.clearLocalesTestValue);
   await tester.pumpWidget(
-    GreenFriendApp(backupArchive: FakeBackupArchive(), fileSharing: FakeFileSharing(), 
+    GreenFriendApp(
+      backupArchive: FakeBackupArchive(),
+      fileSharing: FakeFileSharing(),
       journal: FakeJournalRepository(),
       photos: FakePhotoStore(),
       photoPicker: FakePhotoPicker(),
