@@ -255,5 +255,37 @@
         "example": "Monstera, Pothos"
       }
     }
+  },
+  "fertilizingIntervalLabel": "Fertilize every (days)",
+  "@fertilizingIntervalLabel": {
+    "description": "Label of the optional field for the fertilizing interval in days."
+  },
+  "repottingIntervalLabel": "Repot every (months)",
+  "@repottingIntervalLabel": {
+    "description": "Label of the optional field for the repotting interval in months."
+  },
+  "repottingIntervalInvalid": "Enter a number from 1 to 60",
+  "@repottingIntervalInvalid": {
+    "description": "Validation message for an invalid repotting interval."
+  },
+  "lastFertilized": "Last fertilized: {date}",
+  "@lastFertilized": {
+    "description": "Button showing the day the plant was last fertilized; opens a date picker.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Sep 30, 2026"
+      }
+    }
+  },
+  "lastRepotted": "Last repotted: {date}",
+  "@lastRepotted": {
+    "description": "Button showing the day the plant was last repotted; opens a date picker.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Sep 30, 2026"
+      }
+    }
   }
 }
