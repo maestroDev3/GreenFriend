@@ -621,5 +621,41 @@
   "speciesLinkedHint": "Care values from the plant database – adjust them if needed.",
   "@speciesLinkedHint": {
     "description": "Hint below the species field when a species from the plant database was picked and the care intervals were filled in."
+  },
+  "lightTileTitle": "Light",
+  "@lightTileTitle": {
+    "description": "Title of the tile with the light needs of the plant's species."
+  },
+  "lightLow": "Tolerates shade",
+  "@lightLow": {
+    "description": "Light need: low."
+  },
+  "lightMedium": "Medium light, e.g. an east or west window",
+  "@lightMedium": {
+    "description": "Light need: medium."
+  },
+  "lightBrightIndirect": "Bright, no direct sun",
+  "@lightBrightIndirect": {
+    "description": "Light need: bright but indirect."
+  },
+  "lightDirect": "Full sun",
+  "@lightDirect": {
+    "description": "Light need: direct sun."
+  },
+  "humidityTileTitle": "Humidity",
+  "@humidityTileTitle": {
+    "description": "Title of the tile with the humidity needs of the plant's species."
+  },
+  "humidityLow": "Low – dry air is fine",
+  "@humidityLow": {
+    "description": "Humidity need: low."
+  },
+  "humidityMedium": "Normal room air",
+  "@humidityMedium": {
+    "description": "Humidity need: medium."
+  },
+  "humidityHigh": "High – mist or use a humidifier",
+  "@humidityHigh": {
+    "description": "Humidity need: high."
   }
 }

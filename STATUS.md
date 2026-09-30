@@ -8,7 +8,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #14 Plant database: care profile per species, applied automatically
+- Nothing – next is #15 (photo identification)
 
 ## Up next
 
@@ -30,11 +30,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #14 Plant database: pick a species, care intervals prefilled (71 houseplants, offline)
 - #17 Backup and export (zip with data and photos; share sheet / file picker)
 - #12 Timeline with before/after (journal epic done)
 - #11 Photos and notes per plant (journal)
 - #29 App navigation: bottom bar (Foundation epic done)
-- #25 Care calendar
 
 ## Decisions (2026-09-30)
 
