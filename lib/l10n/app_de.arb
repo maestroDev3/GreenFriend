@@ -79,5 +79,9 @@
   "markDone": "Erledigt",
   "careTaskWater": "{plant} gießen",
   "careTaskFertilize": "{plant} düngen",
-  "careTaskRepot": "{plant} umtopfen"
+  "careTaskRepot": "{plant} umtopfen",
+  "navHome": "Start",
+  "navPlants": "Pflanzen",
+  "navMore": "Mehr",
+  "about": "Über die App"
 }

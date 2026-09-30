@@ -4,7 +4,7 @@ import '../domain/care_log_repository.dart';
 import '../domain/plant_repository.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
-import 'home_screen.dart';
+import 'app_shell.dart';
 import 'locale_resolution.dart';
 import 'settings_controller.dart';
 import 'theme.dart';
@@ -46,7 +46,7 @@ class GreenFriendApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
-          home: HomeScreen(plants: plants, careLogs: careLogs),
+          home: AppShell(plants: plants, careLogs: careLogs),
         ),
       ),
     );
