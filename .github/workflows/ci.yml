@@ -69,6 +69,18 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      # Fixed signing key from repository secrets, so updates install over the
+      # previous APK. Without secrets the debug key is used (new key per run).
+      - name: Signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then echo "No signing key configured - using the debug key"; exit 0; fi
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
+          printf 'storeFile=upload-keystore.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEYSTORE_PASSWORD" > android/key.properties
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
