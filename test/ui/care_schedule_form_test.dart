@@ -11,6 +11,12 @@ DateTime fixedNow() => DateTime(2026, 9, 30, 10);
 
 Finder field(String label) => find.widgetWithText(TextFormField, label);
 
+/// The form's list; text fields contain scrollables of their own.
+Finder get formList => find.byType(Scrollable).first;
+
+Future<void> scrollTo(WidgetTester tester, Finder finder, [double delta = 100]) =>
+    tester.scrollUntilVisible(finder, delta, scrollable: formList);
+
 Future<void> pumpForm(
   WidgetTester tester,
   FakePlantRepository plants, {
@@ -29,32 +35,27 @@ Future<void> pumpForm(
 }
 
 Future<void> enter(WidgetTester tester, Finder finder, String text) async {
-  await tester.scrollUntilVisible(finder, 100);
+  await scrollTo(tester, finder, 100);
   await tester.enterText(finder, text);
   await tester.pumpAndSettle();
 }
 
 Future<void> save(WidgetTester tester) async {
-  await tester.scrollUntilVisible(find.text('Save'), 100);
+  await scrollTo(tester, find.text('Save'), 100);
   await tester.tap(find.text('Save'));
   await tester.pumpAndSettle();
 }
 
 void main() {
   group('fertilizing and repotting in the plant form', () {
-    testWidgets('saves both schedules with today as last done', (
-      tester,
-    ) async {
+    testWidgets('saves both schedules with today as last done', (tester) async {
       final plants = FakePlantRepository();
       await pumpForm(tester, plants);
 
       await enter(tester, field('Name'), 'Pothos');
       await enter(tester, field('Fertilize every (days)'), '14');
       await enter(tester, field('Repot every (months)'), '12');
-      await tester.scrollUntilVisible(
-        find.text('Last repotted: Sep 30, 2026'),
-        100,
-      );
+      await scrollTo(tester, find.text('Last repotted: Sep 30, 2026'), 100);
       expect(find.text('Last fertilized: Sep 30, 2026'), findsOneWidget);
       await save(tester);
 
@@ -75,10 +76,7 @@ void main() {
       await save(tester);
 
       expect(plants.plants, isEmpty);
-      await tester.scrollUntilVisible(
-        find.text('Enter a number from 1 to 60'),
-        -100,
-      );
+      await scrollTo(tester, find.text('Enter a number from 1 to 60'), -100);
       expect(find.text('Enter a number from 1 to 60'), findsOneWidget);
       expect(find.text('Enter a number from 1 to 365'), findsOneWidget);
     });
@@ -97,7 +95,7 @@ void main() {
         ),
       );
 
-      await tester.scrollUntilVisible(find.text('Last repotted: Apr 2, 2025'), 100);
+      await scrollTo(tester, find.text('Last repotted: Apr 2, 2025'), 100);
       expect(find.widgetWithText(TextFormField, '14'), findsOneWidget);
       expect(find.widgetWithText(TextFormField, '18'), findsOneWidget);
       expect(find.text('Last fertilized: Sep 20, 2026'), findsOneWidget);
@@ -128,10 +126,7 @@ void main() {
       await enter(tester, field('Umtopfen alle (Monate)'), '12');
 
       expect(find.textContaining('Zuletzt gedüngt:'), findsOneWidget);
-      await tester.scrollUntilVisible(
-        find.textContaining('Zuletzt umgetopft:'),
-        100,
-      );
+      await scrollTo(tester, find.textContaining('Zuletzt umgetopft:'), 100);
       expect(find.textContaining('Zuletzt umgetopft:'), findsOneWidget);
     });
   });

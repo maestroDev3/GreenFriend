@@ -286,9 +286,8 @@ class _ScheduleFields extends StatelessWidget {
         Icons.yard_outlined,
       ),
     };
-    final date = DateFormat.yMMMd(
-      Localizations.localeOf(context).toString(),
-    ).format(input.last);
+    final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(input.last);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
