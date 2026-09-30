@@ -6,6 +6,7 @@ import 'package:green_friend/ui/app.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_backup.dart';
 import '../support/fake_journal_repository.dart';
 import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
@@ -107,7 +108,7 @@ void main() {
 
   testWidgets('GreenFriendApp uses the light and dark theme', (tester) async {
     await tester.pumpWidget(
-      GreenFriendApp(
+      GreenFriendApp(backupArchive: FakeBackupArchive(), fileSharing: FakeFileSharing(), 
         journal: FakeJournalRepository(),
         photos: FakePhotoStore(),
         photoPicker: FakePhotoPicker(),
