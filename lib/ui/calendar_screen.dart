@@ -163,15 +163,11 @@ class _DayChip extends StatelessWidget {
             children: [
               Text(
                 DateFormat.E(locale).format(day),
-                style: theme.textTheme.labelMedium?.copyWith(
-                  color: foreground,
-                ),
+                style: theme.textTheme.labelMedium?.copyWith(color: foreground),
               ),
               Text(
                 DateFormat.d(locale).format(day),
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: foreground,
-                ),
+                style: theme.textTheme.titleMedium?.copyWith(color: foreground),
               ),
               const SizedBox(height: 4),
               if (hasTasks)
@@ -219,21 +215,21 @@ class _TaskList extends StatelessWidget {
       children: [
         for (final day in days)
           if (tasks.where((task) => task.day == day).toList()
-              case final dayTasks when dayTasks.isNotEmpty || day == selected)
-            ...[
-              _DayHeader(day: day, today: today),
-              if (dayTasks.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(l10n.nothingToDo),
-                ),
-              for (final task in dayTasks)
-                _TaskCard(
-                  task: task,
-                  onDone: task.day == today ? () => onDone(task) : null,
-                ),
-              const SizedBox(height: 8),
-            ],
+              case final dayTasks
+              when dayTasks.isNotEmpty || day == selected) ...[
+            _DayHeader(day: day, today: today),
+            if (dayTasks.isEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Text(l10n.nothingToDo),
+              ),
+            for (final task in dayTasks)
+              _TaskCard(
+                task: task,
+                onDone: task.day == today ? () => onDone(task) : null,
+              ),
+            const SizedBox(height: 8),
+          ],
       ],
     );
   }
@@ -252,14 +248,11 @@ class _DayHeader extends StatelessWidget {
     final offset = day.difference(today).inDays;
     return Padding(
       padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
-      child: Text(
-        switch (offset) {
-          0 => l10n.today,
-          1 => l10n.tomorrow,
-          _ => DateFormat.MMMEd(locale).format(day),
-        },
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
+      child: Text(switch (offset) {
+        0 => l10n.today,
+        1 => l10n.tomorrow,
+        _ => DateFormat.MMMEd(locale).format(day),
+      }, style: Theme.of(context).textTheme.titleMedium),
     );
   }
 }
