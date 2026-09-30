@@ -13,7 +13,8 @@ The GitHub issues are authoritative; this file is the summary.
 ## Up next
 
 - #111 Secure the release signing key – user task (store keystore and password separately)
-- Epic #13 Plant knowledge and automatic care plans – waits for the decisions on the plant database (#14) and the identification service (#15)
+- #14 Plant database: care profile per species – unblocked, next to refine
+- #15 Identify a plant from a photo – plant.id chosen; waits for the API-key decision
 
 ## Backlog by epic
 
@@ -21,7 +22,7 @@ The GitHub issues are authoritative; this file is the summary.
 |---|---|
 | #1 Foundation | – (all done) |
 | #5 Care and reminders | – (all done) |
-| #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
+| #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically → #30 Tip of the day |
 | #10 Growth journal | – (all done) |
 | #16 Data safety | #111 Secure the release signing key (user task) |
 | #31 Outdoor plants and weather (later) | #26 Weather-aware watering for outdoor plants |
@@ -36,10 +37,14 @@ Guiding principle: as much as possible happens automatically (photo → species 
 - #29 App navigation: bottom bar (Foundation epic done)
 - #25 Care calendar
 
+## Decisions (2026-09-30)
+
+- #14 care data: own curated offline table (DE/EN), seeded from Open Plantbook
+- #15 identification: plant.id (Kindwise)
+- Camera/gallery allowed (journal epic done)
+
 ## Open decisions (user only)
 
-- Plant identification (#15): which service (e.g. Pl@ntNet, Plant.id) – needs `INTERNET` and possibly an API key
+- Plant identification (#15): where the plant.id API key lives (small proxy backend vs. user-supplied key) – must not ship in the APK
 - Android only, or iOS later?
-- Plant database for #14: external database/API (decided) – which one is open; research in the Claude project (`plant-database-research.md`)
-- Plant photo before the journal epic? CLAUDE.md currently allows camera/gallery only with the journal epic (#10)
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
