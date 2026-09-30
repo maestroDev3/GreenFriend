@@ -26,9 +26,7 @@ class Setup {
   Setup({List<Plant> plants = const [], ReminderSettings? reminder})
     : plants = FakePlantRepository(plants),
       settings = SettingsController(
-        FakeSettingsRepository(
-          reminder: reminder ?? ReminderSettings.defaults,
-        ),
+        FakeSettingsRepository(reminder: reminder ?? ReminderSettings.defaults),
       );
 
   final FakePlantRepository plants;
@@ -108,21 +106,24 @@ void main() {
       expect(setup.scheduler.scheduled.first.at, DateTime(2026, 9, 30, 18, 30));
     });
 
-    test('asks for permission once when there is something to remind', () async {
-      final setup = Setup();
-      await setup.start();
-      expect(setup.scheduler.permissionRequests, 0);
+    test(
+      'asks for permission once when there is something to remind',
+      () async {
+        final setup = Setup();
+        await setup.start();
+        expect(setup.scheduler.permissionRequests, 0);
 
-      await setup.plants.add(
-        name: 'Pothos',
-        wateringIntervalDays: 3,
-        lastWateredOn: DateTime(2026, 9, 29),
-      );
-      await setup.sync.idle;
-      await setup.plants.add(name: 'Aloe', wateringIntervalDays: 5);
-      await setup.sync.idle;
+        await setup.plants.add(
+          name: 'Pothos',
+          wateringIntervalDays: 3,
+          lastWateredOn: DateTime(2026, 9, 29),
+        );
+        await setup.sync.idle;
+        await setup.plants.add(name: 'Aloe', wateringIntervalDays: 5);
+        await setup.sync.idle;
 
-      expect(setup.scheduler.permissionRequests, 1);
-    });
+        expect(setup.scheduler.permissionRequests, 1);
+      },
+    );
   });
 }

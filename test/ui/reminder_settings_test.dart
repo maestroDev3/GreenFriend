@@ -15,9 +15,7 @@ Future<SettingsController> loadedSettings(FakeSettingsRepository repo) async {
 
 void main() {
   group('reminder settings', () {
-    testWidgets('shows the daily reminder switch and the time', (
-      tester,
-    ) async {
+    testWidgets('shows the daily reminder switch and the time', (tester) async {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpApp(const SettingsScreen(), settings: settings);

@@ -52,7 +52,9 @@ class ReminderSettings {
 
   @override
   bool operator ==(Object other) =>
-      other is ReminderSettings && other.enabled == enabled && other.time == time;
+      other is ReminderSettings &&
+      other.enabled == enabled &&
+      other.time == time;
 
   @override
   int get hashCode => Object.hash(enabled, time);
