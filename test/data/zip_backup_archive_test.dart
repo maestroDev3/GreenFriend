@@ -106,7 +106,7 @@ void main() {
         ArchiveFile.string(
           'backup.json',
           '{"format":"green-friend-backup","version":2,'
-          '"plants":[],"careLogs":[],"journal":[]}',
+              '"plants":[],"careLogs":[],"journal":[]}',
         ),
       );
     await expectRejected(ZipEncoder().encodeBytes(archive));
