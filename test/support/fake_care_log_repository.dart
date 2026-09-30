@@ -13,8 +13,7 @@ class FakeCareLogRepository implements CareLogRepository {
 
   List<CareLog> get logs => newestFirst(_logs);
 
-  List<CareLog> _of(String plantId) =>
-      _ofIn(_logs, plantId);
+  List<CareLog> _of(String plantId) => _ofIn(_logs, plantId);
 
   static List<CareLog> _ofIn(Iterable<CareLog> logs, String plantId) =>
       newestFirst(logs.where((log) => log.plantId == plantId));
