@@ -136,5 +136,6 @@ commit comment).
 
 ## Open decisions (only the user decides)
 
+- Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs
 - Android only, or iOS later?
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS

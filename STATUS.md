@@ -8,11 +8,14 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Nothing – next is #15 (photo identification)
+- Nothing – next: the user picks from “Up next”
 
 ## Up next
 
 - #111 Secure the release signing key – user task (store keystore and password separately)
+- #125 Calendar month and year view
+- #123 Pruning as a care task
+- #124 More species: bonsai, balcony and garden plants (+30)
 - #15 Identify a plant from a photo (plant.id, key in the settings)
 
 ## Backlog by epic
@@ -20,10 +23,11 @@ The GitHub issues are authoritative; this file is the summary.
 | Epic | Stories (in order) |
 |---|---|
 | #1 Foundation | – (all done) |
-| #5 Care and reminders | – (all done) |
-| #13 Plant knowledge and automatic care plans | #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day |
+| #5 Care and reminders | #125 Calendar month and year view → #123 Pruning as a care task |
+| #13 Plant knowledge and automatic care plans | #124 More species: bonsai, balcony and garden plants (+30) → #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day |
 | #10 Growth journal | – (all done) |
 | #16 Data safety | #111 Secure the release signing key (user task) |
+| #126 Shared household | #127 Share plants between phones (household sync) |
 | #31 Outdoor plants and weather (later) | #26 Weather-aware watering for outdoor plants |
 
 Guiding principle: as much as possible happens automatically (photo → species → care plan → calendar → one daily notification).
@@ -44,5 +48,6 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Open decisions (user only)
 
+- Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - Android only, or iOS later?
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
