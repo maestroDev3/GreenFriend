@@ -107,9 +107,8 @@ void main() {
   });
 
   test('the app asks for no camera or storage permission', () {
-    final manifest = File(
-      'android/app/src/main/AndroidManifest.xml',
-    ).readAsStringSync();
+    final manifest = File('android/app/src/main/AndroidManifest.xml')
+        .readAsStringSync();
 
     for (final permission in [
       'android.permission.CAMERA',
