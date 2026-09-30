@@ -78,23 +78,38 @@ void main() {
       expect(photos.stored, isEmpty);
     });
 
-    test('deleting the journal of a plant removes entries and photos', () async {
-      final journal = FakeJournalRepository();
-      final photos = FakePhotoStore();
-      final photo = await photos.save('/tmp/leaf.jpg');
-      final other = await photos.save('/tmp/other.jpg');
-      await journal.add(plantId: 'p', day: DateTime(2026, 9, 1), photo: photo);
-      await journal.add(plantId: 'p', day: DateTime(2026, 9, 2), note: 'note');
-      await journal.add(plantId: 'x', day: DateTime(2026, 9, 3), photo: other);
+    test(
+      'deleting the journal of a plant removes entries and photos',
+      () async {
+        final journal = FakeJournalRepository();
+        final photos = FakePhotoStore();
+        final photo = await photos.save('/tmp/leaf.jpg');
+        final other = await photos.save('/tmp/other.jpg');
+        await journal.add(
+          plantId: 'p',
+          day: DateTime(2026, 9, 1),
+          photo: photo,
+        );
+        await journal.add(
+          plantId: 'p',
+          day: DateTime(2026, 9, 2),
+          note: 'note',
+        );
+        await journal.add(
+          plantId: 'x',
+          day: DateTime(2026, 9, 3),
+          photo: other,
+        );
 
-      await deleteJournalForPlant(
-        journal: journal,
-        photos: photos,
-        plantId: 'p',
-      );
+        await deleteJournalForPlant(
+          journal: journal,
+          photos: photos,
+          plantId: 'p',
+        );
 
-      expect(journal.entries.map((entry) => entry.plantId), ['x']);
-      expect(photos.stored, {other});
-    });
+        expect(journal.entries.map((entry) => entry.plantId), ['x']);
+        expect(photos.stored, {other});
+      },
+    );
   });
 }
