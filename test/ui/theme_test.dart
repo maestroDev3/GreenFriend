@@ -66,6 +66,14 @@ void main() {
         expectReadable(scheme.onSurface, scheme.surface);
         expectReadable(scheme.primary, scheme.surface);
         expectReadable(scheme.onSurface, card);
+        expectReadable(scheme.onTertiaryContainer, scheme.tertiaryContainer);
+        expectReadable(scheme.onSecondaryContainer, scheme.secondaryContainer);
+      });
+
+      test('uses a terracotta tint for warnings', () {
+        final container = HSLColor.fromColor(scheme.tertiaryContainer);
+
+        expect(container.hue, inInclusiveRange(10, 30));
       });
 
       test('uses rounded shapes', () {
