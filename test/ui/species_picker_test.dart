@@ -85,6 +85,8 @@ Future<void> pick(
 
 Future<void> save(WidgetTester tester) async {
   await tester.scrollUntilVisible(find.text('Save'), 100, scrollable: formList);
+  await tester.ensureVisible(find.text('Save'));
+  await tester.pumpAndSettle();
   await tester.tap(find.text('Save'));
   await tester.pumpAndSettle();
 }
