@@ -132,10 +132,9 @@ commit comment).
 ## Decisions made
 
 - Plant database (#14): own curated care table, bundled offline (DE/EN), seeded from Open Plantbook (2026-09-30)
-- Plant identification (#15): plant.id / Kindwise (2026-09-30)
+- Plant identification (#15): plant.id / Kindwise; API key entered by the user in the settings, never in the APK (2026-09-30)
 
 ## Open decisions (only the user decides)
 
-- Plant identification (#15): where the plant.id API key lives (proxy backend vs. user-supplied key) – it must not ship in the APK
 - Android only, or iOS later?
 - Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
