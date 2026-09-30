@@ -140,38 +140,44 @@ void main() {
       expect(plant.lastWateredOn, isNull);
     });
 
-    test('keeps fertilizing and repotting schedules across a restart', () async {
-      final plant = await (await openRepository()).add(
-        name: 'Pothos',
-        fertilizingIntervalDays: 14,
-        lastFertilizedOn: DateTime(2026, 9, 20),
-        repottingIntervalMonths: 18,
-        lastRepottedOn: DateTime(2025, 4, 2),
-      );
+    test(
+      'keeps fertilizing and repotting schedules across a restart',
+      () async {
+        final plant = await (await openRepository()).add(
+          name: 'Pothos',
+          fertilizingIntervalDays: 14,
+          lastFertilizedOn: DateTime(2026, 9, 20),
+          repottingIntervalMonths: 18,
+          lastRepottedOn: DateTime(2025, 4, 2),
+        );
 
-      final loaded = (await currentPlants(await openRepository())).single;
+        final loaded = (await currentPlants(await openRepository())).single;
 
-      expect(loaded, plant);
-      expect(loaded.fertilizingIntervalDays, 14);
-      expect(loaded.lastFertilizedOn, DateTime.utc(2026, 9, 20));
-      expect(loaded.repottingIntervalMonths, 18);
-      expect(loaded.lastRepottedOn, DateTime.utc(2025, 4, 2));
-    });
+        expect(loaded, plant);
+        expect(loaded.fertilizingIntervalDays, 14);
+        expect(loaded.lastFertilizedOn, DateTime.utc(2026, 9, 20));
+        expect(loaded.repottingIntervalMonths, 18);
+        expect(loaded.lastRepottedOn, DateTime.utc(2025, 4, 2));
+      },
+    );
 
-    test('loads plants stored before fertilizing and repotting existed', () async {
-      SharedPreferences.setMockInitialValues({
-        SharedPreferencesPlantRepository.plantsKey:
-            '[{"id":"a","name":"Aloe","wateringIntervalDays":7,'
-            '"lastWateredOn":"2026-09-28"}]',
-      });
+    test(
+      'loads plants stored before fertilizing and repotting existed',
+      () async {
+        SharedPreferences.setMockInitialValues({
+          SharedPreferencesPlantRepository.plantsKey:
+              '[{"id":"a","name":"Aloe","wateringIntervalDays":7,'
+              '"lastWateredOn":"2026-09-28"}]',
+        });
 
-      final plant = (await currentPlants(await openRepository())).single;
+        final plant = (await currentPlants(await openRepository())).single;
 
-      expect(plant.wateringIntervalDays, 7);
-      expect(plant.fertilizingIntervalDays, isNull);
-      expect(plant.lastFertilizedOn, isNull);
-      expect(plant.repottingIntervalMonths, isNull);
-      expect(plant.lastRepottedOn, isNull);
-    });
+        expect(plant.wateringIntervalDays, 7);
+        expect(plant.fertilizingIntervalDays, isNull);
+        expect(plant.lastFertilizedOn, isNull);
+        expect(plant.repottingIntervalMonths, isNull);
+        expect(plant.lastRepottedOn, isNull);
+      },
+    );
   });
 }
