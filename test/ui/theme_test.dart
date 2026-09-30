@@ -107,7 +107,10 @@ void main() {
 
   testWidgets('GreenFriendApp uses the light and dark theme', (tester) async {
     await tester.pumpWidget(
-      GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+      GreenFriendApp(
+        journal: FakeJournalRepository(),
+        photos: FakePhotoStore(),
+        photoPicker: FakePhotoPicker(),
         careLogs: FakeCareLogRepository(),
         settings: SettingsController(FakeSettingsRepository()),
         plants: FakePlantRepository(),

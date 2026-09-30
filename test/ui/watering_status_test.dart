@@ -41,7 +41,10 @@ void main() {
   group('watering status on the plant cards', () {
     testWidgets('shows overdue, today and upcoming in English', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(plants),
           clock: fixedNow,
@@ -59,7 +62,10 @@ void main() {
 
     testWidgets('shows the status in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(plants),
           clock: fixedNow,
@@ -80,7 +86,10 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository([plant('Ficus')]),
           clock: fixedNow,
@@ -95,7 +104,10 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(plants),
           clock: fixedNow,

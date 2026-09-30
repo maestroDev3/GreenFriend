@@ -94,10 +94,7 @@ void main() {
       final entry = setup.journal.entries.single;
       expect(entry.photo, 'photo-1.jpg');
       expect(setup.photos.stored, {'photo-1.jpg'});
-      await scrollTo(
-        tester,
-        find.byKey(ValueKey('journal-photo-${entry.id}')),
-      );
+      await scrollTo(tester, find.byKey(ValueKey('journal-photo-${entry.id}')));
     });
 
     testWidgets('can take a photo with the camera', (tester) async {

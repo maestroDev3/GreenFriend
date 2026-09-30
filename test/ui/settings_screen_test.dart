@@ -46,7 +46,10 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
         ),
@@ -90,7 +93,10 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpWidget(
-        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        GreenFriendApp(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -106,7 +112,10 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
-        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        GreenFriendApp(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -129,7 +138,10 @@ void main() {
       );
 
       await tester.pumpWidget(
-        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        GreenFriendApp(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -164,7 +176,10 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpWidget(
-        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        GreenFriendApp(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -181,7 +196,10 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
-        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        GreenFriendApp(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),
@@ -205,7 +223,10 @@ void main() {
       );
 
       await tester.pumpWidget(
-        GreenFriendApp(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        GreenFriendApp(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           settings: settings,
           plants: FakePlantRepository(),

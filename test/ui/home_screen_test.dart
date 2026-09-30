@@ -12,7 +12,10 @@ void main() {
   group('HomeScreen', () {
     testWidgets('shows the app title and the empty-state hint', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
         ),
@@ -27,7 +30,10 @@ void main() {
 
     testWidgets('shows the German hint for locale de', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
         ),

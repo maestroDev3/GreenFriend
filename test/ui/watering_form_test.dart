@@ -18,7 +18,10 @@ Future<void> openNewPlantForm(
   FakePlantRepository repo,
 ) async {
   await tester.pumpApp(
-    HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+    HomeScreen(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
+      photoPicker: FakePhotoPicker(),
       careLogs: FakeCareLogRepository(),
       plants: repo,
       clock: fixedNow,
@@ -88,7 +91,10 @@ void main() {
         ),
       ]);
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: repository,
           clock: fixedNow,
@@ -116,7 +122,10 @@ void main() {
         ),
       ]);
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: repository,
           clock: fixedNow,
@@ -135,7 +144,10 @@ void main() {
 
     testWidgets('shows the interval texts in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
           clock: fixedNow,
