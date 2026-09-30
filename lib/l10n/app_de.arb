@@ -17,5 +17,11 @@
   "plantSpeciesLabel": "Art (optional)",
   "plantLocationLabel": "Standort (optional)",
   "plantNameRequired": "Bitte gib einen Namen ein",
-  "save": "Speichern"
+  "save": "Speichern",
+  "editPlantTitle": "Pflanze bearbeiten",
+  "deletePlant": "Pflanze löschen",
+  "deletePlantQuestion": "{name} löschen?",
+  "deletePlantMessage": "Das kann nicht rückgängig gemacht werden.",
+  "cancel": "Abbrechen",
+  "delete": "Löschen"
 }

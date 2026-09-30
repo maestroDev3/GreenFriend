@@ -71,5 +71,35 @@
   "save": "Save",
   "@save": {
     "description": "Button that saves a form."
+  },
+  "editPlantTitle": "Edit plant",
+  "@editPlantTitle": {
+    "description": "Title of the form when editing an existing plant."
+  },
+  "deletePlant": "Delete plant",
+  "@deletePlant": {
+    "description": "Tooltip of the delete button in the plant form."
+  },
+  "deletePlantQuestion": "Delete {name}?",
+  "@deletePlantQuestion": {
+    "description": "Title of the dialog that confirms deleting a plant.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Monstera"
+      }
+    }
+  },
+  "deletePlantMessage": "This cannot be undone.",
+  "@deletePlantMessage": {
+    "description": "Text of the dialog that confirms deleting a plant."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Button that closes a dialog without doing anything."
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Button that confirms deleting."
   }
 }
