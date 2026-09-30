@@ -92,10 +92,7 @@ void main() {
       expect(find.text('Licht'), findsOneWidget);
       expect(find.text('Hell, ohne direkte Sonne'), findsOneWidget);
       expect(find.text('Luftfeuchte'), findsOneWidget);
-      expect(
-        find.text('Hoch – besprühen oder Luftbefeuchter'),
-        findsOneWidget,
-      );
+      expect(find.text('Hoch – besprühen oder Luftbefeuchter'), findsOneWidget);
     });
   });
 }
