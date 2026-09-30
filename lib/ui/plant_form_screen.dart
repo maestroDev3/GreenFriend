@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/care_actions.dart';
+import '../domain/care_log_repository.dart';
 import '../domain/clock.dart';
 
 import '../domain/plant.dart';
@@ -15,11 +17,13 @@ class PlantFormScreen extends StatefulWidget {
   const PlantFormScreen({
     super.key,
     required this.plants,
+    required this.careLogs,
     this.plant,
     this.clock = DateTime.now,
   });
 
   final PlantRepository plants;
+  final CareLogRepository careLogs;
 
   /// Supplies today's date as the default last watering.
   final Clock clock;
@@ -121,7 +125,11 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       ),
     );
     if (confirmed != true) return;
-    await widget.plants.delete(plant.id);
+    await deletePlant(
+      plants: widget.plants,
+      careLogs: widget.careLogs,
+      plantId: plant.id,
+    );
     if (!mounted) return;
     Navigator.of(context).pop(true);
   }

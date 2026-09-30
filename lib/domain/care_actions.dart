@@ -40,3 +40,13 @@ Future<void> undoWatering({
   await careLogs.delete(confirmation.log.id);
   await plants.update(confirmation.before);
 }
+
+/// Deletes a plant together with its care history.
+Future<void> deletePlant({
+  required PlantRepository plants,
+  required CareLogRepository careLogs,
+  required String plantId,
+}) async {
+  await careLogs.deleteForPlant(plantId);
+  await plants.delete(plantId);
+}

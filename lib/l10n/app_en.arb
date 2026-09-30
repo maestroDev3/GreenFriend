@@ -209,5 +209,21 @@
   "undo": "Undo",
   "@undo": {
     "description": "Snackbar action that reverts the last action."
+  },
+  "history": "History",
+  "@history": {
+    "description": "Section title of the care history on the plant detail page."
+  },
+  "noCareLogged": "No care logged yet",
+  "@noCareLogged": {
+    "description": "Shown in the care history when nothing was logged."
+  },
+  "fertilized": "Fertilized",
+  "@fertilized": {
+    "description": "Care history entry: the plant was fertilized."
+  },
+  "repotted": "Repotted",
+  "@repotted": {
+    "description": "Care history entry: the plant was repotted."
   }
 }
