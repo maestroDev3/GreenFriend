@@ -21,9 +21,7 @@ List<List<DateTime?>> monthGrid(DateTime month, {required int firstWeekday}) {
   while (cells.length % 7 != 0) {
     cells.add(null);
   }
-  return [
-    for (var i = 0; i < cells.length; i += 7) cells.sublist(i, i + 7),
-  ];
+  return [for (var i = 0; i < cells.length; i += 7) cells.sublist(i, i + 7)];
 }
 
 /// Number of planned care tasks per day of the month containing [month].
