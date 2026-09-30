@@ -108,5 +108,24 @@ void main() {
         '{broken',
       );
     });
+
+    test('lists and replaces all logs', () async {
+      final repository = await openRepository();
+      await repository.add(
+        plantId: 'old',
+        kind: const Water(),
+        day: DateTime(2026, 1, 1),
+      );
+      final log = CareLog(
+        id: 'x',
+        plantId: 'p',
+        kind: const Repot(),
+        day: DateTime(2026, 9, 1),
+      );
+
+      await repository.replaceAll([log]);
+
+      expect(await (await openRepository()).allLogs(), [log]);
+    });
   });
 }

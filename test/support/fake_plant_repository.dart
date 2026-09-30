@@ -21,6 +21,17 @@ class FakePlantRepository implements PlantRepository {
   });
 
   @override
+  Future<List<Plant>> allPlants() async => plants;
+
+  @override
+  Future<void> replaceAll(List<Plant> plants) async {
+    _plants
+      ..clear()
+      ..addAll(plants);
+    _changes.add(this.plants);
+  }
+
+  @override
   Future<Plant> add({
     required String name,
     String? species,

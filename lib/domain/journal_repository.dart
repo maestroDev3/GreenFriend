@@ -9,6 +9,12 @@ abstract interface class JournalRepository {
   /// The current entries of [plantId], newest first.
   Future<List<JournalEntry>> entriesFor(String plantId);
 
+  /// All entries of all plants.
+  Future<List<JournalEntry>> allEntries();
+
+  /// Replaces all entries, e.g. when restoring a backup.
+  Future<void> replaceAll(List<JournalEntry> entries);
+
   /// Throws [ArgumentError] if there is neither a note nor a photo.
   Future<JournalEntry> add({
     required String plantId,

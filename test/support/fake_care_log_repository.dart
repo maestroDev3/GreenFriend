@@ -30,6 +30,17 @@ class FakeCareLogRepository implements CareLogRepository {
   });
 
   @override
+  Future<List<CareLog>> allLogs() async => logs;
+
+  @override
+  Future<void> replaceAll(List<CareLog> logs) async {
+    _logs
+      ..clear()
+      ..addAll(logs);
+    _changes.add(List.unmodifiable(_logs));
+  }
+
+  @override
   Future<CareLog> add({
     required String plantId,
     required CareKind kind,

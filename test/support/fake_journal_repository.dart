@@ -32,6 +32,17 @@ class FakeJournalRepository implements JournalRepository {
       _of(_entries, plantId);
 
   @override
+  Future<List<JournalEntry>> allEntries() async => entries;
+
+  @override
+  Future<void> replaceAll(List<JournalEntry> entries) async {
+    _entries
+      ..clear()
+      ..addAll(entries);
+    _changes.add(List.unmodifiable(_entries));
+  }
+
+  @override
   Future<JournalEntry> add({
     required String plantId,
     required DateTime day,

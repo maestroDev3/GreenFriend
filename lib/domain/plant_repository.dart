@@ -6,6 +6,12 @@ abstract interface class PlantRepository {
   /// every change.
   Stream<List<Plant>> watchPlants();
 
+  /// All plants, sorted by name.
+  Future<List<Plant>> allPlants();
+
+  /// Replaces all plants, e.g. when restoring a backup.
+  Future<void> replaceAll(List<Plant> plants);
+
   /// Adds a new plant and returns it with its generated id.
   Future<Plant> add({
     required String name,
