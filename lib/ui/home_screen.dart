@@ -5,6 +5,7 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/watering.dart';
 import '../l10n/app_localizations.dart';
+import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_screen.dart';
 import 'widgets/watering_label.dart';
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _openForm(),
+        onPressed: _openForm,
         icon: const Icon(Icons.add),
         label: Text(l10n.addPlant),
       ),
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) => _PlantCard(
               plants[index],
               status: wateringStatus(plants[index], widget.clock()),
-              onTap: () => _openForm(plant: plants[index]),
+              onTap: () => _openDetail(plants[index]),
             ),
           ),
         },
@@ -71,12 +72,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _openForm({Plant? plant}) {
+  void _openForm() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => PlantFormScreen(
+        builder: (_) =>
+            PlantFormScreen(plants: widget.plants, clock: widget.clock),
+      ),
+    );
+  }
+
+  void _openDetail(Plant plant) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => PlantDetailScreen(
           plants: widget.plants,
-          plant: plant,
+          plantId: plant.id,
           clock: widget.clock,
         ),
       ),
