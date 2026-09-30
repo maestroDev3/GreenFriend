@@ -36,14 +36,13 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
       newestFirst(_logs.where((log) => log.plantId == plantId));
 
   @override
-  Stream<List<CareLog>> watchLogs(String plantId) =>
-      Stream.multi((controller) {
-        controller.add(_of(plantId));
-        final subscription = _changes.stream.listen(
-          (_) => controller.add(_of(plantId)),
-        );
-        controller.onCancel = subscription.cancel;
-      });
+  Stream<List<CareLog>> watchLogs(String plantId) => Stream.multi((controller) {
+    controller.add(_of(plantId));
+    final subscription = _changes.stream.listen(
+      (_) => controller.add(_of(plantId)),
+    );
+    controller.onCancel = subscription.cancel;
+  });
 
   @override
   Future<CareLog> add({
@@ -57,8 +56,7 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
   }
 
   @override
-  Future<void> delete(String id) =>
-      _save(_logs.where((log) => log.id != id));
+  Future<void> delete(String id) => _save(_logs.where((log) => log.id != id));
 
   @override
   Future<void> deleteForPlant(String plantId) =>
@@ -79,8 +77,7 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
     try {
       final list = jsonDecode(raw) as List<dynamic>;
       return [
-        for (final entry in list)
-          if (_fromJson(entry as Map<String, dynamic>) case final log?) log,
+        for (final entry in list) ?_fromJson(entry as Map<String, dynamic>),
       ];
     } on FormatException {
       return _keepUnreadable(raw);
