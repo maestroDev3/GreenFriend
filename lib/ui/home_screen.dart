@@ -222,7 +222,7 @@ class _PlantOverview extends StatelessWidget {
                 sorted[index],
                 status: wateringStatus(sorted[index], today),
                 otherDue: [
-                  for (final kind in const [Fertilize(), Repot()])
+                  for (final kind in const [Fertilize(), Repot(), Prune()])
                     if (careStatus(sorted[index], kind, today) case final status
                         when status is DueToday || status is Overdue)
                       (kind, status),

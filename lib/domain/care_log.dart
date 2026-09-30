@@ -7,7 +7,7 @@ sealed class CareKind {
   /// Stable identifier used for storage.
   final String name;
 
-  static const values = <CareKind>[Water(), Fertilize(), Repot()];
+  static const values = <CareKind>[Water(), Fertilize(), Repot(), Prune()];
 
   /// The kind stored under [name], or `null` if unknown.
   static CareKind? byName(String name) {
@@ -38,6 +38,10 @@ final class Fertilize extends CareKind {
 
 final class Repot extends CareKind {
   const Repot() : super('repot');
+}
+
+final class Prune extends CareKind {
+  const Prune() : super('prune');
 }
 
 /// One care task that was done for a plant on a day.

@@ -34,6 +34,7 @@ Future<void> careWithUndo(
           Water() => l10n.plantWatered(plant.name),
           Fertilize() => l10n.plantFertilized(plant.name),
           Repot() => l10n.plantRepotted(plant.name),
+          Prune() => l10n.plantPruned(plant.name),
         }),
         action: SnackBarAction(
           label: l10n.undo,

@@ -20,6 +20,7 @@ class CareLabel extends StatelessWidget {
       Water() => Icons.water_drop_outlined,
       Fertilize() => Icons.science_outlined,
       Repot() => Icons.yard_outlined,
+      Prune() => Icons.content_cut,
     };
     return switch (status) {
       NotScheduled() => const SizedBox.shrink(),
@@ -49,7 +50,7 @@ class CareLabel extends StatelessWidget {
 }
 
 /// The status text, e.g. "Water in 3 days" or "Repotting overdue by 2
-/// months"; repotting is counted in months from 30 days on.
+/// months"; repotting and pruning are counted in months from 30 days on.
 String careStatusText(AppLocalizations l10n, CareKind kind, CareStatus status) {
   return switch ((kind, status)) {
     (_, NotScheduled()) => '',
@@ -66,6 +67,13 @@ String careStatusText(AppLocalizations l10n, CareKind kind, CareStatus status) {
       days < 30
           ? l10n.repottingOverdueDays(days)
           : l10n.repottingOverdueMonths(days ~/ 30),
+    (Prune(), DueToday()) => l10n.pruneToday,
+    (Prune(), DueIn(:final days)) =>
+      days < 30 ? l10n.pruneInDays(days) : l10n.pruneInMonths(days ~/ 30),
+    (Prune(), Overdue(:final days)) =>
+      days < 30
+          ? l10n.pruningOverdueDays(days)
+          : l10n.pruningOverdueMonths(days ~/ 30),
   };
 }
 

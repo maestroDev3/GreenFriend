@@ -3,11 +3,12 @@ import 'package:green_friend/domain/care_log.dart';
 
 void main() {
   group('CareKind', () {
-    test('has water, fertilize and repot with stable names', () {
+    test('has water, fertilize, repot and prune with stable names', () {
       expect(CareKind.values.map((kind) => kind.name), [
         'water',
         'fertilize',
         'repot',
+        'prune',
       ]);
       expect(CareKind.byName('fertilize'), const Fertilize());
       expect(CareKind.byName('unknown'), isNull);

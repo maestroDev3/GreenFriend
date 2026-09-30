@@ -31,6 +31,7 @@ Future<CareConfirmation> confirmCare({
     Water() => plant.copyWith(lastWateredOn: today),
     Fertilize() => plant.copyWith(lastFertilizedOn: today),
     Repot() => plant.copyWith(lastRepottedOn: today),
+    Prune() => plant.copyWith(lastPrunedOn: today),
   });
   return CareConfirmation(before: plant, log: log);
 }

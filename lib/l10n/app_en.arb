@@ -694,5 +694,93 @@
         "type": "int"
       }
     }
+  },
+  "pruningTitle": "Pruning",
+  "@pruningTitle": {
+    "description": "Title of the pruning card on the plant detail page."
+  },
+  "pruned": "Pruned",
+  "@pruned": {
+    "description": "Button to confirm pruning and care history entry: the plant was pruned."
+  },
+  "pruneToday": "Prune today",
+  "@pruneToday": {
+    "description": "Care status: the plant should be pruned today."
+  },
+  "pruneInDays": "{days, plural, =1{Prune in 1 day} other{Prune in {days} days}}",
+  "@pruneInDays": {
+    "description": "Care status: days until pruning (under 30 days).",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "pruneInMonths": "{months, plural, =1{Prune in 1 month} other{Prune in {months} months}}",
+  "@pruneInMonths": {
+    "description": "Care status: months until pruning (30 days or more).",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "pruningOverdueDays": "{days, plural, =1{Pruning overdue by 1 day} other{Pruning overdue by {days} days}}",
+  "@pruningOverdueDays": {
+    "description": "Care status: days the pruning is overdue (under 30 days).",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "pruningOverdueMonths": "{months, plural, =1{Pruning overdue by 1 month} other{Pruning overdue by {months} months}}",
+  "@pruningOverdueMonths": {
+    "description": "Care status: months the pruning is overdue (30 days or more).",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "plantPruned": "{name} pruned",
+  "@plantPruned": {
+    "description": "Snackbar after confirming the pruning.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderPrune": "Prune: {plants}",
+  "@reminderPrune": {
+    "description": "Reminder part listing plants to prune.",
+    "placeholders": {
+      "plants": {
+        "type": "String"
+      }
+    }
+  },
+  "careTaskPrune": "Prune {plant}",
+  "@careTaskPrune": {
+    "description": "Calendar entry: prune a plant.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "pruningIntervalLabel": "Prune every (months)",
+  "@pruningIntervalLabel": {
+    "description": "Label of the optional field for the pruning interval in months."
+  },
+  "lastPruned": "Last pruned: {date}",
+  "@lastPruned": {
+    "description": "Button showing the day the plant was last pruned; opens a date picker.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }
