@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
@@ -22,6 +23,8 @@ class GreenFriendApp extends StatelessWidget {
     required this.journal,
     required this.photos,
     required this.photoPicker,
+    required this.backupArchive,
+    required this.fileSharing,
   });
 
   final SettingsController settings;
@@ -30,6 +33,8 @@ class GreenFriendApp extends StatelessWidget {
   final JournalRepository journal;
   final PhotoStore photos;
   final PhotoPicker photoPicker;
+  final BackupArchive backupArchive;
+  final FileSharing fileSharing;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +65,8 @@ class GreenFriendApp extends StatelessWidget {
             journal: journal,
             photos: photos,
             photoPicker: photoPicker,
+            backupArchive: backupArchive,
+            fileSharing: fileSharing,
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
@@ -22,6 +23,8 @@ class AppShell extends StatefulWidget {
     required this.journal,
     required this.photos,
     required this.photoPicker,
+    required this.backupArchive,
+    required this.fileSharing,
     this.clock = DateTime.now,
   });
 
@@ -30,6 +33,8 @@ class AppShell extends StatefulWidget {
   final JournalRepository journal;
   final PhotoStore photos;
   final PhotoPicker photoPicker;
+  final BackupArchive backupArchive;
+  final FileSharing fileSharing;
   final Clock clock;
 
   @override
@@ -89,7 +94,10 @@ class _AppShellState extends State<AppShell> {
             careLogs: widget.careLogs,
             clock: widget.clock,
           ),
-          const MoreScreen(),
+          MoreScreen(
+            backupArchive: widget.backupArchive,
+            fileSharing: widget.fileSharing,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

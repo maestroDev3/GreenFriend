@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:archive/archive.dart';
 
 import '../domain/backup.dart';
+import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
@@ -11,7 +12,7 @@ import '../domain/plant_repository.dart';
 
 /// Writes and reads the backup file: a zip with `backup.json` and the
 /// journal photos under `photos/`.
-class ZipBackupArchive {
+class ZipBackupArchive implements BackupArchive {
   ZipBackupArchive({
     required this.plants,
     required this.careLogs,
@@ -28,6 +29,7 @@ class ZipBackupArchive {
   final PhotoStore photos;
 
   /// Writes all data and the photos referenced by the journal to [zipPath].
+  @override
   Future<void> export(String zipPath) async {
     final backup = await createBackup(
       plants: plants,
@@ -49,6 +51,7 @@ class ZipBackupArchive {
   /// [FormatException] (and changes nothing) if the file is not a valid
   /// backup. Photos of the replaced journal that are not in the backup are
   /// deleted.
+  @override
   Future<void> restore(String zipPath) async {
     final archive = _decode(await File(zipPath).readAsBytes());
     final data = archive.findFile(dataFile)?.readBytes();
