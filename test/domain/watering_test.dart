@@ -25,7 +25,10 @@ void main() {
 
     test('normalizes the last watering to its calendar day', () {
       expect(
-        plant(every: 7, lastWatered: DateTime(2026, 9, 28, 18, 30)).lastWateredOn,
+        plant(
+          every: 7,
+          lastWatered: DateTime(2026, 9, 28, 18, 30),
+        ).lastWateredOn,
         DateTime.utc(2026, 9, 28),
       );
     });
