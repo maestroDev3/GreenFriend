@@ -74,12 +74,18 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     last: widget.plant?.lastRepottedOn,
     today: _today,
   );
+  late final _prune = _ScheduleInput(
+    interval: widget.plant?.pruningIntervalMonths,
+    last: widget.plant?.lastPrunedOn,
+    today: _today,
+  );
   var _saving = false;
 
   List<(CareKind, _ScheduleInput)> get _schedules => [
     (const Water(), _water),
     (const Fertilize(), _fertilize),
     (const Repot(), _repot),
+    (const Prune(), _prune),
   ];
 
   @override
@@ -125,6 +131,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     final water = _water.interval(max: 365);
     final fertilize = _fertilize.interval(max: 365);
     final repot = _repot.interval(max: 60);
+    final prune = _prune.interval(max: 60);
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -139,6 +146,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           lastFertilizedOn: _fertilize.lastToSave(fertilize),
           repottingIntervalMonths: repot,
           lastRepottedOn: _repot.lastToSave(repot),
+          pruningIntervalMonths: prune,
+          lastPrunedOn: _prune.lastToSave(prune),
         ),
       );
     } else {
@@ -153,6 +162,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         lastFertilizedOn: _fertilize.lastToSave(fertilize),
         repottingIntervalMonths: repot,
         lastRepottedOn: _repot.lastToSave(repot),
+        pruningIntervalMonths: prune,
+        lastPrunedOn: _prune.lastToSave(prune),
       );
     }
     if (!mounted) return;
@@ -160,7 +171,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   }
 
   Future<void> _pickLastDone(CareKind kind, _ScheduleInput input) async {
-    final lookBack = kind is Repot ? 5 * 365 : 365;
+    final lookBack = kind is Repot || kind is Prune ? 5 * 365 : 365;
     final picked = await showDatePicker(
       context: context,
       initialDate: input.last.isAfter(_today) ? _today : input.last,
