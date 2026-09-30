@@ -6,6 +6,9 @@ abstract interface class JournalRepository {
   /// after every change.
   Stream<List<JournalEntry>> watchEntries(String plantId);
 
+  /// The current entries of [plantId], newest first.
+  Future<List<JournalEntry>> entriesFor(String plantId);
+
   /// Throws [ArgumentError] if there is neither a note nor a photo.
   Future<JournalEntry> add({
     required String plantId,

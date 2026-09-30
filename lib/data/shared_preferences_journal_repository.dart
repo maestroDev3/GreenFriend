@@ -47,6 +47,10 @@ class SharedPreferencesJournalRepository implements JournalRepository {
       });
 
   @override
+  Future<List<JournalEntry>> entriesFor(String plantId) async =>
+      _of(_entries, plantId);
+
+  @override
   Future<JournalEntry> add({
     required String plantId,
     required DateTime day,
