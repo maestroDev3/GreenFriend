@@ -97,5 +97,47 @@ void main() {
         'not json',
       );
     });
+
+    test('keeps the watering schedule across a restart', () async {
+      final plant = await (await openRepository()).add(
+        name: 'Monstera',
+        wateringIntervalDays: 7,
+        lastWateredOn: DateTime(2026, 9, 28),
+      );
+
+      final loaded = (await currentPlants(await openRepository())).single;
+
+      expect(loaded, plant);
+      expect(loaded.wateringIntervalDays, 7);
+      expect(loaded.lastWateredOn, DateTime.utc(2026, 9, 28));
+    });
+
+    test('stores the last watering as an ISO calendar day', () async {
+      await (await openRepository()).add(
+        name: 'Monstera',
+        wateringIntervalDays: 7,
+        lastWateredOn: DateTime(2026, 9, 28, 21, 45),
+      );
+      final preferences = await SharedPreferences.getInstance();
+
+      expect(
+        preferences.getString(SharedPreferencesPlantRepository.plantsKey),
+        contains('"lastWateredOn":"2026-09-28"'),
+      );
+    });
+
+    test('loads plants stored before the watering fields existed', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe","species":null,"location":"Kitchen"}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.name, 'Aloe');
+      expect(plant.location, 'Kitchen');
+      expect(plant.wateringIntervalDays, isNull);
+      expect(plant.lastWateredOn, isNull);
+    });
   });
 }
