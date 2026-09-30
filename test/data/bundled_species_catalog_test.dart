@@ -5,8 +5,36 @@ void main() {
   final catalog = BundledSpeciesCatalog();
 
   group('BundledSpeciesCatalog', () {
-    test('contains at least 60 species', () {
-      expect(catalog.all.length, greaterThanOrEqualTo(60));
+    test('contains at least 100 species', () {
+      expect(catalog.all.length, greaterThanOrEqualTo(100));
+    });
+
+    test('finds bonsai, all with a pruning interval', () {
+      final bonsai = catalog.search('bonsai', languageCode: 'en');
+
+      expect(bonsai.length, greaterThanOrEqualTo(5));
+      for (final species in bonsai) {
+        expect(species.pruningIntervalMonths, isNotNull, reason: species.id);
+      }
+    });
+
+    test('finds balcony plants and herbs in German', () {
+      expect(
+        catalog.search('Geranie', languageCode: 'de').first.id,
+        'pelargonium-zonale',
+      );
+      expect(
+        catalog.search('Lavendel', languageCode: 'de').first.id,
+        'lavandula-angustifolia',
+      );
+      expect(
+        catalog.search('Olivenbaum', languageCode: 'de').first.id,
+        'olea-europaea',
+      );
+      expect(
+        catalog.search('Basilikum', languageCode: 'de').first.id,
+        'ocimum-basilicum',
+      );
     });
 
     test('has unique ids and scientific names', () {
