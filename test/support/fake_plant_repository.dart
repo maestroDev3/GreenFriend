@@ -43,6 +43,8 @@ class FakePlantRepository implements PlantRepository {
     DateTime? lastFertilizedOn,
     int? repottingIntervalMonths,
     DateTime? lastRepottedOn,
+    int? pruningIntervalMonths,
+    DateTime? lastPrunedOn,
   }) async {
     final plant = Plant(
       id: 'fake-${_nextId++}',
@@ -56,6 +58,8 @@ class FakePlantRepository implements PlantRepository {
       lastFertilizedOn: lastFertilizedOn,
       repottingIntervalMonths: repottingIntervalMonths,
       lastRepottedOn: lastRepottedOn,
+      pruningIntervalMonths: pruningIntervalMonths,
+      lastPrunedOn: lastPrunedOn,
     );
     _plants.add(plant);
     _changes.add(plants);

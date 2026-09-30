@@ -43,6 +43,44 @@ void main() {
       );
     });
 
+    test('keeps a pruning schedule with the day normalized', () {
+      final plant = Plant(
+        id: 'p1',
+        name: 'Olive',
+        pruningIntervalMonths: 12,
+        lastPrunedOn: DateTime(2026, 3, 14, 17, 30),
+      );
+
+      expect(plant.pruningIntervalMonths, 12);
+      expect(plant.lastPrunedOn, DateTime.utc(2026, 3, 14));
+      expect(
+        plant.copyWith(name: 'Olea'),
+        Plant(
+          id: 'p1',
+          name: 'Olea',
+          pruningIntervalMonths: 12,
+          lastPrunedOn: DateTime.utc(2026, 3, 14),
+        ),
+      );
+      expect(plant, isNot(plant.copyWith(pruningIntervalMonths: 6)));
+      expect(
+        plant,
+        isNot(plant.copyWith(lastPrunedOn: DateTime.utc(2026, 3, 15))),
+      );
+    });
+
+    test('rejects pruning intervals outside 1 to 60 months', () {
+      expect(
+        () => Plant(id: 'p1', name: 'O', pruningIntervalMonths: 0),
+        throwsArgumentError,
+      );
+      expect(
+        () => Plant(id: 'p1', name: 'O', pruningIntervalMonths: 61),
+        throwsArgumentError,
+      );
+      expect(Plant(id: 'p1', name: 'O', pruningIntervalMonths: 60), isA<Plant>());
+    });
+
     test('rejects an empty or blank name', () {
       expect(() => Plant(id: 'p1', name: ''), throwsArgumentError);
       expect(() => Plant(id: 'p1', name: '   '), throwsArgumentError);
