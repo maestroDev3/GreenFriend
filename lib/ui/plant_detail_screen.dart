@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../domain/care_log_repository.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/watering.dart';
 import '../l10n/app_localizations.dart';
 import 'plant_form_screen.dart';
+import 'watering_actions.dart';
 import 'widgets/watering_label.dart';
 
 /// Everything about one plant: its details, its watering and when it needs
@@ -14,11 +16,13 @@ class PlantDetailScreen extends StatefulWidget {
   const PlantDetailScreen({
     super.key,
     required this.plants,
+    required this.careLogs,
     required this.plantId,
     this.clock = DateTime.now,
   });
 
   final PlantRepository plants;
+  final CareLogRepository careLogs;
   final String plantId;
 
   /// Supplies today's date for the next watering.
@@ -70,6 +74,13 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
               : _Details(
                   plant: plant,
                   status: wateringStatus(plant, widget.clock()),
+                  onWatered: () => waterWithUndo(
+                    context,
+                    plants: widget.plants,
+                    careLogs: widget.careLogs,
+                    plant: plant,
+                    today: widget.clock(),
+                  ),
                 ),
         );
       },
@@ -78,10 +89,15 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
 }
 
 class _Details extends StatelessWidget {
-  const _Details({required this.plant, required this.status});
+  const _Details({
+    required this.plant,
+    required this.status,
+    required this.onWatered,
+  });
 
   final Plant plant;
   final WateringStatus status;
+  final VoidCallback onWatered;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +148,12 @@ class _Details extends StatelessWidget {
                   Text(l10n.nextWatering, style: text.titleMedium),
                   const SizedBox(height: 8),
                   WateringLabel(status),
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    onPressed: onWatered,
+                    icon: const Icon(Icons.check),
+                    label: Text(l10n.watered),
+                  ),
                 ],
               ),
             ),

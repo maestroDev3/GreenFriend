@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/care_log_repository.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
@@ -9,6 +10,7 @@ import '../l10n/app_localizations.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_screen.dart';
+import 'watering_actions.dart';
 import 'widgets/watering_label.dart';
 
 /// The start screen: the user's plants, or a friendly hint while there are
@@ -17,10 +19,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
     required this.plants,
+    required this.careLogs,
     this.clock = DateTime.now,
   });
 
   final PlantRepository plants;
+  final CareLogRepository careLogs;
 
   /// Supplies today's date for watering defaults and due dates.
   final Clock clock;
@@ -62,11 +66,20 @@ class _HomeScreenState extends State<HomeScreen> {
             plants: plants,
             today: widget.clock(),
             onOpen: _openDetail,
+            onWatered: _water,
           ),
         },
       ),
     );
   }
+
+  Future<void> _water(Plant plant) => waterWithUndo(
+    context,
+    plants: widget.plants,
+    careLogs: widget.careLogs,
+    plant: plant,
+    today: widget.clock(),
+  );
 
   void _openForm() {
     Navigator.of(context).push(
@@ -82,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
       MaterialPageRoute<void>(
         builder: (_) => PlantDetailScreen(
           plants: widget.plants,
+          careLogs: widget.careLogs,
           plantId: plant.id,
           clock: widget.clock,
         ),
@@ -116,11 +130,13 @@ class _PlantOverview extends StatelessWidget {
     required this.plants,
     required this.today,
     required this.onOpen,
+    required this.onWatered,
   });
 
   final List<Plant> plants;
   final DateTime today;
   final ValueChanged<Plant> onOpen;
+  final ValueChanged<Plant> onWatered;
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +175,7 @@ class _PlantOverview extends StatelessWidget {
                 sorted[index],
                 status: wateringStatus(sorted[index], today),
                 onTap: () => onOpen(sorted[index]),
+                onWatered: () => onWatered(sorted[index]),
               ),
             ),
           ),
@@ -199,11 +216,17 @@ class _SummaryCard extends StatelessWidget {
 }
 
 class _PlantCard extends StatelessWidget {
-  const _PlantCard(this.plant, {required this.status, required this.onTap});
+  const _PlantCard(
+    this.plant, {
+    required this.status,
+    required this.onTap,
+    required this.onWatered,
+  });
 
   final Plant plant;
   final WateringStatus status;
   final VoidCallback onTap;
+  final VoidCallback onWatered;
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +245,9 @@ class _PlantCard extends StatelessWidget {
                 child: const Icon(Icons.eco_outlined),
               ),
               const SizedBox(width: 16),
-              Expanded(child: _PlantTexts(plant, status: status)),
+              Expanded(
+                child: _PlantTexts(plant, status: status, onWatered: onWatered),
+              ),
             ],
           ),
         ),
@@ -232,10 +257,15 @@ class _PlantCard extends StatelessWidget {
 }
 
 class _PlantTexts extends StatelessWidget {
-  const _PlantTexts(this.plant, {required this.status});
+  const _PlantTexts(
+    this.plant, {
+    required this.status,
+    required this.onWatered,
+  });
 
   final Plant plant;
   final WateringStatus status;
+  final VoidCallback onWatered;
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +293,16 @@ class _PlantTexts extends StatelessWidget {
         if (status is! NotScheduled)
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: WateringLabel(status),
+            child: Row(
+              children: [
+                Expanded(child: WateringLabel(status)),
+                TextButton.icon(
+                  onPressed: onWatered,
+                  icon: const Icon(Icons.check),
+                  label: Text(AppLocalizations.of(context).watered),
+                ),
+              ],
+            ),
           ),
       ],
     );

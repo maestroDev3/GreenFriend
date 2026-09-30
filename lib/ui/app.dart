@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/care_log_repository.dart';
 import '../domain/plant_repository.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
@@ -15,10 +16,12 @@ class GreenFriendApp extends StatelessWidget {
     super.key,
     required this.settings,
     required this.plants,
+    required this.careLogs,
   });
 
   final SettingsController settings;
   final PlantRepository plants;
+  final CareLogRepository careLogs;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class GreenFriendApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
-          home: HomeScreen(plants: plants),
+          home: HomeScreen(plants: plants, careLogs: careLogs),
         ),
       ),
     );

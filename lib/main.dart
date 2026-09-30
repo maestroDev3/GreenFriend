@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/shared_preferences_care_log_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'ui/app.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
     GreenFriendApp(
       settings: settings,
       plants: SharedPreferencesPlantRepository(preferences),
+      careLogs: SharedPreferencesCareLogRepository(preferences),
     ),
   );
 }

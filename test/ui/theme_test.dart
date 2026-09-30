@@ -6,6 +6,7 @@ import 'package:green_friend/ui/app.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/contrast.dart';
 import '../support/fake_settings_repository.dart';
@@ -105,6 +106,7 @@ void main() {
   testWidgets('GreenFriendApp uses the light and dark theme', (tester) async {
     await tester.pumpWidget(
       GreenFriendApp(
+        careLogs: FakeCareLogRepository(),
         settings: SettingsController(FakeSettingsRepository()),
         plants: FakePlantRepository(),
       ),
