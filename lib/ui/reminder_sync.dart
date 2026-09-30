@@ -85,10 +85,26 @@ class ReminderSync {
           id: index + 1,
           at: reminder.at,
           title: l10n.reminderTitle,
-          body: l10n.reminderBody(reminder.plantNames.join(', ')),
+          body: reminderText(l10n, reminder),
         ),
     ]);
   }
+}
+
+/// "Water today: Monstera, Pothos" for watering only, otherwise the kinds
+/// separately, e.g. "Water: Monstera · Fertilize: Pothos".
+String reminderText(AppLocalizations l10n, PlannedReminder reminder) {
+  if (reminder.fertilize.isEmpty && reminder.repot.isEmpty) {
+    return l10n.reminderBody(reminder.plantNames.join(', '));
+  }
+  return [
+    if (reminder.plantNames.isNotEmpty)
+      l10n.reminderWater(reminder.plantNames.join(', ')),
+    if (reminder.fertilize.isNotEmpty)
+      l10n.reminderFertilize(reminder.fertilize.join(', ')),
+    if (reminder.repot.isNotEmpty)
+      l10n.reminderRepot(reminder.repot.join(', ')),
+  ].join(' · ');
 }
 
 /// The texts for the language chosen in the settings (or the device

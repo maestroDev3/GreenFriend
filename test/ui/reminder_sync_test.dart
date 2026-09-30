@@ -125,5 +125,57 @@ void main() {
         expect(setup.scheduler.permissionRequests, 1);
       },
     );
+
+    test('lists fertilizing and repotting separately', () async {
+      final setup = Setup(
+        plants: [
+          monstera(),
+          Plant(
+            id: '2',
+            name: 'Pothos',
+            fertilizingIntervalDays: 10,
+            lastFertilizedOn: DateTime(2026, 9, 20),
+          ),
+        ],
+      );
+
+      await setup.start();
+
+      expect(
+        setup.scheduler.scheduled.first.body,
+        'Water: Monstera · Fertilize: Pothos',
+      );
+    });
+
+    test('writes the reminder in German', () async {
+      final setup = Setup(
+        plants: [
+          monstera(),
+          Plant(
+            id: '2',
+            name: 'Pothos',
+            repottingIntervalMonths: 12,
+            lastRepottedOn: DateTime(2025, 9, 1),
+          ),
+        ],
+      );
+      final german = ReminderSync(
+        plants: setup.plants,
+        settings: setup.settings,
+        scheduler: setup.scheduler,
+        clock: fixedNow,
+        localizations: () => lookupAppLocalizations(const Locale('de')),
+      );
+
+      await setup.settings.load();
+      german.start();
+      await german.idle;
+
+      expect(setup.scheduler.scheduled.first.title, 'Zeit zum Gießen');
+      expect(
+        setup.scheduler.scheduled.first.body,
+        'Gießen: Monstera · Umtopfen: Pothos',
+      );
+    });
   });
 }

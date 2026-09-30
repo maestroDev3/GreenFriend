@@ -8,18 +8,18 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #9 Fertilizing and repotting – Epic #5 Care and reminders (being refined)
+- #25 Care calendar: what is due when and where – Epic #5 Care and reminders (being refined)
 
 ## Up next
 
-- #25 Care calendar, then #29 App navigation: bottom bar
+- #29 App navigation: bottom bar
 
 ## Backlog by epic
 
 | Epic | Stories (in order) |
 |---|---|
 | #1 Foundation | #29 App navigation: bottom bar (after #25) |
-| #5 Care and reminders | #9 Fertilizing and repotting (`in-progress`) → #25 Care calendar: what is due when and where |
+| #5 Care and reminders | #25 Care calendar: what is due when and where (`in-progress`) |
 | #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
 | #10 Growth journal | #11 Photos and notes per plant → #12 Timeline with before/after |
 | #16 Data safety | #17 Backup and export |
@@ -29,11 +29,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #9 Fertilizing and repotting
 - #7 Reminders as notifications (daily, inexact, time in settings)
 - #8 Confirm care and history
 - #4 Home screen: plants that need attention today on top
 - #28 Plant detail page
-- #6 Watering interval and due-date logic
 
 ## Open decisions (user only)
 

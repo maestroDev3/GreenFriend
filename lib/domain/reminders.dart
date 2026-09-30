@@ -1,6 +1,7 @@
+import 'care_log.dart';
+import 'care_status.dart';
 import 'clock.dart';
 import 'plant.dart';
-import 'care_status.dart';
 
 /// Time of day for the daily reminder.
 class ReminderTime {
@@ -63,33 +64,55 @@ class ReminderSettings {
   String toString() => 'ReminderSettings($enabled, $time)';
 }
 
-/// One daily reminder: when it fires and which plants need water.
+/// One daily reminder: when it fires and which plants need which care.
 class PlannedReminder {
-  const PlannedReminder({required this.at, required this.plantNames});
+  const PlannedReminder({
+    required this.at,
+    required this.plantNames,
+    this.fertilize = const [],
+    this.repot = const [],
+  });
 
   /// Local date and time of the reminder.
   final DateTime at;
+
+  /// Plants that need water.
   final List<String> plantNames;
+
+  /// Plants that need fertilizer.
+  final List<String> fertilize;
+
+  /// Plants that need repotting.
+  final List<String> repot;
 
   @override
   bool operator ==(Object other) =>
       other is PlannedReminder &&
       other.at == at &&
-      other.plantNames.length == plantNames.length &&
-      Iterable.generate(plantNames.length)
-          .every((i) => other.plantNames[i] == plantNames[i]);
+      _sameNames(other.plantNames, plantNames) &&
+      _sameNames(other.fertilize, fertilize) &&
+      _sameNames(other.repot, repot);
 
   @override
-  int get hashCode => Object.hash(at, Object.hashAll(plantNames));
+  int get hashCode => Object.hash(
+    at,
+    Object.hashAll(plantNames),
+    Object.hashAll(fertilize),
+    Object.hashAll(repot),
+  );
 
   @override
-  String toString() => 'PlannedReminder($at, $plantNames)';
+  String toString() => 'PlannedReminder($at, $plantNames, $fertilize, $repot)';
+
+  static bool _sameNames(List<String> a, List<String> b) =>
+      a.length == b.length &&
+      Iterable.generate(a.length).every((i) => a[i] == b[i]);
 }
 
 /// Plans one reminder per day for up to [days] days, starting today if
-/// [time] is still ahead, otherwise tomorrow. Each lists the plants that are
-/// due or overdue that day, assuming nobody waters in between; days without
-/// such plants get no reminder.
+/// [time] is still ahead, otherwise tomorrow. Each lists the plants whose
+/// watering, fertilizing or repotting is due or overdue that day, assuming
+/// nothing is done in between; days without such plants get no reminder.
 List<PlannedReminder> plannedReminders(
   Iterable<Plant> plants, {
   required DateTime now,
@@ -101,20 +124,28 @@ List<PlannedReminder> plannedReminders(
       now.hour > time.hour ||
       (now.hour == time.hour && now.minute >= time.minute);
   final sorted = sortedByName(plants);
-  return [
-    for (var offset = passed ? 1 : 0; offset < days; offset++)
-      if (_dueOn(sorted, today.add(Duration(days: offset))) case final names
-          when names.isNotEmpty)
-        PlannedReminder(
-          at: _localAt(today.add(Duration(days: offset)), time),
-          plantNames: names,
-        ),
-  ];
+  final reminders = <PlannedReminder>[];
+  for (var offset = passed ? 1 : 0; offset < days; offset++) {
+    final day = today.add(Duration(days: offset));
+    final water = _dueOn(sorted, const Water(), day);
+    final fertilize = _dueOn(sorted, const Fertilize(), day);
+    final repot = _dueOn(sorted, const Repot(), day);
+    if (water.isEmpty && fertilize.isEmpty && repot.isEmpty) continue;
+    reminders.add(
+      PlannedReminder(
+        at: _localAt(day, time),
+        plantNames: water,
+        fertilize: fertilize,
+        repot: repot,
+      ),
+    );
+  }
+  return reminders;
 }
 
-List<String> _dueOn(List<Plant> plants, DateTime day) => [
+List<String> _dueOn(List<Plant> plants, CareKind kind, DateTime day) => [
   for (final plant in plants)
-    if (wateringStatus(plant, day) case DueToday() || Overdue()) plant.name,
+    if (careStatus(plant, kind, day) case DueToday() || Overdue()) plant.name,
 ];
 
 DateTime _localAt(DateTime day, ReminderTime time) =>
