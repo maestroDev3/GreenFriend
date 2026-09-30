@@ -143,5 +143,27 @@
         "example": "3"
       }
     }
+  },
+  "wateringTileTitle": "Water",
+  "@wateringTileTitle": {
+    "description": "Title of the watering tile on the plant detail page."
+  },
+  "wateringEvery": "{days, plural, =1{Every day} other{Every {days} days}}",
+  "@wateringEvery": {
+    "description": "Watering interval on the plant detail page.",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "noWateringSchedule": "No schedule",
+  "@noWateringSchedule": {
+    "description": "Shown on the watering tile when the plant has no interval."
+  },
+  "nextWatering": "Next watering",
+  "@nextWatering": {
+    "description": "Title of the card with the next watering on the plant detail page."
   }
 }

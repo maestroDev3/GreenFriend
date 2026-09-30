@@ -9,6 +9,8 @@ import '../domain/watering.dart';
 import '../l10n/app_localizations.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
+///
+/// Pops with `true` when the plant was deleted.
 class PlantFormScreen extends StatefulWidget {
   const PlantFormScreen({
     super.key,
@@ -121,7 +123,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     if (confirmed != true) return;
     await widget.plants.delete(plant.id);
     if (!mounted) return;
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   @override
