@@ -54,12 +54,8 @@ Future<void> pumpDetail(WidgetTester tester, List<JournalEntry> entries) {
   );
 }
 
-Future<void> scrollTo(WidgetTester tester, Finder finder) =>
-    tester.scrollUntilVisible(
-      finder,
-      100,
-      scrollable: find.byType(Scrollable).first,
-    );
+Future<void> scrollTo(WidgetTester tester, Finder finder) => tester
+    .scrollUntilVisible(finder, 100, scrollable: find.byType(Scrollable).first);
 
 void main() {
   group('TimelineScreen', () {

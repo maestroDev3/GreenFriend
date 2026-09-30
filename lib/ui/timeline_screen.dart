@@ -25,8 +25,9 @@ class TimelineScreen extends StatefulWidget {
 }
 
 class _TimelineScreenState extends State<TimelineScreen> {
-  late final Stream<List<JournalEntry>> _entries = widget.journal
-      .watchEntries(widget.plantId);
+  late final Stream<List<JournalEntry>> _entries = widget.journal.watchEntries(
+    widget.plantId,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +47,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(4, 12, 4, 8),
                   child: Text(
-                    DateFormat.yMMMM(
-                      locale,
-                    ).format(DateTime(month.year, month.month)),
+                    DateFormat.yMMMM(locale)
+                        .format(DateTime(month.year, month.month)),
                     style: text.titleLarge,
                   ),
                 ),
@@ -75,9 +75,8 @@ class _TimelineTile extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final entry = item.entry;
-    final date = DateFormat.yMMMd(
-      Localizations.localeOf(context).toString(),
-    ).format(entry.day);
+    final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(entry.day);
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,7 +94,9 @@ class _TimelineTile extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-                Expanded(child: Container(width: 2, color: scheme.secondaryContainer)),
+                Expanded(
+                  child: Container(width: 2, color: scheme.secondaryContainer),
+                ),
               ],
             ),
           ),
