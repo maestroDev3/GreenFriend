@@ -29,7 +29,10 @@ Future<void> pumpDetail(
   Locale locale = const Locale('en'),
 }) async {
   await tester.pumpApp(
-    PlantDetailScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+    PlantDetailScreen(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
+      photoPicker: FakePhotoPicker(),
       plants: FakePlantRepository([monstera()]),
       careLogs: logs,
       plantId: '1',
@@ -99,7 +102,10 @@ void main() {
       waterLog('other', DateTime(2026, 9, 21), plantId: '2'),
     ]);
     await tester.pumpApp(
-      HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+      HomeScreen(
+        journal: FakeJournalRepository(),
+        photos: FakePhotoStore(),
+        photoPicker: FakePhotoPicker(),
         plants: FakePlantRepository([monstera()]),
         careLogs: logs,
         clock: fixedNow,

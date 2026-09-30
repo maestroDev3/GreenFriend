@@ -21,7 +21,10 @@ Future<void> pumpShell(
   Locale locale = const Locale('en'),
 }) {
   return tester.pumpApp(
-    AppShell(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+    AppShell(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
+      photoPicker: FakePhotoPicker(),
       plants: FakePlantRepository(plants),
       careLogs: FakeCareLogRepository(),
       clock: fixedNow,

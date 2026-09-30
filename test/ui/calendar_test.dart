@@ -109,7 +109,10 @@ void main() {
 
   testWidgets('the home screen opens the calendar', (tester) async {
     await tester.pumpApp(
-      HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+      HomeScreen(
+        journal: FakeJournalRepository(),
+        photos: FakePhotoStore(),
+        photoPicker: FakePhotoPicker(),
         plants: FakePlantRepository(plants()),
         careLogs: FakeCareLogRepository(),
         clock: fixedNow,

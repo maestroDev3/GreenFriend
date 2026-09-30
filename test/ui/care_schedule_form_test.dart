@@ -29,7 +29,9 @@ Future<void> pumpForm(
   Locale locale = const Locale('en'),
 }) {
   return tester.pumpApp(
-    PlantFormScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), 
+    PlantFormScreen(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
       plants: plants,
       careLogs: FakeCareLogRepository(),
       plant: plant,

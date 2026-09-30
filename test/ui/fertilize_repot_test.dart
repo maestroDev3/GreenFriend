@@ -29,7 +29,10 @@ Future<void> pumpDetail(
   Locale locale = const Locale('en'),
 }) {
   return tester.pumpApp(
-    PlantDetailScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+    PlantDetailScreen(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
+      photoPicker: FakePhotoPicker(),
       plants: plants,
       careLogs: logs,
       plantId: '1',
@@ -120,7 +123,10 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           plants: FakePlantRepository([pothos(), fertilizeToday()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
@@ -142,7 +148,10 @@ void main() {
         lastFertilizedOn: DateTime(2026, 9, 20),
       );
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           plants: FakePlantRepository([plant, fertilizeToday()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
@@ -154,7 +163,10 @@ void main() {
 
     testWidgets('shows the pills in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           plants: FakePlantRepository([fertilizeToday()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
