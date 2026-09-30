@@ -50,9 +50,8 @@ class PlannedReminder {
       other is PlannedReminder &&
       other.at == at &&
       other.plantNames.length == plantNames.length &&
-      Iterable.generate(
-        plantNames.length,
-      ).every((i) => other.plantNames[i] == plantNames[i]);
+      Iterable.generate(plantNames.length)
+          .every((i) => other.plantNames[i] == plantNames[i]);
 
   @override
   int get hashCode => Object.hash(at, Object.hashAll(plantNames));
@@ -73,12 +72,13 @@ List<PlannedReminder> plannedReminders(
 }) {
   final today = dayOf(now);
   final passed =
-      now.hour > time.hour || (now.hour == time.hour && now.minute >= time.minute);
+      now.hour > time.hour ||
+      (now.hour == time.hour && now.minute >= time.minute);
   final sorted = sortedByName(plants);
   return [
     for (var offset = passed ? 1 : 0; offset < days; offset++)
-      if (_dueOn(sorted, today.add(Duration(days: offset)))
-          case final names when names.isNotEmpty)
+      if (_dueOn(sorted, today.add(Duration(days: offset))) case final names
+          when names.isNotEmpty)
         PlannedReminder(
           at: _localAt(today.add(Duration(days: offset)), time),
           plantNames: names,
