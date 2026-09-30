@@ -33,7 +33,8 @@ Future<void> pumpYear(
   await tester.pumpAndSettle();
 }
 
-Finder monthTile(String isoMonth) => find.byKey(ValueKey('year-month-$isoMonth'));
+Finder monthTile(String isoMonth) =>
+    find.byKey(ValueKey('year-month-$isoMonth'));
 
 String monthText(WidgetTester tester, String isoMonth) => tester
     .widgetList<Text>(

@@ -398,52 +398,79 @@ class _YearView extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              childAspectRatio: 1.2,
-            ),
-            itemCount: 12,
-            itemBuilder: (context, index) {
-              final month = DateTime.utc(year, index + 1);
-              final count = counts[index + 1] ?? 0;
-              return Card(
-                key: ValueKey(
-                  'year-month-$year-${(index + 1).toString().padLeft(2, '0')}',
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () => onOpen(month),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          DateFormat.MMMM(locale).format(month),
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.titleSmall,
-                        ),
-                        if (count > 0)
-                          Text(
-                            l10n.careTaskCount(count),
-                            textAlign: TextAlign.center,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.tertiary,
-                            ),
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
+            children: [
+              for (var row = 0; row < 4; row++)
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var column = 0; column < 3; column++)
+                        Expanded(
+                          child: _YearMonth(
+                            month: DateTime.utc(year, row * 3 + column + 1),
+                            count: counts[row * 3 + column + 1] ?? 0,
+                            onTap: onOpen,
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
                 ),
-              );
-            },
+            ],
           ),
         ),
       ],
+    );
+  }
+}
+
+/// One month tile of the year view; grows with its text.
+class _YearMonth extends StatelessWidget {
+  const _YearMonth({
+    required this.month,
+    required this.count,
+    required this.onTap,
+  });
+
+  final DateTime month;
+  final int count;
+  final ValueChanged<DateTime> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    return Card(
+      key: ValueKey(
+        'year-month-${month.year}-${month.month.toString().padLeft(2, '0')}',
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => onTap(month),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                DateFormat.MMMM(locale).format(month),
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleSmall,
+              ),
+              if (count > 0)
+                Text(
+                  l10n.careTaskCount(count),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.tertiary,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
