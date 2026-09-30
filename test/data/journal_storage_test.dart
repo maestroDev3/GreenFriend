@@ -113,6 +113,13 @@ void main() {
       expect(store.fileFor(name).existsSync(), isFalse);
     });
 
+    test('reads and writes photo bytes', () async {
+      await store.writeBytes('x.jpg', [4, 5]);
+
+      expect(await store.readBytes('x.jpg'), [4, 5]);
+      expect(await store.readBytes('missing.jpg'), isNull);
+    });
+
     test('ignores deleting a photo that does not exist', () async {
       await store.delete('missing.jpg');
     });
