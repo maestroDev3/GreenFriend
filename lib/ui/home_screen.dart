@@ -84,8 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void _openForm() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) =>
-            PlantFormScreen(plants: widget.plants, clock: widget.clock),
+        builder: (_) => PlantFormScreen(
+          plants: widget.plants,
+          careLogs: widget.careLogs,
+          clock: widget.clock,
+        ),
       ),
     );
   }

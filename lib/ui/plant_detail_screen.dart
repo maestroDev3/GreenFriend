@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
@@ -36,12 +38,16 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
   late final Stream<Plant?> _plant = widget.plants.watchPlants().map(
     (plants) => plants.where((plant) => plant.id == widget.plantId).firstOrNull,
   );
+  late final Stream<List<CareLog>> _logs = widget.careLogs.watchLogs(
+    widget.plantId,
+  );
 
   Future<void> _edit(Plant plant) async {
     final deleted = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => PlantFormScreen(
           plants: widget.plants,
+          careLogs: widget.careLogs,
           plant: plant,
           clock: widget.clock,
         ),
@@ -73,6 +79,11 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
               ? const SizedBox.shrink()
               : _Details(
                   plant: plant,
+                  history: StreamBuilder<List<CareLog>>(
+                    stream: _logs,
+                    builder: (context, snapshot) =>
+                        _History(snapshot.data ?? const []),
+                  ),
                   status: wateringStatus(plant, widget.clock()),
                   onWatered: () => waterWithUndo(
                     context,
@@ -93,11 +104,13 @@ class _Details extends StatelessWidget {
     required this.plant,
     required this.status,
     required this.onWatered,
+    required this.history,
   });
 
   final Plant plant;
   final WateringStatus status;
   final VoidCallback onWatered;
+  final Widget history;
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +172,54 @@ class _Details extends StatelessWidget {
             ),
           ),
         ],
+        const SizedBox(height: 24),
+        history,
+      ],
+    );
+  }
+}
+
+/// The most recent care, newest first.
+class _History extends StatelessWidget {
+  const _History(this.logs);
+
+  static const maxEntries = 10;
+
+  final List<CareLog> logs;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final dates = DateFormat.yMMMd(Localizations.localeOf(context).toString());
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(l10n.history, style: theme.textTheme.titleLarge),
+        const SizedBox(height: 8),
+        if (logs.isEmpty)
+          Text(l10n.noCareLogged, style: theme.textTheme.bodyMedium)
+        else
+          Card(
+            child: Column(
+              children: [
+                for (final log in logs.take(maxEntries))
+                  ListTile(
+                    leading: Icon(switch (log.kind) {
+                      Water() => Icons.water_drop_outlined,
+                      Fertilize() => Icons.science_outlined,
+                      Repot() => Icons.yard_outlined,
+                    }, color: theme.colorScheme.primary),
+                    title: Text(dates.format(log.day)),
+                    subtitle: Text(switch (log.kind) {
+                      Water() => l10n.watered,
+                      Fertilize() => l10n.fertilized,
+                      Repot() => l10n.repotted,
+                    }),
+                  ),
+              ],
+            ),
+          ),
       ],
     );
   }

@@ -40,5 +40,9 @@
   "myPlants": "Meine Pflanzen",
   "watered": "Gegossen",
   "plantWatered": "{name} gegossen",
-  "undo": "Rückgängig"
+  "undo": "Rückgängig",
+  "history": "Verlauf",
+  "noCareLogged": "Noch keine Pflege eingetragen",
+  "fertilized": "Gedüngt",
+  "repotted": "Umgetopft"
 }
