@@ -42,7 +42,9 @@ Future<void> pumpCompare(
 }
 
 double revealed(WidgetTester tester) =>
-    tester.widget<Align>(find.byKey(const ValueKey('before-clip'))).widthFactor ??
+    tester
+        .widget<Align>(find.byKey(const ValueKey('before-clip')))
+        .widthFactor ??
     1;
 
 void main() {
@@ -55,7 +57,10 @@ void main() {
     });
 
     test('needs at least two photos', () {
-      expect(defaultComparison([photoEntry('only', DateTime(2026, 9, 1))]), isNull);
+      expect(
+        defaultComparison([photoEntry('only', DateTime(2026, 9, 1))]),
+        isNull,
+      );
     });
   });
 

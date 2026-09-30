@@ -26,8 +26,9 @@ class CompareScreen extends StatefulWidget {
 }
 
 class _CompareScreenState extends State<CompareScreen> {
-  late final Stream<List<JournalEntry>> _entries = widget.journal
-      .watchEntries(widget.plantId);
+  late final Stream<List<JournalEntry>> _entries = widget.journal.watchEntries(
+    widget.plantId,
+  );
   String? _beforeId;
   String? _afterId;
   var _position = 0.5;
@@ -124,14 +125,20 @@ class _Comparison extends StatelessWidget {
         const SizedBox(height: 16),
         _PhotoChoice(
           title: l10n.chooseBefore,
-          options: [for (final entry in photos) if (entry != after) entry],
+          options: [
+            for (final entry in photos)
+              if (entry != after) entry,
+          ],
           selected: before,
           onSelected: onBefore,
         ),
         const SizedBox(height: 12),
         _PhotoChoice(
           title: l10n.chooseAfter,
-          options: [for (final entry in photos) if (entry != before) entry],
+          options: [
+            for (final entry in photos)
+              if (entry != before) entry,
+          ],
           selected: after,
           onSelected: onAfter,
         ),
