@@ -637,6 +637,11 @@ class _TaskCard extends StatelessWidget {
         l10n.everyMonths(plant.repottingIntervalMonths ?? 0),
         Icons.yard_outlined,
       ),
+      Prune() => (
+        l10n.careTaskPrune(plant.name),
+        l10n.everyMonths(plant.pruningIntervalMonths ?? 0),
+        Icons.content_cut,
+      ),
     };
     final details = [
       interval,

@@ -127,5 +127,17 @@
   "calendarYear": "Jahr",
   "previousYear": "Vorheriges Jahr",
   "nextYear": "Nächstes Jahr",
-  "careTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}"
+  "careTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}",
+  "pruningTitle": "Zurückschneiden",
+  "pruned": "Zurückgeschnitten",
+  "pruneToday": "Heute zurückschneiden",
+  "pruneInDays": "{days, plural, =1{In 1 Tag zurückschneiden} other{In {days} Tagen zurückschneiden}}",
+  "pruneInMonths": "{months, plural, =1{In 1 Monat zurückschneiden} other{In {months} Monaten zurückschneiden}}",
+  "pruningOverdueDays": "{days, plural, =1{Zurückschneiden seit 1 Tag überfällig} other{Zurückschneiden seit {days} Tagen überfällig}}",
+  "pruningOverdueMonths": "{months, plural, =1{Zurückschneiden seit 1 Monat überfällig} other{Zurückschneiden seit {months} Monaten überfällig}}",
+  "plantPruned": "{name} zurückgeschnitten",
+  "reminderPrune": "Zurückschneiden: {plants}",
+  "careTaskPrune": "{plant} zurückschneiden",
+  "pruningIntervalLabel": "Zurückschneiden alle (Monate)",
+  "lastPruned": "Zuletzt zurückgeschnitten: {date}"
 }

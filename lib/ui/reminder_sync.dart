@@ -94,7 +94,9 @@ class ReminderSync {
 /// "Water today: Monstera, Pothos" for watering only, otherwise the kinds
 /// separately, e.g. "Water: Monstera · Fertilize: Pothos".
 String reminderText(AppLocalizations l10n, PlannedReminder reminder) {
-  if (reminder.fertilize.isEmpty && reminder.repot.isEmpty) {
+  if (reminder.fertilize.isEmpty &&
+      reminder.repot.isEmpty &&
+      reminder.prune.isEmpty) {
     return l10n.reminderBody(reminder.plantNames.join(', '));
   }
   return [
@@ -104,6 +106,8 @@ String reminderText(AppLocalizations l10n, PlannedReminder reminder) {
       l10n.reminderFertilize(reminder.fertilize.join(', ')),
     if (reminder.repot.isNotEmpty)
       l10n.reminderRepot(reminder.repot.join(', ')),
+    if (reminder.prune.isNotEmpty)
+      l10n.reminderPrune(reminder.prune.join(', ')),
   ].join(' · ');
 }
 

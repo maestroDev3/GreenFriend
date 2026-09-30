@@ -71,6 +71,7 @@ class PlannedReminder {
     required this.plantNames,
     this.fertilize = const [],
     this.repot = const [],
+    this.prune = const [],
   });
 
   /// Local date and time of the reminder.
@@ -85,13 +86,17 @@ class PlannedReminder {
   /// Plants that need repotting.
   final List<String> repot;
 
+  /// Plants that need pruning.
+  final List<String> prune;
+
   @override
   bool operator ==(Object other) =>
       other is PlannedReminder &&
       other.at == at &&
       _sameNames(other.plantNames, plantNames) &&
       _sameNames(other.fertilize, fertilize) &&
-      _sameNames(other.repot, repot);
+      _sameNames(other.repot, repot) &&
+      _sameNames(other.prune, prune);
 
   @override
   int get hashCode => Object.hash(
@@ -99,10 +104,12 @@ class PlannedReminder {
     Object.hashAll(plantNames),
     Object.hashAll(fertilize),
     Object.hashAll(repot),
+    Object.hashAll(prune),
   );
 
   @override
-  String toString() => 'PlannedReminder($at, $plantNames, $fertilize, $repot)';
+  String toString() =>
+      'PlannedReminder($at, $plantNames, $fertilize, $repot, $prune)';
 
   static bool _sameNames(List<String> a, List<String> b) =>
       a.length == b.length &&
@@ -111,7 +118,7 @@ class PlannedReminder {
 
 /// Plans one reminder per day for up to [days] days, starting today if
 /// [time] is still ahead, otherwise tomorrow. Each lists the plants whose
-/// watering, fertilizing or repotting is due or overdue that day, assuming
+/// watering, fertilizing, repotting or pruning is due or overdue that day, assuming
 /// nothing is done in between; days without such plants get no reminder.
 List<PlannedReminder> plannedReminders(
   Iterable<Plant> plants, {
@@ -130,13 +137,17 @@ List<PlannedReminder> plannedReminders(
     final water = _dueOn(sorted, const Water(), day);
     final fertilize = _dueOn(sorted, const Fertilize(), day);
     final repot = _dueOn(sorted, const Repot(), day);
-    if (water.isEmpty && fertilize.isEmpty && repot.isEmpty) continue;
+    final prune = _dueOn(sorted, const Prune(), day);
+    if ([water, fertilize, repot, prune].every((names) => names.isEmpty)) {
+      continue;
+    }
     reminders.add(
       PlannedReminder(
         at: _localAt(day, time),
         plantNames: water,
         fertilize: fertilize,
         repot: repot,
+        prune: prune,
       ),
     );
   }

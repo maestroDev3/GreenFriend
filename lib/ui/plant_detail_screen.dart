@@ -308,7 +308,7 @@ class _Details extends StatelessWidget {
             ),
           ),
         ],
-        for (final kind in const [Fertilize(), Repot()])
+        for (final kind in const [Fertilize(), Repot(), Prune()])
           if (careStatus(plant, kind, today) case final status
               when status is! NotScheduled) ...[
             const SizedBox(height: 12),
@@ -364,6 +364,12 @@ class _CareCard extends StatelessWidget {
         l10n.everyMonths(plant.repottingIntervalMonths ?? 0),
         Icons.yard_outlined,
         l10n.repotted,
+      ),
+      Prune() => (
+        l10n.pruningTitle,
+        l10n.everyMonths(plant.pruningIntervalMonths ?? 0),
+        Icons.content_cut,
+        l10n.pruned,
       ),
     };
     return Card(
@@ -528,12 +534,14 @@ class _History extends StatelessWidget {
                       Water() => Icons.water_drop_outlined,
                       Fertilize() => Icons.science_outlined,
                       Repot() => Icons.yard_outlined,
+                      Prune() => Icons.content_cut,
                     }, color: theme.colorScheme.primary),
                     title: Text(dates.format(log.day)),
                     subtitle: Text(switch (log.kind) {
                       Water() => l10n.watered,
                       Fertilize() => l10n.fertilized,
                       Repot() => l10n.repotted,
+                      Prune() => l10n.pruned,
                     }),
                   ),
               ],

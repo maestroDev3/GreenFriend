@@ -375,7 +375,7 @@ class _ScheduleFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final max = kind is Repot ? 60 : 365;
+    final max = kind is Repot || kind is Prune ? 60 : 365;
     final (label, invalid, icon) = switch (kind) {
       Water() => (
         l10n.wateringIntervalLabel,
@@ -391,6 +391,11 @@ class _ScheduleFields extends StatelessWidget {
         l10n.repottingIntervalLabel,
         l10n.repottingIntervalInvalid,
         Icons.yard_outlined,
+      ),
+      Prune() => (
+        l10n.pruningIntervalLabel,
+        l10n.repottingIntervalInvalid,
+        Icons.content_cut,
       ),
     };
     final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
@@ -415,6 +420,7 @@ class _ScheduleFields extends StatelessWidget {
               Water() => l10n.lastWatered(date),
               Fertilize() => l10n.lastFertilized(date),
               Repot() => l10n.lastRepotted(date),
+              Prune() => l10n.lastPruned(date),
             }),
           ),
         ],
