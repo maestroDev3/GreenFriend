@@ -12,6 +12,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## Up next
 
+- #111 Secure the release signing key – user task (store keystore and password separately)
 - Epic #13 Plant knowledge and automatic care plans – waits for the decisions on the plant database (#14) and the identification service (#15)
 
 ## Backlog by epic
@@ -22,7 +23,7 @@ The GitHub issues are authoritative; this file is the summary.
 | #5 Care and reminders | – (all done) |
 | #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
 | #10 Growth journal | – (all done) |
-| #16 Data safety | – (all done) |
+| #16 Data safety | #111 Secure the release signing key (user task) |
 | #31 Outdoor plants and weather (later) | #26 Weather-aware watering for outdoor plants |
 
 Guiding principle: as much as possible happens automatically (photo → species → care plan → calendar → one daily notification).
