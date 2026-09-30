@@ -29,17 +29,22 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
 
   final SharedPreferences _preferences;
   final Random _random;
-  final _changes = StreamController<void>.broadcast();
+  final _changes = StreamController<List<CareLog>>.broadcast();
   late List<CareLog> _logs;
 
   List<CareLog> _of(String plantId) =>
-      newestFirst(_logs.where((log) => log.plantId == plantId));
+      _ofIn(_logs, plantId);
+
+  static List<CareLog> _ofIn(Iterable<CareLog> logs, String plantId) =>
+      newestFirst(logs.where((log) => log.plantId == plantId));
 
   @override
   Stream<List<CareLog>> watchLogs(String plantId) => Stream.multi((controller) {
     controller.add(_of(plantId));
+    // Each event carries the logs at the time of the change, so listeners
+    // never see a later state early.
     final subscription = _changes.stream.listen(
-      (_) => controller.add(_of(plantId)),
+      (logs) => controller.add(_ofIn(logs, plantId)),
     );
     controller.onCancel = subscription.cancel;
   });
@@ -68,7 +73,7 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
       logsKey,
       jsonEncode([for (final log in _logs) _toJson(log)]),
     );
-    _changes.add(null);
+    _changes.add(List.unmodifiable(_logs));
   }
 
   List<CareLog> _read() {
