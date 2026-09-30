@@ -164,9 +164,8 @@ List<Species> searchSpecies(
   }
   matches.sort((a, b) {
     if (a.$2 != b.$2) return a.$2 ? -1 : 1;
-    return _fold(
-      a.$1.displayName(languageCode),
-    ).compareTo(_fold(b.$1.displayName(languageCode)));
+    return _fold(a.$1.displayName(languageCode))
+        .compareTo(_fold(b.$1.displayName(languageCode)));
   });
   return [for (final (match, _) in matches) match];
 }

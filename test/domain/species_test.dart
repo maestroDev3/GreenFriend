@@ -110,10 +110,12 @@ void main() {
       expect(searchSpecies(all, 'dracaena', languageCode: 'en'), [snake]);
     });
 
-    test('does not match names of other languages than en and the given one',
-        () {
-      expect(searchSpecies(all, 'bogenhanf', languageCode: 'fr'), isEmpty);
-    });
+    test(
+      'does not match names of other languages than en and the given one',
+      () {
+        expect(searchSpecies(all, 'bogenhanf', languageCode: 'fr'), isEmpty);
+      },
+    );
 
     test('ignores accents and umlauts', () {
       expect(searchSpecies(all, 'konigswein', languageCode: 'de'), [grape]);
