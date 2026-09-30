@@ -122,6 +122,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       _water.controller.text = '${species.wateringIntervalDays}';
       _fertilize.controller.text = '${species.fertilizingIntervalDays}';
       _repot.controller.text = '${species.repottingIntervalMonths}';
+      _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
     });
   }
 

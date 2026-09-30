@@ -22,6 +22,7 @@ final monstera = Species(
   wateringIntervalDays: 7,
   fertilizingIntervalDays: 14,
   repottingIntervalMonths: 24,
+  pruningIntervalMonths: 12,
   light: Light.brightIndirect,
   humidity: Humidity.medium,
 );
@@ -84,6 +85,8 @@ Future<void> pick(
 
 Future<void> save(WidgetTester tester) async {
   await tester.scrollUntilVisible(find.text('Save'), 100, scrollable: formList);
+  await tester.ensureVisible(find.text('Save'));
+  await tester.pumpAndSettle();
   await tester.tap(find.text('Save'));
   await tester.pumpAndSettle();
 }
@@ -121,6 +124,37 @@ void main() {
       expect(plant.wateringIntervalDays, 7);
       expect(plant.fertilizingIntervalDays, 14);
       expect(plant.repottingIntervalMonths, 24);
+    });
+
+    testWidgets('fills the pruning interval or clears it', (tester) async {
+      final plants = FakePlantRepository();
+      await pumpForm(tester, plants);
+
+      await enter(tester, field('Name'), 'Monty');
+      await pick(tester, 'swiss', 'Swiss cheese plant');
+      await tester.scrollUntilVisible(
+        field('Prune every (months)'),
+        100,
+        scrollable: formList,
+      );
+      expect(textOf(tester, 'Prune every (months)'), '12');
+
+      await tester.scrollUntilVisible(
+        field('Species (optional)'),
+        -100,
+        scrollable: formList,
+      );
+      await pick(tester, 'snake', 'Snake plant');
+      await tester.scrollUntilVisible(
+        field('Prune every (months)'),
+        100,
+        scrollable: formList,
+      );
+      expect(textOf(tester, 'Prune every (months)'), '');
+      await save(tester);
+
+      expect(plants.plants.single.pruningIntervalMonths, isNull);
+      expect(plants.plants.single.speciesId, 'dracaena-trifasciata');
     });
 
     testWidgets('keeps intervals changed after picking', (tester) async {
