@@ -36,9 +36,7 @@ Color? pillColor(WidgetTester tester, String text) {
 
 void main() {
   group('watering status on the plant cards', () {
-    testWidgets('shows overdue, today and upcoming in English', (
-      tester,
-    ) async {
+    testWidgets('shows overdue, today and upcoming in English', (tester) async {
       await tester.pumpApp(
         HomeScreen(plants: FakePlantRepository(plants), clock: fixedNow),
       );

@@ -245,9 +245,8 @@ class _Pill extends StatelessWidget {
             Flexible(
               child: Text(
                 text,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelMedium?.copyWith(color: foreground),
+                style: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(color: foreground),
               ),
             ),
           ],
