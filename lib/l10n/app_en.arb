@@ -393,5 +393,35 @@
         "example": "Pothos"
       }
     }
+  },
+  "reminderWater": "Water: {plants}",
+  "@reminderWater": {
+    "description": "Reminder part listing plants to water (when other care is due too).",
+    "placeholders": {
+      "plants": {
+        "type": "String",
+        "example": "Monstera, Pothos"
+      }
+    }
+  },
+  "reminderFertilize": "Fertilize: {plants}",
+  "@reminderFertilize": {
+    "description": "Reminder part listing plants to fertilize.",
+    "placeholders": {
+      "plants": {
+        "type": "String",
+        "example": "Monstera, Pothos"
+      }
+    }
+  },
+  "reminderRepot": "Repot: {plants}",
+  "@reminderRepot": {
+    "description": "Reminder part listing plants to repot.",
+    "placeholders": {
+      "plants": {
+        "type": "String",
+        "example": "Monstera, Pothos"
+      }
+    }
   }
 }
