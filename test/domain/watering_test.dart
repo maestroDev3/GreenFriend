@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/plant.dart';
-import 'package:green_friend/domain/watering.dart';
+import 'package:green_friend/domain/care_status.dart';
 
 final today = DateTime(2026, 9, 30, 9, 15);
 

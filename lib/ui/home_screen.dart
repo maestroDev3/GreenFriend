@@ -5,7 +5,7 @@ import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/urgency.dart';
-import '../domain/watering.dart';
+import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
@@ -227,7 +227,7 @@ class _PlantCard extends StatelessWidget {
   });
 
   final Plant plant;
-  final WateringStatus status;
+  final CareStatus status;
   final VoidCallback onTap;
   final VoidCallback onWatered;
 
@@ -267,7 +267,7 @@ class _PlantTexts extends StatelessWidget {
   });
 
   final Plant plant;
-  final WateringStatus status;
+  final CareStatus status;
   final VoidCallback onWatered;
 
   @override

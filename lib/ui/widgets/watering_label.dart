@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/watering.dart';
+import '../../domain/care_status.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Tells when the plant needs water; overdue and today stand out as pills.
 class WateringLabel extends StatelessWidget {
   const WateringLabel(this.status, {super.key});
 
-  final WateringStatus status;
+  final CareStatus status;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'plant.dart';
-import 'watering.dart';
+import 'care_status.dart';
 
 /// Returns [plants] with the most urgent first: overdue (longest first), due
 /// today, upcoming (soonest first), then plants without a schedule; ties are
@@ -27,7 +27,7 @@ int needingAttention(Iterable<Plant> plants, DateTime today) {
 }
 
 /// Lower is more urgent.
-int _rank(WateringStatus status) => switch (status) {
+int _rank(CareStatus status) => switch (status) {
   Overdue(:final days) => -days,
   DueToday() => 0,
   DueIn(:final days) => days,

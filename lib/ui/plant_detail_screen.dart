@@ -6,7 +6,7 @@ import '../domain/care_log_repository.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
-import '../domain/watering.dart';
+import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 import 'plant_form_screen.dart';
 import 'watering_actions.dart';
@@ -108,7 +108,7 @@ class _Details extends StatelessWidget {
   });
 
   final Plant plant;
-  final WateringStatus status;
+  final CareStatus status;
   final VoidCallback onWatered;
   final Widget history;
 
