@@ -78,7 +78,10 @@ void main() {
         () => Plant(id: 'p1', name: 'O', pruningIntervalMonths: 61),
         throwsArgumentError,
       );
-      expect(Plant(id: 'p1', name: 'O', pruningIntervalMonths: 60), isA<Plant>());
+      expect(
+        Plant(id: 'p1', name: 'O', pruningIntervalMonths: 60),
+        isA<Plant>(),
+      );
     });
 
     test('rejects an empty or blank name', () {
