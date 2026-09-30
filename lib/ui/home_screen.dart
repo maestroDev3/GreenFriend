@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../l10n/app_localizations.dart';
@@ -9,9 +10,16 @@ import 'settings_screen.dart';
 /// The start screen: the user's plants, or a friendly hint while there are
 /// none yet.
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.plants});
+  const HomeScreen({
+    super.key,
+    required this.plants,
+    this.clock = DateTime.now,
+  });
 
   final PlantRepository plants;
+
+  /// Supplies today's date for watering defaults and due dates.
+  final Clock clock;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -63,7 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void _openForm({Plant? plant}) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => PlantFormScreen(plants: widget.plants, plant: plant),
+        builder: (_) => PlantFormScreen(
+          plants: widget.plants,
+          plant: plant,
+          clock: widget.clock,
+        ),
       ),
     );
   }

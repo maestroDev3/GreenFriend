@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../domain/clock.dart';
 
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
+import '../domain/watering.dart';
 import '../l10n/app_localizations.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
 class PlantFormScreen extends StatefulWidget {
-  const PlantFormScreen({super.key, required this.plants, this.plant});
+  const PlantFormScreen({
+    super.key,
+    required this.plants,
+    this.plant,
+    this.clock = DateTime.now,
+  });
 
   final PlantRepository plants;
+
+  /// Supplies today's date as the default last watering.
+  final Clock clock;
 
   /// The plant to edit; `null` creates a new plant.
   final Plant? plant;
@@ -22,19 +34,35 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   late final _name = TextEditingController(text: widget.plant?.name);
   late final _species = TextEditingController(text: widget.plant?.species);
   late final _location = TextEditingController(text: widget.plant?.location);
+  late final _interval = TextEditingController(
+    text: widget.plant?.wateringIntervalDays?.toString(),
+  );
+  late DateTime _lastWatered =
+      widget.plant?.lastWateredOn ?? dayOf(widget.clock());
   var _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _interval.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
     _name.dispose();
     _species.dispose();
     _location.dispose();
+    _interval.dispose();
     super.dispose();
   }
 
   Future<void> _save() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
+    final interval = parseWateringInterval(_interval.text).days;
+    final lastWatered = interval == null
+        ? widget.plant?.lastWateredOn
+        : _lastWatered;
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -42,6 +70,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           name: _name.text,
           species: _species.text,
           location: _location.text,
+          wateringIntervalDays: interval,
+          lastWateredOn: lastWatered,
         ),
       );
     } else {
@@ -49,10 +79,24 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         name: _name.text,
         species: _species.text,
         location: _location.text,
+        wateringIntervalDays: interval,
+        lastWateredOn: lastWatered,
       );
     }
     if (!mounted) return;
     Navigator.of(context).pop();
+  }
+
+  Future<void> _pickLastWatered() async {
+    final today = dayOf(widget.clock());
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _lastWatered.isAfter(today) ? today : _lastWatered,
+      firstDate: today.subtract(const Duration(days: 365)),
+      lastDate: today,
+    );
+    if (picked == null || !mounted) return;
+    setState(() => _lastWatered = dayOf(picked));
   }
 
   Future<void> _delete(Plant plant) async {
@@ -123,9 +167,30 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               controller: _location,
               decoration: InputDecoration(labelText: l10n.plantLocationLabel),
               textCapitalization: TextCapitalization.sentences,
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => _save(),
+              textInputAction: TextInputAction.next,
             ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _interval,
+              decoration: InputDecoration(
+                labelText: l10n.wateringIntervalLabel,
+              ),
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              validator: (value) => parseWateringInterval(value ?? '').valid
+                  ? null
+                  : l10n.wateringIntervalInvalid,
+            ),
+            if (_interval.text.trim().isNotEmpty) ...[
+              const SizedBox(height: 8),
+              _LastWateredButton(
+                label: l10n.lastWatered(
+                  DateFormat.yMMMd(Localizations.localeOf(context).toString())
+                      .format(_lastWatered),
+                ),
+                onPressed: _pickLastWatered,
+              ),
+            ],
             const SizedBox(height: 24),
             FilledButton(
               onPressed: _saving ? null : _save,
@@ -133,6 +198,25 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _LastWateredButton extends StatelessWidget {
+  const _LastWateredButton({required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: TextButton.icon(
+        onPressed: onPressed,
+        icon: const Icon(Icons.water_drop_outlined),
+        label: Text(label),
       ),
     );
   }

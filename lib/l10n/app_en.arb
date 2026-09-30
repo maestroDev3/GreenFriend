@@ -101,5 +101,23 @@
   "delete": "Delete",
   "@delete": {
     "description": "Button that confirms deleting."
+  },
+  "wateringIntervalLabel": "Water every (days)",
+  "@wateringIntervalLabel": {
+    "description": "Label of the optional field for the watering interval in days."
+  },
+  "wateringIntervalInvalid": "Enter a number from 1 to 365",
+  "@wateringIntervalInvalid": {
+    "description": "Validation message for an invalid watering interval."
+  },
+  "lastWatered": "Last watered: {date}",
+  "@lastWatered": {
+    "description": "Button showing the day the plant was last watered; tapping it opens a date picker.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Sep 30, 2026"
+      }
+    }
   }
 }
