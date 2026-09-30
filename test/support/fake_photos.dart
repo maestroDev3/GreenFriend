@@ -5,6 +5,7 @@ import 'package:green_friend/domain/photos.dart';
 /// Keeps track of stored photo names instead of copying files.
 class FakePhotoStore implements PhotoStore {
   final stored = <String>{};
+  final bytes = <String, List<int>>{};
   var _next = 1;
 
   @override
@@ -19,6 +20,16 @@ class FakePhotoStore implements PhotoStore {
 
   @override
   File fileFor(String name) => File('/fake/photos/$name');
+
+  @override
+  Future<List<int>?> readBytes(String name) async =>
+      stored.contains(name) ? bytes[name] ?? const [0] : null;
+
+  @override
+  Future<void> writeBytes(String name, List<int> data) async {
+    stored.add(name);
+    bytes[name] = data;
+  }
 }
 
 /// Returns a prepared path instead of opening the camera or gallery.

@@ -10,6 +10,12 @@ abstract interface class PhotoStore {
 
   /// The file of a stored photo, for display.
   File fileFor(String name);
+
+  /// The bytes of a stored photo, or `null` if it does not exist (backup).
+  Future<List<int>?> readBytes(String name);
+
+  /// Stores a photo under [name] (restoring a backup).
+  Future<void> writeBytes(String name, List<int> bytes);
 }
 
 /// Lets the user take or choose a photo; returns a temporary path, or `null`
