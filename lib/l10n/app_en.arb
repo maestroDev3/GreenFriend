@@ -423,5 +423,55 @@
         "example": "Monstera, Pothos"
       }
     }
+  },
+  "calendarTitle": "Calendar",
+  "@calendarTitle": {
+    "description": "Title of the care calendar and tooltip of its button."
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Day heading in the calendar."
+  },
+  "tomorrow": "Tomorrow",
+  "@tomorrow": {
+    "description": "Day heading in the calendar."
+  },
+  "nothingToDo": "Nothing to do",
+  "@nothingToDo": {
+    "description": "Shown in the calendar for a day without care tasks."
+  },
+  "markDone": "Done",
+  "@markDone": {
+    "description": "Tooltip of the button that confirms a care task in the calendar."
+  },
+  "careTaskWater": "Water {plant}",
+  "@careTaskWater": {
+    "description": "Calendar entry: water a plant.",
+    "placeholders": {
+      "plant": {
+        "type": "String",
+        "example": "Monstera"
+      }
+    }
+  },
+  "careTaskFertilize": "Fertilize {plant}",
+  "@careTaskFertilize": {
+    "description": "Calendar entry: fertilize a plant.",
+    "placeholders": {
+      "plant": {
+        "type": "String",
+        "example": "Monstera"
+      }
+    }
+  },
+  "careTaskRepot": "Repot {plant}",
+  "@careTaskRepot": {
+    "description": "Calendar entry: repot a plant.",
+    "placeholders": {
+      "plant": {
+        "type": "String",
+        "example": "Monstera"
+      }
+    }
   }
 }
