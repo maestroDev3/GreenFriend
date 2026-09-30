@@ -6,6 +6,7 @@ import 'package:green_friend/ui/app.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_plant_repository.dart';
 import '../support/contrast.dart';
 import '../support/fake_settings_repository.dart';
 
@@ -95,7 +96,10 @@ void main() {
 
   testWidgets('GreenFriendApp uses the light and dark theme', (tester) async {
     await tester.pumpWidget(
-      GreenFriendApp(settings: SettingsController(FakeSettingsRepository())),
+      GreenFriendApp(
+        settings: SettingsController(FakeSettingsRepository()),
+        plants: FakePlantRepository(),
+      ),
     );
 
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));

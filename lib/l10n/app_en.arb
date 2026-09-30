@@ -43,5 +43,33 @@
   "languageGerman": "Deutsch",
   "@languageGerman": {
     "description": "Language option for German, always written in German."
+  },
+  "addPlant": "Add plant",
+  "@addPlant": {
+    "description": "Button on the home screen that opens the form for a new plant."
+  },
+  "newPlantTitle": "New plant",
+  "@newPlantTitle": {
+    "description": "Title of the form for a new plant."
+  },
+  "plantNameLabel": "Name",
+  "@plantNameLabel": {
+    "description": "Label of the plant name field."
+  },
+  "plantSpeciesLabel": "Species (optional)",
+  "@plantSpeciesLabel": {
+    "description": "Label of the optional species field, e.g. Monstera deliciosa."
+  },
+  "plantLocationLabel": "Location (optional)",
+  "@plantLocationLabel": {
+    "description": "Label of the optional location field, e.g. Living room."
+  },
+  "plantNameRequired": "Please enter a name",
+  "@plantNameRequired": {
+    "description": "Validation message when the plant name is empty."
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Button that saves a form."
   }
 }

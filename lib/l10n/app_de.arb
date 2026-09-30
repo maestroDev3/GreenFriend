@@ -10,5 +10,12 @@
   "languageSection": "Sprache",
   "languageSystem": "System",
   "languageEnglish": "English",
-  "languageGerman": "Deutsch"
+  "languageGerman": "Deutsch",
+  "addPlant": "Pflanze hinzufügen",
+  "newPlantTitle": "Neue Pflanze",
+  "plantNameLabel": "Name",
+  "plantSpeciesLabel": "Art (optional)",
+  "plantLocationLabel": "Standort (optional)",
+  "plantNameRequired": "Bitte gib einen Namen ein",
+  "save": "Speichern"
 }

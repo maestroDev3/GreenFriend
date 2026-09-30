@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'ui/app.dart';
 import 'ui/font_licenses.dart';
@@ -16,5 +17,10 @@ Future<void> main() async {
   );
   await settings.load();
 
-  runApp(GreenFriendApp(settings: settings));
+  runApp(
+    GreenFriendApp(
+      settings: settings,
+      plants: SharedPreferencesPlantRepository(preferences),
+    ),
+  );
 }
