@@ -225,5 +225,35 @@
   "repotted": "Repotted",
   "@repotted": {
     "description": "Care history entry: the plant was repotted."
+  },
+  "remindersSection": "Reminders",
+  "@remindersSection": {
+    "description": "Section title for the reminder settings."
+  },
+  "dailyReminder": "Daily reminder",
+  "@dailyReminder": {
+    "description": "Switch for the daily watering reminder; also the notification channel name."
+  },
+  "reminderChannelDescription": "Which plants need water today",
+  "@reminderChannelDescription": {
+    "description": "Explains the daily reminder (settings subtitle and notification channel description)."
+  },
+  "reminderTimeLabel": "Time",
+  "@reminderTimeLabel": {
+    "description": "Setting for the time of the daily reminder."
+  },
+  "reminderTitle": "Time to water",
+  "@reminderTitle": {
+    "description": "Title of the daily reminder notification."
+  },
+  "reminderBody": "Water today: {plants}",
+  "@reminderBody": {
+    "description": "Text of the daily reminder notification.",
+    "placeholders": {
+      "plants": {
+        "type": "String",
+        "example": "Monstera, Pothos"
+      }
+    }
   }
 }

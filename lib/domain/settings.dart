@@ -1,3 +1,5 @@
+import 'reminders.dart';
+
 /// How the app chooses between light and dark colors.
 enum AppThemeMode { system, light, dark }
 
@@ -13,4 +15,8 @@ abstract interface class SettingsRepository {
   Future<AppLanguage> loadLanguage();
 
   Future<void> saveLanguage(AppLanguage language);
+
+  Future<ReminderSettings> loadReminder();
+
+  Future<void> saveReminder(ReminderSettings reminder);
 }

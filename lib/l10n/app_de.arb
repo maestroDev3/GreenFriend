@@ -44,5 +44,11 @@
   "history": "Verlauf",
   "noCareLogged": "Noch keine Pflege eingetragen",
   "fertilized": "Gedüngt",
-  "repotted": "Umgetopft"
+  "repotted": "Umgetopft",
+  "remindersSection": "Erinnerungen",
+  "dailyReminder": "Tägliche Erinnerung",
+  "reminderChannelDescription": "Welche Pflanzen heute Wasser brauchen",
+  "reminderTimeLabel": "Uhrzeit",
+  "reminderTitle": "Zeit zum Gießen",
+  "reminderBody": "Heute gießen: {plants}"
 }

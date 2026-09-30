@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../domain/reminders.dart';
 import '../domain/settings.dart';
 
 /// Holds the current app settings for the UI and saves every change.
@@ -9,15 +10,19 @@ class SettingsController extends ChangeNotifier {
   final SettingsRepository _repository;
   AppThemeMode _themeMode = AppThemeMode.system;
   AppLanguage _language = AppLanguage.system;
+  ReminderSettings _reminder = ReminderSettings.defaults;
 
   AppThemeMode get themeMode => _themeMode;
 
   AppLanguage get language => _language;
 
+  ReminderSettings get reminder => _reminder;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
     _language = await _repository.loadLanguage();
+    _reminder = await _repository.loadReminder();
     notifyListeners();
   }
 
@@ -33,6 +38,13 @@ class SettingsController extends ChangeNotifier {
     _language = language;
     notifyListeners();
     await _repository.saveLanguage(language);
+  }
+
+  Future<void> setReminder(ReminderSettings reminder) async {
+    if (reminder == _reminder) return;
+    _reminder = reminder;
+    notifyListeners();
+    await _repository.saveReminder(reminder);
   }
 }
 
