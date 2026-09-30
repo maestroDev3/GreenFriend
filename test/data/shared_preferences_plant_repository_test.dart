@@ -179,5 +179,16 @@ void main() {
         expect(plant.lastRepottedOn, isNull);
       },
     );
+
+    test('lists and replaces all plants', () async {
+      final repository = await openRepository();
+      await repository.add(name: 'Old');
+
+      await repository.replaceAll([Plant(id: 'x', name: 'Aloe')]);
+
+      expect(await (await openRepository()).allPlants(), [
+        Plant(id: 'x', name: 'Aloe'),
+      ]);
+    });
   });
 }

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/file_photo_store.dart';
 import 'package:green_friend/data/image_picker_photo_picker.dart';
 import 'package:green_friend/data/shared_preferences_journal_repository.dart';
+import 'package:green_friend/domain/journal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferencesJournalRepository> openJournal() async =>
@@ -63,6 +64,22 @@ void main() {
         '[{"broken": true}]',
       );
     });
+  });
+
+  test('lists and replaces all journal entries', () async {
+    SharedPreferences.setMockInitialValues({});
+    final journal = await openJournal();
+    await journal.add(plantId: 'old', day: DateTime(2026, 1, 1), note: 'old');
+    final entry = JournalEntry(
+      id: 'x',
+      plantId: 'p',
+      day: DateTime(2026, 9, 1),
+      note: 'new',
+    );
+
+    await journal.replaceAll([entry]);
+
+    expect(await (await openJournal()).allEntries(), [entry]);
   });
 
   group('FilePhotoStore', () {
