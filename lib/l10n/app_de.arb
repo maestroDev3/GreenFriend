@@ -119,5 +119,9 @@
   "humidityTileTitle": "Luftfeuchte",
   "humidityLow": "Niedrig – trockene Luft ist okay",
   "humidityMedium": "Normale Raumluft",
-  "humidityHigh": "Hoch – besprühen oder Luftbefeuchter"
+  "humidityHigh": "Hoch – besprühen oder Luftbefeuchter",
+  "calendarWeek": "Woche",
+  "calendarMonth": "Monat",
+  "previousMonth": "Vorheriger Monat",
+  "nextMonth": "Nächster Monat"
 }

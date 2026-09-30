@@ -657,5 +657,21 @@
   "humidityHigh": "High – mist or use a humidifier",
   "@humidityHigh": {
     "description": "Humidity need: high."
+  },
+  "calendarWeek": "Week",
+  "@calendarWeek": {
+    "description": "Calendar view switch: week strip."
+  },
+  "calendarMonth": "Month",
+  "@calendarMonth": {
+    "description": "Calendar view switch: month grid."
+  },
+  "previousMonth": "Previous month",
+  "@previousMonth": {
+    "description": "Tooltip of the button that shows the previous month in the calendar."
+  },
+  "nextMonth": "Next month",
+  "@nextMonth": {
+    "description": "Tooltip of the button that shows the next month in the calendar."
   }
 }
