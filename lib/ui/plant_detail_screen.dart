@@ -6,12 +6,14 @@ import '../domain/care_log_repository.dart';
 import '../domain/journal.dart';
 import '../domain/journal_actions.dart';
 import '../domain/journal_repository.dart';
+import '../domain/timeline.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
+import 'compare_screen.dart';
 import 'journal_entry_screen.dart';
 import 'plant_form_screen.dart';
 import 'timeline_screen.dart';
@@ -75,6 +77,18 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => TimelineScreen(
+          plantId: widget.plantId,
+          journal: widget.journal,
+          photos: widget.photos,
+        ),
+      ),
+    );
+  }
+
+  void _openComparison() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => CompareScreen(
           plantId: widget.plantId,
           journal: widget.journal,
           photos: widget.photos,
@@ -156,6 +170,7 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
                       photos: widget.photos,
                       onAdd: _addEntry,
                       onTimeline: _openTimeline,
+                      onCompare: _openComparison,
                       onDelete: _deleteEntry,
                     ),
                   ),
@@ -357,6 +372,7 @@ class _Journal extends StatelessWidget {
     required this.photos,
     required this.onAdd,
     required this.onTimeline,
+    required this.onCompare,
     required this.onDelete,
   });
 
@@ -364,6 +380,7 @@ class _Journal extends StatelessWidget {
   final PhotoStore photos;
   final VoidCallback onAdd;
   final VoidCallback onTimeline;
+  final VoidCallback onCompare;
   final ValueChanged<JournalEntry> onDelete;
 
   @override
@@ -390,6 +407,12 @@ class _Journal extends StatelessWidget {
                 onPressed: onTimeline,
                 icon: const Icon(Icons.timeline),
                 label: Text(l10n.timelineTitle),
+              ),
+            if (defaultComparison(entries) != null)
+              TextButton.icon(
+                onPressed: onCompare,
+                icon: const Icon(Icons.compare_outlined),
+                label: Text(l10n.compareTitle),
               ),
           ],
         ),
