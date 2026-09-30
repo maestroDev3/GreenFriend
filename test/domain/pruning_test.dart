@@ -72,10 +72,13 @@ void main() {
       today: today,
     );
 
-    expect([for (final task in tasks) (task.kind, task.day)], [
-      (const Prune(), DateTime.utc(2026, 11, 15)),
-      (const Prune(), DateTime.utc(2027, 2, 15)),
-    ]);
+    expect(
+      [for (final task in tasks) (task.kind, task.day)],
+      [
+        (const Prune(), DateTime.utc(2026, 11, 15)),
+        (const Prune(), DateTime.utc(2027, 2, 15)),
+      ],
+    );
   });
 
   test('confirming pruning logs it and can be undone', () async {
