@@ -83,5 +83,14 @@
   "navHome": "Start",
   "navPlants": "Pflanzen",
   "navMore": "Mehr",
-  "about": "Über die App"
+  "about": "Über die App",
+  "journalTitle": "Tagebuch",
+  "addJournalEntry": "Eintrag hinzufügen",
+  "noJournalEntries": "Noch keine Einträge",
+  "newJournalEntry": "Neuer Eintrag",
+  "takePhoto": "Foto aufnehmen",
+  "choosePhoto": "Foto auswählen",
+  "journalNote": "Notiz",
+  "deleteJournalEntry": "Eintrag löschen",
+  "deleteJournalEntryQuestion": "Diesen Eintrag löschen?"
 }

@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -17,6 +19,9 @@ Future<void> openNewPlantForm(
 ) async {
   await tester.pumpApp(
     HomeScreen(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
+      photoPicker: FakePhotoPicker(),
       careLogs: FakeCareLogRepository(),
       plants: repo,
       clock: fixedNow,
@@ -87,6 +92,9 @@ void main() {
       ]);
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: repository,
           clock: fixedNow,
@@ -115,6 +123,9 @@ void main() {
       ]);
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: repository,
           clock: fixedNow,
@@ -134,6 +145,9 @@ void main() {
     testWidgets('shows the interval texts in German', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
           clock: fixedNow,

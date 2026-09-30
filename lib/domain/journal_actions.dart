@@ -19,7 +19,7 @@ Future<void> deleteJournalForPlant({
   required PhotoStore photos,
   required String plantId,
 }) async {
-  final entries = await journal.watchEntries(plantId).first;
+  final entries = await journal.entriesFor(plantId);
   for (final entry in entries) {
     if (entry.photo case final photo?) await photos.delete(photo);
   }

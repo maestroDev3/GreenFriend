@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -32,6 +34,9 @@ void main() {
     testWidgets('opens the form with the plant values', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: repositoryWithMonstera(),
         ),
@@ -53,7 +58,13 @@ void main() {
     ) async {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+        ),
       );
       await openMonstera(tester);
 
@@ -78,6 +89,9 @@ void main() {
     testWidgets('shows the edit texts in German', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: repositoryWithMonstera(),
         ),
@@ -97,7 +111,13 @@ void main() {
     ) async {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+        ),
       );
       await openMonstera(tester);
 
@@ -117,7 +137,13 @@ void main() {
     ) async {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(
-        HomeScreen(careLogs: FakeCareLogRepository(), plants: repository),
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+        ),
       );
       await openMonstera(tester);
 

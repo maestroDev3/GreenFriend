@@ -5,6 +5,8 @@ import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/plant_detail_screen.dart';
 
+import '../support/fake_journal_repository.dart';
+import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
@@ -28,6 +30,9 @@ Future<void> pumpDetail(
 }) {
   return tester.pumpApp(
     PlantDetailScreen(
+      journal: FakeJournalRepository(),
+      photos: FakePhotoStore(),
+      photoPicker: FakePhotoPicker(),
       plants: plants,
       careLogs: logs,
       plantId: '1',
@@ -119,6 +124,9 @@ void main() {
     ) async {
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           plants: FakePlantRepository([pothos(), fertilizeToday()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
@@ -141,6 +149,9 @@ void main() {
       );
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           plants: FakePlantRepository([plant, fertilizeToday()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,
@@ -153,6 +164,9 @@ void main() {
     testWidgets('shows the pills in German', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           plants: FakePlantRepository([fertilizeToday()]),
           careLogs: FakeCareLogRepository(),
           clock: fixedNow,

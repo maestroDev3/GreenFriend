@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import '../domain/care_actions.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/journal_repository.dart';
+import '../domain/photos.dart';
 import '../domain/care_status.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
@@ -18,12 +20,16 @@ class PlantFormScreen extends StatefulWidget {
     super.key,
     required this.plants,
     required this.careLogs,
+    required this.journal,
+    required this.photos,
     this.plant,
     this.clock = DateTime.now,
   });
 
   final PlantRepository plants;
   final CareLogRepository careLogs;
+  final JournalRepository journal;
+  final PhotoStore photos;
 
   /// Supplies today's date as the default last watering, fertilizing and
   /// repotting.
@@ -157,6 +163,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     await deletePlant(
       plants: widget.plants,
       careLogs: widget.careLogs,
+      journal: widget.journal,
+      photos: widget.photos,
       plantId: plant.id,
     );
     if (!mounted) return;

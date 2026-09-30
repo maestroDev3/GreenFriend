@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../domain/care_log_repository.dart';
+import '../domain/journal_repository.dart';
+import '../domain/photos.dart';
 import '../domain/plant_repository.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
@@ -17,11 +19,17 @@ class GreenFriendApp extends StatelessWidget {
     required this.settings,
     required this.plants,
     required this.careLogs,
+    required this.journal,
+    required this.photos,
+    required this.photoPicker,
   });
 
   final SettingsController settings;
   final PlantRepository plants;
   final CareLogRepository careLogs;
+  final JournalRepository journal;
+  final PhotoStore photos;
+  final PhotoPicker photoPicker;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,13 @@ class GreenFriendApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
-          home: AppShell(plants: plants, careLogs: careLogs),
+          home: AppShell(
+            plants: plants,
+            careLogs: careLogs,
+            journal: journal,
+            photos: photos,
+            photoPicker: photoPicker,
+          ),
         ),
       ),
     );
