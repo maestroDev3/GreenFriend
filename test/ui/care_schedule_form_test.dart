@@ -14,8 +14,11 @@ Finder field(String label) => find.widgetWithText(TextFormField, label);
 /// The form's list; text fields contain scrollables of their own.
 Finder get formList => find.byType(Scrollable).first;
 
-Future<void> scrollTo(WidgetTester tester, Finder finder, [double delta = 100]) =>
-    tester.scrollUntilVisible(finder, delta, scrollable: formList);
+Future<void> scrollTo(
+  WidgetTester tester,
+  Finder finder, [
+  double delta = 100,
+]) => tester.scrollUntilVisible(finder, delta, scrollable: formList);
 
 Future<void> pumpForm(
   WidgetTester tester,
