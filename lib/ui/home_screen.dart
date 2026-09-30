@@ -246,11 +246,7 @@ class _PlantCard extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _PlantTexts(
-                  plant,
-                  status: status,
-                  onWatered: onWatered,
-                ),
+                child: _PlantTexts(plant, status: status, onWatered: onWatered),
               ),
             ],
           ),
