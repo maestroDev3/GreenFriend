@@ -25,12 +25,16 @@ class FakePlantRepository implements PlantRepository {
     required String name,
     String? species,
     String? location,
+    int? wateringIntervalDays,
+    DateTime? lastWateredOn,
   }) async {
     final plant = Plant(
       id: 'fake-${_nextId++}',
       name: name,
       species: species,
       location: location,
+      wateringIntervalDays: wateringIntervalDays,
+      lastWateredOn: lastWateredOn,
     );
     _plants.add(plant);
     _changes.add(plants);
