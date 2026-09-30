@@ -13,6 +13,7 @@ Species species({
   int wateringIntervalDays = 7,
   int fertilizingIntervalDays = 14,
   int repottingIntervalMonths = 24,
+  int? pruningIntervalMonths,
 }) => Species(
   id: id,
   scientificName: scientificName,
@@ -20,6 +21,7 @@ Species species({
   wateringIntervalDays: wateringIntervalDays,
   fertilizingIntervalDays: fertilizingIntervalDays,
   repottingIntervalMonths: repottingIntervalMonths,
+  pruningIntervalMonths: pruningIntervalMonths,
   light: Light.brightIndirect,
   humidity: Humidity.medium,
 );
@@ -43,6 +45,14 @@ void main() {
       expect(() => species(fertilizingIntervalDays: 366), throwsArgumentError);
       expect(() => species(repottingIntervalMonths: 0), throwsArgumentError);
       expect(() => species(repottingIntervalMonths: 61), throwsArgumentError);
+    });
+
+    test('has an optional pruning interval of 1 to 60 months', () {
+      expect(species().pruningIntervalMonths, isNull);
+      expect(species(pruningIntervalMonths: 12).pruningIntervalMonths, 12);
+      expect(species(), isNot(species(pruningIntervalMonths: 12)));
+      expect(() => species(pruningIntervalMonths: 0), throwsArgumentError);
+      expect(() => species(pruningIntervalMonths: 61), throwsArgumentError);
     });
 
     test('rejects an empty id or scientific name', () {

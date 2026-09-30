@@ -60,6 +60,19 @@ void main() {
       );
     });
 
+    test('has pruning intervals only where pruning is needed', () {
+      for (final id in [
+        'ficus-benjamina',
+        'hibiscus-rosa-sinensis',
+        'epipremnum-aureum',
+      ]) {
+        expect(catalog.byId(id)?.pruningIntervalMonths, isNotNull, reason: id);
+      }
+      for (final id in ['mammillaria', 'dracaena-trifasciata', 'aloe-vera']) {
+        expect(catalog.byId(id)?.pruningIntervalMonths, isNull, reason: id);
+      }
+    });
+
     test('shows German names in German', () {
       expect(catalog.byId('ficus-elastica')?.displayName('de'), 'Gummibaum');
     });
