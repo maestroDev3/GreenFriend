@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../domain/care_actions.dart';
+import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/care_status.dart';
 import '../domain/clock.dart';
-
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
-import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
@@ -25,7 +25,8 @@ class PlantFormScreen extends StatefulWidget {
   final PlantRepository plants;
   final CareLogRepository careLogs;
 
-  /// Supplies today's date as the default last watering.
+  /// Supplies today's date as the default last watering, fertilizing and
+  /// repotting.
   final Clock clock;
 
   /// The plant to edit; `null` creates a new plant.
@@ -40,17 +41,36 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   late final _name = TextEditingController(text: widget.plant?.name);
   late final _species = TextEditingController(text: widget.plant?.species);
   late final _location = TextEditingController(text: widget.plant?.location);
-  late final _interval = TextEditingController(
-    text: widget.plant?.wateringIntervalDays?.toString(),
+  late final _today = dayOf(widget.clock());
+  late final _water = _ScheduleInput(
+    interval: widget.plant?.wateringIntervalDays,
+    last: widget.plant?.lastWateredOn,
+    today: _today,
   );
-  late DateTime _lastWatered =
-      widget.plant?.lastWateredOn ?? dayOf(widget.clock());
+  late final _fertilize = _ScheduleInput(
+    interval: widget.plant?.fertilizingIntervalDays,
+    last: widget.plant?.lastFertilizedOn,
+    today: _today,
+  );
+  late final _repot = _ScheduleInput(
+    interval: widget.plant?.repottingIntervalMonths,
+    last: widget.plant?.lastRepottedOn,
+    today: _today,
+  );
   var _saving = false;
+
+  List<(CareKind, _ScheduleInput)> get _schedules => [
+    (const Water(), _water),
+    (const Fertilize(), _fertilize),
+    (const Repot(), _repot),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _interval.addListener(() => setState(() {}));
+    for (final (_, input) in _schedules) {
+      input.controller.addListener(() => setState(() {}));
+    }
   }
 
   @override
@@ -58,17 +78,18 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _name.dispose();
     _species.dispose();
     _location.dispose();
-    _interval.dispose();
+    for (final (_, input) in _schedules) {
+      input.controller.dispose();
+    }
     super.dispose();
   }
 
   Future<void> _save() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
-    final interval = parseWateringInterval(_interval.text).days;
-    final lastWatered = interval == null
-        ? widget.plant?.lastWateredOn
-        : _lastWatered;
+    final water = _water.interval(max: 365);
+    final fertilize = _fertilize.interval(max: 365);
+    final repot = _repot.interval(max: 60);
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -76,8 +97,12 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           name: _name.text,
           species: _species.text,
           location: _location.text,
-          wateringIntervalDays: interval,
-          lastWateredOn: lastWatered,
+          wateringIntervalDays: water,
+          lastWateredOn: _water.lastToSave(water),
+          fertilizingIntervalDays: fertilize,
+          lastFertilizedOn: _fertilize.lastToSave(fertilize),
+          repottingIntervalMonths: repot,
+          lastRepottedOn: _repot.lastToSave(repot),
         ),
       );
     } else {
@@ -85,24 +110,28 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         name: _name.text,
         species: _species.text,
         location: _location.text,
-        wateringIntervalDays: interval,
-        lastWateredOn: lastWatered,
+        wateringIntervalDays: water,
+        lastWateredOn: _water.lastToSave(water),
+        fertilizingIntervalDays: fertilize,
+        lastFertilizedOn: _fertilize.lastToSave(fertilize),
+        repottingIntervalMonths: repot,
+        lastRepottedOn: _repot.lastToSave(repot),
       );
     }
     if (!mounted) return;
     Navigator.of(context).pop();
   }
 
-  Future<void> _pickLastWatered() async {
-    final today = dayOf(widget.clock());
+  Future<void> _pickLastDone(CareKind kind, _ScheduleInput input) async {
+    final lookBack = kind is Repot ? 5 * 365 : 365;
     final picked = await showDatePicker(
       context: context,
-      initialDate: _lastWatered.isAfter(today) ? today : _lastWatered,
-      firstDate: today.subtract(const Duration(days: 365)),
-      lastDate: today,
+      initialDate: input.last.isAfter(_today) ? _today : input.last,
+      firstDate: _today.subtract(Duration(days: lookBack)),
+      lastDate: _today,
     );
     if (picked == null || !mounted) return;
-    setState(() => _lastWatered = dayOf(picked));
+    setState(() => input.last = dayOf(picked));
   }
 
   Future<void> _delete(Plant plant) async {
@@ -180,26 +209,13 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _interval,
-              decoration: InputDecoration(
-                labelText: l10n.wateringIntervalLabel,
+            for (final (kind, input) in _schedules) ...[
+              _ScheduleFields(
+                kind: kind,
+                input: input,
+                onPickDate: () => _pickLastDone(kind, input),
               ),
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
-              validator: (value) => parseWateringInterval(value ?? '').valid
-                  ? null
-                  : l10n.wateringIntervalInvalid,
-            ),
-            if (_interval.text.trim().isNotEmpty) ...[
-              const SizedBox(height: 8),
-              _LastWateredButton(
-                label: l10n.lastWatered(
-                  DateFormat.yMMMd(Localizations.localeOf(context).toString())
-                      .format(_lastWatered),
-                ),
-                onPressed: _pickLastWatered,
-              ),
+              const SizedBox(height: 16),
             ],
             const SizedBox(height: 24),
             FilledButton(
@@ -213,21 +229,89 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   }
 }
 
-class _LastWateredButton extends StatelessWidget {
-  const _LastWateredButton({required this.label, required this.onPressed});
+/// The text field for one care interval and its last-done date.
+class _ScheduleInput {
+  _ScheduleInput({
+    required int? interval,
+    required DateTime? last,
+    required DateTime today,
+  }) : controller = TextEditingController(text: interval?.toString()),
+       _stored = last,
+       last = last ?? today;
 
-  final String label;
-  final VoidCallback onPressed;
+  final TextEditingController controller;
+  final DateTime? _stored;
+
+  /// The last-done day shown in the form (today unless stored).
+  DateTime last;
+
+  bool get active => controller.text.trim().isNotEmpty;
+
+  int? interval({required int max}) =>
+      parseInterval(controller.text, max: max).days;
+
+  /// Without an interval the stored day is kept unchanged.
+  DateTime? lastToSave(int? interval) => interval == null ? _stored : last;
+}
+
+class _ScheduleFields extends StatelessWidget {
+  const _ScheduleFields({
+    required this.kind,
+    required this.input,
+    required this.onPickDate,
+  });
+
+  final CareKind kind;
+  final _ScheduleInput input;
+  final VoidCallback onPickDate;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.centerStart,
-      child: TextButton.icon(
-        onPressed: onPressed,
-        icon: const Icon(Icons.water_drop_outlined),
-        label: Text(label),
+    final l10n = AppLocalizations.of(context);
+    final max = kind is Repot ? 60 : 365;
+    final (label, invalid, icon) = switch (kind) {
+      Water() => (
+        l10n.wateringIntervalLabel,
+        l10n.wateringIntervalInvalid,
+        Icons.water_drop_outlined,
       ),
+      Fertilize() => (
+        l10n.fertilizingIntervalLabel,
+        l10n.wateringIntervalInvalid,
+        Icons.science_outlined,
+      ),
+      Repot() => (
+        l10n.repottingIntervalLabel,
+        l10n.repottingIntervalInvalid,
+        Icons.yard_outlined,
+      ),
+    };
+    final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(input.last);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: input.controller,
+          decoration: InputDecoration(labelText: label),
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          validator: (value) =>
+              parseInterval(value ?? '', max: max).valid ? null : invalid,
+        ),
+        if (input.active) ...[
+          const SizedBox(height: 8),
+          TextButton.icon(
+            onPressed: onPickDate,
+            icon: Icon(icon),
+            label: Text(switch (kind) {
+              Water() => l10n.lastWatered(date),
+              Fertilize() => l10n.lastFertilized(date),
+              Repot() => l10n.lastRepotted(date),
+            }),
+          ),
+        ],
+      ],
     );
   }
 }

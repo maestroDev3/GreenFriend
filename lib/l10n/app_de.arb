@@ -50,5 +50,10 @@
   "reminderChannelDescription": "Welche Pflanzen heute Wasser brauchen",
   "reminderTimeLabel": "Uhrzeit",
   "reminderTitle": "Zeit zum Gießen",
-  "reminderBody": "Heute gießen: {plants}"
+  "reminderBody": "Heute gießen: {plants}",
+  "fertilizingIntervalLabel": "Düngen alle (Tage)",
+  "repottingIntervalLabel": "Umtopfen alle (Monate)",
+  "repottingIntervalInvalid": "Gib eine Zahl von 1 bis 60 ein",
+  "lastFertilized": "Zuletzt gedüngt: {date}",
+  "lastRepotted": "Zuletzt umgetopft: {date}"
 }

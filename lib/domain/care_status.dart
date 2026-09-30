@@ -97,12 +97,18 @@ DateTime addMonths(DateTime day, int months) {
   return DateTime.utc(year, month, day.day < lastDay ? day.day : lastDay);
 }
 
-/// Reads a watering interval typed by the user: empty means no schedule,
-/// otherwise a whole number from 1 to 365 days.
-({bool valid, int? days}) parseWateringInterval(String text) {
+/// Reads an interval typed by the user: empty means no schedule, otherwise
+/// a whole number from 1 to [max].
+({bool valid, int? days}) parseInterval(String text, {required int max}) {
   final trimmed = text.trim();
   if (trimmed.isEmpty) return (valid: true, days: null);
-  final days = int.tryParse(trimmed);
-  if (days == null || days < 1 || days > 365) return (valid: false, days: null);
-  return (valid: true, days: days);
+  final value = int.tryParse(trimmed);
+  if (value == null || value < 1 || value > max) {
+    return (valid: false, days: null);
+  }
+  return (valid: true, days: value);
 }
+
+/// Reads a watering interval (1 to 365 days) typed by the user.
+({bool valid, int? days}) parseWateringInterval(String text) =>
+    parseInterval(text, max: 365);
