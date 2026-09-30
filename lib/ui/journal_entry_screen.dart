@@ -86,9 +86,8 @@ class _JournalEntryScreenState extends State<JournalEntryScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final picked = _pickedPath;
-    final date = DateFormat.yMMMd(
-      Localizations.localeOf(context).toString(),
-    ).format(_day);
+    final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(_day);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.newJournalEntry)),
       body: ListView(

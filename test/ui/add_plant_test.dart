@@ -17,7 +17,10 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
         ),
@@ -44,7 +47,13 @@ void main() {
       ]);
 
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), careLogs: FakeCareLogRepository(), plants: repository),
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+        ),
       );
 
       expect(find.text('Monstera'), findsOneWidget);
@@ -66,7 +75,10 @@ void main() {
       await tester.pumpApp(
         MediaQuery(
           data: const MediaQueryData(textScaler: TextScaler.linear(2)),
-          child: HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+          child: HomeScreen(
+            journal: FakeJournalRepository(),
+            photos: FakePhotoStore(),
+            photoPicker: FakePhotoPicker(),
             careLogs: FakeCareLogRepository(),
             plants: repository,
           ),
@@ -84,7 +96,10 @@ void main() {
 
     testWidgets('shows the button in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), 
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
           careLogs: FakeCareLogRepository(),
           plants: FakePlantRepository(),
         ),
@@ -99,7 +114,13 @@ void main() {
     testWidgets('saves the plant and shows it in the list', (tester) async {
       final repository = FakePlantRepository();
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), careLogs: FakeCareLogRepository(), plants: repository),
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+        ),
       );
 
       await tester.tap(find.text('Add plant'));
@@ -123,7 +144,13 @@ void main() {
     testWidgets('requires a name', (tester) async {
       final repository = FakePlantRepository();
       await tester.pumpApp(
-        HomeScreen(journal: FakeJournalRepository(), photos: FakePhotoStore(), photoPicker: FakePhotoPicker(), careLogs: FakeCareLogRepository(), plants: repository),
+        HomeScreen(
+          journal: FakeJournalRepository(),
+          photos: FakePhotoStore(),
+          photoPicker: FakePhotoPicker(),
+          careLogs: FakeCareLogRepository(),
+          plants: repository,
+        ),
       );
 
       await tester.tap(find.text('Add plant'));

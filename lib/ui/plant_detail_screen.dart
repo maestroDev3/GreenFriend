@@ -52,8 +52,9 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
   late final Stream<List<CareLog>> _logs = widget.careLogs.watchLogs(
     widget.plantId,
   );
-  late final Stream<List<JournalEntry>> _entries = widget.journal
-      .watchEntries(widget.plantId);
+  late final Stream<List<JournalEntry>> _entries = widget.journal.watchEntries(
+    widget.plantId,
+  );
 
   void _addEntry() {
     Navigator.of(context).push(
