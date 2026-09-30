@@ -169,6 +169,10 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
               ? const SizedBox.shrink()
               : _Details(
                   plant: plant,
+                  profile: switch (plant.speciesId) {
+                    final id? => widget.species.byId(id),
+                    null => null,
+                  },
                   journal: StreamBuilder<List<JournalEntry>>(
                     stream: _entries,
                     builder: (context, snapshot) => _Journal(
@@ -204,6 +208,7 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
 class _Details extends StatelessWidget {
   const _Details({
     required this.plant,
+    required this.profile,
     required this.today,
     required this.onCare,
     required this.journal,
@@ -211,6 +216,9 @@ class _Details extends StatelessWidget {
   });
 
   final Plant plant;
+
+  /// Care profile of the plant's species, if it is linked to one.
+  final Species? profile;
   final DateTime today;
   final ValueChanged<CareKind> onCare;
   final Widget journal;
@@ -247,6 +255,29 @@ class _Details extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 24),
+        if (profile case final profile?) ...[
+          _CareTile(
+            icon: Icons.wb_sunny_outlined,
+            title: l10n.lightTileTitle,
+            value: switch (profile.light) {
+              Light.low => l10n.lightLow,
+              Light.medium => l10n.lightMedium,
+              Light.brightIndirect => l10n.lightBrightIndirect,
+              Light.direct => l10n.lightDirect,
+            },
+          ),
+          const SizedBox(height: 12),
+          _CareTile(
+            icon: Icons.opacity,
+            title: l10n.humidityTileTitle,
+            value: switch (profile.humidity) {
+              Humidity.low => l10n.humidityLow,
+              Humidity.medium => l10n.humidityMedium,
+              Humidity.high => l10n.humidityHigh,
+            },
+          ),
+          const SizedBox(height: 12),
+        ],
         _CareTile(
           icon: Icons.water_drop_outlined,
           title: l10n.wateringTileTitle,

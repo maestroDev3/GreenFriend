@@ -110,5 +110,14 @@
   "replace": "Ersetzen",
   "backupRestored": "Backup wiederhergestellt",
   "notABackup": "Diese Datei ist kein Green-Friend-Backup.",
-  "speciesLinkedHint": "Pflegewerte aus der Pflanzendatenbank – bei Bedarf anpassen."
+  "speciesLinkedHint": "Pflegewerte aus der Pflanzendatenbank – bei Bedarf anpassen.",
+  "lightTileTitle": "Licht",
+  "lightLow": "Verträgt Schatten",
+  "lightMedium": "Halbschattig, z. B. Ost- oder Westfenster",
+  "lightBrightIndirect": "Hell, ohne direkte Sonne",
+  "lightDirect": "Volle Sonne",
+  "humidityTileTitle": "Luftfeuchte",
+  "humidityLow": "Niedrig – trockene Luft ist okay",
+  "humidityMedium": "Normale Raumluft",
+  "humidityHigh": "Hoch – besprühen oder Luftbefeuchter"
 }
