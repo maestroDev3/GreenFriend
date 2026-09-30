@@ -24,9 +24,7 @@ class Backup {
   final List<JournalEntry> journal;
 
   /// File names of the journal photos that belong to the backup.
-  List<String> get photos => [
-    for (final entry in journal) ?entry.photo,
-  ];
+  List<String> get photos => [for (final entry in journal) ?entry.photo];
 }
 
 /// Collects all data for a backup.
