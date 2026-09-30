@@ -673,5 +673,26 @@
   "nextMonth": "Next month",
   "@nextMonth": {
     "description": "Tooltip of the button that shows the next month in the calendar."
+  },
+  "calendarYear": "Year",
+  "@calendarYear": {
+    "description": "Calendar view switch: year overview."
+  },
+  "previousYear": "Previous year",
+  "@previousYear": {
+    "description": "Tooltip of the button that shows the previous year in the calendar."
+  },
+  "nextYear": "Next year",
+  "@nextYear": {
+    "description": "Tooltip of the button that shows the next year in the calendar."
+  },
+  "careTaskCount": "{count, plural, =1{1 task} other{{count} tasks}}",
+  "@careTaskCount": {
+    "description": "Number of planned care tasks in a month of the calendar year view.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

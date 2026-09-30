@@ -123,5 +123,9 @@
   "calendarWeek": "Woche",
   "calendarMonth": "Monat",
   "previousMonth": "Vorheriger Monat",
-  "nextMonth": "Nächster Monat"
+  "nextMonth": "Nächster Monat",
+  "calendarYear": "Jahr",
+  "previousYear": "Vorheriges Jahr",
+  "nextYear": "Nächstes Jahr",
+  "careTaskCount": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}"
 }

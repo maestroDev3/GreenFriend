@@ -34,12 +34,13 @@ class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-enum _CalendarView { week, month }
+enum _CalendarView { week, month, year }
 
 class _CalendarScreenState extends State<CalendarScreen> {
   late final Stream<List<Plant>> _plants = widget.plants.watchPlants();
   late DateTime _selected = dayOf(widget.clock());
   late DateTime _month = DateTime.utc(_selected.year, _selected.month);
+  late int _year = _selected.year;
   var _view = _CalendarView.week;
 
   void _showMonth(int offset) =>
@@ -84,6 +85,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       value: _CalendarView.month,
                       label: Text(l10n.calendarMonth),
                     ),
+                    ButtonSegment(
+                      value: _CalendarView.year,
+                      label: Text(l10n.calendarYear),
+                    ),
                   ],
                   selected: {_view},
                   showSelectedIcon: false,
@@ -111,22 +116,39 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   onPrevious: () => _showMonth(-1),
                   onNext: () => _showMonth(1),
                 ),
-              },
-              Expanded(
-                child: _TaskList(
-                  today: today,
-                  selected: _selected,
-                  tasks: tasks,
-                  onDone: (task) => careWithUndo(
-                    context,
-                    plants: widget.plants,
-                    careLogs: widget.careLogs,
-                    plant: task.plant,
-                    kind: task.kind,
-                    today: widget.clock(),
+                _CalendarView.year => Expanded(
+                  child: _YearView(
+                    year: _year,
+                    counts: careTaskCountsByMonth(
+                      plants,
+                      year: _year,
+                      today: today,
+                    ),
+                    onOpen: (month) => setState(() {
+                      _month = month;
+                      _view = _CalendarView.month;
+                    }),
+                    onPrevious: () => setState(() => _year--),
+                    onNext: () => setState(() => _year++),
                   ),
                 ),
-              ),
+              },
+              if (_view != _CalendarView.year)
+                Expanded(
+                  child: _TaskList(
+                    today: today,
+                    selected: _selected,
+                    tasks: tasks,
+                    onDone: (task) => careWithUndo(
+                      context,
+                      plants: widget.plants,
+                      careLogs: widget.careLogs,
+                      plant: task.plant,
+                      kind: task.kind,
+                      today: widget.clock(),
+                    ),
+                  ),
+                ),
             ],
           );
         },
@@ -323,6 +345,130 @@ class _MonthView extends StatelessWidget {
               ],
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// The twelve months of a year with their number of care tasks.
+class _YearView extends StatelessWidget {
+  const _YearView({
+    required this.year,
+    required this.counts,
+    required this.onOpen,
+    required this.onPrevious,
+    required this.onNext,
+  });
+
+  final int year;
+  final Map<int, int> counts;
+  final ValueChanged<DateTime> onOpen;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.chevron_left),
+                tooltip: l10n.previousYear,
+                onPressed: onPrevious,
+              ),
+              Expanded(
+                child: Text(
+                  '$year',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.chevron_right),
+                tooltip: l10n.nextYear,
+                onPressed: onNext,
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
+            children: [
+              for (var row = 0; row < 4; row++)
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var column = 0; column < 3; column++)
+                        Expanded(
+                          child: _YearMonth(
+                            month: DateTime.utc(year, row * 3 + column + 1),
+                            count: counts[row * 3 + column + 1] ?? 0,
+                            onTap: onOpen,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// One month tile of the year view; grows with its text.
+class _YearMonth extends StatelessWidget {
+  const _YearMonth({
+    required this.month,
+    required this.count,
+    required this.onTap,
+  });
+
+  final DateTime month;
+  final int count;
+  final ValueChanged<DateTime> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    return Card(
+      key: ValueKey(
+        'year-month-${month.year}-${month.month.toString().padLeft(2, '0')}',
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => onTap(month),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                DateFormat.MMMM(locale).format(month),
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleSmall,
+              ),
+              if (count > 0)
+                Text(
+                  l10n.careTaskCount(count),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.tertiary,
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
