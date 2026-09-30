@@ -50,3 +50,18 @@ List<TimelineMonth> journalTimeline(Iterable<JournalEntry> entries) {
   }
   return months;
 }
+
+/// The journal entries with a photo, oldest first.
+List<JournalEntry> photoEntriesOldestFirst(Iterable<JournalEntry> entries) =>
+    newestEntriesFirst(entries.where((entry) => entry.photo != null)).reversed
+        .toList();
+
+/// The oldest and the newest photo to compare, or `null` with fewer than two
+/// photos.
+({JournalEntry before, JournalEntry after})? defaultComparison(
+  Iterable<JournalEntry> entries,
+) {
+  final photos = photoEntriesOldestFirst(entries);
+  if (photos.length < 2) return null;
+  return (before: photos.first, after: photos.last);
+}

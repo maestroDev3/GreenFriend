@@ -539,5 +539,47 @@
         "example": "31"
       }
     }
+  },
+  "compareTitle": "Compare",
+  "@compareTitle": {
+    "description": "Title of the before/after comparison and its button."
+  },
+  "beforeLabel": "Before · {date}",
+  "@beforeLabel": {
+    "description": "Label of the earlier photo in the comparison.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Sep 1, 2026"
+      }
+    }
+  },
+  "afterLabel": "After · {date}",
+  "@afterLabel": {
+    "description": "Label of the later photo in the comparison.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Sep 1, 2026"
+      }
+    }
+  },
+  "daysLater": "{days, plural, =0{Same day} =1{1 day later} other{{days} days later}}",
+  "@daysLater": {
+    "description": "Days between the two compared photos.",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "chooseBefore": "Before photo",
+  "@chooseBefore": {
+    "description": "Heading of the choice of the earlier photo."
+  },
+  "chooseAfter": "After photo",
+  "@chooseAfter": {
+    "description": "Heading of the choice of the later photo."
   }
 }

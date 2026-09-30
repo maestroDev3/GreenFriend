@@ -94,5 +94,11 @@
   "deleteJournalEntry": "Eintrag löschen",
   "deleteJournalEntryQuestion": "Diesen Eintrag löschen?",
   "timelineTitle": "Zeitleiste",
-  "timelineDay": "Tag {day}"
+  "timelineDay": "Tag {day}",
+  "compareTitle": "Vergleich",
+  "beforeLabel": "Vorher · {date}",
+  "afterLabel": "Nachher · {date}",
+  "daysLater": "{days, plural, =0{Am selben Tag} =1{1 Tag später} other{{days} Tage später}}",
+  "chooseBefore": "Vorher-Foto",
+  "chooseAfter": "Nachher-Foto"
 }
