@@ -61,10 +61,7 @@ void main() {
     });
 
     test('shows German names in German', () {
-      expect(
-        catalog.byId('ficus-elastica')?.displayName('de'),
-        'Gummibaum',
-      );
+      expect(catalog.byId('ficus-elastica')?.displayName('de'), 'Gummibaum');
     });
   });
 }
