@@ -6,6 +6,7 @@ import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant_repository.dart';
+import '../domain/species.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
 import 'home_screen.dart';
@@ -22,6 +23,7 @@ class AppShell extends StatefulWidget {
     required this.careLogs,
     required this.journal,
     required this.photos,
+    required this.species,
     required this.photoPicker,
     required this.backupArchive,
     required this.fileSharing,
@@ -32,6 +34,9 @@ class AppShell extends StatefulWidget {
   final CareLogRepository careLogs;
   final JournalRepository journal;
   final PhotoStore photos;
+
+  /// The plant database used to suggest species and their care profile.
+  final SpeciesCatalog species;
   final PhotoPicker photoPicker;
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
@@ -48,6 +53,7 @@ class _AppShellState extends State<AppShell> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => PlantFormScreen(
+          species: widget.species,
           plants: widget.plants,
           careLogs: widget.careLogs,
           journal: widget.journal,
@@ -73,6 +79,7 @@ class _AppShellState extends State<AppShell> {
         index: _index,
         children: [
           HomeScreen(
+            species: widget.species,
             plants: widget.plants,
             careLogs: widget.careLogs,
             journal: widget.journal,
@@ -82,6 +89,7 @@ class _AppShellState extends State<AppShell> {
             showActions: false,
           ),
           PlantsScreen(
+            species: widget.species,
             plants: widget.plants,
             careLogs: widget.careLogs,
             journal: widget.journal,

@@ -11,12 +11,14 @@ import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/fake_settings_repository.dart';
+import '../support/fake_species_catalog.dart';
 
 Future<void> pumpWithDeviceLocale(WidgetTester tester, Locale locale) async {
   tester.platformDispatcher.localesTestValue = [locale];
   addTearDown(tester.platformDispatcher.clearLocalesTestValue);
   await tester.pumpWidget(
     GreenFriendApp(
+      species: FakeSpeciesCatalog(const []),
       backupArchive: FakeBackupArchive(),
       fileSharing: FakeFileSharing(),
       journal: FakeJournalRepository(),

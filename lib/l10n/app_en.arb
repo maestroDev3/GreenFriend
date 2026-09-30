@@ -617,5 +617,9 @@
   "notABackup": "This file is not a Green Friend backup.",
   "@notABackup": {
     "description": "Snackbar when the picked file is not a valid backup."
+  },
+  "speciesLinkedHint": "Care values from the plant database – adjust them if needed.",
+  "@speciesLinkedHint": {
+    "description": "Hint below the species field when a species from the plant database was picked and the care intervals were filled in."
   }
 }

@@ -11,6 +11,7 @@ import '../support/fake_journal_repository.dart';
 import '../support/fake_photos.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 JournalEntry photoEntry(String id, DateTime day) =>
     JournalEntry(id: id, plantId: 'p', day: day, photo: '$id.jpg');
@@ -107,6 +108,7 @@ void main() {
     Future<void> pumpDetail(WidgetTester tester, List<JournalEntry> list) =>
         tester.pumpApp(
           PlantDetailScreen(
+            species: FakeSpeciesCatalog(const []),
             plants: FakePlantRepository([Plant(id: 'p', name: 'Monstera')]),
             careLogs: FakeCareLogRepository(),
             journal: FakeJournalRepository(list),

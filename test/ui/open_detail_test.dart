@@ -8,12 +8,14 @@ import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 void main() {
   group('plant list navigation', () {
     testWidgets('opens the detail page when a plant is tapped', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -36,6 +38,7 @@ void main() {
       ]);
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),

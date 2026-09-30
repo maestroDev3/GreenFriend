@@ -5,6 +5,7 @@ import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/plant_repository.dart';
+import '../domain/species.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
 import 'app_shell.dart';
@@ -22,6 +23,7 @@ class GreenFriendApp extends StatelessWidget {
     required this.careLogs,
     required this.journal,
     required this.photos,
+    required this.species,
     required this.photoPicker,
     required this.backupArchive,
     required this.fileSharing,
@@ -32,6 +34,9 @@ class GreenFriendApp extends StatelessWidget {
   final CareLogRepository careLogs;
   final JournalRepository journal;
   final PhotoStore photos;
+
+  /// The plant database used to suggest species and their care profile.
+  final SpeciesCatalog species;
   final PhotoPicker photoPicker;
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
@@ -60,6 +65,7 @@ class GreenFriendApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
           home: AppShell(
+            species: species,
             plants: plants,
             careLogs: careLogs,
             journal: journal,

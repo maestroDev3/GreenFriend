@@ -8,6 +8,7 @@ import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 Finder field(String label) => find.widgetWithText(TextFormField, label);
 
@@ -18,6 +19,7 @@ void main() {
     ) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -48,6 +50,7 @@ void main() {
 
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -76,6 +79,7 @@ void main() {
         MediaQuery(
           data: const MediaQueryData(textScaler: TextScaler.linear(2)),
           child: HomeScreen(
+            species: FakeSpeciesCatalog(const []),
             journal: FakeJournalRepository(),
             photos: FakePhotoStore(),
             photoPicker: FakePhotoPicker(),
@@ -97,6 +101,7 @@ void main() {
     testWidgets('shows the button in German', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -115,6 +120,7 @@ void main() {
       final repository = FakePlantRepository();
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -145,6 +151,7 @@ void main() {
       final repository = FakePlantRepository();
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),

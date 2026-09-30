@@ -6,6 +6,7 @@ import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
+import '../domain/species.dart';
 import '../l10n/app_localizations.dart';
 import 'plant_detail_screen.dart';
 
@@ -17,6 +18,7 @@ class PlantsScreen extends StatefulWidget {
     required this.careLogs,
     required this.journal,
     required this.photos,
+    required this.species,
     required this.photoPicker,
     this.clock = DateTime.now,
   });
@@ -25,6 +27,9 @@ class PlantsScreen extends StatefulWidget {
   final CareLogRepository careLogs;
   final JournalRepository journal;
   final PhotoStore photos;
+
+  /// The plant database used to suggest species and their care profile.
+  final SpeciesCatalog species;
   final PhotoPicker photoPicker;
   final Clock clock;
 
@@ -39,6 +44,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => PlantDetailScreen(
+          species: widget.species,
           plants: widget.plants,
           careLogs: widget.careLogs,
           journal: widget.journal,

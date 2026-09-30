@@ -13,6 +13,7 @@ import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/contrast.dart';
 import '../support/fake_settings_repository.dart';
+import '../support/fake_species_catalog.dart';
 
 void expectReadable(Color text, Color background) {
   expect(contrastRatio(text, background), greaterThanOrEqualTo(4.5));
@@ -109,6 +110,7 @@ void main() {
   testWidgets('GreenFriendApp uses the light and dark theme', (tester) async {
     await tester.pumpWidget(
       GreenFriendApp(
+        species: FakeSpeciesCatalog(const []),
         backupArchive: FakeBackupArchive(),
         fileSharing: FakeFileSharing(),
         journal: FakeJournalRepository(),
