@@ -370,7 +370,6 @@ class _YearView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final locale = Localizations.localeOf(context).toString();
     return Column(
       children: [
         Padding(
