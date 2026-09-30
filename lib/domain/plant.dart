@@ -19,6 +19,8 @@ class Plant {
     DateTime? lastFertilizedOn,
     int? repottingIntervalMonths,
     DateTime? lastRepottedOn,
+    int? pruningIntervalMonths,
+    DateTime? lastPrunedOn,
   }) : name = _requireName(name),
        species = _optional(species),
        speciesId = _optional(speciesId),
@@ -40,7 +42,13 @@ class Plant {
          'repottingIntervalMonths',
          60,
        ),
-       lastRepottedOn = _day(lastRepottedOn);
+       lastRepottedOn = _day(lastRepottedOn),
+       pruningIntervalMonths = _checkRange(
+         pruningIntervalMonths,
+         'pruningIntervalMonths',
+         60,
+       ),
+       lastPrunedOn = _day(lastPrunedOn);
 
   final String id;
   final String name;
@@ -69,6 +77,12 @@ class Plant {
   /// Calendar day (UTC midnight) of the last repotting, if known.
   final DateTime? lastRepottedOn;
 
+  /// Prune every this many months; `null` means no schedule.
+  final int? pruningIntervalMonths;
+
+  /// Calendar day (UTC midnight) of the last pruning, if known.
+  final DateTime? lastPrunedOn;
+
   /// Returns a copy with the given values; `null` keeps the current value.
   Plant copyWith({
     String? name,
@@ -81,6 +95,8 @@ class Plant {
     DateTime? lastFertilizedOn,
     int? repottingIntervalMonths,
     DateTime? lastRepottedOn,
+    int? pruningIntervalMonths,
+    DateTime? lastPrunedOn,
   }) {
     return Plant(
       id: id,
@@ -96,6 +112,9 @@ class Plant {
       repottingIntervalMonths:
           repottingIntervalMonths ?? this.repottingIntervalMonths,
       lastRepottedOn: lastRepottedOn ?? this.lastRepottedOn,
+      pruningIntervalMonths:
+          pruningIntervalMonths ?? this.pruningIntervalMonths,
+      lastPrunedOn: lastPrunedOn ?? this.lastPrunedOn,
     );
   }
 
@@ -112,7 +131,9 @@ class Plant {
       other.fertilizingIntervalDays == fertilizingIntervalDays &&
       other.lastFertilizedOn == lastFertilizedOn &&
       other.repottingIntervalMonths == repottingIntervalMonths &&
-      other.lastRepottedOn == lastRepottedOn;
+      other.lastRepottedOn == lastRepottedOn &&
+      other.pruningIntervalMonths == pruningIntervalMonths &&
+      other.lastPrunedOn == lastPrunedOn;
 
   @override
   int get hashCode => Object.hash(
@@ -127,6 +148,8 @@ class Plant {
     lastFertilizedOn,
     repottingIntervalMonths,
     lastRepottedOn,
+    pruningIntervalMonths,
+    lastPrunedOn,
   );
 
   @override
