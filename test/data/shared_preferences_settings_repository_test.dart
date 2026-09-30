@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/shared_preferences_settings_repository.dart';
+import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,6 +45,37 @@ void main() {
       });
 
       expect(await (await repository()).loadLanguage(), AppLanguage.system);
+    });
+
+    test('has the daily reminder on at 9:00 by default', () async {
+      expect(
+        await (await repository()).loadReminder(),
+        ReminderSettings.defaults,
+      );
+      expect(ReminderSettings.defaults.enabled, isTrue);
+      expect(ReminderSettings.defaults.time, const ReminderTime(9, 0));
+    });
+
+    test('stores and reads the reminder settings', () async {
+      const value = ReminderSettings(
+        enabled: false,
+        time: ReminderTime(19, 45),
+      );
+
+      await (await repository()).saveReminder(value);
+
+      expect(await (await repository()).loadReminder(), value);
+    });
+
+    test('falls back to the defaults for unknown reminder values', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesSettingsRepository.reminderTimeKey: '25:99',
+      });
+
+      expect(
+        await (await repository()).loadReminder(),
+        ReminderSettings.defaults,
+      );
     });
   });
 }
