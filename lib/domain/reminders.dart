@@ -37,6 +37,30 @@ class ReminderTime {
   String toString() => 'ReminderTime($hour:$minute)';
 }
 
+/// Whether and when the daily reminder is shown.
+class ReminderSettings {
+  const ReminderSettings({required this.enabled, required this.time});
+
+  /// On at 9:00.
+  static const defaults = ReminderSettings(
+    enabled: true,
+    time: ReminderTime.defaultTime,
+  );
+
+  final bool enabled;
+  final ReminderTime time;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ReminderSettings && other.enabled == enabled && other.time == time;
+
+  @override
+  int get hashCode => Object.hash(enabled, time);
+
+  @override
+  String toString() => 'ReminderSettings($enabled, $time)';
+}
+
 /// One daily reminder: when it fires and which plants need water.
 class PlannedReminder {
   const PlannedReminder({required this.at, required this.plantNames});
