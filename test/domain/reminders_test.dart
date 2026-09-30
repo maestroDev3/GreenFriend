@@ -90,5 +90,36 @@ void main() {
         DateTime(2026, 10, 26, 8, 30),
       ]);
     });
+
+    test('reminds about fertilizing and repotting as well', () {
+      final reminders = plannedReminders(
+        [
+          Plant(
+            id: 'p',
+            name: 'Pothos',
+            fertilizingIntervalDays: 10,
+            lastFertilizedOn: DateTime(2026, 9, 21),
+          ),
+          Plant(
+            id: 'f',
+            name: 'Ficus',
+            repottingIntervalMonths: 12,
+            lastRepottedOn: DateTime(2025, 10, 1),
+          ),
+        ],
+        now: DateTime(2026, 9, 30, 7),
+        time: nine,
+        days: 2,
+      );
+
+      expect(reminders, [
+        PlannedReminder(
+          at: DateTime(2026, 10, 1, 9),
+          plantNames: const [],
+          fertilize: const ['Pothos'],
+          repot: const ['Ficus'],
+        ),
+      ]);
+    });
   });
 }
