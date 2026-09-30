@@ -23,10 +23,15 @@ class HomeScreen extends StatefulWidget {
     required this.plants,
     required this.careLogs,
     this.clock = DateTime.now,
+    this.showActions = true,
   });
 
   final PlantRepository plants;
   final CareLogRepository careLogs;
+
+  /// Own add button, calendar and settings; off inside the app shell, which
+  /// has them in its bottom bar.
+  final bool showActions;
 
   /// Supplies today's date for watering defaults and due dates.
   final Clock clock;
@@ -45,33 +50,37 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(l10n.appTitle),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.calendar_month_outlined),
-            tooltip: l10n.calendarTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => CalendarScreen(
-                  plants: widget.plants,
-                  careLogs: widget.careLogs,
-                  clock: widget.clock,
+          if (widget.showActions) ...[
+            IconButton(
+              icon: const Icon(Icons.calendar_month_outlined),
+              tooltip: l10n.calendarTitle,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => CalendarScreen(
+                    plants: widget.plants,
+                    careLogs: widget.careLogs,
+                    clock: widget.clock,
+                  ),
                 ),
               ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            tooltip: l10n.settingsTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              tooltip: l10n.settingsTitle,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
+              ),
             ),
-          ),
+          ],
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _openForm,
-        icon: const Icon(Icons.add),
-        label: Text(l10n.addPlant),
-      ),
+      floatingActionButton: !widget.showActions
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: _openForm,
+              icon: const Icon(Icons.add),
+              label: Text(l10n.addPlant),
+            ),
       body: StreamBuilder<List<Plant>>(
         stream: _plants,
         builder: (context, snapshot) => switch (snapshot.data) {

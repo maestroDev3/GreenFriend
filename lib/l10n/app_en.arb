@@ -473,5 +473,21 @@
         "example": "Monstera"
       }
     }
+  },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Bottom bar tab: home screen."
+  },
+  "navPlants": "Plants",
+  "@navPlants": {
+    "description": "Bottom bar tab: all plants."
+  },
+  "navMore": "More",
+  "@navMore": {
+    "description": "Bottom bar tab and title: settings and information."
+  },
+  "about": "About",
+  "@about": {
+    "description": "Entry that shows information and licenses of the app."
   }
 }

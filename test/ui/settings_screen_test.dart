@@ -31,6 +31,13 @@ ThemeMode appThemeMode(WidgetTester tester) =>
     tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode ??
     ThemeMode.system;
 
+/// In the app shell the settings live under "More".
+Future<void> openSettingsFromApp(WidgetTester tester) async {
+  await tester.tap(find.text('More'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Settings'));
+}
+
 void main() {
   group('HomeScreen', () {
     testWidgets('has a settings button that opens the settings', (
@@ -105,7 +112,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Settings'));
+      await openSettingsFromApp(tester);
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(themeDark));
       await tester.pumpAndSettle();
@@ -180,7 +187,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byTooltip('Settings'));
+      await openSettingsFromApp(tester);
       await tester.pumpAndSettle();
       await tester.scrollUntilVisible(find.byKey(languageGerman), 100);
       await tester.tap(find.byKey(languageGerman));
