@@ -29,5 +29,9 @@
   "lastWatered": "Zuletzt gegossen: {date}",
   "waterToday": "Heute gießen",
   "waterInDays": "{days, plural, =1{In 1 Tag gießen} other{In {days} Tagen gießen}}",
-  "overdueDays": "{days, plural, =1{Seit 1 Tag überfällig} other{Seit {days} Tagen überfällig}}"
+  "overdueDays": "{days, plural, =1{Seit 1 Tag überfällig} other{Seit {days} Tagen überfällig}}",
+  "wateringTileTitle": "Wasser",
+  "wateringEvery": "{days, plural, =1{Jeden Tag} other{Alle {days} Tage}}",
+  "noWateringSchedule": "Kein Plan",
+  "nextWatering": "Nächstes Gießen"
 }
