@@ -27,6 +27,31 @@ void main() {
       expect(await currentPlants(await openRepository()), [plant]);
     });
 
+    test('keeps the species id across a restart', () async {
+      final plant = await (await openRepository()).add(
+        name: 'Monstera',
+        speciesId: 'monstera-deliciosa',
+      );
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.speciesId, 'monstera-deliciosa');
+      expect(loaded, plant);
+    });
+
+    test('loads plants stored before the species id existed', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe","species":"Aloe vera",'
+            '"location":null,"wateringIntervalDays":14}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.speciesId, isNull);
+      expect(plant.species, 'Aloe vera');
+      expect(plant.wateringIntervalDays, 14);
+    });
+
     test('generates unique ids', () async {
       final repository = await openRepository();
 

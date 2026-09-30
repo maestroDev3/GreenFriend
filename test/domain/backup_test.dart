@@ -12,6 +12,7 @@ final plant = Plant(
   id: 'p1',
   name: 'Monstera',
   species: 'Monstera deliciosa',
+  speciesId: 'monstera-deliciosa',
   location: 'Living room',
   wateringIntervalDays: 7,
   lastWateredOn: DateTime(2026, 9, 28),
@@ -80,6 +81,17 @@ void main() {
       expect(plants.plants, [plant]);
       expect(logs.logs, isEmpty);
       expect(journal.entries, [entry]);
+    });
+
+    test('reads backups made before the species id existed', () {
+      final backup = decodeBackup(
+        '{"format":"green-friend-backup","version":1,'
+        '"plants":[{"id":"p","name":"Aloe","species":"Aloe vera"}],'
+        '"careLogs":[],"journal":[]}',
+      );
+
+      expect(backup.plants.single.speciesId, isNull);
+      expect(backup.plants.single.species, 'Aloe vera');
     });
 
     test('rejects broken or unknown backups', () {
