@@ -42,9 +42,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _month = DateTime.utc(_selected.year, _selected.month);
   var _view = _CalendarView.week;
 
-  void _showMonth(int offset) => setState(
-    () => _month = DateTime.utc(_month.year, _month.month + offset),
-  );
+  void _showMonth(int offset) =>
+      setState(() => _month = DateTime.utc(_month.year, _month.month + offset));
 
   @override
   Widget build(BuildContext context) {
