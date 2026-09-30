@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
+import '../domain/watering.dart';
 import '../l10n/app_localizations.dart';
 import 'plant_form_screen.dart';
 import 'settings_screen.dart';
@@ -60,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             separatorBuilder: (_, _) => const SizedBox(height: 12),
             itemBuilder: (context, index) => _PlantCard(
               plants[index],
+              status: wateringStatus(plants[index], widget.clock()),
               onTap: () => _openForm(plant: plants[index]),
             ),
           ),
@@ -102,9 +104,10 @@ class _EmptyHint extends StatelessWidget {
 }
 
 class _PlantCard extends StatelessWidget {
-  const _PlantCard(this.plant, {required this.onTap});
+  const _PlantCard(this.plant, {required this.status, required this.onTap});
 
   final Plant plant;
+  final WateringStatus status;
   final VoidCallback onTap;
 
   @override
@@ -124,7 +127,7 @@ class _PlantCard extends StatelessWidget {
                 child: const Icon(Icons.eco_outlined),
               ),
               const SizedBox(width: 16),
-              Expanded(child: _PlantTexts(plant)),
+              Expanded(child: _PlantTexts(plant, status: status)),
             ],
           ),
         ),
@@ -134,9 +137,10 @@ class _PlantCard extends StatelessWidget {
 }
 
 class _PlantTexts extends StatelessWidget {
-  const _PlantTexts(this.plant);
+  const _PlantTexts(this.plant, {required this.status});
 
   final Plant plant;
+  final WateringStatus status;
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +165,93 @@ class _PlantTexts extends StatelessWidget {
               ],
             ),
           ),
+        if (status is! NotScheduled)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: _WateringLabel(status),
+          ),
       ],
+    );
+  }
+}
+
+/// Tells when the plant needs water; overdue and today stand out as pills.
+class _WateringLabel extends StatelessWidget {
+  const _WateringLabel(this.status);
+
+  final WateringStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    return switch (status) {
+      NotScheduled() => const SizedBox.shrink(),
+      Overdue(:final days) => _Pill(
+        text: l10n.overdueDays(days),
+        icon: Icons.error_outline,
+        background: scheme.tertiaryContainer,
+        foreground: scheme.onTertiaryContainer,
+      ),
+      DueToday() => _Pill(
+        text: l10n.waterToday,
+        icon: Icons.water_drop_outlined,
+        background: scheme.secondaryContainer,
+        foreground: scheme.onSecondaryContainer,
+      ),
+      DueIn(:final days) => Row(
+        children: [
+          Icon(Icons.water_drop_outlined, size: 16, color: scheme.primary),
+          const SizedBox(width: 4),
+          Expanded(
+            child: Text(
+              l10n.waterInDays(days),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+        ],
+      ),
+    };
+  }
+}
+
+class _Pill extends StatelessWidget {
+  const _Pill({
+    required this.text,
+    required this.icon,
+    required this.background,
+    required this.foreground,
+  });
+
+  final String text;
+  final IconData icon;
+  final Color background;
+  final Color foreground;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: foreground),
+            const SizedBox(width: 4),
+            Flexible(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(color: foreground),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

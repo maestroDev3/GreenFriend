@@ -11,10 +11,14 @@ abstract final class BrandColors {
   static const warmBeige = Color(0xFFE8DECC);
   static const terracotta = Color(0xFFB8785C);
   static const ink = Color(0xFF2B2B2B);
+  static const terracottaTint = Color(0xFFF3DCD0);
+  static const terracottaInk = Color(0xFF5A2E1C);
 
   static const nightForest = Color(0xFF13201A);
   static const nightCard = Color(0xFF1E2E25);
   static const lightTerracotta = Color(0xFFD9A080);
+  static const nightTerracotta = Color(0xFF4A2A1E);
+  static const nightTerracottaInk = Color(0xFFF5DCCF);
 }
 
 /// The light theme: cream background, forest green for headings and
@@ -29,6 +33,8 @@ final ThemeData lightTheme = _buildTheme(
     onSecondaryContainer: BrandColors.forestGreen,
     tertiary: BrandColors.terracotta,
     onTertiary: BrandColors.ink,
+    tertiaryContainer: BrandColors.terracottaTint,
+    onTertiaryContainer: BrandColors.terracottaInk,
     surface: BrandColors.cream,
     onSurface: BrandColors.ink,
     surfaceContainer: BrandColors.warmBeige,
@@ -51,6 +57,8 @@ final ThemeData darkTheme = _buildTheme(
     onSecondaryContainer: BrandColors.cream,
     tertiary: BrandColors.lightTerracotta,
     onTertiary: BrandColors.nightForest,
+    tertiaryContainer: BrandColors.nightTerracotta,
+    onTertiaryContainer: BrandColors.nightTerracottaInk,
     surface: BrandColors.nightForest,
     onSurface: BrandColors.cream,
     surfaceContainer: BrandColors.nightCard,
