@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 
+import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
 
@@ -14,7 +15,7 @@ Future<void> openNewPlantForm(
   WidgetTester tester,
   FakePlantRepository repo,
 ) async {
-  await tester.pumpApp(HomeScreen(plants: repo, clock: fixedNow));
+  await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repo, clock: fixedNow));
   await tester.tap(find.text('Add plant'));
   await tester.pumpAndSettle();
   await tester.enterText(field('Name'), 'Monstera');
@@ -78,7 +79,7 @@ void main() {
           lastWateredOn: DateTime(2026, 9, 27),
         ),
       ]);
-      await tester.pumpApp(HomeScreen(plants: repository, clock: fixedNow));
+      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository, clock: fixedNow));
 
       await tester.tap(find.text('Monstera'));
       await tester.pumpAndSettle();
@@ -100,7 +101,7 @@ void main() {
           lastWateredOn: DateTime(2026, 9, 27),
         ),
       ]);
-      await tester.pumpApp(HomeScreen(plants: repository, clock: fixedNow));
+      await tester.pumpApp(HomeScreen(careLogs: FakeCareLogRepository(), plants: repository, clock: fixedNow));
       await tester.tap(find.text('Monstera'));
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Edit plant'));
@@ -114,7 +115,7 @@ void main() {
 
     testWidgets('shows the interval texts in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(plants: FakePlantRepository(), clock: fixedNow),
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(), clock: fixedNow),
         locale: const Locale('de'),
       );
       await tester.tap(find.text('Pflanze hinzufügen'));

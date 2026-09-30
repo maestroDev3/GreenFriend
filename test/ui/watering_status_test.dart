@@ -4,6 +4,7 @@ import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
 
@@ -38,7 +39,7 @@ void main() {
   group('watering status on the plant cards', () {
     testWidgets('shows overdue, today and upcoming in English', (tester) async {
       await tester.pumpApp(
-        HomeScreen(plants: FakePlantRepository(plants), clock: fixedNow),
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
       );
 
       expect(find.text('Overdue by 2 days'), findsOneWidget);
@@ -51,7 +52,7 @@ void main() {
 
     testWidgets('shows the status in German', (tester) async {
       await tester.pumpApp(
-        HomeScreen(plants: FakePlantRepository(plants), clock: fixedNow),
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
         locale: const Locale('de'),
       );
 
@@ -67,7 +68,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(
+        HomeScreen(careLogs: FakeCareLogRepository(), 
           plants: FakePlantRepository([plant('Ficus')]),
           clock: fixedNow,
         ),
@@ -81,7 +82,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpApp(
-        HomeScreen(plants: FakePlantRepository(plants), clock: fixedNow),
+        HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
       );
 
       final scheme = lightTheme.colorScheme;

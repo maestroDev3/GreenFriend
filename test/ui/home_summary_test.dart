@@ -4,6 +4,7 @@ import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/ui/home_screen.dart';
 import 'package:green_friend/ui/theme.dart';
 
+import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
 
@@ -29,7 +30,7 @@ Future<void> pumpHome(
   Locale locale = const Locale('en'),
 }) {
   return tester.pumpApp(
-    HomeScreen(plants: FakePlantRepository(plants), clock: fixedNow),
+    HomeScreen(careLogs: FakeCareLogRepository(), plants: FakePlantRepository(plants), clock: fixedNow),
     locale: locale,
   );
 }

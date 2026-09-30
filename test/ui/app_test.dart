@@ -5,6 +5,7 @@ import 'package:green_friend/l10n/app_localizations.dart';
 import 'package:green_friend/ui/app.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 
+import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/fake_settings_repository.dart';
 
@@ -12,7 +13,7 @@ Future<void> pumpWithDeviceLocale(WidgetTester tester, Locale locale) async {
   tester.platformDispatcher.localesTestValue = [locale];
   addTearDown(tester.platformDispatcher.clearLocalesTestValue);
   await tester.pumpWidget(
-    GreenFriendApp(
+    GreenFriendApp(careLogs: FakeCareLogRepository(), 
       settings: SettingsController(FakeSettingsRepository()),
       plants: FakePlantRepository(),
     ),
