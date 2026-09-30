@@ -53,9 +53,7 @@ Future<void> save(WidgetTester tester, [String label = 'Save']) async {
 
 void main() {
   group('pruning in the plant form', () {
-    testWidgets('saves the interval with today as last pruned', (
-      tester,
-    ) async {
+    testWidgets('saves the interval with today as last pruned', (tester) async {
       final plants = FakePlantRepository();
       await pumpForm(tester, plants);
 
