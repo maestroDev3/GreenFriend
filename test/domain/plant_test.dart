@@ -23,6 +23,26 @@ void main() {
       expect(plant.location, isNull);
     });
 
+    test('keeps an optional species id, trimmed, empty becomes null', () {
+      expect(Plant(id: 'p1', name: 'M').speciesId, isNull);
+      expect(
+        Plant(id: 'p1', name: 'M', speciesId: ' monstera-deliciosa ').speciesId,
+        'monstera-deliciosa',
+      );
+      expect(Plant(id: 'p1', name: 'M', speciesId: ' ').speciesId, isNull);
+    });
+
+    test('compares the species id', () {
+      expect(
+        Plant(id: 'p1', name: 'M', speciesId: 'a'),
+        isNot(Plant(id: 'p1', name: 'M', speciesId: 'b')),
+      );
+      expect(
+        Plant(id: 'p1', name: 'M', speciesId: 'a').copyWith(name: 'N'),
+        Plant(id: 'p1', name: 'N', speciesId: 'a'),
+      );
+    });
+
     test('rejects an empty or blank name', () {
       expect(() => Plant(id: 'p1', name: ''), throwsArgumentError);
       expect(() => Plant(id: 'p1', name: '   '), throwsArgumentError);

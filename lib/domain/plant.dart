@@ -11,6 +11,7 @@ class Plant {
     required this.id,
     required String name,
     String? species,
+    String? speciesId,
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
@@ -20,6 +21,7 @@ class Plant {
     DateTime? lastRepottedOn,
   }) : name = _requireName(name),
        species = _optional(species),
+       speciesId = _optional(speciesId),
        location = _optional(location),
        wateringIntervalDays = _checkRange(
          wateringIntervalDays,
@@ -43,6 +45,10 @@ class Plant {
   final String id;
   final String name;
   final String? species;
+
+  /// Id of the care profile in the plant database, if the species was picked
+  /// from it.
+  final String? speciesId;
   final String? location;
 
   /// Water every this many days; `null` means no watering schedule.
@@ -67,6 +73,7 @@ class Plant {
   Plant copyWith({
     String? name,
     String? species,
+    String? speciesId,
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
@@ -79,6 +86,7 @@ class Plant {
       id: id,
       name: name ?? this.name,
       species: species ?? this.species,
+      speciesId: speciesId ?? this.speciesId,
       location: location ?? this.location,
       wateringIntervalDays: wateringIntervalDays ?? this.wateringIntervalDays,
       lastWateredOn: lastWateredOn ?? this.lastWateredOn,
@@ -97,6 +105,7 @@ class Plant {
       other.id == id &&
       other.name == name &&
       other.species == species &&
+      other.speciesId == speciesId &&
       other.location == location &&
       other.wateringIntervalDays == wateringIntervalDays &&
       other.lastWateredOn == lastWateredOn &&
@@ -110,6 +119,7 @@ class Plant {
     id,
     name,
     species,
+    speciesId,
     location,
     wateringIntervalDays,
     lastWateredOn,

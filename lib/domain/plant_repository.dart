@@ -16,6 +16,7 @@ abstract interface class PlantRepository {
   Future<Plant> add({
     required String name,
     String? species,
+    String? speciesId,
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,

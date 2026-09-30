@@ -35,6 +35,7 @@ class FakePlantRepository implements PlantRepository {
   Future<Plant> add({
     required String name,
     String? species,
+    String? speciesId,
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
@@ -47,6 +48,7 @@ class FakePlantRepository implements PlantRepository {
       id: 'fake-${_nextId++}',
       name: name,
       species: species,
+      speciesId: speciesId,
       location: location,
       wateringIntervalDays: wateringIntervalDays,
       lastWateredOn: lastWateredOn,
