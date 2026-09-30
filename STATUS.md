@@ -4,25 +4,22 @@ Current project state for planning and Claude projects. Maintained by Claude
 after every status change (see CLAUDE.md, “Keeping the status”).
 The GitHub issues are authoritative; this file is the summary.
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-09-30
 
 ## In progress
 
-- #3 Create, edit and delete plants – Epic #1 Foundation
-  - Done: #40 plant model, #41 local storage
-  - Waiting for CI: #42 add plant (PR #46), #43 edit/delete (draft PR #47)
-  - **Blocked:** GitHub Actions does not start jobs (billing / spending limit) – no CI, no merges, no APK until fixed
+- #6 Watering interval and due-date logic – Epic #5 Care and reminders (taken before #28/#4, which need its data)
 
 ## Up next
 
-- #28 Plant detail page
+- #28 Plant detail page, then #4 Home screen: plants that need attention today on top
 
 ## Backlog by epic
 
 | Epic | Stories (in order) |
 |---|---|
-| #1 Foundation | #3 Create, edit and delete plants (`in-progress`) → #28 Plant detail page → #4 Home screen: plants that need attention today on top → #29 App navigation: bottom bar |
-| #5 Care and reminders | #6 Watering interval and due-date logic → #7 Reminders as notifications → #8 Confirm care and history → #9 Fertilizing and repotting → #25 Care calendar: what is due when and where |
+| #1 Foundation | #28 Plant detail page → #4 Home screen: plants that need attention today on top → #29 App navigation: bottom bar |
+| #5 Care and reminders | #6 Watering interval and due-date logic (`in-progress`) → #7 Reminders as notifications → #8 Confirm care and history → #9 Fertilizing and repotting → #25 Care calendar: what is due when and where |
 | #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
 | #10 Growth journal | #11 Photos and notes per plant → #12 Timeline with before/after |
 | #16 Data safety | #17 Backup and export |
@@ -32,6 +29,7 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #3 Create, edit and delete plants
 - #2 Project setup: EN/DE localization, theme (light/dark), fonts, settings (theme + language), app icon
 - First start: labels, epics and stories as issues, Flutter project scaffolded, CI green
 - Repo created with CLAUDE.md, STATUS.md, Flutter skill and CI
