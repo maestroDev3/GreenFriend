@@ -20,6 +20,8 @@ final plant = Plant(
   lastFertilizedOn: DateTime(2026, 9, 20),
   repottingIntervalMonths: 12,
   lastRepottedOn: DateTime(2025, 4, 2),
+  pruningIntervalMonths: 6,
+  lastPrunedOn: DateTime(2026, 5, 3),
 );
 final log = CareLog(
   id: 'l1',
@@ -91,6 +93,8 @@ void main() {
       );
 
       expect(backup.plants.single.speciesId, isNull);
+      expect(backup.plants.single.pruningIntervalMonths, isNull);
+      expect(backup.plants.single.lastPrunedOn, isNull);
       expect(backup.plants.single.species, 'Aloe vera');
     });
 

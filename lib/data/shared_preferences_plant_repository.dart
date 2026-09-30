@@ -60,6 +60,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     DateTime? lastFertilizedOn,
     int? repottingIntervalMonths,
     DateTime? lastRepottedOn,
+    int? pruningIntervalMonths,
+    DateTime? lastPrunedOn,
   }) async {
     final plant = Plant(
       id: _newId(),
@@ -73,6 +75,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
       lastFertilizedOn: lastFertilizedOn,
       repottingIntervalMonths: repottingIntervalMonths,
       lastRepottedOn: lastRepottedOn,
+      pruningIntervalMonths: pruningIntervalMonths,
+      lastPrunedOn: lastPrunedOn,
     );
     await _save([..._plants, plant]);
     return plant;
@@ -148,6 +152,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'lastFertilizedOn': _isoDayOrNull(plant.lastFertilizedOn),
     'repottingIntervalMonths': plant.repottingIntervalMonths,
     'lastRepottedOn': _isoDayOrNull(plant.lastRepottedOn),
+    'pruningIntervalMonths': plant.pruningIntervalMonths,
+    'lastPrunedOn': _isoDayOrNull(plant.lastPrunedOn),
   };
 
   static String? _isoDayOrNull(DateTime? day) =>
@@ -173,5 +179,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     lastFertilizedOn: _dayOrNull(json['lastFertilizedOn']),
     repottingIntervalMonths: json['repottingIntervalMonths'] as int?,
     lastRepottedOn: _dayOrNull(json['lastRepottedOn']),
+    pruningIntervalMonths: json['pruningIntervalMonths'] as int?,
+    lastPrunedOn: _dayOrNull(json['lastPrunedOn']),
   );
 }

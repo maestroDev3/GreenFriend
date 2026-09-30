@@ -119,6 +119,8 @@ Map<String, Object?> _plantToJson(Plant plant) => {
   'lastFertilizedOn': _day(plant.lastFertilizedOn),
   'repottingIntervalMonths': plant.repottingIntervalMonths,
   'lastRepottedOn': _day(plant.lastRepottedOn),
+  'pruningIntervalMonths': plant.pruningIntervalMonths,
+  'lastPrunedOn': _day(plant.lastPrunedOn),
 };
 
 Plant _plantFromJson(Map<String, dynamic> json) => Plant(
@@ -133,6 +135,8 @@ Plant _plantFromJson(Map<String, dynamic> json) => Plant(
   lastFertilizedOn: _parseDay(json['lastFertilizedOn']),
   repottingIntervalMonths: json['repottingIntervalMonths'] as int?,
   lastRepottedOn: _parseDay(json['lastRepottedOn']),
+  pruningIntervalMonths: json['pruningIntervalMonths'] as int?,
+  lastPrunedOn: _parseDay(json['lastPrunedOn']),
 );
 
 Map<String, Object?> _logToJson(CareLog log) => {

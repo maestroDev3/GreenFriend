@@ -52,6 +52,33 @@ void main() {
       expect(plant.wateringIntervalDays, 14);
     });
 
+    test('keeps the pruning schedule across a restart', () async {
+      final plant = await (await openRepository()).add(
+        name: 'Olive',
+        pruningIntervalMonths: 12,
+        lastPrunedOn: DateTime(2026, 3, 14),
+      );
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.pruningIntervalMonths, 12);
+      expect(loaded.lastPrunedOn, DateTime.utc(2026, 3, 14));
+      expect(loaded, plant);
+    });
+
+    test('loads plants stored before pruning existed', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe","repottingIntervalMonths":24,'
+            '"lastRepottedOn":"2026-01-10"}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.pruningIntervalMonths, isNull);
+      expect(plant.lastPrunedOn, isNull);
+      expect(plant.repottingIntervalMonths, 24);
+    });
+
     test('generates unique ids', () async {
       final repository = await openRepository();
 
