@@ -8,6 +8,7 @@ import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 DateTime fixedNow() => DateTime(2026, 9, 30, 10);
 
@@ -30,6 +31,7 @@ Future<void> pumpForm(
 }) {
   return tester.pumpApp(
     PlantFormScreen(
+      species: FakeSpeciesCatalog(const []),
       journal: FakeJournalRepository(),
       photos: FakePhotoStore(),
       plants: plants,

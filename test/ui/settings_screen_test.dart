@@ -13,6 +13,7 @@ import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/fake_settings_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 Future<SettingsController> loadedSettings(FakeSettingsRepository repo) async {
   final settings = SettingsController(repo);
@@ -48,6 +49,7 @@ void main() {
     ) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -95,6 +97,7 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          species: FakeSpeciesCatalog(const []),
           backupArchive: FakeBackupArchive(),
           fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
@@ -116,6 +119,7 @@ void main() {
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
         GreenFriendApp(
+          species: FakeSpeciesCatalog(const []),
           backupArchive: FakeBackupArchive(),
           fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
@@ -144,6 +148,7 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          species: FakeSpeciesCatalog(const []),
           backupArchive: FakeBackupArchive(),
           fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
@@ -184,6 +189,7 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          species: FakeSpeciesCatalog(const []),
           backupArchive: FakeBackupArchive(),
           fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
@@ -206,6 +212,7 @@ void main() {
       final settings = await loadedSettings(repository);
       await tester.pumpWidget(
         GreenFriendApp(
+          species: FakeSpeciesCatalog(const []),
           backupArchive: FakeBackupArchive(),
           fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),
@@ -235,6 +242,7 @@ void main() {
 
       await tester.pumpWidget(
         GreenFriendApp(
+          species: FakeSpeciesCatalog(const []),
           backupArchive: FakeBackupArchive(),
           fileSharing: FakeFileSharing(),
           journal: FakeJournalRepository(),

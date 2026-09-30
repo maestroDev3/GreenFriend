@@ -8,6 +8,7 @@ import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 FakePlantRepository repositoryWithMonstera() => FakePlantRepository([
   Plant(
@@ -34,6 +35,7 @@ void main() {
     testWidgets('opens the form with the plant values', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -59,6 +61,7 @@ void main() {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -89,6 +92,7 @@ void main() {
     testWidgets('shows the edit texts in German', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -112,6 +116,7 @@ void main() {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -138,6 +143,7 @@ void main() {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),

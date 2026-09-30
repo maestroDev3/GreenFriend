@@ -9,6 +9,7 @@ import '../support/fake_journal_repository.dart';
 import '../support/fake_photos.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 DateTime fixedNow() => DateTime(2026, 9, 30, 10);
 
@@ -25,6 +26,7 @@ class Setup {
   Future<void> pump(WidgetTester tester, {Locale locale = const Locale('en')}) {
     return tester.pumpApp(
       PlantDetailScreen(
+        species: FakeSpeciesCatalog(const []),
         plants: plants,
         careLogs: FakeCareLogRepository(),
         journal: journal,

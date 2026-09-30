@@ -7,12 +7,14 @@ import '../support/fake_photos.dart';
 import '../support/fake_care_log_repository.dart';
 import '../support/fake_plant_repository.dart';
 import '../support/pump_app.dart';
+import '../support/fake_species_catalog.dart';
 
 void main() {
   group('HomeScreen', () {
     testWidgets('shows the app title and the empty-state hint', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
@@ -31,6 +33,7 @@ void main() {
     testWidgets('shows the German hint for locale de', (tester) async {
       await tester.pumpApp(
         HomeScreen(
+          species: FakeSpeciesCatalog(const []),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
           photoPicker: FakePhotoPicker(),
