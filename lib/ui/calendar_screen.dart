@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/calendar.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/care_status.dart';
@@ -12,8 +13,8 @@ import '../l10n/app_localizations.dart';
 import 'watering_actions.dart';
 import 'widgets/watering_label.dart';
 
-/// What is due when: a strip of the next two weeks and the tasks of the
-/// selected day and the days after it.
+/// What is due when: a strip of the next two weeks or a month grid, and the
+/// tasks of the selected day and the days after it.
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({
     super.key,
@@ -33,9 +34,17 @@ class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
+enum _CalendarView { week, month }
+
 class _CalendarScreenState extends State<CalendarScreen> {
   late final Stream<List<Plant>> _plants = widget.plants.watchPlants();
   late DateTime _selected = dayOf(widget.clock());
+  late DateTime _month = DateTime.utc(_selected.year, _selected.month);
+  var _view = _CalendarView.week;
+
+  void _showMonth(int offset) => setState(
+    () => _month = DateTime.utc(_month.year, _month.month + offset),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +55,64 @@ class _CalendarScreenState extends State<CalendarScreen> {
       body: StreamBuilder<List<Plant>>(
         stream: _plants,
         builder: (context, snapshot) {
-          final tasks = careTasksBetween(
-            snapshot.data ?? const [],
-            from: today,
-            to: today.add(
-              const Duration(
-                days: CalendarScreen.stripDays + CalendarScreen.listDays,
-              ),
+          final plants = snapshot.data ?? const <Plant>[];
+          final stripEnd = today.add(
+            const Duration(
+              days: CalendarScreen.stripDays + CalendarScreen.listDays,
             ),
+          );
+          final listEnd = _selected.add(
+            const Duration(days: CalendarScreen.listDays),
+          );
+          final tasks = careTasksBetween(
+            plants,
+            from: today,
+            to: listEnd.isAfter(stripEnd) ? listEnd : stripEnd,
             today: today,
           );
           final taskDays = {for (final task in tasks) task.day};
           return Column(
             children: [
-              _DayStrip(
-                today: today,
-                selected: _selected,
-                taskDays: taskDays,
-                onSelect: (day) => setState(() => _selected = day),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: SegmentedButton<_CalendarView>(
+                  segments: [
+                    ButtonSegment(
+                      value: _CalendarView.week,
+                      label: Text(l10n.calendarWeek),
+                    ),
+                    ButtonSegment(
+                      value: _CalendarView.month,
+                      label: Text(l10n.calendarMonth),
+                    ),
+                  ],
+                  selected: {_view},
+                  showSelectedIcon: false,
+                  onSelectionChanged: (views) =>
+                      setState(() => _view = views.single),
+                ),
               ),
+              switch (_view) {
+                _CalendarView.week => _DayStrip(
+                  today: today,
+                  selected: _selected,
+                  taskDays: taskDays,
+                  onSelect: (day) => setState(() => _selected = day),
+                ),
+                _CalendarView.month => _MonthView(
+                  month: _month,
+                  today: today,
+                  selected: _selected,
+                  counts: careTaskCountsByDay(
+                    plants,
+                    month: _month,
+                    today: today,
+                  ),
+                  onSelect: (day) => setState(() => _selected = day),
+                  onPrevious: () => _showMonth(-1),
+                  onNext: () => _showMonth(1),
+                ),
+              },
               Expanded(
                 child: _TaskList(
                   today: today,
@@ -183,6 +231,164 @@ class _DayChip extends StatelessWidget {
               else
                 const SizedBox(height: 6),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A month as a grid of days with markers on days that have care tasks.
+class _MonthView extends StatelessWidget {
+  const _MonthView({
+    required this.month,
+    required this.today,
+    required this.selected,
+    required this.counts,
+    required this.onSelect,
+    required this.onPrevious,
+    required this.onNext,
+  });
+
+  final DateTime month;
+  final DateTime today;
+  final DateTime selected;
+  final Map<DateTime, int> counts;
+  final ValueChanged<DateTime> onSelect;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final material = MaterialLocalizations.of(context);
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final firstIndex = material.firstDayOfWeekIndex; // 0 = Sunday
+    final weeks = monthGrid(
+      month,
+      firstWeekday: firstIndex == 0 ? DateTime.sunday : firstIndex,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.chevron_left),
+                tooltip: l10n.previousMonth,
+                onPressed: onPrevious,
+              ),
+              Expanded(
+                child: Text(
+                  DateFormat.yMMMM(locale).format(month),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.chevron_right),
+                tooltip: l10n.nextMonth,
+                onPressed: onNext,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              for (var i = 0; i < 7; i++)
+                Expanded(
+                  child: Text(
+                    material.narrowWeekdays[(firstIndex + i) % 7],
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.labelMedium,
+                  ),
+                ),
+            ],
+          ),
+          for (final week in weeks)
+            Row(
+              children: [
+                for (final day in week)
+                  Expanded(
+                    child: day == null
+                        ? const SizedBox(height: 44)
+                        : _MonthDay(
+                            day: day,
+                            today: day == today,
+                            selected: day == selected,
+                            hasTasks: (counts[day] ?? 0) > 0,
+                            onTap: () => onSelect(day),
+                          ),
+                  ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MonthDay extends StatelessWidget {
+  const _MonthDay({
+    required this.day,
+    required this.today,
+    required this.selected,
+    required this.hasTasks,
+    required this.onTap,
+  });
+
+  final DateTime day;
+  final bool today;
+  final bool selected;
+  final bool hasTasks;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final foreground = selected ? scheme.onPrimary : scheme.onSurface;
+    return InkWell(
+      key: ValueKey('month-day-${_isoDay(day)}'),
+      onTap: onTap,
+      customBorder: const CircleBorder(),
+      child: SizedBox(
+        height: 44,
+        child: Center(
+          child: Ink(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: selected ? scheme.primary : null,
+              border: today && !selected
+                  ? Border.all(color: scheme.primary)
+                  : null,
+              shape: BoxShape.circle,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${day.day}',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: foreground,
+                  ),
+                ),
+                if (hasTasks)
+                  Container(
+                    key: ValueKey('month-marker-${_isoDay(day)}'),
+                    width: 5,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: selected ? scheme.onPrimary : scheme.tertiary,
+                      shape: BoxShape.circle,
+                    ),
+                  )
+                else
+                  const SizedBox(height: 5),
+              ],
+            ),
           ),
         ),
       ),
