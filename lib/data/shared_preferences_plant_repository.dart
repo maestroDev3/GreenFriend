@@ -49,6 +49,10 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
+    int? fertilizingIntervalDays,
+    DateTime? lastFertilizedOn,
+    int? repottingIntervalMonths,
+    DateTime? lastRepottedOn,
   }) async {
     final plant = Plant(
       id: _newId(),
@@ -57,6 +61,10 @@ class SharedPreferencesPlantRepository implements PlantRepository {
       location: location,
       wateringIntervalDays: wateringIntervalDays,
       lastWateredOn: lastWateredOn,
+      fertilizingIntervalDays: fertilizingIntervalDays,
+      lastFertilizedOn: lastFertilizedOn,
+      repottingIntervalMonths: repottingIntervalMonths,
+      lastRepottedOn: lastRepottedOn,
     );
     await _save([..._plants, plant]);
     return plant;
@@ -126,11 +134,18 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'species': plant.species,
     'location': plant.location,
     'wateringIntervalDays': plant.wateringIntervalDays,
-    'lastWateredOn': switch (plant.lastWateredOn) {
-      final day? => _isoDay(day),
-      null => null,
-    },
+    'lastWateredOn': _isoDayOrNull(plant.lastWateredOn),
+    'fertilizingIntervalDays': plant.fertilizingIntervalDays,
+    'lastFertilizedOn': _isoDayOrNull(plant.lastFertilizedOn),
+    'repottingIntervalMonths': plant.repottingIntervalMonths,
+    'lastRepottedOn': _isoDayOrNull(plant.lastRepottedOn),
   };
+
+  static String? _isoDayOrNull(DateTime? day) =>
+      day == null ? null : _isoDay(day);
+
+  static DateTime? _dayOrNull(Object? stored) =>
+      stored is String ? DateTime.parse(stored) : null;
 
   static String _isoDay(DateTime day) =>
       '${day.year.toString().padLeft(4, '0')}-'
@@ -143,9 +158,10 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     species: json['species'] as String?,
     location: json['location'] as String?,
     wateringIntervalDays: json['wateringIntervalDays'] as int?,
-    lastWateredOn: switch (json['lastWateredOn']) {
-      final String day => DateTime.parse(day),
-      _ => null,
-    },
+    lastWateredOn: _dayOrNull(json['lastWateredOn']),
+    fertilizingIntervalDays: json['fertilizingIntervalDays'] as int?,
+    lastFertilizedOn: _dayOrNull(json['lastFertilizedOn']),
+    repottingIntervalMonths: json['repottingIntervalMonths'] as int?,
+    lastRepottedOn: _dayOrNull(json['lastRepottedOn']),
   );
 }

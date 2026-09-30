@@ -27,6 +27,10 @@ class FakePlantRepository implements PlantRepository {
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
+    int? fertilizingIntervalDays,
+    DateTime? lastFertilizedOn,
+    int? repottingIntervalMonths,
+    DateTime? lastRepottedOn,
   }) async {
     final plant = Plant(
       id: 'fake-${_nextId++}',
@@ -35,6 +39,10 @@ class FakePlantRepository implements PlantRepository {
       location: location,
       wateringIntervalDays: wateringIntervalDays,
       lastWateredOn: lastWateredOn,
+      fertilizingIntervalDays: fertilizingIntervalDays,
+      lastFertilizedOn: lastFertilizedOn,
+      repottingIntervalMonths: repottingIntervalMonths,
+      lastRepottedOn: lastRepottedOn,
     );
     _plants.add(plant);
     _changes.add(plants);
