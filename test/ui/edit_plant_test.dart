@@ -15,8 +15,14 @@ FakePlantRepository repositoryWithMonstera() => FakePlantRepository([
   ),
 ]);
 
-Future<void> openMonstera(WidgetTester tester) async {
+/// Opens the plant form via the plant's detail page.
+Future<void> openMonstera(
+  WidgetTester tester, {
+  String editTooltip = 'Edit plant',
+}) async {
   await tester.tap(find.text('Monstera'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.byTooltip(editTooltip));
   await tester.pumpAndSettle();
 }
 
@@ -36,7 +42,9 @@ void main() {
       expect(find.widgetWithText(TextFormField, 'Living room'), findsOneWidget);
     });
 
-    testWidgets('saves the changes and shows them in the list', (tester) async {
+    testWidgets('saves the changes and shows them on the detail page', (
+      tester,
+    ) async {
       final repository = repositoryWithMonstera();
       await tester.pumpApp(HomeScreen(plants: repository));
       await openMonstera(tester);
@@ -65,7 +73,7 @@ void main() {
         locale: const Locale('de'),
       );
 
-      await openMonstera(tester);
+      await openMonstera(tester, editTooltip: 'Pflanze bearbeiten');
 
       expect(find.text('Pflanze bearbeiten'), findsOneWidget);
       expect(find.byTooltip('Pflanze löschen'), findsOneWidget);

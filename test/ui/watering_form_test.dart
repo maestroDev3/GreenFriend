@@ -82,6 +82,8 @@ void main() {
 
       await tester.tap(find.text('Monstera'));
       await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Edit plant'));
+      await tester.pumpAndSettle();
 
       expect(find.widgetWithText(TextFormField, '5'), findsOneWidget);
       expect(find.text('Last watered: Sep 27, 2026'), findsOneWidget);
@@ -100,6 +102,8 @@ void main() {
       ]);
       await tester.pumpApp(HomeScreen(plants: repository, clock: fixedNow));
       await tester.tap(find.text('Monstera'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Edit plant'));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.widgetWithText(TextFormField, '5'), '');
