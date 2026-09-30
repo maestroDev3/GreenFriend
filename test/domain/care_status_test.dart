@@ -12,12 +12,21 @@ final today = DateTime(2026, 9, 30, 9);
 void main() {
   group('addMonths', () {
     test('keeps the day of the month', () {
-      expect(addMonths(DateTime.utc(2026, 12, 15), 2), DateTime.utc(2027, 2, 15));
+      expect(
+        addMonths(DateTime.utc(2026, 12, 15), 2),
+        DateTime.utc(2027, 2, 15),
+      );
     });
 
     test('clamps to the last day of shorter months', () {
-      expect(addMonths(DateTime.utc(2027, 1, 31), 1), DateTime.utc(2027, 2, 28));
-      expect(addMonths(DateTime.utc(2028, 1, 31), 1), DateTime.utc(2028, 2, 29));
+      expect(
+        addMonths(DateTime.utc(2027, 1, 31), 1),
+        DateTime.utc(2027, 2, 28),
+      );
+      expect(
+        addMonths(DateTime.utc(2028, 1, 31), 1),
+        DateTime.utc(2028, 2, 29),
+      );
     });
   });
 
