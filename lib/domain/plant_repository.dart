@@ -7,7 +7,13 @@ abstract interface class PlantRepository {
   Stream<List<Plant>> watchPlants();
 
   /// Adds a new plant and returns it with its generated id.
-  Future<Plant> add({required String name, String? species, String? location});
+  Future<Plant> add({
+    required String name,
+    String? species,
+    String? location,
+    int? wateringIntervalDays,
+    DateTime? lastWateredOn,
+  });
 
   /// Replaces the stored plant with the same id; throws [StateError] if the
   /// plant does not exist.

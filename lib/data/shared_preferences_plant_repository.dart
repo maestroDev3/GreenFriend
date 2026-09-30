@@ -47,12 +47,16 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     required String name,
     String? species,
     String? location,
+    int? wateringIntervalDays,
+    DateTime? lastWateredOn,
   }) async {
     final plant = Plant(
       id: _newId(),
       name: name,
       species: species,
       location: location,
+      wateringIntervalDays: wateringIntervalDays,
+      lastWateredOn: lastWateredOn,
     );
     await _save([..._plants, plant]);
     return plant;
@@ -121,12 +125,27 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'name': plant.name,
     'species': plant.species,
     'location': plant.location,
+    'wateringIntervalDays': plant.wateringIntervalDays,
+    'lastWateredOn': switch (plant.lastWateredOn) {
+      final day? => _isoDay(day),
+      null => null,
+    },
   };
+
+  static String _isoDay(DateTime day) =>
+      '${day.year.toString().padLeft(4, '0')}-'
+      '${day.month.toString().padLeft(2, '0')}-'
+      '${day.day.toString().padLeft(2, '0')}';
 
   static Plant _fromJson(Map<String, dynamic> json) => Plant(
     id: json['id'] as String,
     name: json['name'] as String,
     species: json['species'] as String?,
     location: json['location'] as String?,
+    wateringIntervalDays: json['wateringIntervalDays'] as int?,
+    lastWateredOn: switch (json['lastWateredOn']) {
+      final String day => DateTime.parse(day),
+      _ => null,
+    },
   );
 }
