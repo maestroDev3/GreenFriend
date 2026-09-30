@@ -8,17 +8,17 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #28 Plant detail page – Epic #1 Foundation (being refined)
+- #4 Home screen: plants that need attention today on top – Epic #1 Foundation (being refined)
 
 ## Up next
 
-- #4 Home screen: plants that need attention today on top
+- #29 App navigation: bottom bar
 
 ## Backlog by epic
 
 | Epic | Stories (in order) |
 |---|---|
-| #1 Foundation | #28 Plant detail page (`in-progress`) → #4 Home screen: plants that need attention today on top → #29 App navigation: bottom bar |
+| #1 Foundation | #4 Home screen: plants that need attention today on top (`in-progress`) → #29 App navigation: bottom bar |
 | #5 Care and reminders | #7 Reminders as notifications → #8 Confirm care and history → #9 Fertilizing and repotting → #25 Care calendar: what is due when and where |
 | #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
 | #10 Growth journal | #11 Photos and notes per plant → #12 Timeline with before/after |
@@ -29,11 +29,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #28 Plant detail page
 - #6 Watering interval and due-date logic
 - #3 Create, edit and delete plants
 - #2 Project setup: EN/DE localization, theme (light/dark), fonts, settings (theme + language), app icon
 - First start: labels, epics and stories as issues, Flutter project scaffolded, CI green
-- Repo created with CLAUDE.md, STATUS.md, Flutter skill and CI
 
 ## Open decisions (user only)
 
