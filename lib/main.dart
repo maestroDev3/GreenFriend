@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/file_photo_store.dart';
+import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
 import 'data/shared_preferences_care_log_repository.dart';
+import 'data/shared_preferences_journal_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'ui/app.dart';
@@ -38,6 +41,9 @@ Future<void> main() async {
       settings: settings,
       plants: plants,
       careLogs: SharedPreferencesCareLogRepository(preferences),
+      journal: SharedPreferencesJournalRepository(preferences),
+      photos: await FilePhotoStore.create(),
+      photoPicker: ImagePickerPhotoPicker(),
     ),
   );
 }

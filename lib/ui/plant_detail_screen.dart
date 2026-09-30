@@ -3,11 +3,16 @@ import 'package:intl/intl.dart';
 
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/journal.dart';
+import '../domain/journal_actions.dart';
+import '../domain/journal_repository.dart';
+import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
+import 'journal_entry_screen.dart';
 import 'plant_form_screen.dart';
 import 'watering_actions.dart';
 import 'widgets/watering_label.dart';
@@ -19,12 +24,18 @@ class PlantDetailScreen extends StatefulWidget {
     super.key,
     required this.plants,
     required this.careLogs,
+    required this.journal,
+    required this.photos,
+    required this.photoPicker,
     required this.plantId,
     this.clock = DateTime.now,
   });
 
   final PlantRepository plants;
   final CareLogRepository careLogs;
+  final JournalRepository journal;
+  final PhotoStore photos;
+  final PhotoPicker photoPicker;
   final String plantId;
 
   /// Supplies today's date for the next watering.
@@ -41,6 +52,49 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
   late final Stream<List<CareLog>> _logs = widget.careLogs.watchLogs(
     widget.plantId,
   );
+  late final Stream<List<JournalEntry>> _entries = widget.journal
+      .watchEntries(widget.plantId);
+
+  void _addEntry() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => JournalEntryScreen(
+          plantId: widget.plantId,
+          journal: widget.journal,
+          photos: widget.photos,
+          photoPicker: widget.photoPicker,
+          clock: widget.clock,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _deleteEntry(JournalEntry entry) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteJournalEntryQuestion),
+        content: Text(l10n.deletePlantMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    await deleteJournalEntry(
+      journal: widget.journal,
+      photos: widget.photos,
+      entry: entry,
+    );
+  }
 
   Future<void> _edit(Plant plant) async {
     final deleted = await Navigator.of(context).push<bool>(
@@ -48,6 +102,8 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
         builder: (_) => PlantFormScreen(
           plants: widget.plants,
           careLogs: widget.careLogs,
+          journal: widget.journal,
+          photos: widget.photos,
           plant: plant,
           clock: widget.clock,
         ),
@@ -79,6 +135,15 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
               ? const SizedBox.shrink()
               : _Details(
                   plant: plant,
+                  journal: StreamBuilder<List<JournalEntry>>(
+                    stream: _entries,
+                    builder: (context, snapshot) => _Journal(
+                      entries: snapshot.data ?? const [],
+                      photos: widget.photos,
+                      onAdd: _addEntry,
+                      onDelete: _deleteEntry,
+                    ),
+                  ),
                   history: StreamBuilder<List<CareLog>>(
                     stream: _logs,
                     builder: (context, snapshot) =>
@@ -105,12 +170,14 @@ class _Details extends StatelessWidget {
     required this.plant,
     required this.today,
     required this.onCare,
+    required this.journal,
     required this.history,
   });
 
   final Plant plant;
   final DateTime today;
   final ValueChanged<CareKind> onCare;
+  final Widget journal;
   final Widget history;
 
   @override
@@ -185,6 +252,8 @@ class _Details extends StatelessWidget {
               onConfirm: () => onCare(kind),
             ),
           ],
+        const SizedBox(height: 24),
+        journal,
         const SizedBox(height: 24),
         history,
       ],
@@ -262,6 +331,85 @@ class _CareCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The growth journal: photos and notes, newest first.
+class _Journal extends StatelessWidget {
+  const _Journal({
+    required this.entries,
+    required this.photos,
+    required this.onAdd,
+    required this.onDelete,
+  });
+
+  final List<JournalEntry> entries;
+  final PhotoStore photos;
+  final VoidCallback onAdd;
+  final ValueChanged<JournalEntry> onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final dates = DateFormat.yMMMd(Localizations.localeOf(context).toString());
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(l10n.journalTitle, style: theme.textTheme.titleLarge),
+            ),
+            OutlinedButton.icon(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add),
+              label: Text(l10n.addJournalEntry),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        if (entries.isEmpty)
+          Text(l10n.noJournalEntries, style: theme.textTheme.bodyMedium),
+        for (final entry in entries)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (entry.photo case final photo?)
+                    AspectRatio(
+                      key: ValueKey('journal-photo-${entry.id}'),
+                      aspectRatio: 4 / 3,
+                      child: Image.file(
+                        photos.fileFor(photo),
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => ColoredBox(
+                          color: theme.colorScheme.secondaryContainer,
+                          child: const Icon(Icons.image_outlined, size: 48),
+                        ),
+                      ),
+                    ),
+                  ListTile(
+                    title: Text(dates.format(entry.day)),
+                    subtitle: switch (entry.note) {
+                      final note? => Text(note),
+                      null => null,
+                    },
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      tooltip: l10n.deleteJournalEntry,
+                      onPressed: () => onDelete(entry),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

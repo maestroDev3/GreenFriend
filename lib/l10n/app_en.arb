@@ -489,5 +489,41 @@
   "about": "About",
   "@about": {
     "description": "Entry that shows information and licenses of the app."
+  },
+  "journalTitle": "Journal",
+  "@journalTitle": {
+    "description": "Section title of the growth journal on the plant detail page."
+  },
+  "addJournalEntry": "Add entry",
+  "@addJournalEntry": {
+    "description": "Button that opens the screen for a new journal entry."
+  },
+  "noJournalEntries": "No entries yet",
+  "@noJournalEntries": {
+    "description": "Shown in the journal without entries."
+  },
+  "newJournalEntry": "New entry",
+  "@newJournalEntry": {
+    "description": "Title of the screen for a new journal entry."
+  },
+  "takePhoto": "Take photo",
+  "@takePhoto": {
+    "description": "Button that opens the camera."
+  },
+  "choosePhoto": "Choose photo",
+  "@choosePhoto": {
+    "description": "Button that opens the photo picker."
+  },
+  "journalNote": "Note",
+  "@journalNote": {
+    "description": "Label of the note field of a journal entry."
+  },
+  "deleteJournalEntry": "Delete entry",
+  "@deleteJournalEntry": {
+    "description": "Tooltip of the button that deletes a journal entry."
+  },
+  "deleteJournalEntryQuestion": "Delete this entry?",
+  "@deleteJournalEntryQuestion": {
+    "description": "Title of the dialog that confirms deleting a journal entry."
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../domain/care_log_repository.dart';
+import '../domain/journal_repository.dart';
+import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
@@ -13,11 +15,17 @@ class PlantsScreen extends StatefulWidget {
     super.key,
     required this.plants,
     required this.careLogs,
+    required this.journal,
+    required this.photos,
+    required this.photoPicker,
     this.clock = DateTime.now,
   });
 
   final PlantRepository plants;
   final CareLogRepository careLogs;
+  final JournalRepository journal;
+  final PhotoStore photos;
+  final PhotoPicker photoPicker;
   final Clock clock;
 
   @override
@@ -33,6 +41,9 @@ class _PlantsScreenState extends State<PlantsScreen> {
         builder: (_) => PlantDetailScreen(
           plants: widget.plants,
           careLogs: widget.careLogs,
+          journal: widget.journal,
+          photos: widget.photos,
+          photoPicker: widget.photoPicker,
           plantId: plant.id,
           clock: widget.clock,
         ),

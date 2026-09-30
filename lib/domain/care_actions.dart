@@ -1,5 +1,8 @@
 import 'care_log.dart';
 import 'care_log_repository.dart';
+import 'journal_actions.dart';
+import 'journal_repository.dart';
+import 'photos.dart';
 import 'plant.dart';
 import 'plant_repository.dart';
 
@@ -63,12 +66,19 @@ Future<void> undoWatering({
   required CareConfirmation confirmation,
 }) => undoCare(plants: plants, careLogs: careLogs, confirmation: confirmation);
 
-/// Deletes a plant together with its care history.
+/// Deletes a plant together with its care history, journal and photos.
 Future<void> deletePlant({
   required PlantRepository plants,
   required CareLogRepository careLogs,
+  required JournalRepository journal,
+  required PhotoStore photos,
   required String plantId,
 }) async {
   await careLogs.deleteForPlant(plantId);
+  await deleteJournalForPlant(
+    journal: journal,
+    photos: photos,
+    plantId: plantId,
+  );
   await plants.delete(plantId);
 }
