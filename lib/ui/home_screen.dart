@@ -8,6 +8,7 @@ import '../domain/plant_repository.dart';
 import '../domain/urgency.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
+import 'calendar_screen.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_screen.dart';
@@ -44,6 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(l10n.appTitle),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_month_outlined),
+            tooltip: l10n.calendarTitle,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => CalendarScreen(
+                  plants: widget.plants,
+                  careLogs: widget.careLogs,
+                  clock: widget.clock,
+                ),
+              ),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             tooltip: l10n.settingsTitle,

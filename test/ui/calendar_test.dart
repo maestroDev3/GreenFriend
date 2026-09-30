@@ -68,7 +68,7 @@ void main() {
       expect(find.text('Tomorrow'), findsOneWidget);
       expect(find.text('Water Monstera'), findsWidgets);
       expect(find.text('Every 3 days · Living room'), findsWidgets);
-      expect(find.text('Water Pothos'), findsNothing);
+      expect(find.text('Today'), findsNothing);
     });
 
     testWidgets('says "Nothing to do" for a day without tasks', (tester) async {
