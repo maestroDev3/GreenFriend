@@ -56,7 +56,7 @@ jobs:
   # (saves ~6 min per TDD cycle).
   build-apk:
     needs: test
-    if: github.ref == 'refs/heads/main' || contains(github.event.head_commit.message, '[apk]')
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/epic/') || contains(github.event.head_commit.message, '[apk]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -97,3 +97,15 @@ jobs:
           gh release create latest green_friend.apk --target "$GITHUB_SHA" \
             --title "Green Friend (latest)" \
             --notes "Built automatically from ${GITHUB_SHA::7}. To install, download green_friend.apk on your phone and open it."
+      # On an epic branch: publish the APK as pre-release “epic-test”, so the
+      # user can test the epic on the phone before it is merged into main.
+      - name: Release epic-test
+        if: startsWith(github.ref, 'refs/heads/epic/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp build/app/outputs/flutter-apk/app-release.apk green_friend_test.apk
+          gh release delete epic-test --yes --cleanup-tag || true
+          gh release create epic-test green_friend_test.apk --target "$GITHUB_SHA" --prerelease \
+            --title "Green Friend test (${GITHUB_REF_NAME})" \
+            --notes "Test build of ${GITHUB_REF_NAME} at ${GITHUB_SHA::7} – not merged into main yet. Installs over the normal app; your data stays."
