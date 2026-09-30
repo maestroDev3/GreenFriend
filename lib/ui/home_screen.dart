@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
+import '../domain/urgency.dart';
 import '../domain/watering.dart';
 import '../l10n/app_localizations.dart';
 import 'plant_detail_screen.dart';
@@ -57,15 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, snapshot) => switch (snapshot.data) {
           null => const SizedBox.shrink(),
           [] => _EmptyHint(l10n.emptyPlantsHint),
-          final plants => ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
-            itemCount: plants.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
-            itemBuilder: (context, index) => _PlantCard(
-              plants[index],
-              status: wateringStatus(plants[index], widget.clock()),
-              onTap: () => _openDetail(plants[index]),
-            ),
+          final plants => _PlantOverview(
+            plants: plants,
+            today: widget.clock(),
+            onOpen: _openDetail,
           ),
         },
       ),
@@ -108,6 +104,94 @@ class _EmptyHint extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+    );
+  }
+}
+
+/// Greeting, today's summary and all plants, the most urgent first.
+class _PlantOverview extends StatelessWidget {
+  const _PlantOverview({
+    required this.plants,
+    required this.today,
+    required this.onOpen,
+  });
+
+  final List<Plant> plants;
+  final DateTime today;
+  final ValueChanged<Plant> onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final sorted = sortedByUrgency(plants, today);
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          sliver: SliverList.list(
+            children: [
+              Text(l10n.greeting, style: text.headlineLarge),
+              const SizedBox(height: 4),
+              Text(l10n.greetingSubtitle, style: text.bodyLarge),
+              const SizedBox(height: 20),
+              _SummaryCard(
+                l10n.attentionSummary(
+                  needingAttention(plants, today),
+                  plants.length,
+                ),
+              ),
+              const SizedBox(height: 28),
+              Text(l10n.myPlants, style: text.titleLarge),
+              const SizedBox(height: 12),
+            ],
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+          sliver: SliverList.builder(
+            itemCount: sorted.length,
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _PlantCard(
+                sorted[index],
+                status: wateringStatus(sorted[index], today),
+                onTap: () => onOpen(sorted[index]),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SummaryCard extends StatelessWidget {
+  const _SummaryCard(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final onPrimary = theme.colorScheme.onPrimary;
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          children: [
+            Icon(Icons.water_drop_outlined, color: onPrimary),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                text,
+                style: theme.textTheme.titleMedium?.copyWith(color: onPrimary),
+              ),
+            ),
+          ],
         ),
       ),
     );

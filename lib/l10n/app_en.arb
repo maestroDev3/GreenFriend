@@ -165,5 +165,31 @@
   "nextWatering": "Next watering",
   "@nextWatering": {
     "description": "Title of the card with the next watering on the plant detail page."
+  },
+  "greeting": "Hello!",
+  "@greeting": {
+    "description": "Greeting at the top of the home screen."
+  },
+  "greetingSubtitle": "Nice to see you. Let's keep your plants happy.",
+  "@greetingSubtitle": {
+    "description": "Line below the greeting on the home screen."
+  },
+  "attentionSummary": "{count, plural, =0{All your plants are happy today} =1{1 of {total} plants needs attention today} other{{count} of {total} plants need attention today}}",
+  "@attentionSummary": {
+    "description": "Summary card on the home screen: how many plants are overdue or need water today.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "myPlants": "My plants",
+  "@myPlants": {
+    "description": "Section title above the plant list on the home screen."
   }
 }
