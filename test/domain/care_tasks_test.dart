@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:green_friend/domain/care_log.dart';
 import 'package:green_friend/domain/care_tasks.dart';
 import 'package:green_friend/domain/plant.dart';
 

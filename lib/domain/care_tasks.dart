@@ -99,7 +99,7 @@ int _byDayUrgencyNameKind(CareTask a, CareTask b) {
     b.plant.name.toLowerCase(),
   );
   if (byName != 0) return byName;
-  return CareKind.values.indexOf(a.kind).compareTo(
-    CareKind.values.indexOf(b.kind),
-  );
+  return CareKind.values
+      .indexOf(a.kind)
+      .compareTo(CareKind.values.indexOf(b.kind));
 }
