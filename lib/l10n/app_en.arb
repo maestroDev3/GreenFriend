@@ -191,5 +191,23 @@
   "myPlants": "My plants",
   "@myPlants": {
     "description": "Section title above the plant list on the home screen."
+  },
+  "watered": "Watered",
+  "@watered": {
+    "description": "Button that confirms the plant was watered today."
+  },
+  "plantWatered": "{name} watered",
+  "@plantWatered": {
+    "description": "Snackbar after confirming the watering.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Monstera"
+      }
+    }
+  },
+  "undo": "Undo",
+  "@undo": {
+    "description": "Snackbar action that reverts the last action."
   }
 }

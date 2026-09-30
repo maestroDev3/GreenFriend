@@ -37,5 +37,8 @@
   "greeting": "Hallo!",
   "greetingSubtitle": "Schön, dass du da bist. Gemeinsam machen wir deine Pflanzen glücklich.",
   "attentionSummary": "{count, plural, =0{Alle deine Pflanzen sind heute glücklich} =1{1 von {total} Pflanzen braucht heute Aufmerksamkeit} other{{count} von {total} Pflanzen brauchen heute Aufmerksamkeit}}",
-  "myPlants": "Meine Pflanzen"
+  "myPlants": "Meine Pflanzen",
+  "watered": "Gegossen",
+  "plantWatered": "{name} gegossen",
+  "undo": "Rückgängig"
 }
