@@ -51,6 +51,12 @@ class SharedPreferencesJournalRepository implements JournalRepository {
       _of(_entries, plantId);
 
   @override
+  Future<List<JournalEntry>> allEntries() async => List.unmodifiable(_entries);
+
+  @override
+  Future<void> replaceAll(List<JournalEntry> entries) => _save(entries);
+
+  @override
   Future<JournalEntry> add({
     required String plantId,
     required DateTime day,

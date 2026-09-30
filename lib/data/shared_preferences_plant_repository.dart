@@ -43,6 +43,12 @@ class SharedPreferencesPlantRepository implements PlantRepository {
   });
 
   @override
+  Future<List<Plant>> allPlants() async => _plants;
+
+  @override
+  Future<void> replaceAll(List<Plant> plants) => _save(plants);
+
+  @override
   Future<Plant> add({
     required String name,
     String? species,

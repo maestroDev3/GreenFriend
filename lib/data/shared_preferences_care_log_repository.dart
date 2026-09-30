@@ -49,6 +49,12 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
   });
 
   @override
+  Future<List<CareLog>> allLogs() async => List.unmodifiable(_logs);
+
+  @override
+  Future<void> replaceAll(List<CareLog> logs) => _save(logs);
+
+  @override
   Future<CareLog> add({
     required String plantId,
     required CareKind kind,
