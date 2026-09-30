@@ -8,11 +8,11 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #11 Photos and notes per plant – Epic #10 Growth journal (being refined; Epic #13 waits for the decisions below)
+- #12 Timeline with before/after – Epic #10 Growth journal (being refined; Epic #13 waits for the decisions below)
 
 ## Up next
 
-- #12 Timeline with before/after, then #17 Backup and export
+- #17 Backup and export
 
 ## Backlog by epic
 
@@ -21,7 +21,7 @@ The GitHub issues are authoritative; this file is the summary.
 | #1 Foundation | – (all done) |
 | #5 Care and reminders | – (all done) |
 | #13 Plant knowledge and automatic care plans | #14 Plant database: care profile per species, applied automatically → #15 Identify a plant from a photo and set up its care plan automatically (after decision) → #30 Tip of the day |
-| #10 Growth journal | #11 Photos and notes per plant (`in-progress`) → #12 Timeline with before/after |
+| #10 Growth journal | #12 Timeline with before/after (`in-progress`) |
 | #16 Data safety | #17 Backup and export |
 | #31 Outdoor plants and weather (later) | #26 Weather-aware watering for outdoor plants |
 
@@ -29,11 +29,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #11 Photos and notes per plant (journal)
 - #29 App navigation: bottom bar (Foundation epic done)
 - #25 Care calendar
 - #9 Fertilizing and repotting
 - #7 Reminders as notifications (daily, inexact, time in settings)
-- #8 Confirm care and history
 
 ## Open decisions (user only)
 
