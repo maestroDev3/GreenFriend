@@ -47,7 +47,11 @@ Future<void> tapButton(WidgetTester tester, String label) async {
 void main() {
   group('fertilizing and repotting on the detail page', () {
     testWidgets('shows a card per scheduled care kind', (tester) async {
-      await pumpDetail(tester, FakePlantRepository([pothos()]), FakeCareLogRepository());
+      await pumpDetail(
+        tester,
+        FakePlantRepository([pothos()]),
+        FakeCareLogRepository(),
+      );
 
       await tester.scrollUntilVisible(find.text('Fertilizing'), 100);
       expect(find.text('Every 14 days'), findsOneWidget);

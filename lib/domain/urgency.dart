@@ -26,7 +26,9 @@ int needingAttention(Iterable<Plant> plants, DateTime today) {
 
 /// Whether any care of [plant] is due today or overdue.
 bool needsAttention(Plant plant, DateTime today) => CareKind.values.any(
-  (kind) => careStatus(plant, kind, today) is Overdue || careStatus(plant, kind, today) is DueToday,
+  (kind) =>
+      careStatus(plant, kind, today) is Overdue ||
+      careStatus(plant, kind, today) is DueToday,
 );
 
 int _plantRank(Plant plant, DateTime today) => CareKind.values
