@@ -13,6 +13,10 @@ abstract interface class PlantRepository {
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
+    int? fertilizingIntervalDays,
+    DateTime? lastFertilizedOn,
+    int? repottingIntervalMonths,
+    DateTime? lastRepottedOn,
   });
 
   /// Replaces the stored plant with the same id; throws [StateError] if the
