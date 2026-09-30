@@ -46,4 +46,16 @@ class FilePhotoStore implements PhotoStore {
 
   @override
   File fileFor(String name) => File('${directory.path}/$name');
+
+  @override
+  Future<List<int>?> readBytes(String name) async {
+    final file = fileFor(name);
+    return await file.exists() ? file.readAsBytes() : null;
+  }
+
+  @override
+  Future<void> writeBytes(String name, List<int> bytes) async {
+    await directory.create(recursive: true);
+    await fileFor(name).writeAsBytes(bytes);
+  }
 }
