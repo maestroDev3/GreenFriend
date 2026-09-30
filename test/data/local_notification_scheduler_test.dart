@@ -26,7 +26,7 @@ void main() {
     });
 
     test('falls back to UTC for an unknown time zone', () {
-      expect(locationOrUtc('Mars/Olympus_Mons').name, 'UTC');
+      expect(locationOrUtc('Mars/Olympus_Mons'), same(tz.UTC));
     });
   });
 }

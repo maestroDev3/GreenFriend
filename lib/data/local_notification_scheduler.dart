@@ -26,7 +26,9 @@ class LocalNotificationScheduler implements NotificationScheduler {
     final plugin = FlutterLocalNotificationsPlugin();
     await plugin.initialize(
       settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@drawable/ic_launcher_monochrome'),
+        android: AndroidInitializationSettings(
+          '@drawable/ic_launcher_monochrome',
+        ),
       ),
     );
     final details = NotificationDetails(
