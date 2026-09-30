@@ -14,8 +14,9 @@ Plant plant(String name, {int? every, DateTime? lastWatered}) => Plant(
 void main() {
   group('ReminderTime', () {
     test('rejects invalid hours and minutes', () {
-      expect(() => ReminderTime(24, 0), throwsArgumentError);
-      expect(() => ReminderTime(8, 60), throwsArgumentError);
+      expect(() => ReminderTime.checked(24, 0), throwsArgumentError);
+      expect(() => ReminderTime.checked(8, 60), throwsArgumentError);
+      expect(ReminderTime.checked(23, 59), const ReminderTime(23, 59));
     });
   });
 
