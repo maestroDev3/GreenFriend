@@ -84,12 +84,13 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
                     builder: (context, snapshot) =>
                         _History(snapshot.data ?? const []),
                   ),
-                  status: wateringStatus(plant, widget.clock()),
-                  onWatered: () => waterWithUndo(
+                  today: widget.clock(),
+                  onCare: (kind) => careWithUndo(
                     context,
                     plants: widget.plants,
                     careLogs: widget.careLogs,
                     plant: plant,
+                    kind: kind,
                     today: widget.clock(),
                   ),
                 ),
@@ -102,19 +103,20 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
 class _Details extends StatelessWidget {
   const _Details({
     required this.plant,
-    required this.status,
-    required this.onWatered,
+    required this.today,
+    required this.onCare,
     required this.history,
   });
 
   final Plant plant;
-  final CareStatus status;
-  final VoidCallback onWatered;
+  final DateTime today;
+  final ValueChanged<CareKind> onCare;
   final Widget history;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final status = wateringStatus(plant, today);
     final text = Theme.of(context).textTheme;
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
@@ -160,10 +162,10 @@ class _Details extends StatelessWidget {
                 children: [
                   Text(l10n.nextWatering, style: text.titleMedium),
                   const SizedBox(height: 8),
-                  WateringLabel(status),
+                  CareLabel(status),
                   const SizedBox(height: 16),
                   FilledButton.icon(
-                    onPressed: onWatered,
+                    onPressed: () => onCare(const Water()),
                     icon: const Icon(Icons.check),
                     label: Text(l10n.watered),
                   ),
@@ -172,9 +174,94 @@ class _Details extends StatelessWidget {
             ),
           ),
         ],
+        for (final kind in const [Fertilize(), Repot()])
+          if (careStatus(plant, kind, today) case final status
+              when status is! NotScheduled) ...[
+            const SizedBox(height: 12),
+            _CareCard(
+              kind: kind,
+              plant: plant,
+              status: status,
+              onConfirm: () => onCare(kind),
+            ),
+          ],
         const SizedBox(height: 24),
         history,
       ],
+    );
+  }
+}
+
+/// Interval, status and confirmation for fertilizing or repotting.
+class _CareCard extends StatelessWidget {
+  const _CareCard({
+    required this.kind,
+    required this.plant,
+    required this.status,
+    required this.onConfirm,
+  });
+
+  final CareKind kind;
+  final Plant plant;
+  final CareStatus status;
+  final VoidCallback onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final (title, interval, icon, confirm) = switch (kind) {
+      Water() => (
+        l10n.wateringTileTitle,
+        l10n.wateringEvery(plant.wateringIntervalDays ?? 0),
+        Icons.water_drop_outlined,
+        l10n.watered,
+      ),
+      Fertilize() => (
+        l10n.fertilizingTitle,
+        l10n.wateringEvery(plant.fertilizingIntervalDays ?? 0),
+        Icons.science_outlined,
+        l10n.fertilized,
+      ),
+      Repot() => (
+        l10n.repottingTitle,
+        l10n.everyMonths(plant.repottingIntervalMonths ?? 0),
+        Icons.yard_outlined,
+        l10n.repotted,
+      ),
+    };
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: theme.colorScheme.secondaryContainer,
+                  foregroundColor: theme.colorScheme.onSecondaryContainer,
+                  child: Icon(icon),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: theme.textTheme.labelMedium),
+                      Text(interval, style: theme.textTheme.titleMedium),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            CareLabel(status, kind: kind),
+            const SizedBox(height: 12),
+            FilledButton(onPressed: onConfirm, child: Text(confirm)),
+          ],
+        ),
+      ),
     );
   }
 }

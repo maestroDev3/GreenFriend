@@ -287,5 +287,111 @@
         "example": "Sep 30, 2026"
       }
     }
+  },
+  "fertilizeToday": "Fertilize today",
+  "@fertilizeToday": {
+    "description": "Care status: the plant needs fertilizer today."
+  },
+  "fertilizeInDays": "{days, plural, =1{Fertilize in 1 day} other{Fertilize in {days} days}}",
+  "@fertilizeInDays": {
+    "description": "Care status: days until the next fertilizing.",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "fertilizingOverdueDays": "{days, plural, =1{Fertilizing overdue by 1 day} other{Fertilizing overdue by {days} days}}",
+  "@fertilizingOverdueDays": {
+    "description": "Care status: days the fertilizing is overdue.",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "repotToday": "Repot today",
+  "@repotToday": {
+    "description": "Care status: the plant should be repotted today."
+  },
+  "repotInDays": "{days, plural, =1{Repot in 1 day} other{Repot in {days} days}}",
+  "@repotInDays": {
+    "description": "Care status: days until repotting (under 30 days).",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "repotInMonths": "{months, plural, =1{Repot in 1 month} other{Repot in {months} months}}",
+  "@repotInMonths": {
+    "description": "Care status: months until repotting (30 days or more).",
+    "placeholders": {
+      "months": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "repottingOverdueDays": "{days, plural, =1{Repotting overdue by 1 day} other{Repotting overdue by {days} days}}",
+  "@repottingOverdueDays": {
+    "description": "Care status: days the repotting is overdue (under 30 days).",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "repottingOverdueMonths": "{months, plural, =1{Repotting overdue by 1 month} other{Repotting overdue by {months} months}}",
+  "@repottingOverdueMonths": {
+    "description": "Care status: months the repotting is overdue (30 days or more).",
+    "placeholders": {
+      "months": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "fertilizingTitle": "Fertilizing",
+  "@fertilizingTitle": {
+    "description": "Title of the fertilizing card on the plant detail page."
+  },
+  "repottingTitle": "Repotting",
+  "@repottingTitle": {
+    "description": "Title of the repotting card on the plant detail page."
+  },
+  "everyMonths": "{months, plural, =1{Every month} other{Every {months} months}}",
+  "@everyMonths": {
+    "description": "Repotting interval on the plant detail page.",
+    "placeholders": {
+      "months": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "plantFertilized": "{name} fertilized",
+  "@plantFertilized": {
+    "description": "Snackbar after confirming the fertilizing.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Pothos"
+      }
+    }
+  },
+  "plantRepotted": "{name} repotted",
+  "@plantRepotted": {
+    "description": "Snackbar after confirming the repotting.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Pothos"
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
@@ -177,6 +178,12 @@ class _PlantOverview extends StatelessWidget {
               child: _PlantCard(
                 sorted[index],
                 status: wateringStatus(sorted[index], today),
+                otherDue: [
+                  for (final kind in const [Fertilize(), Repot()])
+                    if (careStatus(sorted[index], kind, today)
+                        case final status when status is DueToday || status is Overdue)
+                      (kind, status),
+                ],
                 onTap: () => onOpen(sorted[index]),
                 onWatered: () => onWatered(sorted[index]),
               ),
@@ -222,12 +229,14 @@ class _PlantCard extends StatelessWidget {
   const _PlantCard(
     this.plant, {
     required this.status,
+    required this.otherDue,
     required this.onTap,
     required this.onWatered,
   });
 
   final Plant plant;
   final CareStatus status;
+  final List<(CareKind, CareStatus)> otherDue;
   final VoidCallback onTap;
   final VoidCallback onWatered;
 
@@ -249,7 +258,12 @@ class _PlantCard extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _PlantTexts(plant, status: status, onWatered: onWatered),
+                child: _PlantTexts(
+                  plant,
+                  status: status,
+                  otherDue: otherDue,
+                  onWatered: onWatered,
+                ),
               ),
             ],
           ),
@@ -263,11 +277,13 @@ class _PlantTexts extends StatelessWidget {
   const _PlantTexts(
     this.plant, {
     required this.status,
+    required this.otherDue,
     required this.onWatered,
   });
 
   final Plant plant;
   final CareStatus status;
+  final List<(CareKind, CareStatus)> otherDue;
   final VoidCallback onWatered;
 
   @override
@@ -298,12 +314,24 @@ class _PlantTexts extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8),
             child: Row(
               children: [
-                Expanded(child: WateringLabel(status)),
+                Expanded(child: CareLabel(status)),
                 TextButton.icon(
                   onPressed: onWatered,
                   icon: const Icon(Icons.check),
                   label: Text(AppLocalizations.of(context).watered),
                 ),
+              ],
+            ),
+          ),
+        if (otherDue.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final (kind, status) in otherDue)
+                  CareLabel(status, kind: kind),
               ],
             ),
           ),

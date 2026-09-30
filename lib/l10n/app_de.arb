@@ -55,5 +55,18 @@
   "repottingIntervalLabel": "Umtopfen alle (Monate)",
   "repottingIntervalInvalid": "Gib eine Zahl von 1 bis 60 ein",
   "lastFertilized": "Zuletzt gedüngt: {date}",
-  "lastRepotted": "Zuletzt umgetopft: {date}"
+  "lastRepotted": "Zuletzt umgetopft: {date}",
+  "fertilizeToday": "Heute düngen",
+  "fertilizeInDays": "{days, plural, =1{In 1 Tag düngen} other{In {days} Tagen düngen}}",
+  "fertilizingOverdueDays": "{days, plural, =1{Düngen seit 1 Tag überfällig} other{Düngen seit {days} Tagen überfällig}}",
+  "repotToday": "Heute umtopfen",
+  "repotInDays": "{days, plural, =1{In 1 Tag umtopfen} other{In {days} Tagen umtopfen}}",
+  "repotInMonths": "{months, plural, =1{In 1 Monat umtopfen} other{In {months} Monaten umtopfen}}",
+  "repottingOverdueDays": "{days, plural, =1{Umtopfen seit 1 Tag überfällig} other{Umtopfen seit {days} Tagen überfällig}}",
+  "repottingOverdueMonths": "{months, plural, =1{Umtopfen seit 1 Monat überfällig} other{Umtopfen seit {months} Monaten überfällig}}",
+  "fertilizingTitle": "Düngen",
+  "repottingTitle": "Umtopfen",
+  "everyMonths": "{months, plural, =1{Jeden Monat} other{Alle {months} Monate}}",
+  "plantFertilized": "{name} gedüngt",
+  "plantRepotted": "{name} umgetopft"
 }

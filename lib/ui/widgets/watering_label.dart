@@ -1,46 +1,72 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/care_log.dart';
 import '../../domain/care_status.dart';
 import '../../l10n/app_localizations.dart';
 
-/// Tells when the plant needs water; overdue and today stand out as pills.
-class WateringLabel extends StatelessWidget {
-  const WateringLabel(this.status, {super.key});
+/// Tells when [kind] of care is due; overdue and today stand out as pills.
+class CareLabel extends StatelessWidget {
+  const CareLabel(this.status, {super.key, this.kind = const Water()});
 
   final CareStatus status;
+  final CareKind kind;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
+    final text = careStatusText(l10n, kind, status);
+    final icon = switch (kind) {
+      Water() => Icons.water_drop_outlined,
+      Fertilize() => Icons.science_outlined,
+      Repot() => Icons.yard_outlined,
+    };
     return switch (status) {
       NotScheduled() => const SizedBox.shrink(),
-      Overdue(:final days) => StatusPill(
-        text: l10n.overdueDays(days),
+      Overdue() => StatusPill(
+        text: text,
         icon: Icons.error_outline,
         background: scheme.tertiaryContainer,
         foreground: scheme.onTertiaryContainer,
       ),
       DueToday() => StatusPill(
-        text: l10n.waterToday,
-        icon: Icons.water_drop_outlined,
+        text: text,
+        icon: icon,
         background: scheme.secondaryContainer,
         foreground: scheme.onSecondaryContainer,
       ),
-      DueIn(:final days) => Row(
+      DueIn() => Row(
         children: [
-          Icon(Icons.water_drop_outlined, size: 16, color: scheme.primary),
+          Icon(icon, size: 16, color: scheme.primary),
           const SizedBox(width: 4),
           Expanded(
-            child: Text(
-              l10n.waterInDays(days),
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text(text, style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),
     };
   }
+}
+
+/// The status text, e.g. "Water in 3 days" or "Repotting overdue by 2
+/// months"; repotting is counted in months from 30 days on.
+String careStatusText(AppLocalizations l10n, CareKind kind, CareStatus status) {
+  return switch ((kind, status)) {
+    (_, NotScheduled()) => '',
+    (Water(), DueToday()) => l10n.waterToday,
+    (Water(), DueIn(:final days)) => l10n.waterInDays(days),
+    (Water(), Overdue(:final days)) => l10n.overdueDays(days),
+    (Fertilize(), DueToday()) => l10n.fertilizeToday,
+    (Fertilize(), DueIn(:final days)) => l10n.fertilizeInDays(days),
+    (Fertilize(), Overdue(:final days)) => l10n.fertilizingOverdueDays(days),
+    (Repot(), DueToday()) => l10n.repotToday,
+    (Repot(), DueIn(:final days)) =>
+      days < 30 ? l10n.repotInDays(days) : l10n.repotInMonths(days ~/ 30),
+    (Repot(), Overdue(:final days)) =>
+      days < 30
+          ? l10n.repottingOverdueDays(days)
+          : l10n.repottingOverdueMonths(days ~/ 30),
+  };
 }
 
 /// A small rounded label that makes a status stand out.
