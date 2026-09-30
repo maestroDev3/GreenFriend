@@ -23,5 +23,8 @@
   "deletePlantQuestion": "{name} löschen?",
   "deletePlantMessage": "Das kann nicht rückgängig gemacht werden.",
   "cancel": "Abbrechen",
-  "delete": "Löschen"
+  "delete": "Löschen",
+  "wateringIntervalLabel": "Gießen alle (Tage)",
+  "wateringIntervalInvalid": "Gib eine Zahl von 1 bis 365 ein",
+  "lastWatered": "Zuletzt gegossen: {date}"
 }

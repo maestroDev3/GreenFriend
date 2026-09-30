@@ -74,3 +74,13 @@ WateringStatus wateringStatus(Plant plant, DateTime today) {
   if (days == 0) return const DueToday();
   return Overdue(-days);
 }
+
+/// Reads a watering interval typed by the user: empty means no schedule,
+/// otherwise a whole number from 1 to 365 days.
+({bool valid, int? days}) parseWateringInterval(String text) {
+  final trimmed = text.trim();
+  if (trimmed.isEmpty) return (valid: true, days: null);
+  final days = int.tryParse(trimmed);
+  if (days == null || days < 1 || days > 365) return (valid: false, days: null);
+  return (valid: true, days: days);
+}
