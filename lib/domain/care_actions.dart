@@ -3,9 +3,9 @@ import 'care_log_repository.dart';
 import 'plant.dart';
 import 'plant_repository.dart';
 
-/// What [confirmWatering] changed, so it can be undone.
-class WateringConfirmation {
-  const WateringConfirmation({required this.before, required this.log});
+/// What [confirmCare] changed, so it can be undone.
+class CareConfirmation {
+  const CareConfirmation({required this.before, required this.log});
 
   /// The plant as it was before the confirmation.
   final Plant before;
@@ -14,32 +14,54 @@ class WateringConfirmation {
   final CareLog log;
 }
 
-/// Records that [plant] was watered [today]: sets its last watering and adds
-/// a care log.
-Future<WateringConfirmation> confirmWatering({
+/// Records that [kind] of care was done for [plant] [today]: sets the
+/// matching last-done day and adds a care log.
+Future<CareConfirmation> confirmCare({
   required PlantRepository plants,
   required CareLogRepository careLogs,
   required Plant plant,
+  required CareKind kind,
   required DateTime today,
 }) async {
-  final log = await careLogs.add(
-    plantId: plant.id,
-    kind: const Water(),
-    day: today,
-  );
-  await plants.update(plant.copyWith(lastWateredOn: today));
-  return WateringConfirmation(before: plant, log: log);
+  final log = await careLogs.add(plantId: plant.id, kind: kind, day: today);
+  await plants.update(switch (kind) {
+    Water() => plant.copyWith(lastWateredOn: today),
+    Fertilize() => plant.copyWith(lastFertilizedOn: today),
+    Repot() => plant.copyWith(lastRepottedOn: today),
+  });
+  return CareConfirmation(before: plant, log: log);
 }
 
-/// Reverts a [confirmWatering]: restores the plant and removes the log.
-Future<void> undoWatering({
+/// Reverts a [confirmCare]: restores the plant and removes the log.
+Future<void> undoCare({
   required PlantRepository plants,
   required CareLogRepository careLogs,
-  required WateringConfirmation confirmation,
+  required CareConfirmation confirmation,
 }) async {
   await careLogs.delete(confirmation.log.id);
   await plants.update(confirmation.before);
 }
+
+/// Records that [plant] was watered [today].
+Future<CareConfirmation> confirmWatering({
+  required PlantRepository plants,
+  required CareLogRepository careLogs,
+  required Plant plant,
+  required DateTime today,
+}) => confirmCare(
+  plants: plants,
+  careLogs: careLogs,
+  plant: plant,
+  kind: const Water(),
+  today: today,
+);
+
+/// Reverts a [confirmWatering].
+Future<void> undoWatering({
+  required PlantRepository plants,
+  required CareLogRepository careLogs,
+  required CareConfirmation confirmation,
+}) => undoCare(plants: plants, careLogs: careLogs, confirmation: confirmation);
 
 /// Deletes a plant together with its care history.
 Future<void> deletePlant({

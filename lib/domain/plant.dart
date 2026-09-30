@@ -2,10 +2,11 @@ import 'clock.dart';
 
 /// A plant the user takes care of.
 class Plant {
-  /// Creates a plant; texts are trimmed, empty optional texts become `null`.
+  /// Creates a plant; texts are trimmed, empty optional texts become `null`,
+  /// last-done dates are normalized to their calendar day.
   ///
-  /// Throws [ArgumentError] if [name] is empty or the watering interval is
-  /// outside 1 to 365 days.
+  /// Throws [ArgumentError] if [name] is empty or an interval is out of range
+  /// (watering and fertilizing 1–365 days, repotting 1–60 months).
   Plant({
     required this.id,
     required String name,
@@ -13,11 +14,31 @@ class Plant {
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
+    int? fertilizingIntervalDays,
+    DateTime? lastFertilizedOn,
+    int? repottingIntervalMonths,
+    DateTime? lastRepottedOn,
   }) : name = _requireName(name),
        species = _optional(species),
        location = _optional(location),
-       wateringIntervalDays = _checkInterval(wateringIntervalDays),
-       lastWateredOn = lastWateredOn == null ? null : dayOf(lastWateredOn);
+       wateringIntervalDays = _checkRange(
+         wateringIntervalDays,
+         'wateringIntervalDays',
+         365,
+       ),
+       lastWateredOn = _day(lastWateredOn),
+       fertilizingIntervalDays = _checkRange(
+         fertilizingIntervalDays,
+         'fertilizingIntervalDays',
+         365,
+       ),
+       lastFertilizedOn = _day(lastFertilizedOn),
+       repottingIntervalMonths = _checkRange(
+         repottingIntervalMonths,
+         'repottingIntervalMonths',
+         60,
+       ),
+       lastRepottedOn = _day(lastRepottedOn);
 
   final String id;
   final String name;
@@ -30,6 +51,18 @@ class Plant {
   /// Calendar day (UTC midnight) of the last watering, if known.
   final DateTime? lastWateredOn;
 
+  /// Fertilize every this many days; `null` means no schedule.
+  final int? fertilizingIntervalDays;
+
+  /// Calendar day (UTC midnight) of the last fertilizing, if known.
+  final DateTime? lastFertilizedOn;
+
+  /// Repot every this many months; `null` means no schedule.
+  final int? repottingIntervalMonths;
+
+  /// Calendar day (UTC midnight) of the last repotting, if known.
+  final DateTime? lastRepottedOn;
+
   /// Returns a copy with the given values; `null` keeps the current value.
   Plant copyWith({
     String? name,
@@ -37,6 +70,10 @@ class Plant {
     String? location,
     int? wateringIntervalDays,
     DateTime? lastWateredOn,
+    int? fertilizingIntervalDays,
+    DateTime? lastFertilizedOn,
+    int? repottingIntervalMonths,
+    DateTime? lastRepottedOn,
   }) {
     return Plant(
       id: id,
@@ -45,6 +82,12 @@ class Plant {
       location: location ?? this.location,
       wateringIntervalDays: wateringIntervalDays ?? this.wateringIntervalDays,
       lastWateredOn: lastWateredOn ?? this.lastWateredOn,
+      fertilizingIntervalDays:
+          fertilizingIntervalDays ?? this.fertilizingIntervalDays,
+      lastFertilizedOn: lastFertilizedOn ?? this.lastFertilizedOn,
+      repottingIntervalMonths:
+          repottingIntervalMonths ?? this.repottingIntervalMonths,
+      lastRepottedOn: lastRepottedOn ?? this.lastRepottedOn,
     );
   }
 
@@ -56,7 +99,11 @@ class Plant {
       other.species == species &&
       other.location == location &&
       other.wateringIntervalDays == wateringIntervalDays &&
-      other.lastWateredOn == lastWateredOn;
+      other.lastWateredOn == lastWateredOn &&
+      other.fertilizingIntervalDays == fertilizingIntervalDays &&
+      other.lastFertilizedOn == lastFertilizedOn &&
+      other.repottingIntervalMonths == repottingIntervalMonths &&
+      other.lastRepottedOn == lastRepottedOn;
 
   @override
   int get hashCode => Object.hash(
@@ -66,6 +113,10 @@ class Plant {
     location,
     wateringIntervalDays,
     lastWateredOn,
+    fertilizingIntervalDays,
+    lastFertilizedOn,
+    repottingIntervalMonths,
+    lastRepottedOn,
   );
 
   @override
@@ -79,12 +130,14 @@ class Plant {
     return trimmed;
   }
 
-  static int? _checkInterval(int? days) {
-    if (days != null && (days < 1 || days > 365)) {
-      throw ArgumentError.value(days, 'wateringIntervalDays', 'must be 1-365');
+  static int? _checkRange(int? value, String name, int max) {
+    if (value != null && (value < 1 || value > max)) {
+      throw ArgumentError.value(value, name, 'must be 1-$max');
     }
-    return days;
+    return value;
   }
+
+  static DateTime? _day(DateTime? value) => value == null ? null : dayOf(value);
 
   static String? _optional(String? value) {
     final trimmed = value?.trim();

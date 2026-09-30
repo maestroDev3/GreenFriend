@@ -1,6 +1,6 @@
 import 'clock.dart';
 import 'plant.dart';
-import 'watering.dart';
+import 'care_status.dart';
 
 /// Time of day for the daily reminder.
 class ReminderTime {

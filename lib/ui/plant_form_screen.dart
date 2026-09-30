@@ -7,7 +7,7 @@ import '../domain/clock.dart';
 
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
-import '../domain/watering.dart';
+import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
