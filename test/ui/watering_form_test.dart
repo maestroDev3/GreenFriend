@@ -10,7 +10,10 @@ DateTime fixedNow() => DateTime(2026, 9, 30, 10);
 
 Finder field(String label) => find.widgetWithText(TextFormField, label);
 
-Future<void> openNewPlantForm(WidgetTester tester, FakePlantRepository repo) async {
+Future<void> openNewPlantForm(
+  WidgetTester tester,
+  FakePlantRepository repo,
+) async {
   await tester.pumpApp(HomeScreen(plants: repo, clock: fixedNow));
   await tester.tap(find.text('Add plant'));
   await tester.pumpAndSettle();

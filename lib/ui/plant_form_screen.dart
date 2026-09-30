@@ -172,7 +172,9 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _interval,
-              decoration: InputDecoration(labelText: l10n.wateringIntervalLabel),
+              decoration: InputDecoration(
+                labelText: l10n.wateringIntervalLabel,
+              ),
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               validator: (value) => parseWateringInterval(value ?? '').valid
@@ -183,9 +185,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               const SizedBox(height: 8),
               _LastWateredButton(
                 label: l10n.lastWatered(
-                  DateFormat.yMMMd(
-                    Localizations.localeOf(context).toString(),
-                  ).format(_lastWatered),
+                  DateFormat.yMMMd(Localizations.localeOf(context).toString())
+                      .format(_lastWatered),
                 ),
                 onPressed: _pickLastWatered,
               ),
