@@ -101,6 +101,30 @@ void main() {
       }
     });
 
+    test('finds balcony vegetables', () {
+      for (final (query, id) in [
+        ('Gurke', 'cucumis-sativus'),
+        ('Erdbeere', 'fragaria-ananassa'),
+        ('Zucchini', 'cucurbita-pepo'),
+        ('Brokkoli', 'brassica-oleracea-italica'),
+        ('Paprika', 'capsicum-annuum'),
+      ]) {
+        expect(
+          catalog.search(query, languageCode: 'de').first.id,
+          id,
+          reason: query,
+        );
+      }
+      expect(
+        catalog.search('cucumber', languageCode: 'en').first.id,
+        'cucumis-sativus',
+      );
+      expect(
+        catalog.search('strawberry', languageCode: 'en').first.id,
+        'fragaria-ananassa',
+      );
+    });
+
     test('shows German names in German', () {
       expect(catalog.byId('ficus-elastica')?.displayName('de'), 'Gummibaum');
     });
