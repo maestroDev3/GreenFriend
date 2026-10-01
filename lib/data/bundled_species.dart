@@ -1,7 +1,7 @@
 import '../domain/species.dart';
 
-/// Care profiles of common houseplants, bonsai, balcony plants and herbs,
-/// bundled with the app so the plant database works offline.
+/// Care profiles of common houseplants, bonsai, balcony plants, herbs and
+/// vegetables, bundled with the app so the plant database works offline.
 ///
 /// Intervals are typical values for the growing season (spring to autumn;
 /// balcony plants outdoors in summer), taken from general horticultural care
@@ -1368,5 +1368,110 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+  ),
+  Species(
+    id: 'cucumis-sativus',
+    scientificName: 'Cucumis sativus',
+    names: const {
+      'en': ['Cucumber'],
+      'de': ['Gurke', 'Salatgurke', 'Snackgurke'],
+    },
+    wateringIntervalDays: 1,
+    fertilizingIntervalDays: 7,
+    repottingIntervalMonths: 12,
+    pruningIntervalMonths: 1,
+    light: Light.direct,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'fragaria-ananassa',
+    scientificName: 'Fragaria × ananassa',
+    names: const {
+      'en': ['Strawberry'],
+      'de': ['Erdbeere', 'Gartenerdbeere'],
+    },
+    wateringIntervalDays: 2,
+    fertilizingIntervalDays: 14,
+    repottingIntervalMonths: 12,
+    light: Light.direct,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'cucurbita-pepo',
+    scientificName: 'Cucurbita pepo',
+    names: const {
+      'en': ['Zucchini', 'Courgette'],
+      'de': ['Zucchini'],
+    },
+    wateringIntervalDays: 1,
+    fertilizingIntervalDays: 7,
+    repottingIntervalMonths: 12,
+    light: Light.direct,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'brassica-oleracea-italica',
+    scientificName: 'Brassica oleracea var. italica',
+    names: const {
+      'en': ['Broccoli'],
+      'de': ['Brokkoli'],
+    },
+    wateringIntervalDays: 2,
+    fertilizingIntervalDays: 14,
+    repottingIntervalMonths: 12,
+    light: Light.direct,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'capsicum-annuum',
+    scientificName: 'Capsicum annuum',
+    names: const {
+      'en': ['Bell pepper', 'Chili pepper'],
+      'de': ['Paprika', 'Chili'],
+    },
+    wateringIntervalDays: 2,
+    fertilizingIntervalDays: 14,
+    repottingIntervalMonths: 12,
+    light: Light.direct,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'lactuca-sativa',
+    scientificName: 'Lactuca sativa',
+    names: const {
+      'en': ['Lettuce', 'Leaf lettuce'],
+      'de': ['Pflücksalat', 'Salat'],
+    },
+    wateringIntervalDays: 2,
+    fertilizingIntervalDays: 21,
+    repottingIntervalMonths: 12,
+    light: Light.brightIndirect,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'raphanus-sativus',
+    scientificName: 'Raphanus sativus var. sativus',
+    names: const {
+      'en': ['Radish'],
+      'de': ['Radieschen'],
+    },
+    wateringIntervalDays: 2,
+    fertilizingIntervalDays: 30,
+    repottingIntervalMonths: 12,
+    light: Light.direct,
+    humidity: Humidity.medium,
+  ),
+  Species(
+    id: 'phaseolus-vulgaris',
+    scientificName: 'Phaseolus vulgaris',
+    names: const {
+      'en': ['Bush bean', 'Green bean'],
+      'de': ['Buschbohne', 'Bohne'],
+    },
+    wateringIntervalDays: 2,
+    fertilizingIntervalDays: 21,
+    repottingIntervalMonths: 12,
+    light: Light.direct,
+    humidity: Humidity.medium,
   ),
 ]);
