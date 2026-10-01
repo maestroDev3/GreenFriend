@@ -147,6 +147,27 @@ void main() {
       );
     });
 
+    test('lists pruning separately', () async {
+      final setup = Setup(
+        plants: [
+          monstera(),
+          Plant(
+            id: '2',
+            name: 'Olive',
+            pruningIntervalMonths: 6,
+            lastPrunedOn: DateTime(2026, 3, 30),
+          ),
+        ],
+      );
+
+      await setup.start();
+
+      expect(
+        setup.scheduler.scheduled.first.body,
+        'Water: Monstera · Prune: Olive',
+      );
+    });
+
     test('writes the reminder in German', () async {
       final setup = Setup(
         plants: [

@@ -24,7 +24,7 @@ the calendar, and the user only gets a notification like “Water these plants t
 Domain terms:
 
 - **Plant** – `Plant` – name, species, location, intervals, photo
-- **Care task** – `CareTask` – water, fertilize, repot (sealed class `CareKind`)
+- **Care task** – `CareTask` – water, fertilize, repot, prune (sealed class `CareKind`)
 - **Care log** – `CareLog` – when which task was done
 - **Journal entry** – `JournalEntry` – date, note, optional photo
 

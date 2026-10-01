@@ -24,6 +24,8 @@ abstract interface class PlantRepository {
     DateTime? lastFertilizedOn,
     int? repottingIntervalMonths,
     DateTime? lastRepottedOn,
+    int? pruningIntervalMonths,
+    DateTime? lastPrunedOn,
   });
 
   /// Replaces the stored plant with the same id; throws [StateError] if the

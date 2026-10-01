@@ -63,18 +63,19 @@ final class Overdue extends CareStatus {
 }
 
 /// Works out when [kind] of care is due for [plant]; care that was never
-/// done is due today. Repotting intervals are calendar months.
+/// done is due today. Repotting and pruning intervals are calendar months.
 CareStatus careStatus(Plant plant, CareKind kind, DateTime today) {
   final (interval, last) = switch (kind) {
     Water() => (plant.wateringIntervalDays, plant.lastWateredOn),
     Fertilize() => (plant.fertilizingIntervalDays, plant.lastFertilizedOn),
     Repot() => (plant.repottingIntervalMonths, plant.lastRepottedOn),
+    Prune() => (plant.pruningIntervalMonths, plant.lastPrunedOn),
   };
   if (interval == null) return const NotScheduled();
   if (last == null) return const DueToday();
 
   final dueOn = switch (kind) {
-    Repot() => addMonths(last, interval),
+    Repot() || Prune() => addMonths(last, interval),
     _ => last.add(Duration(days: interval)),
   };
   final days = dueOn.difference(dayOf(today)).inDays;

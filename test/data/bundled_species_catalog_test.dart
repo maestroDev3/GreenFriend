@@ -5,8 +5,36 @@ void main() {
   final catalog = BundledSpeciesCatalog();
 
   group('BundledSpeciesCatalog', () {
-    test('contains at least 60 species', () {
-      expect(catalog.all.length, greaterThanOrEqualTo(60));
+    test('contains at least 100 species', () {
+      expect(catalog.all.length, greaterThanOrEqualTo(100));
+    });
+
+    test('finds bonsai, all with a pruning interval', () {
+      final bonsai = catalog.search('bonsai', languageCode: 'en');
+
+      expect(bonsai.length, greaterThanOrEqualTo(5));
+      for (final species in bonsai) {
+        expect(species.pruningIntervalMonths, isNotNull, reason: species.id);
+      }
+    });
+
+    test('finds balcony plants and herbs in German', () {
+      expect(
+        catalog.search('Geranie', languageCode: 'de').first.id,
+        'pelargonium-zonale',
+      );
+      expect(
+        catalog.search('Lavendel', languageCode: 'de').first.id,
+        'lavandula-angustifolia',
+      );
+      expect(
+        catalog.search('Olivenbaum', languageCode: 'de').first.id,
+        'olea-europaea',
+      );
+      expect(
+        catalog.search('Basilikum', languageCode: 'de').first.id,
+        'ocimum-basilicum',
+      );
     });
 
     test('has unique ids and scientific names', () {
@@ -57,6 +85,43 @@ void main() {
       expect(
         catalog.search('Grünlilie', languageCode: 'de').single.id,
         'chlorophytum-comosum',
+      );
+    });
+
+    test('has pruning intervals only where pruning is needed', () {
+      for (final id in [
+        'ficus-benjamina',
+        'hibiscus-rosa-sinensis',
+        'epipremnum-aureum',
+      ]) {
+        expect(catalog.byId(id)?.pruningIntervalMonths, isNotNull, reason: id);
+      }
+      for (final id in ['mammillaria', 'dracaena-trifasciata', 'aloe-vera']) {
+        expect(catalog.byId(id)?.pruningIntervalMonths, isNull, reason: id);
+      }
+    });
+
+    test('finds balcony vegetables', () {
+      for (final (query, id) in [
+        ('Gurke', 'cucumis-sativus'),
+        ('Erdbeere', 'fragaria-ananassa'),
+        ('Zucchini', 'cucurbita-pepo'),
+        ('Brokkoli', 'brassica-oleracea-italica'),
+        ('Paprika', 'capsicum-annuum'),
+      ]) {
+        expect(
+          catalog.search(query, languageCode: 'de').first.id,
+          id,
+          reason: query,
+        );
+      }
+      expect(
+        catalog.search('cucumber', languageCode: 'en').first.id,
+        'cucumis-sativus',
+      );
+      expect(
+        catalog.search('strawberry', languageCode: 'en').first.id,
+        'fragaria-ananassa',
       );
     });
 

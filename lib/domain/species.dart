@@ -33,6 +33,7 @@ class Species {
     required this.wateringIntervalDays,
     required this.fertilizingIntervalDays,
     required this.repottingIntervalMonths,
+    this.pruningIntervalMonths,
     required this.light,
     required this.humidity,
   }) : id = _required(id, 'id'),
@@ -47,6 +48,9 @@ class Species {
     _checkRange(wateringIntervalDays, 'wateringIntervalDays', 365);
     _checkRange(fertilizingIntervalDays, 'fertilizingIntervalDays', 365);
     _checkRange(repottingIntervalMonths, 'repottingIntervalMonths', 60);
+    if (pruningIntervalMonths case final months?) {
+      _checkRange(months, 'pruningIntervalMonths', 60);
+    }
   }
 
   /// Stable key stored with a plant, e.g. `monstera-deliciosa`.
@@ -59,6 +63,10 @@ class Species {
   final int wateringIntervalDays;
   final int fertilizingIntervalDays;
   final int repottingIntervalMonths;
+
+  /// Prune every this many months; `null` for species that need no regular
+  /// pruning.
+  final int? pruningIntervalMonths;
   final Light light;
   final Humidity humidity;
 
@@ -78,6 +86,7 @@ class Species {
       other.wateringIntervalDays == wateringIntervalDays &&
       other.fertilizingIntervalDays == fertilizingIntervalDays &&
       other.repottingIntervalMonths == repottingIntervalMonths &&
+      other.pruningIntervalMonths == pruningIntervalMonths &&
       other.light == light &&
       other.humidity == humidity;
 
@@ -88,6 +97,7 @@ class Species {
     wateringIntervalDays,
     fertilizingIntervalDays,
     repottingIntervalMonths,
+    pruningIntervalMonths,
     light,
     humidity,
   );

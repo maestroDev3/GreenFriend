@@ -74,12 +74,18 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     last: widget.plant?.lastRepottedOn,
     today: _today,
   );
+  late final _prune = _ScheduleInput(
+    interval: widget.plant?.pruningIntervalMonths,
+    last: widget.plant?.lastPrunedOn,
+    today: _today,
+  );
   var _saving = false;
 
   List<(CareKind, _ScheduleInput)> get _schedules => [
     (const Water(), _water),
     (const Fertilize(), _fertilize),
     (const Repot(), _repot),
+    (const Prune(), _prune),
   ];
 
   @override
@@ -116,6 +122,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       _water.controller.text = '${species.wateringIntervalDays}';
       _fertilize.controller.text = '${species.fertilizingIntervalDays}';
       _repot.controller.text = '${species.repottingIntervalMonths}';
+      _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
     });
   }
 
@@ -125,6 +132,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     final water = _water.interval(max: 365);
     final fertilize = _fertilize.interval(max: 365);
     final repot = _repot.interval(max: 60);
+    final prune = _prune.interval(max: 60);
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -139,6 +147,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           lastFertilizedOn: _fertilize.lastToSave(fertilize),
           repottingIntervalMonths: repot,
           lastRepottedOn: _repot.lastToSave(repot),
+          pruningIntervalMonths: prune,
+          lastPrunedOn: _prune.lastToSave(prune),
         ),
       );
     } else {
@@ -153,6 +163,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         lastFertilizedOn: _fertilize.lastToSave(fertilize),
         repottingIntervalMonths: repot,
         lastRepottedOn: _repot.lastToSave(repot),
+        pruningIntervalMonths: prune,
+        lastPrunedOn: _prune.lastToSave(prune),
       );
     }
     if (!mounted) return;
@@ -160,7 +172,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   }
 
   Future<void> _pickLastDone(CareKind kind, _ScheduleInput input) async {
-    final lookBack = kind is Repot ? 5 * 365 : 365;
+    final lookBack = kind is Repot || kind is Prune ? 5 * 365 : 365;
     final picked = await showDatePicker(
       context: context,
       initialDate: input.last.isAfter(_today) ? _today : input.last,
@@ -375,7 +387,7 @@ class _ScheduleFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final max = kind is Repot ? 60 : 365;
+    final max = kind is Repot || kind is Prune ? 60 : 365;
     final (label, invalid, icon) = switch (kind) {
       Water() => (
         l10n.wateringIntervalLabel,
@@ -391,6 +403,11 @@ class _ScheduleFields extends StatelessWidget {
         l10n.repottingIntervalLabel,
         l10n.repottingIntervalInvalid,
         Icons.yard_outlined,
+      ),
+      Prune() => (
+        l10n.pruningIntervalLabel,
+        l10n.repottingIntervalInvalid,
+        Icons.content_cut,
       ),
     };
     final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
@@ -415,6 +432,7 @@ class _ScheduleFields extends StatelessWidget {
               Water() => l10n.lastWatered(date),
               Fertilize() => l10n.lastFertilized(date),
               Repot() => l10n.lastRepotted(date),
+              Prune() => l10n.lastPruned(date),
             }),
           ),
         ],

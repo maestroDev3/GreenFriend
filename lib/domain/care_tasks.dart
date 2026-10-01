@@ -82,11 +82,12 @@ int? _interval(Plant plant, CareKind kind) => switch (kind) {
   Water() => plant.wateringIntervalDays,
   Fertilize() => plant.fertilizingIntervalDays,
   Repot() => plant.repottingIntervalMonths,
+  Prune() => plant.pruningIntervalMonths,
 };
 
 DateTime _occurrence(DateTime first, CareKind kind, int offset) =>
     switch (kind) {
-      Repot() => addMonths(first, offset),
+      Repot() || Prune() => addMonths(first, offset),
       _ => first.add(Duration(days: offset)),
     };
 
