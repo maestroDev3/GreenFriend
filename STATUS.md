@@ -8,13 +8,14 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Epic #128 Calendar, pruning and more species (branch `epic/calendar-pruning-species`, test APK: pre-release “epic-test”)
+- Epic #128 Calendar, pruning and more species – all stories done on branch `epic/calendar-pruning-species`; **waiting for the user's test** (pre-release “epic-test” APK), then merge into `main`
   - #125 Calendar month and year view
+  - #123 Pruning as a care task
+  - #124 More species: bonsai, balcony and garden plants (+30)
 
 ## Up next
 
 - #111 Secure the release signing key – user task (store keystore and password separately)
-- #123 Pruning as a care task, #124 More species (+30) – same epic
 - #15 Identify a plant from a photo (plant.id, key in the settings)
 
 ## Backlog by epic
@@ -23,7 +24,7 @@ The GitHub issues are authoritative; this file is the summary.
 |---|---|
 | #1 Foundation | – (all done) |
 | #5 Care and reminders | – (all done) |
-| #128 Calendar, pruning and more species | #125 Calendar month and year view → #123 Pruning as a care task → #124 More species: bonsai, balcony and garden plants (+30) |
+| #128 Calendar, pruning and more species | – (done on the epic branch, waiting for the test) |
 | #13 Plant knowledge and automatic care plans | #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day |
 | #10 Growth journal | – (all done) |
 | #16 Data safety | #111 Secure the release signing key (user task) |
