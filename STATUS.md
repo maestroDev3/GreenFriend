@@ -4,14 +4,11 @@ Current project state for planning and Claude projects. Maintained by Claude
 after every status change (see CLAUDE.md, “Keeping the status”).
 The GitHub issues are authoritative; this file is the summary.
 
-**Last updated:** 2026-09-30
+**Last updated:** 2026-10-01
 
 ## In progress
 
-- Epic #128 Calendar, pruning and more species – all stories done on branch `epic/calendar-pruning-species`; **waiting for the user's test** (pre-release “epic-test” APK), then merge into `main`
-  - #125 Calendar month and year view
-  - #123 Pruning as a care task
-  - #124 More species: bonsai, balcony and garden plants (+30)
+- Nothing – next: the user picks from “Up next”
 
 ## Up next
 
@@ -24,7 +21,7 @@ The GitHub issues are authoritative; this file is the summary.
 |---|---|
 | #1 Foundation | – (all done) |
 | #5 Care and reminders | – (all done) |
-| #128 Calendar, pruning and more species | – (done on the epic branch, waiting for the test) |
+| #128 Calendar, pruning and more species | – (all done) |
 | #13 Plant knowledge and automatic care plans | #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day |
 | #10 Growth journal | – (all done) |
 | #16 Data safety | #111 Secure the release signing key (user task) |
@@ -35,11 +32,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #124 More species: bonsai, balcony plants, herbs and vegetables (now 109)
+- #123 Pruning as a care task
+- #125 Calendar month and year view
 - #14 Plant database: pick a species, care intervals prefilled (71 houseplants, offline)
 - #17 Backup and export (zip with data and photos; share sheet / file picker)
-- #12 Timeline with before/after (journal epic done)
-- #11 Photos and notes per plant (journal)
-- #29 App navigation: bottom bar (Foundation epic done)
 
 ## Decisions (2026-09-30)
 
