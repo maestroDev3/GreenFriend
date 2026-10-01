@@ -23,8 +23,9 @@ Repository: github.com/maestroDev3/GreenFriend
   Read STATUS.md at the start of every conversation.
 - Everything in the repo is English (code, UI, docs, issues, commits). You may talk
   to me in German.
-- Planning runs through GitHub issues: Epic → Story → Task (sub-issues), status labels
-  backlog / ready / in-progress. New ideas become a backlog story in the matching epic.
+- Planning runs through GitHub issues: Initiative → Epic → Story → Task (sub-issues),
+  status labels backlog / ready / in-progress. New ideas become a backlog story in an
+  open epic with exactly that goal, otherwise a new epic. Closed issues are never reopened.
 - Implementation strictly TDD (red → green → refactor), one PR per task, squash-merge
   when CI is green.
 - For Dart/Flutter work, the skill .claude/skills/flutter-dart/SKILL.md applies.
