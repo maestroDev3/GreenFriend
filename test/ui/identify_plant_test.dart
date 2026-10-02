@@ -354,7 +354,7 @@ void main() {
       await tester.tap(find.text('Identify from photo'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Take photo'));
-      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
       await tester.pageBack();
       await tester.pumpAndSettle();
       photos.release.complete();
