@@ -340,9 +340,8 @@ void main() {
       await tester.pumpApp(
         Builder(
           builder: (context) => TextButton(
-            onPressed: () => Navigator.of(
-              context,
-            ).push(MaterialPageRoute<void>(builder: (_) => setup.form())),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute<void>(builder: (_) => setup.form())),
             child: const Text('open'),
           ),
         ),

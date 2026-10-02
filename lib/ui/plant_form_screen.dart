@@ -226,11 +226,12 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       return;
     }
     if (found == null || !mounted) return;
+    final best = topCandidates(found);
     final chosen = await showModalBottomSheet<IdentificationCandidate>(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      builder: (context) => _CandidateSheet(candidates: topCandidates(found)),
+      builder: (context) => _CandidateSheet(candidates: best),
     );
     if (chosen == null || !mounted) return;
     _applyCandidate(chosen, language, l10n);
