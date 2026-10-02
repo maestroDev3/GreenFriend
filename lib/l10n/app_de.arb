@@ -139,5 +139,10 @@
   "reminderPrune": "Zurückschneiden: {plants}",
   "careTaskPrune": "{plant} zurückschneiden",
   "pruningIntervalLabel": "Zurückschneiden alle (Monate)",
-  "lastPruned": "Zuletzt zurückgeschnitten: {date}"
+  "lastPruned": "Zuletzt zurückgeschnitten: {date}",
+  "plantIdSection": "Pflanzenerkennung",
+  "plantIdApiKeyLabel": "plant.id-API-Schlüssel",
+  "plantIdApiKeyHelp": "Wird gebraucht, um Pflanzen per Foto zu erkennen. Einen Schlüssel bekommst du auf admin.kindwise.com – er wird nur auf diesem Handy gespeichert.",
+  "showApiKey": "Schlüssel anzeigen",
+  "hideApiKey": "Schlüssel verbergen"
 }

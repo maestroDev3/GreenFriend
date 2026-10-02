@@ -19,4 +19,16 @@ abstract interface class SettingsRepository {
   Future<ReminderSettings> loadReminder();
 
   Future<void> saveReminder(ReminderSettings reminder);
+
+  /// The user's own plant.id API key, or `null` if none is stored.
+  Future<String?> loadPlantIdApiKey();
+
+  /// Stores [key] trimmed; `null` or a blank key removes it.
+  Future<void> savePlantIdApiKey(String? key);
+}
+
+/// Trims an API key typed by the user; blank means no key.
+String? normalizedApiKey(String? key) {
+  final trimmed = key?.trim();
+  return (trimmed == null || trimmed.isEmpty) ? null : trimmed;
 }

@@ -60,6 +60,14 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 24),
           _SectionTitle(l10n.remindersSection),
           Card(clipBehavior: Clip.antiAlias, child: _ReminderTiles(settings)),
+          const SizedBox(height: 24),
+          _SectionTitle(l10n.plantIdSection),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: _ApiKeyField(settings),
+            ),
+          ),
         ],
       ),
     );
@@ -154,6 +162,53 @@ class _ReminderTiles extends StatelessWidget {
           onTap: () => _pickTime(context),
         ),
       ],
+    );
+  }
+}
+
+/// Text field for the plant.id API key; the text is hidden unless the user
+/// reveals it, and every change is saved right away.
+class _ApiKeyField extends StatefulWidget {
+  const _ApiKeyField(this.settings);
+
+  final SettingsController settings;
+
+  @override
+  State<_ApiKeyField> createState() => _ApiKeyFieldState();
+}
+
+class _ApiKeyFieldState extends State<_ApiKeyField> {
+  late final _controller = TextEditingController(
+    text: widget.settings.plantIdApiKey,
+  );
+  var _hidden = true;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return TextField(
+      key: const ValueKey('plant-id-api-key'),
+      controller: _controller,
+      obscureText: _hidden,
+      autocorrect: false,
+      enableSuggestions: false,
+      decoration: InputDecoration(
+        labelText: l10n.plantIdApiKeyLabel,
+        helperText: l10n.plantIdApiKeyHelp,
+        helperMaxLines: 4,
+        suffixIcon: IconButton(
+          icon: Icon(_hidden ? Icons.visibility : Icons.visibility_off),
+          tooltip: _hidden ? l10n.showApiKey : l10n.hideApiKey,
+          onPressed: () => setState(() => _hidden = !_hidden),
+        ),
+      ),
+      onChanged: widget.settings.setPlantIdApiKey,
     );
   }
 }
