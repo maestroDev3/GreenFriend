@@ -19,11 +19,8 @@ final monsteraSpecies = Species(
 );
 final catalog = FakeSpeciesCatalog([monsteraSpecies]);
 
-CareTip tip(String id, {String? genus}) => CareTip(
-  id: id,
-  texts: {'en': 'Tip $id', 'de': 'Tipp $id'},
-  genus: genus,
-);
+CareTip tip(String id, {String? genus}) =>
+    CareTip(id: id, texts: {'en': 'Tip $id', 'de': 'Tipp $id'}, genus: genus);
 
 final tips = [
   tip('general-1'),

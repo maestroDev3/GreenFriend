@@ -76,7 +76,8 @@ final List<CareTip> bundledTips = List.unmodifiable([
   CareTip(
     id: 'fertilize-moist',
     texts: const {
-      'en': 'Only fertilize moist soil – fertilizer on dry roots can burn them.',
+      'en':
+          'Only fertilize moist soil – fertilizer on dry roots can burn them.',
       'de': 'Dünge nur feuchte Erde – Dünger auf trockenen Wurzeln kann sie verbrennen.',
     },
   ),
@@ -139,7 +140,8 @@ final List<CareTip> bundledTips = List.unmodifiable([
   CareTip(
     id: 'soak-not-sip',
     texts: const {
-      'en': 'Most plants prefer a good soak less often to a few sips every day.',
+      'en':
+          'Most plants prefer a good soak less often to a few sips every day.',
       'de': 'Die meisten Pflanzen mögen lieber seltener, dafür kräftig gegossen werden als täglich ein paar Schlucke.',
     },
   ),
