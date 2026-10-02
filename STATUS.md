@@ -8,7 +8,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #30 Tip of the day (Epic #13) – branch `epic/plant-knowledge-automation`, tasks #159–#160
+- Epic #13 is waiting for your test: pre-release **epic-test** APK from `epic/plant-knowledge-automation` (#15, #112, #30, #170). Merged into `main` after your OK.
 
 ## Up next
 
@@ -20,7 +20,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 3 of 5 closed | #30 Tip of the day → #161 Extend the plant database with commonly identified species |
+| #13 Plant knowledge and automatic care plans | 5 of 6 closed | #161 Extend the plant database with commonly identified species (backlog) |
 | #31 Outdoor plants and weather (deliberately last) | 0 of 1 closed | #26 Weather-aware watering for outdoor plants |
 
 **#150 Data safety and multi-device**
@@ -43,11 +43,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #170 Robust identification errors and winter-rest edge cases (review findings) – on the epic branch
+- #30 Tip of the day (48 curated tips EN/DE, home card) – on the epic branch
 - #112 Winter rest Nov–Feb (watering × 1.5, no fertilizer, switch per plant) – on the epic branch
 - #15 Identify a plant from a photo (plant.id, top 3, genus fallback) – on the epic branch, not in `main` yet
 - #124 More species: bonsai, balcony plants, herbs and vegetables (now 109)
-- #123 Pruning as a care task
-- #125 Calendar month and year view
 
 ## Decisions
 
@@ -60,6 +60,10 @@ Guiding principle: as much as possible happens automatically (photo → species 
 - 2026-09-30: camera/gallery allowed (journal epic done)
 
 ## Open decisions (user only)
+
+- Epic #13: test the epic-test APK (photo identification needs your plant.id key under More → Settings); then OK to merge into `main`?
+- Winter rest is **on for all existing plants** after the update (Nov–Feb: watering × 1.5, no fertilizer) – OK, or off by default for existing plants?
+- #161 (proposal): remember identified species that are not in the database and add the most common ones in a next batch – OK as next story?
 
 - Initiatives #148–#151 and epic #152 are new (migration) – please confirm or re-sort
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
