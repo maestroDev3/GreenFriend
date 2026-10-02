@@ -107,6 +107,39 @@ void main() {
       );
     });
 
+    test('counts fertilizing overdue before winter from March 1', () {
+      final fed = plant(
+        fertilize: 30,
+        lastFertilized: DateTime.utc(2026, 10, 1),
+      );
+
+      expect(
+        careStatus(fed, const Fertilize(), DateTime.utc(2027, 3, 5)),
+        const Overdue(4),
+      );
+    });
+
+    test('plans never-fertilized plants for March 1 in winter', () {
+      final never = plant(fertilize: 30);
+
+      expect(
+        careStatus(never, const Fertilize(), DateTime.utc(2026, 12, 10)),
+        const DueIn(81),
+      );
+      expect(
+        careStatus(never, const Fertilize(), DateTime.utc(2026, 5, 10)),
+        const DueToday(),
+      );
+      expect(
+        careStatus(
+          plant(fertilize: 30, winterRest: false),
+          const Fertilize(),
+          DateTime.utc(2026, 12, 10),
+        ),
+        const DueToday(),
+      );
+    });
+
     test('keeps all due dates when winter rest is off', () {
       final off = plant(
         winterRest: false,
