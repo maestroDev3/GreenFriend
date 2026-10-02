@@ -18,7 +18,9 @@ void main() {
     test('contains the photo as a base64 JPEG data URL', () {
       final body = plantIdRequestBody([1, 2, 3]);
 
-      expect(body['images'], ['data:image/jpeg;base64,${base64Encode([1, 2, 3])}']);
+      expect(body['images'], [
+        'data:image/jpeg;base64,${base64Encode([1, 2, 3])}',
+      ]);
       expect(body['similar_images'], isFalse);
     });
   });

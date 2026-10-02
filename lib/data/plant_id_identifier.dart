@@ -9,9 +9,7 @@ import '../domain/identification.dart';
 class PlantIdIdentifier implements PlantIdentifier {
   PlantIdIdentifier({this.timeout = const Duration(seconds: 30)});
 
-  static final endpoint = Uri.parse(
-    'https://plant.id/api/v3/identification',
-  );
+  static final endpoint = Uri.parse('https://plant.id/api/v3/identification');
 
   /// Upper limit for connecting and for the whole answer.
   final Duration timeout;
