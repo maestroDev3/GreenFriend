@@ -159,5 +159,9 @@
   "identifyInvalidKey": "Der plant.id-API-Schlüssel wurde abgelehnt. Bitte prüf ihn in den Einstellungen.",
   "identifyNoCredits": "Dein plant.id-Guthaben ist aufgebraucht.",
   "identifyNotAPlant": "Auf diesem Foto wurde keine Pflanze gefunden – versuch ein anderes.",
-  "identifyUnavailable": "Die Pflanzenerkennung ist nicht erreichbar. Prüf deine Internetverbindung und versuch es noch einmal."
+  "identifyUnavailable": "Die Pflanzenerkennung ist nicht erreichbar. Prüf deine Internetverbindung und versuch es noch einmal.",
+  "winterRestSwitch": "Winterruhe (Nov.–Feb.)",
+  "winterRestSwitchHelp": "Von November bis Februar weniger gießen und nicht düngen.",
+  "winterRestTitle": "Winterruhe",
+  "winterRestActive": "Weniger gießen, bis März nicht düngen"
 }

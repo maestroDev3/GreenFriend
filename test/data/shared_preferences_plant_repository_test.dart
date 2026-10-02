@@ -79,6 +79,28 @@ void main() {
       expect(plant.repottingIntervalMonths, 24);
     });
 
+    test('keeps a switched-off winter rest across a restart', () async {
+      final plant = await (await openRepository()).add(
+        name: 'Lemon tree',
+        winterRest: false,
+      );
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.winterRest, isFalse);
+      expect(loaded, plant);
+    });
+
+    test('loads plants stored before winter rest existed with it on', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe","wateringIntervalDays":14}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.winterRest, isTrue);
+    });
+
     test('generates unique ids', () async {
       final repository = await openRepository();
 

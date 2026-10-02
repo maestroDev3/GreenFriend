@@ -872,5 +872,21 @@
   "identifyUnavailable": "Plant identification is not reachable. Check your internet connection and try again.",
   "@identifyUnavailable": {
     "description": "Error when the identification service cannot be reached."
+  },
+  "winterRestSwitch": "Winter rest (Nov–Feb)",
+  "@winterRestSwitch": {
+    "description": "Switch in the plant form that slows down watering and pauses fertilizing in winter."
+  },
+  "winterRestSwitchHelp": "Water less and no fertilizer from November to February.",
+  "@winterRestSwitchHelp": {
+    "description": "Explanation below the winter rest switch."
+  },
+  "winterRestTitle": "Winter rest",
+  "@winterRestTitle": {
+    "description": "Title of the detail-page tile shown while winter rest is active."
+  },
+  "winterRestActive": "Water less, no fertilizer until March",
+  "@winterRestActive": {
+    "description": "Detail-page text while winter rest is active."
   }
 }
