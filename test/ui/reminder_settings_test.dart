@@ -19,7 +19,11 @@ void main() {
       final settings = await loadedSettings(FakeSettingsRepository());
 
       await tester.pumpApp(const SettingsScreen(), settings: settings);
-      await tester.scrollUntilVisible(find.text('Daily reminder'), 100);
+      await tester.scrollUntilVisible(
+        find.text('Daily reminder'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
 
       expect(find.text('Reminders'), findsOneWidget);
       expect(find.text('9:00 AM'), findsOneWidget);
@@ -33,7 +37,11 @@ void main() {
       final repository = FakeSettingsRepository();
       final settings = await loadedSettings(repository);
       await tester.pumpApp(const SettingsScreen(), settings: settings);
-      await tester.scrollUntilVisible(find.text('Daily reminder'), 100);
+      await tester.scrollUntilVisible(
+        find.text('Daily reminder'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
 
       await tester.tap(find.text('Daily reminder'));
       await tester.pumpAndSettle();
@@ -50,7 +58,11 @@ void main() {
         settings: settings,
         locale: const Locale('de'),
       );
-      await tester.scrollUntilVisible(find.text('Tägliche Erinnerung'), 100);
+      await tester.scrollUntilVisible(
+        find.text('Tägliche Erinnerung'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
 
       expect(find.text('Erinnerungen'), findsOneWidget);
       expect(find.text('09:00'), findsOneWidget);

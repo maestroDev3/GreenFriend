@@ -37,12 +37,7 @@ void main() {
 
       expect(repository.plantIdApiKey, 'my-key');
       expect(settings.plantIdApiKey, 'my-key');
-      final field = tester.widget<TextField>(
-        find.descendant(
-          of: find.byKey(keyField),
-          matching: find.byType(TextField),
-        ),
-      );
+      final field = tester.widget<TextField>(find.byKey(keyField));
       expect(field.obscureText, isTrue);
     });
 
@@ -54,12 +49,7 @@ void main() {
       await tester.pumpApp(const SettingsScreen(), settings: settings);
       await showKeyField(tester);
 
-      final field = tester.widget<TextField>(
-        find.descendant(
-          of: find.byKey(keyField),
-          matching: find.byType(TextField),
-        ),
-      );
+      final field = tester.widget<TextField>(find.byKey(keyField));
       expect(field.controller?.text, 'stored');
 
       await tester.enterText(find.byKey(keyField), '');
@@ -81,12 +71,7 @@ void main() {
       await tester.tap(find.byTooltip('Show key'));
       await tester.pumpAndSettle();
 
-      final field = tester.widget<TextField>(
-        find.descendant(
-          of: find.byKey(keyField),
-          matching: find.byType(TextField),
-        ),
-      );
+      final field = tester.widget<TextField>(find.byKey(keyField));
       expect(field.obscureText, isFalse);
     });
   });
