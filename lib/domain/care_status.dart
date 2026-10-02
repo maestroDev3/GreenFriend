@@ -1,6 +1,7 @@
 import 'care_log.dart';
 import 'clock.dart';
 import 'plant.dart';
+import 'season.dart';
 
 /// When a care task (watering, fertilizing, repotting) is due next,
 /// relative to today.
@@ -64,6 +65,10 @@ final class Overdue extends CareStatus {
 
 /// Works out when [kind] of care is due for [plant]; care that was never
 /// done is due today. Repotting and pruning intervals are calendar months.
+///
+/// With [Plant.winterRest], watering counted from a day in winter rest takes
+/// 1.5 times as long, and fertilizing is never due during winter rest but on
+/// March 1 instead.
 CareStatus careStatus(Plant plant, CareKind kind, DateTime today) {
   final (interval, last) = switch (kind) {
     Water() => (plant.wateringIntervalDays, plant.lastWateredOn),
@@ -74,14 +79,38 @@ CareStatus careStatus(Plant plant, CareKind kind, DateTime today) {
   if (interval == null) return const NotScheduled();
   if (last == null) return const DueToday();
 
-  final dueOn = switch (kind) {
-    Repot() || Prune() => addMonths(last, interval),
-    _ => last.add(Duration(days: interval)),
-  };
-  final days = dueOn.difference(dayOf(today)).inDays;
+  final now = dayOf(today);
+  var dueOn = nextCareDay(plant, kind, last, interval);
+  if (kind is Fertilize &&
+      plant.winterRest &&
+      dueOn.isBefore(now) &&
+      isWinterRest(now)) {
+    dueOn = winterRestEnd(now);
+  }
+  final days = dueOn.difference(now).inDays;
   if (days > 0) return DueIn(days);
   if (days == 0) return const DueToday();
   return Overdue(-days);
+}
+
+/// The day after [day] on which [kind] of care is due again with
+/// [interval], following the winter rest of [plant].
+DateTime nextCareDay(Plant plant, CareKind kind, DateTime day, int interval) {
+  final from = dayOf(day);
+  switch (kind) {
+    case Repot() || Prune():
+      return addMonths(from, interval);
+    case Water():
+      final days = plant.winterRest && isWinterRest(from)
+          ? winterWateringInterval(interval)
+          : interval;
+      return from.add(Duration(days: days));
+    case Fertilize():
+      final next = from.add(Duration(days: interval));
+      return plant.winterRest && isWinterRest(next)
+          ? winterRestEnd(next)
+          : next;
+  }
 }
 
 /// When [plant] needs water next.

@@ -21,6 +21,7 @@ class Plant {
     DateTime? lastRepottedOn,
     int? pruningIntervalMonths,
     DateTime? lastPrunedOn,
+    this.winterRest = true,
   }) : name = _requireName(name),
        species = _optional(species),
        speciesId = _optional(speciesId),
@@ -83,6 +84,10 @@ class Plant {
   /// Calendar day (UTC midnight) of the last pruning, if known.
   final DateTime? lastPrunedOn;
 
+  /// Whether watering and fertilizing slow down from November to February
+  /// (see `season.dart`).
+  final bool winterRest;
+
   /// Returns a copy with the given values; `null` keeps the current value.
   Plant copyWith({
     String? name,
@@ -97,6 +102,7 @@ class Plant {
     DateTime? lastRepottedOn,
     int? pruningIntervalMonths,
     DateTime? lastPrunedOn,
+    bool? winterRest,
   }) {
     return Plant(
       id: id,
@@ -115,6 +121,7 @@ class Plant {
       pruningIntervalMonths:
           pruningIntervalMonths ?? this.pruningIntervalMonths,
       lastPrunedOn: lastPrunedOn ?? this.lastPrunedOn,
+      winterRest: winterRest ?? this.winterRest,
     );
   }
 
@@ -133,7 +140,8 @@ class Plant {
       other.repottingIntervalMonths == repottingIntervalMonths &&
       other.lastRepottedOn == lastRepottedOn &&
       other.pruningIntervalMonths == pruningIntervalMonths &&
-      other.lastPrunedOn == lastPrunedOn;
+      other.lastPrunedOn == lastPrunedOn &&
+      other.winterRest == winterRest;
 
   @override
   int get hashCode => Object.hash(
@@ -150,6 +158,7 @@ class Plant {
     lastRepottedOn,
     pruningIntervalMonths,
     lastPrunedOn,
+    winterRest,
   );
 
   @override

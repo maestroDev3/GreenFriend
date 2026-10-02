@@ -201,8 +201,8 @@ void main() {
 
       expect(summary(tasks), [
         ('water', DateTime.utc(2026, 12, 8)),
-        ('fertilize', DateTime.utc(2026, 12, 15)),
         ('water', DateTime.utc(2026, 12, 15)),
+        ('fertilize', DateTime.utc(2026, 12, 15)),
       ]);
     });
   });
