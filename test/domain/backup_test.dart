@@ -98,6 +98,28 @@ void main() {
       expect(backup.plants.single.species, 'Aloe vera');
     });
 
+    test('keeps a switched-off winter rest', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(winterRest: false)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+
+      final restored = decodeBackup(encodeBackup(backup));
+
+      expect(restored.plants.single.winterRest, isFalse);
+    });
+
+    test('reads backups made before winter rest existed with it on', () {
+      final backup = decodeBackup(
+        '{"format":"green-friend-backup","version":1,'
+        '"plants":[{"id":"p","name":"Aloe"}],'
+        '"careLogs":[],"journal":[]}',
+      );
+
+      expect(backup.plants.single.winterRest, isTrue);
+    });
+
     test('rejects broken or unknown backups', () {
       expect(() => decodeBackup('not json'), throwsFormatException);
       expect(() => decodeBackup('{"format":"other"}'), throwsFormatException);
