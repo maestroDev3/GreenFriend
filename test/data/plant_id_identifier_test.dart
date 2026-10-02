@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/plant_id_identifier.dart';
@@ -100,6 +102,28 @@ void main() {
         () => parsePlantIdResponse(201, 'not json'),
         throwsA(isA<ServiceUnavailable>()),
       );
+    });
+  });
+
+  group('identificationFailureFor', () {
+    test('turns network, TLS and format errors into a service error', () {
+      for (final error in <Object>[
+        const SocketException('offline'),
+        const HttpException('closed'),
+        const HandshakeException('captive portal'),
+        const FormatException('not utf-8'),
+        TimeoutException('slow'),
+      ]) {
+        expect(
+          identificationFailureFor(error),
+          isA<ServiceUnavailable>(),
+          reason: '$error',
+        );
+      }
+    });
+
+    test('leaves other errors alone', () {
+      expect(identificationFailureFor(StateError('bug')), isNull);
     });
   });
 }

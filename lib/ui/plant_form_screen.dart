@@ -194,9 +194,15 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     final language = Localizations.localeOf(context).languageCode;
     final messenger = ScaffoldMessenger.of(context);
     setState(() => _identifying = true);
-    final List<IdentificationCandidate> found;
+    List<IdentificationCandidate>? found;
+    IdentificationFailure? failure;
     try {
       final name = await widget.photos.save(path);
+      if (!mounted) {
+        // The form was left meanwhile; nobody will save or delete the photo.
+        unawaited(widget.photos.delete(name));
+        return;
+      }
       _replacePhoto(name);
       final bytes = await widget.photos.readBytes(name);
       if (bytes == null) throw const ServiceUnavailable('photo not readable');
@@ -205,20 +211,27 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         apiKey: apiKey,
         languageCode: language,
       );
-    } on IdentificationFailure catch (failure) {
+    } on IdentificationFailure catch (error) {
+      failure = error;
+    } catch (_) {
+      // The progress indicator must never get stuck.
+      failure = const ServiceUnavailable('unexpected error');
+    } finally {
       if (mounted) setState(() => _identifying = false);
+    }
+    if (failure != null) {
       messenger.showSnackBar(
         SnackBar(content: Text(_failureMessage(l10n, failure))),
       );
       return;
     }
-    if (!mounted) return;
-    setState(() => _identifying = false);
+    if (found == null || !mounted) return;
+    final best = topCandidates(found);
     final chosen = await showModalBottomSheet<IdentificationCandidate>(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      builder: (context) => _CandidateSheet(candidates: topCandidates(found)),
+      builder: (context) => _CandidateSheet(candidates: best),
     );
     if (chosen == null || !mounted) return;
     _applyCandidate(chosen, language, l10n);

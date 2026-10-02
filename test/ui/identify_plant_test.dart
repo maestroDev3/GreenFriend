@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/identification.dart';
@@ -65,13 +67,25 @@ final candidates = [
   ),
 ];
 
+/// Saves photos only when [release] is completed.
+class SlowPhotoStore extends FakePhotoStore {
+  final release = Completer<void>();
+
+  @override
+  Future<String> save(String sourcePath) async {
+    await release.future;
+    return super.save(sourcePath);
+  }
+}
+
 class Setup {
-  Setup({FakePlantIdentifier? identifier})
-    : identifier = identifier ?? FakePlantIdentifier(candidates: candidates);
+  Setup({FakePlantIdentifier? identifier, FakePhotoStore? photos})
+    : identifier = identifier ?? FakePlantIdentifier(candidates: candidates),
+      photos = photos ?? FakePhotoStore();
 
   final plants = FakePlantRepository();
   final journal = FakeJournalRepository();
-  final photos = FakePhotoStore();
+  final FakePhotoStore photos;
   final picker = FakePhotoPicker();
   final FakePlantIdentifier identifier;
 
@@ -297,6 +311,56 @@ void main() {
         ),
         findsOneWidget,
       );
+    });
+
+    testWidgets('recovers from an unexpected error', (tester) async {
+      final setup = Setup(
+        identifier: FakePlantIdentifier(error: StateError('boom')),
+      );
+      await tester.pumpApp(setup.form(), settings: await settingsWithKey('k'));
+
+      await identifyWithCamera(tester);
+
+      expect(
+        find.text(
+          'Plant identification is not reachable. Check your internet '
+          'connection and try again.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Identify from photo'), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+    });
+
+    testWidgets('leaves no photo behind when left while saving it', (
+      tester,
+    ) async {
+      final photos = SlowPhotoStore();
+      final setup = Setup(photos: photos);
+      await tester.pumpApp(
+        Builder(
+          builder: (context) => TextButton(
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute<void>(builder: (_) => setup.form())),
+            child: const Text('open'),
+          ),
+        ),
+        settings: await settingsWithKey('k'),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Identify from photo'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Take photo'));
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      photos.release.complete();
+      await tester.pumpAndSettle();
+
+      expect(photos.stored, isEmpty);
+      expect(setup.identifier.calls, isEmpty);
     });
 
     testWidgets('is not offered when editing a plant', (tester) async {

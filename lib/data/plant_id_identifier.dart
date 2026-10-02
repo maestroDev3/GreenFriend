@@ -25,7 +25,7 @@ class PlantIdIdentifier implements PlantIdentifier {
       final uri = endpoint.replace(
         queryParameters: {'details': 'common_names', 'language': languageCode},
       );
-      final request = await client.postUrl(uri);
+      final request = await client.postUrl(uri).timeout(timeout);
       request.headers.set('Api-Key', apiKey);
       request.headers.contentType = ContentType.json;
       request.add(utf8.encode(jsonEncode(plantIdRequestBody(photo))));
@@ -35,17 +35,27 @@ class PlantIdIdentifier implements PlantIdentifier {
           .join()
           .timeout(timeout);
       return parsePlantIdResponse(response.statusCode, body);
-    } on SocketException catch (error) {
-      throw ServiceUnavailable(error.message);
-    } on HttpException catch (error) {
-      throw ServiceUnavailable(error.message);
-    } on TimeoutException {
-      throw const ServiceUnavailable('timeout');
+    } on IdentificationFailure {
+      rethrow;
+    } catch (error) {
+      if (identificationFailureFor(error) case final failure?) throw failure;
+      rethrow;
     } finally {
       client.close();
     }
   }
 }
+
+/// The [IdentificationFailure] for a transport [error]: network, TLS,
+/// timeout and unreadable answers become [ServiceUnavailable]; anything else
+/// is a bug and gives `null`.
+IdentificationFailure? identificationFailureFor(Object error) =>
+    switch (error) {
+      IdentificationFailure() => error,
+      TimeoutException() => const ServiceUnavailable('timeout'),
+      IOException() || FormatException() => ServiceUnavailable('$error'),
+      _ => null,
+    };
 
 /// The JSON body of an identification request for [photo] (JPEG bytes).
 Map<String, Object> plantIdRequestBody(List<int> photo) => {
