@@ -47,9 +47,7 @@ bool switchValue(WidgetTester tester) => tester
 
 void main() {
   group('winter rest in the plant form', () {
-    testWidgets('is on for new plants and can be switched off', (
-      tester,
-    ) async {
+    testWidgets('is on for new plants and can be switched off', (tester) async {
       final plants = FakePlantRepository();
       await tester.pumpApp(form(plants));
 
