@@ -77,15 +77,23 @@ CareStatus careStatus(Plant plant, CareKind kind, DateTime today) {
     Prune() => (plant.pruningIntervalMonths, plant.lastPrunedOn),
   };
   if (interval == null) return const NotScheduled();
-  if (last == null) return const DueToday();
-
   final now = dayOf(today);
+  final restsInWinter = kind is Fertilize && plant.winterRest;
+  if (last == null) {
+    return restsInWinter && isWinterRest(now)
+        ? DueIn(winterRestEnd(now).difference(now).inDays)
+        : const DueToday();
+  }
+
   var dueOn = nextCareDay(plant, kind, last, interval);
-  if (kind is Fertilize &&
-      plant.winterRest &&
-      dueOn.isBefore(now) &&
-      isWinterRest(now)) {
-    dueOn = winterRestEnd(now);
+  // Fertilizing left undone when the winter rest began is due when it ends,
+  // and counts as overdue only from then on.
+  final latestRestStart = DateTime.utc(
+    now.month >= 11 ? now.year : now.year - 1,
+    11,
+  );
+  if (restsInWinter && dueOn.isBefore(latestRestStart)) {
+    dueOn = winterRestEnd(latestRestStart);
   }
   final days = dueOn.difference(now).inDays;
   if (days > 0) return DueIn(days);
