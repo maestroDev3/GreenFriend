@@ -64,6 +64,19 @@ void main() {
       expect(await (await repository()).loadPlantIdApiKey(), isNull);
     });
 
+    test('has no dismissed tip by default', () async {
+      expect(await (await repository()).loadTipDismissedOn(), isNull);
+    });
+
+    test('stores the day the tip was dismissed', () async {
+      await (await repository()).saveTipDismissedOn(DateTime(2026, 10, 3, 18));
+
+      expect(
+        await (await repository()).loadTipDismissedOn(),
+        DateTime.utc(2026, 10, 3),
+      );
+    });
+
     test('has the daily reminder on at 9:00 by default', () async {
       expect(
         await (await repository()).loadReminder(),

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
 
@@ -12,6 +13,7 @@ class SettingsController extends ChangeNotifier {
   AppLanguage _language = AppLanguage.system;
   ReminderSettings _reminder = ReminderSettings.defaults;
   String? _plantIdApiKey;
+  DateTime? _tipDismissedOn;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -22,12 +24,16 @@ class SettingsController extends ChangeNotifier {
   /// The user's plant.id API key; `null` hides photo identification.
   String? get plantIdApiKey => _plantIdApiKey;
 
+  /// The day the tip of the day was closed; it stays hidden that day.
+  DateTime? get tipDismissedOn => _tipDismissedOn;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
     _language = await _repository.loadLanguage();
     _reminder = await _repository.loadReminder();
     _plantIdApiKey = await _repository.loadPlantIdApiKey();
+    _tipDismissedOn = await _repository.loadTipDismissedOn();
     notifyListeners();
   }
 
@@ -59,6 +65,15 @@ class SettingsController extends ChangeNotifier {
     _plantIdApiKey = normalized;
     notifyListeners();
     await _repository.savePlantIdApiKey(normalized);
+  }
+
+  /// Hides the tip of the day until the day after [today].
+  Future<void> dismissTip(DateTime today) async {
+    final day = dayOf(today);
+    if (day == _tipDismissedOn) return;
+    _tipDismissedOn = day;
+    notifyListeners();
+    await _repository.saveTipDismissedOn(day);
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
 
@@ -15,6 +16,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
 
   /// Not part of the backup, so the key never leaves the phone.
   static const plantIdApiKeyKey = 'settings.v1.plantIdApiKey';
+  static const tipDismissedOnKey = 'settings.v1.tipDismissedOn';
 
   final SharedPreferences _preferences;
 
@@ -75,6 +77,25 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
     } else {
       await _preferences.setString(plantIdApiKeyKey, normalized);
     }
+  }
+
+  @override
+  Future<DateTime?> loadTipDismissedOn() async {
+    final stored = _preferences.getString(tipDismissedOnKey);
+    if (stored == null) return null;
+    final parsed = DateTime.tryParse(stored);
+    return parsed == null ? null : dayOf(parsed);
+  }
+
+  @override
+  Future<void> saveTipDismissedOn(DateTime day) async {
+    final normalized = dayOf(day);
+    await _preferences.setString(
+      tipDismissedOnKey,
+      '${normalized.year.toString().padLeft(4, '0')}-'
+      '${normalized.month.toString().padLeft(2, '0')}-'
+      '${normalized.day.toString().padLeft(2, '0')}',
+    );
   }
 
   /// Reads "HH:MM"; `null` for missing or invalid values.

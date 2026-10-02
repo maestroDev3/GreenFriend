@@ -25,6 +25,12 @@ abstract interface class SettingsRepository {
 
   /// Stores [key] trimmed; `null` or a blank key removes it.
   Future<void> savePlantIdApiKey(String? key);
+
+  /// The day the user closed the tip of the day, or `null`.
+  Future<DateTime?> loadTipDismissedOn();
+
+  /// Remembers that the tip of the day was closed on [day].
+  Future<void> saveTipDismissedOn(DateTime day);
 }
 
 /// Trims an API key typed by the user; blank means no key.

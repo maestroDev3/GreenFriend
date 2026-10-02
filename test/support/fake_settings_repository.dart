@@ -8,12 +8,14 @@ class FakeSettingsRepository implements SettingsRepository {
     this.language = AppLanguage.system,
     this.reminder = ReminderSettings.defaults,
     this.plantIdApiKey,
+    this.tipDismissedOn,
   });
 
   AppThemeMode themeMode;
   AppLanguage language;
   ReminderSettings reminder;
   String? plantIdApiKey;
+  DateTime? tipDismissedOn;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -39,4 +41,10 @@ class FakeSettingsRepository implements SettingsRepository {
   @override
   Future<void> savePlantIdApiKey(String? key) async =>
       plantIdApiKey = (key == null || key.trim().isEmpty) ? null : key.trim();
+
+  @override
+  Future<DateTime?> loadTipDismissedOn() async => tipDismissedOn;
+
+  @override
+  Future<void> saveTipDismissedOn(DateTime day) async => tipDismissedOn = day;
 }
