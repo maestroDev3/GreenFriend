@@ -4,16 +4,17 @@ Current project state for planning and Claude projects. Maintained by Claude
 after every status change (see CLAUDE.md, “Keeping the status”).
 The GitHub issues are authoritative; this file is the summary.
 
-**Last updated:** 2026-10-01
+**Last updated:** 2026-10-02
 
 ## In progress
 
-- Nothing – next: the user picks from “Up next”
+- #15 Identify a plant from a photo (Epic #13) – branch `epic/plant-knowledge-automation`, tasks #153–#156
 
 ## Up next
 
+- #112 Seasonal care adjustment (ready, tasks #157–#158)
+- #30 Tip of the day (ready, tasks #159–#160)
 - #111 Secure the release signing key – user task (store keystore and password separately)
-- #15 Identify a plant from a photo (plant.id, key in the settings)
 
 ## Backlog by initiative → epic
 
@@ -21,7 +22,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 1 of 4 closed | #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day |
+| #13 Plant knowledge and automatic care plans | 1 of 5 closed | #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day → #161 Extend the plant database with commonly identified species |
 | #31 Outdoor plants and weather (deliberately last) | 0 of 1 closed | #26 Weather-aware watering for outdoor plants |
 
 **#150 Data safety and multi-device**
@@ -53,6 +54,9 @@ Guiding principle: as much as possible happens automatically (photo → species 
 ## Decisions
 
 - 2026-10-01: planning structure Initiative → Epic → Story → Task (see `docs/planning-structure.md`)
+- 2026-10-02: #15 top 3 candidates; unknown species → same-genus template, else manual intervals (#161 extends the database)
+- 2026-10-02: #112 winter rest Nov–Feb, watering × 1.5, no fertilizer, switch per plant
+- 2026-10-02: #30 curated tips (EN/DE) offline, card on the home screen, dismissable
 - 2026-09-30: #14 care data: own curated offline table (DE/EN), seeded from Open Plantbook
 - 2026-09-30: #15 identification: plant.id (Kindwise); API key entered by the user in the settings (private use for now)
 - 2026-09-30: camera/gallery allowed (journal epic done)
