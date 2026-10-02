@@ -154,7 +154,9 @@ void main() {
       expect(fieldText(tester, 'Species (optional)'), 'Swiss cheese plant');
       expect(fieldText(tester, 'Water every (days)'), '7');
       expect(
-        find.text('Care values from the plant database – adjust them if needed.'),
+        find.text(
+          'Care values from the plant database – adjust them if needed.',
+        ),
         findsOneWidget,
       );
     });
@@ -212,7 +214,11 @@ void main() {
       await identifyWithCamera(tester);
       await tester.tap(find.text('Monstera deliciosa'));
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('Save'));
+      await tester.scrollUntilVisible(
+        find.text('Save'),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
 
@@ -234,9 +240,8 @@ void main() {
       await tester.pumpApp(
         Builder(
           builder: (context) => TextButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (_) => setup.form()),
-            ),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute<void>(builder: (_) => setup.form())),
             child: const Text('open'),
           ),
         ),
