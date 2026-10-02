@@ -13,6 +13,7 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../domain/care_status.dart';
+import '../domain/season.dart';
 import '../l10n/app_localizations.dart';
 import 'compare_screen.dart';
 import 'journal_entry_screen.dart';
@@ -286,6 +287,14 @@ class _Details extends StatelessWidget {
             null => l10n.noWateringSchedule,
           },
         ),
+        if (plant.winterRest && isWinterRest(today)) ...[
+          const SizedBox(height: 12),
+          _CareTile(
+            icon: Icons.ac_unit,
+            title: l10n.winterRestTitle,
+            value: l10n.winterRestActive,
+          ),
+        ],
         if (status is! NotScheduled) ...[
           const SizedBox(height: 12),
           Card(

@@ -92,6 +92,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     today: _today,
   );
   var _saving = false;
+  late var _winterRest = widget.plant?.winterRest ?? true;
 
   /// Photo taken for identification; saved to the journal with the plant,
   /// deleted again when the form is left without saving.
@@ -287,6 +288,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           lastRepottedOn: _repot.lastToSave(repot),
           pruningIntervalMonths: prune,
           lastPrunedOn: _prune.lastToSave(prune),
+          winterRest: _winterRest,
         ),
       );
     } else {
@@ -303,6 +305,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         lastRepottedOn: _repot.lastToSave(repot),
         pruningIntervalMonths: prune,
         lastPrunedOn: _prune.lastToSave(prune),
+        winterRest: _winterRest,
       );
       if (_photo case final photo?) {
         await widget.journal.add(plantId: plant.id, day: _today, photo: photo);
@@ -477,6 +480,14 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               ),
               const SizedBox(height: 16),
             ],
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              secondary: const Icon(Icons.ac_unit),
+              title: Text(l10n.winterRestSwitch),
+              subtitle: Text(l10n.winterRestSwitchHelp),
+              value: _winterRest,
+              onChanged: (value) => setState(() => _winterRest = value),
+            ),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: _saving ? null : _save,
