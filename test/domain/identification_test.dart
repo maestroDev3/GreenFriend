@@ -37,11 +37,7 @@ void main() {
         candidate('D d', probability: 0.4),
       ]);
 
-      expect([for (final c in result) c.scientificName], [
-        'B b',
-        'D d',
-        'A a',
-      ]);
+      expect([for (final c in result) c.scientificName], ['B b', 'D d', 'A a']);
     });
 
     test('keeps fewer candidates when there are fewer than three', () {
