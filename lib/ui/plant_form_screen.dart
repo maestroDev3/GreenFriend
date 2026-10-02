@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../domain/care_actions.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/care_status.dart';
@@ -12,6 +15,7 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../l10n/app_localizations.dart';
+import 'settings_controller.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
 ///
@@ -25,6 +29,8 @@ class PlantFormScreen extends StatefulWidget {
     required this.photos,
     required this.species,
     this.plant,
+    this.photoPicker,
+    this.identifier,
     this.clock = DateTime.now,
   });
 
@@ -42,6 +48,12 @@ class PlantFormScreen extends StatefulWidget {
 
   /// The plant to edit; `null` creates a new plant.
   final Plant? plant;
+
+  /// Takes the photo for [identifier].
+  final PhotoPicker? photoPicker;
+
+  /// Identifies the species from a photo; `null` hides "Identify from photo".
+  final PlantIdentifier? identifier;
 
   @override
   State<PlantFormScreen> createState() => _PlantFormScreenState();
@@ -81,6 +93,13 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   );
   var _saving = false;
 
+  /// Photo taken for identification; saved to the journal with the plant,
+  /// deleted again when the form is left without saving.
+  String? _photo;
+  var _photoSaved = false;
+  var _identifying = false;
+  String? _identificationNote;
+
   List<(CareKind, _ScheduleInput)> get _schedules => [
     (const Water(), _water),
     (const Fertilize(), _fertilize),
@@ -99,6 +118,9 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
 
   @override
   void dispose() {
+    if (_photo case final photo? when !_photoSaved) {
+      unawaited(widget.photos.delete(photo));
+    }
     _name.dispose();
     _species.dispose();
     _location.dispose();
@@ -119,11 +141,127 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     setState(() {
       _speciesId = species.id;
       _linkedName = name;
-      _water.controller.text = '${species.wateringIntervalDays}';
-      _fertilize.controller.text = '${species.fertilizingIntervalDays}';
-      _repot.controller.text = '${species.repottingIntervalMonths}';
-      _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
+      _identificationNote = null;
+      _setIntervals(species);
     });
+  }
+
+  void _setIntervals(Species species) {
+    _water.controller.text = '${species.wateringIntervalDays}';
+    _fertilize.controller.text = '${species.fertilizingIntervalDays}';
+    _repot.controller.text = '${species.repottingIntervalMonths}';
+    _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
+  }
+
+  void _setNameIfEmpty(String name) {
+    if (_name.text.trim().isEmpty) _name.text = name;
+  }
+
+  Future<void> _identify() async {
+    final l10n = AppLocalizations.of(context);
+    final identifier = widget.identifier;
+    final picker = widget.photoPicker;
+    if (identifier == null || picker == null) return;
+    final apiKey = SettingsScope.of(context).plantIdApiKey;
+    if (apiKey == null) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.apiKeyNeededTitle),
+          content: Text(l10n.apiKeyNeededMessage),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.ok),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final source = await showModalBottomSheet<_PhotoSource>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => const _PhotoSourceSheet(),
+    );
+    if (source == null) return;
+    final path = await switch (source) {
+      _PhotoSource.camera => picker.takePhoto(),
+      _PhotoSource.gallery => picker.pickFromGallery(),
+    };
+    if (path == null || !mounted) return;
+    final language = Localizations.localeOf(context).languageCode;
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _identifying = true);
+    final List<IdentificationCandidate> found;
+    try {
+      final name = await widget.photos.save(path);
+      _replacePhoto(name);
+      final bytes = await widget.photos.readBytes(name);
+      if (bytes == null) throw const ServiceUnavailable('photo not readable');
+      found = await identifier.identify(
+        bytes,
+        apiKey: apiKey,
+        languageCode: language,
+      );
+    } on IdentificationFailure catch (failure) {
+      if (mounted) setState(() => _identifying = false);
+      messenger.showSnackBar(
+        SnackBar(content: Text(_failureMessage(l10n, failure))),
+      );
+      return;
+    }
+    if (!mounted) return;
+    setState(() => _identifying = false);
+    final chosen = await showModalBottomSheet<IdentificationCandidate>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (context) => _CandidateSheet(candidates: topCandidates(found)),
+    );
+    if (chosen == null || !mounted) return;
+    _applyCandidate(chosen, language, l10n);
+  }
+
+  void _replacePhoto(String name) {
+    final previous = _photo;
+    setState(() => _photo = name);
+    if (previous != null) unawaited(widget.photos.delete(previous));
+  }
+
+  void _applyCandidate(
+    IdentificationCandidate candidate,
+    String language,
+    AppLocalizations l10n,
+  ) {
+    final commonName =
+        candidate.commonNames.firstOrNull ?? candidate.scientificName;
+    switch (matchSpecies(candidate, widget.species)) {
+      case ExactSpecies(:final species):
+        final name = species.displayName(language);
+        _setNameIfEmpty(name);
+        _species.text = name;
+        _applySpecies(species, name);
+      case SameGenus(:final template):
+        _setNameIfEmpty(commonName);
+        _species.text = candidate.scientificName;
+        setState(() {
+          _speciesId = null;
+          _setIntervals(template);
+          _identificationNote = l10n.intervalsFromGenus(
+            template.displayName(language),
+          );
+        });
+      case NoSpecies():
+        _setNameIfEmpty(commonName);
+        _species.text = candidate.scientificName;
+        setState(() {
+          _speciesId = null;
+          _identificationNote = l10n.intervalsUnknownSpecies(
+            candidate.scientificName,
+          );
+        });
+    }
   }
 
   Future<void> _save() async {
@@ -152,7 +290,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         ),
       );
     } else {
-      await widget.plants.add(
+      final plant = await widget.plants.add(
         name: _name.text,
         species: _species.text,
         speciesId: _speciesId,
@@ -166,6 +304,10 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         pruningIntervalMonths: prune,
         lastPrunedOn: _prune.lastToSave(prune),
       );
+      if (_photo case final photo?) {
+        await widget.journal.add(plantId: plant.id, day: _today, photo: photo);
+        _photoSaved = true;
+      }
     }
     if (!mounted) return;
     Navigator.of(context).pop();
@@ -237,6 +379,38 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (widget.plant == null && widget.identifier != null) ...[
+              if (_photo case final photo?) ...[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: Image.file(
+                      widget.photos.fileFor(photo),
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => const _PhotoPlaceholder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.photoGoesToJournal,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 8),
+              ],
+              if (_identifying) ...[
+                const LinearProgressIndicator(),
+                const SizedBox(height: 8),
+                Text(l10n.identifyingPlant),
+              ] else
+                OutlinedButton.icon(
+                  onPressed: _identify,
+                  icon: const Icon(Icons.photo_camera_outlined),
+                  label: Text(l10n.identifyFromPhoto),
+                ),
+              const SizedBox(height: 16),
+            ],
             TextFormField(
               controller: _name,
               decoration: InputDecoration(labelText: l10n.plantNameLabel),
@@ -278,6 +452,15 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
                     onSelected: onSelected,
                   ),
             ),
+            if (_identificationNote case final note?) ...[
+              const SizedBox(height: 8),
+              Text(
+                note,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
             const SizedBox(height: 16),
             TextFormField(
               controller: _location,
@@ -301,6 +484,125 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+String _failureMessage(AppLocalizations l10n, IdentificationFailure failure) =>
+    switch (failure) {
+      MissingApiKey() => l10n.apiKeyNeededMessage,
+      InvalidApiKey() => l10n.identifyInvalidKey,
+      NoCredits() => l10n.identifyNoCredits,
+      NotAPlant() => l10n.identifyNotAPlant,
+      ServiceUnavailable() => l10n.identifyUnavailable,
+    };
+
+enum _PhotoSource { camera, gallery }
+
+/// Lets the user choose between camera and gallery for identification.
+class _PhotoSourceSheet extends StatelessWidget {
+  const _PhotoSourceSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.photo_camera_outlined),
+            title: Text(l10n.takePhoto),
+            onTap: () => Navigator.of(context).pop(_PhotoSource.camera),
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: Text(l10n.choosePhoto),
+            onTap: () => Navigator.of(context).pop(_PhotoSource.gallery),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The best identification results; pops with the chosen candidate, or
+/// `null` to enter the plant manually.
+class _CandidateSheet extends StatelessWidget {
+  const _CandidateSheet({required this.candidates});
+
+  final List<IdentificationCandidate> candidates;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final percent = NumberFormat.percentPattern(
+      Localizations.localeOf(context).toString(),
+    );
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+            child: Text(
+              l10n.identificationResultsTitle,
+              style: theme.textTheme.titleLarge,
+            ),
+          ),
+          for (final candidate in candidates)
+            ListTile(
+              title: Text(
+                candidate.commonNames.firstOrNull ?? candidate.scientificName,
+              ),
+              subtitle: candidate.commonNames.isEmpty
+                  ? null
+                  : Text(candidate.scientificName),
+              trailing: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(percent.format(candidate.probability)),
+                  if (isUncertain(candidate.probability))
+                    Text(
+                      l10n.uncertainCandidate,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
+                ],
+              ),
+              onTap: () => Navigator.of(context).pop(candidate),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: OutlinedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.enterManually),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Shown while the identification photo is loading or cannot be read.
+class _PhotoPlaceholder extends StatelessWidget {
+  const _PhotoPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return ColoredBox(
+      color: scheme.secondaryContainer,
+      child: Icon(
+        Icons.image_outlined,
+        size: 48,
+        color: scheme.onSecondaryContainer,
       ),
     );
   }

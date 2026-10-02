@@ -5,6 +5,7 @@ import 'data/bundled_species_catalog.dart';
 import 'data/file_photo_store.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
+import 'data/plant_id_identifier.dart';
 import 'data/platform_file_sharing.dart';
 import 'data/shared_preferences_care_log_repository.dart';
 import 'data/shared_preferences_journal_repository.dart';
@@ -59,6 +60,7 @@ Future<void> main() async {
         photos: photos,
       ),
       fileSharing: PlatformFileSharing(),
+      identifier: PlantIdIdentifier(),
     ),
   );
 }
