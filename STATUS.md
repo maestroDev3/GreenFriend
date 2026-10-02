@@ -8,11 +8,10 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #15 Identify a plant from a photo (Epic #13) – branch `epic/plant-knowledge-automation`, tasks #153–#156
+- #112 Seasonal care adjustment (Epic #13) – branch `epic/plant-knowledge-automation`, tasks #157–#158
 
 ## Up next
 
-- #112 Seasonal care adjustment (ready, tasks #157–#158)
 - #30 Tip of the day (ready, tasks #159–#160)
 - #111 Secure the release signing key – user task (store keystore and password separately)
 
@@ -22,7 +21,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 1 of 5 closed | #15 Identify a plant from a photo and set up its care plan automatically → #112 Seasonal care adjustment → #30 Tip of the day → #161 Extend the plant database with commonly identified species |
+| #13 Plant knowledge and automatic care plans | 2 of 5 closed | #112 Seasonal care adjustment → #30 Tip of the day → #161 Extend the plant database with commonly identified species |
 | #31 Outdoor plants and weather (deliberately last) | 0 of 1 closed | #26 Weather-aware watering for outdoor plants |
 
 **#150 Data safety and multi-device**
@@ -45,11 +44,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #15 Identify a plant from a photo (plant.id, top 3, genus fallback) – on the epic branch, not in `main` yet
 - #124 More species: bonsai, balcony plants, herbs and vegetables (now 109)
 - #123 Pruning as a care task
 - #125 Calendar month and year view
 - #14 Plant database: pick a species, care intervals prefilled (71 houseplants, offline)
-- #17 Backup and export (zip with data and photos; share sheet / file picker)
 
 ## Decisions
 
