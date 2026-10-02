@@ -8,11 +8,10 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #112 Seasonal care adjustment (Epic #13) – branch `epic/plant-knowledge-automation`, tasks #157–#158
+- #30 Tip of the day (Epic #13) – branch `epic/plant-knowledge-automation`, tasks #159–#160
 
 ## Up next
 
-- #30 Tip of the day (ready, tasks #159–#160)
 - #111 Secure the release signing key – user task (store keystore and password separately)
 
 ## Backlog by initiative → epic
@@ -21,7 +20,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 2 of 5 closed | #112 Seasonal care adjustment → #30 Tip of the day → #161 Extend the plant database with commonly identified species |
+| #13 Plant knowledge and automatic care plans | 3 of 5 closed | #30 Tip of the day → #161 Extend the plant database with commonly identified species |
 | #31 Outdoor plants and weather (deliberately last) | 0 of 1 closed | #26 Weather-aware watering for outdoor plants |
 
 **#150 Data safety and multi-device**
@@ -44,11 +43,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #112 Winter rest Nov–Feb (watering × 1.5, no fertilizer, switch per plant) – on the epic branch
 - #15 Identify a plant from a photo (plant.id, top 3, genus fallback) – on the epic branch, not in `main` yet
 - #124 More species: bonsai, balcony plants, herbs and vegetables (now 109)
 - #123 Pruning as a care task
 - #125 Calendar month and year view
-- #14 Plant database: pick a species, care intervals prefilled (71 houseplants, offline)
 
 ## Decisions
 
