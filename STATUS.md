@@ -64,7 +64,6 @@ Guiding principle: as much as possible happens automatically (photo → species 
 - Epic #13: test the epic-test APK (photo identification needs your plant.id key under More → Settings); then OK to merge into `main`?
 - Winter rest is **on for all existing plants** after the update (Nov–Feb: watering × 1.5, no fertilizer) – OK, or off by default for existing plants?
 - #161 (proposal): remember identified species that are not in the database and add the most common ones in a next batch – OK as next story?
-
 - Initiatives #148–#151 and epic #152 are new (migration) – please confirm or re-sort
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - Android only, or iOS later? (home: #151)
