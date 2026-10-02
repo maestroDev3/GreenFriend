@@ -163,5 +163,8 @@
   "winterRestSwitch": "Winterruhe (Nov.–Feb.)",
   "winterRestSwitchHelp": "Von November bis Februar weniger gießen und nicht düngen.",
   "winterRestTitle": "Winterruhe",
-  "winterRestActive": "Weniger gießen, bis März nicht düngen"
+  "winterRestActive": "Weniger gießen, bis März nicht düngen",
+  "tipOfTheDay": "Tipp des Tages",
+  "tipForPlant": "Für deine Pflanze {plant}",
+  "dismissTip": "Tipp für heute ausblenden"
 }

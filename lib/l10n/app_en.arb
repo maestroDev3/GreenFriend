@@ -888,5 +888,22 @@
   "winterRestActive": "Water less, no fertilizer until March",
   "@winterRestActive": {
     "description": "Detail-page text while winter rest is active."
+  },
+  "tipOfTheDay": "Tip of the day",
+  "@tipOfTheDay": {
+    "description": "Title of the care tip card on the home screen."
+  },
+  "tipForPlant": "For your {plant}",
+  "@tipForPlant": {
+    "description": "Names the user's plant a tip of the day is about.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "dismissTip": "Hide tip for today",
+  "@dismissTip": {
+    "description": "Tooltip of the button that closes the tip of the day until tomorrow."
   }
 }

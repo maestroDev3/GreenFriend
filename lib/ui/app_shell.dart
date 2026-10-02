@@ -8,6 +8,7 @@ import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
+import '../domain/tips.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
 import 'home_screen.dart';
@@ -29,6 +30,7 @@ class AppShell extends StatefulWidget {
     required this.backupArchive,
     required this.fileSharing,
     this.identifier,
+    this.tips,
     this.clock = DateTime.now,
   });
 
@@ -45,6 +47,9 @@ class AppShell extends StatefulWidget {
 
   /// Identifies new plants from a photo; `null` hides that option.
   final PlantIdentifier? identifier;
+
+  /// Care tips for the home screen; `null` hides the tip card.
+  final TipCatalog? tips;
   final Clock clock;
 
   @override
@@ -92,6 +97,7 @@ class _AppShellState extends State<AppShell> {
             journal: widget.journal,
             photos: widget.photos,
             photoPicker: widget.photoPicker,
+            tips: widget.tips,
             clock: widget.clock,
             showActions: false,
           ),

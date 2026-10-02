@@ -8,12 +8,14 @@ import '../domain/clock.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
+import '../domain/tips.dart';
 import '../domain/urgency.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
+import 'settings_controller.dart';
 import 'settings_screen.dart';
 import 'watering_actions.dart';
 import 'widgets/watering_label.dart';
@@ -29,6 +31,7 @@ class HomeScreen extends StatefulWidget {
     required this.photos,
     required this.species,
     required this.photoPicker,
+    this.tips,
     this.clock = DateTime.now,
     this.showActions = true,
   });
@@ -41,6 +44,9 @@ class HomeScreen extends StatefulWidget {
   /// The plant database used to suggest species and their care profile.
   final SpeciesCatalog species;
   final PhotoPicker photoPicker;
+
+  /// Care tips for the "Tip of the day" card; `null` hides the card.
+  final TipCatalog? tips;
 
   /// Own add button, calendar and settings; off inside the app shell, which
   /// has them in its bottom bar.
@@ -101,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
           [] => _EmptyHint(l10n.emptyPlantsHint),
           final plants => _PlantOverview(
             plants: plants,
+            tip: _tipCard(plants),
             today: widget.clock(),
             onOpen: _openDetail,
             onWatered: _water,
@@ -108,6 +115,22 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  Widget? _tipCard(List<Plant> plants) {
+    final tips = widget.tips;
+    if (tips == null) return null;
+    final settings = SettingsScope.of(context);
+    final today = dayOf(widget.clock());
+    if (settings.tipDismissedOn == today) return null;
+    final pick = tipOfTheDay(
+      tips.all,
+      plants: plants,
+      species: widget.species,
+      today: today,
+    );
+    if (pick == null) return null;
+    return _TipCard(pick: pick, onDismiss: () => settings.dismissTip(today));
   }
 
   Future<void> _water(Plant plant) => waterWithUndo(
@@ -175,12 +198,16 @@ class _EmptyHint extends StatelessWidget {
 class _PlantOverview extends StatelessWidget {
   const _PlantOverview({
     required this.plants,
+    required this.tip,
     required this.today,
     required this.onOpen,
     required this.onWatered,
   });
 
   final List<Plant> plants;
+
+  /// The tip of the day card, if there is one today.
+  final Widget? tip;
   final DateTime today;
   final ValueChanged<Plant> onOpen;
   final ValueChanged<Plant> onWatered;
@@ -206,6 +233,7 @@ class _PlantOverview extends StatelessWidget {
                   plants.length,
                 ),
               ),
+              if (tip case final tip?) ...[const SizedBox(height: 12), tip],
               const SizedBox(height: 28),
               Text(l10n.myPlants, style: text.titleLarge),
               const SizedBox(height: 12),
@@ -234,6 +262,71 @@ class _PlantOverview extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// A short care tip; can be closed until tomorrow.
+class _TipCard extends StatelessWidget {
+  const _TipCard({required this.pick, required this.onDismiss});
+
+  final TipOfTheDay pick;
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final onContainer = theme.colorScheme.onSecondaryContainer;
+    final language = Localizations.localeOf(context).languageCode;
+    return Card(
+      color: theme.colorScheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 8, 16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Icon(Icons.lightbulb_outline, color: onContainer),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.tipOfTheDay,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: onContainer,
+                    ),
+                  ),
+                  if (pick.plant case final plant?)
+                    Text(
+                      l10n.tipForPlant(plant.name),
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: onContainer,
+                      ),
+                    ),
+                  const SizedBox(height: 6),
+                  Text(
+                    pick.tip.text(language),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: onContainer,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close),
+              tooltip: l10n.dismissTip,
+              color: onContainer,
+              onPressed: onDismiss,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

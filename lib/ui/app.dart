@@ -8,6 +8,7 @@ import '../domain/photos.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../domain/settings.dart';
+import '../domain/tips.dart';
 import '../l10n/app_localizations.dart';
 import 'app_shell.dart';
 import 'locale_resolution.dart';
@@ -29,6 +30,7 @@ class GreenFriendApp extends StatelessWidget {
     required this.backupArchive,
     required this.fileSharing,
     this.identifier,
+    this.tips,
   });
 
   final SettingsController settings;
@@ -45,6 +47,9 @@ class GreenFriendApp extends StatelessWidget {
 
   /// Identifies new plants from a photo; `null` hides that option.
   final PlantIdentifier? identifier;
+
+  /// Care tips for the home screen; `null` hides the tip card.
+  final TipCatalog? tips;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +84,7 @@ class GreenFriendApp extends StatelessWidget {
             backupArchive: backupArchive,
             fileSharing: fileSharing,
             identifier: identifier,
+            tips: tips,
           ),
         ),
       ),
