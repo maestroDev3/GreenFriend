@@ -31,7 +31,10 @@ final monstera = Species(
 final tips = FakeTipCatalog([
   CareTip(
     id: 'monstera',
-    texts: const {'en': 'Give it a moss pole.', 'de': 'Gib ihr einen Moosstab.'},
+    texts: const {
+      'en': 'Give it a moss pole.',
+      'de': 'Gib ihr einen Moosstab.',
+    },
     genus: 'Monstera',
   ),
   CareTip(
