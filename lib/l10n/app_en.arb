@@ -802,5 +802,75 @@
   "hideApiKey": "Hide key",
   "@hideApiKey": {
     "description": "Tooltip of the button that hides the API key."
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Button that closes an information dialog."
+  },
+  "identifyFromPhoto": "Identify from photo",
+  "@identifyFromPhoto": {
+    "description": "Button in the add-plant form that identifies the species from a photo."
+  },
+  "identifyingPlant": "Identifying plant…",
+  "@identifyingPlant": {
+    "description": "Shown while the photo is being identified."
+  },
+  "apiKeyNeededTitle": "API key needed",
+  "@apiKeyNeededTitle": {
+    "description": "Title of the dialog shown when photo identification has no API key."
+  },
+  "apiKeyNeededMessage": "To identify plants from a photo, enter your plant.id API key in the settings (More → Settings → Plant identification).",
+  "@apiKeyNeededMessage": {
+    "description": "Explains where to enter the plant.id API key."
+  },
+  "identificationResultsTitle": "Which plant is it?",
+  "@identificationResultsTitle": {
+    "description": "Title of the sheet listing the identified species."
+  },
+  "uncertainCandidate": "Uncertain",
+  "@uncertainCandidate": {
+    "description": "Marks an identification result with a low probability."
+  },
+  "enterManually": "Enter manually",
+  "@enterManually": {
+    "description": "Closes the identification results without picking one."
+  },
+  "intervalsFromGenus": "Care intervals taken from {species} (same genus) – adjust them if needed.",
+  "@intervalsFromGenus": {
+    "description": "Shown when the identified species is unknown but a species of the same genus provided the intervals.",
+    "placeholders": {
+      "species": {
+        "type": "String"
+      }
+    }
+  },
+  "intervalsUnknownSpecies": "{species} is not in the plant database yet – please enter the care intervals.",
+  "@intervalsUnknownSpecies": {
+    "description": "Shown when the identified species and its genus are not in the plant database.",
+    "placeholders": {
+      "species": {
+        "type": "String"
+      }
+    }
+  },
+  "photoGoesToJournal": "This photo will be the first entry in the plant's journal.",
+  "@photoGoesToJournal": {
+    "description": "Hint below the identification photo in the add-plant form."
+  },
+  "identifyInvalidKey": "The plant.id API key was rejected. Please check it in the settings.",
+  "@identifyInvalidKey": {
+    "description": "Error when the identification service rejects the API key."
+  },
+  "identifyNoCredits": "Your plant.id credits are used up.",
+  "@identifyNoCredits": {
+    "description": "Error when the identification account has no credits left."
+  },
+  "identifyNotAPlant": "No plant found on this photo – try another one.",
+  "@identifyNotAPlant": {
+    "description": "Error when the photo does not show a plant."
+  },
+  "identifyUnavailable": "Plant identification is not reachable. Check your internet connection and try again.",
+  "@identifyUnavailable": {
+    "description": "Error when the identification service cannot be reached."
   }
 }

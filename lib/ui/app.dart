@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/plant_repository.dart';
@@ -27,6 +28,7 @@ class GreenFriendApp extends StatelessWidget {
     required this.photoPicker,
     required this.backupArchive,
     required this.fileSharing,
+    this.identifier,
   });
 
   final SettingsController settings;
@@ -40,6 +42,9 @@ class GreenFriendApp extends StatelessWidget {
   final PhotoPicker photoPicker;
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
+
+  /// Identifies new plants from a photo; `null` hides that option.
+  final PlantIdentifier? identifier;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +78,7 @@ class GreenFriendApp extends StatelessWidget {
             photoPicker: photoPicker,
             backupArchive: backupArchive,
             fileSharing: fileSharing,
+            identifier: identifier,
           ),
         ),
       ),

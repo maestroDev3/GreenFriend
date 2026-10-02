@@ -144,5 +144,20 @@
   "plantIdApiKeyLabel": "plant.id-API-Schlüssel",
   "plantIdApiKeyHelp": "Wird gebraucht, um Pflanzen per Foto zu erkennen. Einen Schlüssel bekommst du auf admin.kindwise.com – er wird nur auf diesem Handy gespeichert.",
   "showApiKey": "Schlüssel anzeigen",
-  "hideApiKey": "Schlüssel verbergen"
+  "hideApiKey": "Schlüssel verbergen",
+  "ok": "OK",
+  "identifyFromPhoto": "Per Foto erkennen",
+  "identifyingPlant": "Pflanze wird erkannt …",
+  "apiKeyNeededTitle": "API-Schlüssel fehlt",
+  "apiKeyNeededMessage": "Um Pflanzen per Foto zu erkennen, trag deinen plant.id-API-Schlüssel in den Einstellungen ein (Mehr → Einstellungen → Pflanzenerkennung).",
+  "identificationResultsTitle": "Welche Pflanze ist es?",
+  "uncertainCandidate": "Unsicher",
+  "enterManually": "Selbst eingeben",
+  "intervalsFromGenus": "Pflegeintervalle von {species} (gleiche Gattung) übernommen – bei Bedarf anpassen.",
+  "intervalsUnknownSpecies": "{species} ist noch nicht in der Pflanzendatenbank – bitte trag die Pflegeintervalle selbst ein.",
+  "photoGoesToJournal": "Dieses Foto wird der erste Eintrag im Tagebuch der Pflanze.",
+  "identifyInvalidKey": "Der plant.id-API-Schlüssel wurde abgelehnt. Bitte prüf ihn in den Einstellungen.",
+  "identifyNoCredits": "Dein plant.id-Guthaben ist aufgebraucht.",
+  "identifyNotAPlant": "Auf diesem Foto wurde keine Pflanze gefunden – versuch ein anderes.",
+  "identifyUnavailable": "Die Pflanzenerkennung ist nicht erreichbar. Prüf deine Internetverbindung und versuch es noch einmal."
 }

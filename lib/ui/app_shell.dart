@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
@@ -27,6 +28,7 @@ class AppShell extends StatefulWidget {
     required this.photoPicker,
     required this.backupArchive,
     required this.fileSharing,
+    this.identifier,
     this.clock = DateTime.now,
   });
 
@@ -40,6 +42,9 @@ class AppShell extends StatefulWidget {
   final PhotoPicker photoPicker;
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
+
+  /// Identifies new plants from a photo; `null` hides that option.
+  final PlantIdentifier? identifier;
   final Clock clock;
 
   @override
@@ -58,6 +63,8 @@ class _AppShellState extends State<AppShell> {
           careLogs: widget.careLogs,
           journal: widget.journal,
           photos: widget.photos,
+          photoPicker: widget.photoPicker,
+          identifier: widget.identifier,
           clock: widget.clock,
         ),
       ),
