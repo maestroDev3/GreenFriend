@@ -13,6 +13,9 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const reminderEnabledKey = 'settings.v1.reminderEnabled';
   static const reminderTimeKey = 'settings.v1.reminderTime';
 
+  /// Not part of the backup, so the key never leaves the phone.
+  static const plantIdApiKeyKey = 'settings.v1.plantIdApiKey';
+
   final SharedPreferences _preferences;
 
   @override
@@ -58,6 +61,20 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       '${time.hour.toString().padLeft(2, '0')}:'
       '${time.minute.toString().padLeft(2, '0')}',
     );
+  }
+
+  @override
+  Future<String?> loadPlantIdApiKey() async =>
+      normalizedApiKey(_preferences.getString(plantIdApiKeyKey));
+
+  @override
+  Future<void> savePlantIdApiKey(String? key) async {
+    final normalized = normalizedApiKey(key);
+    if (normalized == null) {
+      await _preferences.remove(plantIdApiKeyKey);
+    } else {
+      await _preferences.setString(plantIdApiKeyKey, normalized);
+    }
   }
 
   /// Reads "HH:MM"; `null` for missing or invalid values.

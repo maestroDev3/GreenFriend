@@ -47,6 +47,23 @@ void main() {
       expect(await (await repository()).loadLanguage(), AppLanguage.system);
     });
 
+    test('has no plant.id API key by default', () async {
+      expect(await (await repository()).loadPlantIdApiKey(), isNull);
+    });
+
+    test('stores and reads the plant.id API key', () async {
+      await (await repository()).savePlantIdApiKey('secret-key');
+
+      expect(await (await repository()).loadPlantIdApiKey(), 'secret-key');
+    });
+
+    test('removes the plant.id API key when a blank one is saved', () async {
+      await (await repository()).savePlantIdApiKey('secret-key');
+      await (await repository()).savePlantIdApiKey('  ');
+
+      expect(await (await repository()).loadPlantIdApiKey(), isNull);
+    });
+
     test('has the daily reminder on at 9:00 by default', () async {
       expect(
         await (await repository()).loadReminder(),

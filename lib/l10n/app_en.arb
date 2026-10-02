@@ -782,5 +782,25 @@
         "type": "String"
       }
     }
+  },
+  "plantIdSection": "Plant identification",
+  "@plantIdSection": {
+    "description": "Settings section title for the photo identification service."
+  },
+  "plantIdApiKeyLabel": "plant.id API key",
+  "@plantIdApiKeyLabel": {
+    "description": "Label of the text field for the user's plant.id API key."
+  },
+  "plantIdApiKeyHelp": "Needed to identify plants from a photo. Create a key at admin.kindwise.com – it is stored only on this phone.",
+  "@plantIdApiKeyHelp": {
+    "description": "Explanation below the plant.id API key field."
+  },
+  "showApiKey": "Show key",
+  "@showApiKey": {
+    "description": "Tooltip of the button that reveals the hidden API key."
+  },
+  "hideApiKey": "Hide key",
+  "@hideApiKey": {
+    "description": "Tooltip of the button that hides the API key."
   }
 }

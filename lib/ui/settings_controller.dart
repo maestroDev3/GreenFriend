@@ -11,6 +11,7 @@ class SettingsController extends ChangeNotifier {
   AppThemeMode _themeMode = AppThemeMode.system;
   AppLanguage _language = AppLanguage.system;
   ReminderSettings _reminder = ReminderSettings.defaults;
+  String? _plantIdApiKey;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -18,11 +19,15 @@ class SettingsController extends ChangeNotifier {
 
   ReminderSettings get reminder => _reminder;
 
+  /// The user's plant.id API key; `null` hides photo identification.
+  String? get plantIdApiKey => _plantIdApiKey;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
     _language = await _repository.loadLanguage();
     _reminder = await _repository.loadReminder();
+    _plantIdApiKey = await _repository.loadPlantIdApiKey();
     notifyListeners();
   }
 
@@ -45,6 +50,15 @@ class SettingsController extends ChangeNotifier {
     _reminder = reminder;
     notifyListeners();
     await _repository.saveReminder(reminder);
+  }
+
+  /// Saves [key] trimmed; a blank key removes it.
+  Future<void> setPlantIdApiKey(String? key) async {
+    final normalized = normalizedApiKey(key);
+    if (normalized == _plantIdApiKey) return;
+    _plantIdApiKey = normalized;
+    notifyListeners();
+    await _repository.savePlantIdApiKey(normalized);
   }
 }
 
