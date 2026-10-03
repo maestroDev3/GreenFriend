@@ -101,6 +101,21 @@ void main() {
       expect(plant.winterRest, isTrue);
     });
 
+    test('picks up plants written elsewhere after reload', () async {
+      final shown = await openRepository();
+      final elsewhere = await openRepository();
+      final seen = <List<Plant>>[];
+      final subscription = shown.watchPlants().listen(seen.add);
+
+      await elsewhere.add(name: 'Monstera');
+      await shown.reload();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(await shown.allPlants(), hasLength(1));
+      expect(seen.last.single.name, 'Monstera');
+      await subscription.cancel();
+    });
+
     test('generates unique ids', () async {
       final repository = await openRepository();
 
