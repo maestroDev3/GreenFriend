@@ -42,9 +42,8 @@ class ScheduledNotification {
       other.title == title &&
       other.body == body &&
       other.actions.length == actions.length &&
-      Iterable.generate(
-        actions.length,
-      ).every((i) => other.actions[i] == actions[i]);
+      Iterable.generate(actions.length)
+          .every((i) => other.actions[i] == actions[i]);
 
   @override
   int get hashCode => Object.hash(id, at, title, body, Object.hashAll(actions));
