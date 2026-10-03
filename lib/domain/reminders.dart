@@ -161,3 +161,83 @@ List<String> _dueOn(List<Plant> plants, CareKind kind, DateTime day) => [
 
 DateTime _localAt(DateTime day, ReminderTime time) =>
     DateTime(day.year, day.month, day.day, time.hour, time.minute);
+
+/// The reminder for one plant on one day, listing the care due then.
+class PlantReminder {
+  const PlantReminder({
+    required this.at,
+    required this.plant,
+    required this.kinds,
+  });
+
+  /// Local date and time to show the reminder.
+  final DateTime at;
+  final Plant plant;
+
+  /// The care due or overdue that day, in the order of [CareKind.values].
+  final List<CareKind> kinds;
+
+  @override
+  bool operator ==(Object other) =>
+      other is PlantReminder &&
+      other.at == at &&
+      other.plant == plant &&
+      other.kinds.length == kinds.length &&
+      Iterable.generate(kinds.length).every((i) => other.kinds[i] == kinds[i]);
+
+  @override
+  int get hashCode => Object.hash(at, plant, Object.hashAll(kinds));
+
+  @override
+  String toString() => 'PlantReminder($at, ${plant.name}, $kinds)';
+}
+
+/// Plans one reminder per plant and day for up to [days] days (see
+/// [plannedReminders] for the start day), so each notification can offer
+/// buttons for exactly that plant's due care.
+List<PlantReminder> plannedPlantReminders(
+  Iterable<Plant> plants, {
+  required DateTime now,
+  required ReminderTime time,
+  int days = 14,
+}) {
+  final today = dayOf(now);
+  final passed =
+      now.hour > time.hour ||
+      (now.hour == time.hour && now.minute >= time.minute);
+  final sorted = sortedByName(plants);
+  return [
+    for (var offset = passed ? 1 : 0; offset < days; offset++)
+      for (final plant in sorted)
+        if (_dueKinds(plant, today.add(Duration(days: offset)))
+            case final kinds when kinds.isNotEmpty)
+          PlantReminder(
+            at: _localAt(today.add(Duration(days: offset)), time),
+            plant: plant,
+            kinds: kinds,
+          ),
+  ];
+}
+
+List<CareKind> _dueKinds(Plant plant, DateTime day) => [
+  for (final kind in CareKind.values)
+    if (careStatus(plant, kind, day) case DueToday() || Overdue()) kind,
+];
+
+const _careActionPrefix = 'care';
+
+/// The id of the notification button that records [kind] for [plantId].
+String careActionId(String plantId, CareKind kind) =>
+    '$_careActionPrefix:${kind.name}:$plantId';
+
+/// Reads an id made by [careActionId]; `null` for any other id.
+({String plantId, CareKind kind})? parseCareActionId(String? id) {
+  final parts = id?.split(':');
+  if (parts == null || parts.length < 3 || parts[0] != _careActionPrefix) {
+    return null;
+  }
+  final kind = CareKind.byName(parts[1]);
+  final plantId = parts.sublist(2).join(':');
+  if (kind == null || plantId.isEmpty) return null;
+  return (plantId: plantId, kind: kind);
+}

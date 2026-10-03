@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import '../domain/care_log.dart';
 import '../domain/clock.dart';
 import '../domain/notification_scheduler.dart';
 import '../domain/plant.dart';
@@ -69,7 +70,7 @@ class ReminderSync {
       await scheduler.replaceAll(const []);
       return;
     }
-    final planned = plannedReminders(
+    final planned = plannedPlantReminders(
       _plants,
       now: clock(),
       time: reminder.time,
@@ -84,8 +85,17 @@ class ReminderSync {
         ScheduledNotification(
           id: index + 1,
           at: reminder.at,
-          title: l10n.reminderTitle,
-          body: reminderText(l10n, reminder),
+          title: reminder.plant.name,
+          body: l10n.reminderDueToday(
+            reminder.kinds.map((kind) => careVerb(l10n, kind)).join(', '),
+          ),
+          actions: [
+            for (final kind in reminder.kinds.take(3))
+              NotificationAction(
+                id: careActionId(reminder.plant.id, kind),
+                label: careDoneLabel(l10n, kind),
+              ),
+          ],
         ),
     ]);
   }
@@ -110,6 +120,22 @@ String reminderText(AppLocalizations l10n, PlannedReminder reminder) {
       l10n.reminderPrune(reminder.prune.join(', ')),
   ].join(' · ');
 }
+
+/// The task, e.g. "Water".
+String careVerb(AppLocalizations l10n, CareKind kind) => switch (kind) {
+  Water() => l10n.careVerbWater,
+  Fertilize() => l10n.careVerbFertilize,
+  Repot() => l10n.careVerbRepot,
+  Prune() => l10n.careVerbPrune,
+};
+
+/// The task as done, e.g. "Watered" (also the notification button).
+String careDoneLabel(AppLocalizations l10n, CareKind kind) => switch (kind) {
+  Water() => l10n.watered,
+  Fertilize() => l10n.fertilized,
+  Repot() => l10n.repotted,
+  Prune() => l10n.pruned,
+};
 
 /// The texts for the language chosen in the settings (or the device
 /// language), for use outside of widgets.
