@@ -18,6 +18,7 @@ import 'plant_form_screen.dart';
 import 'settings_controller.dart';
 import 'settings_screen.dart';
 import 'watering_actions.dart';
+import 'widgets/care_button.dart';
 import 'widgets/watering_label.dart';
 
 /// The start screen: the user's plants, or a friendly hint while there are
@@ -248,6 +249,7 @@ class _PlantOverview extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 12),
               child: _PlantCard(
                 sorted[index],
+                today: today,
                 status: wateringStatus(sorted[index], today),
                 otherDue: [
                   for (final kind in const [Fertilize(), Repot(), Prune()])
@@ -364,6 +366,7 @@ class _SummaryCard extends StatelessWidget {
 class _PlantCard extends StatelessWidget {
   const _PlantCard(
     this.plant, {
+    required this.today,
     required this.status,
     required this.otherDue,
     required this.onTap,
@@ -371,6 +374,7 @@ class _PlantCard extends StatelessWidget {
   });
 
   final Plant plant;
+  final DateTime today;
   final CareStatus status;
   final List<(CareKind, CareStatus)> otherDue;
   final VoidCallback onTap;
@@ -396,6 +400,7 @@ class _PlantCard extends StatelessWidget {
               Expanded(
                 child: _PlantTexts(
                   plant,
+                  today: today,
                   status: status,
                   otherDue: otherDue,
                   onWatered: onWatered,
@@ -412,12 +417,14 @@ class _PlantCard extends StatelessWidget {
 class _PlantTexts extends StatelessWidget {
   const _PlantTexts(
     this.plant, {
+    required this.today,
     required this.status,
     required this.otherDue,
     required this.onWatered,
   });
 
   final Plant plant;
+  final DateTime today;
   final CareStatus status;
   final List<(CareKind, CareStatus)> otherDue;
   final VoidCallback onWatered;
@@ -451,10 +458,10 @@ class _PlantTexts extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(child: CareLabel(status)),
-                TextButton.icon(
+                CareButton(
+                  kind: const Water(),
+                  doneToday: isSameDay(plant.lastWateredOn, today),
                   onPressed: onWatered,
-                  icon: const Icon(Icons.check),
-                  label: Text(AppLocalizations.of(context).watered),
                 ),
               ],
             ),

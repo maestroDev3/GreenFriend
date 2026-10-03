@@ -905,5 +905,21 @@
   "dismissTip": "Hide tip for today",
   "@dismissTip": {
     "description": "Tooltip of the button that closes the tip of the day until tomorrow."
+  },
+  "careVerbWater": "Water",
+  "@careVerbWater": {
+    "description": "Button that records watering; shown while the plant was not watered today."
+  },
+  "careVerbFertilize": "Fertilize",
+  "@careVerbFertilize": {
+    "description": "Button that records fertilizing; shown while it was not done today."
+  },
+  "careVerbRepot": "Repot",
+  "@careVerbRepot": {
+    "description": "Button that records repotting; shown while it was not done today."
+  },
+  "careVerbPrune": "Prune",
+  "@careVerbPrune": {
+    "description": "Button that records pruning; shown while it was not done today."
   }
 }

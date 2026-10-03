@@ -45,7 +45,7 @@ Future<void> pumpDetail(
 }
 
 Future<void> tapButton(WidgetTester tester, String label) async {
-  final button = find.widgetWithText(FilledButton, label);
+  final button = find.widgetWithText(TextButton, label);
   await tester.scrollUntilVisible(button, 100);
   await tester.tap(button);
   await tester.pumpAndSettle();
@@ -73,7 +73,7 @@ void main() {
       final logs = FakeCareLogRepository();
       await pumpDetail(tester, plants, logs);
 
-      await tapButton(tester, 'Fertilized');
+      await tapButton(tester, 'Fertilize');
 
       expect(find.text('Pothos fertilized'), findsOneWidget);
       expect(plants.plants.single.lastFertilizedOn, DateTime.utc(2026, 9, 30));
@@ -87,7 +87,7 @@ void main() {
       final logs = FakeCareLogRepository();
       await pumpDetail(tester, plants, logs);
 
-      await tapButton(tester, 'Repotted');
+      await tapButton(tester, 'Repot');
       expect(find.text('Pothos repotted'), findsOneWidget);
       expect(find.text('Repot in 12 months'), findsOneWidget);
 
@@ -106,7 +106,10 @@ void main() {
         locale: const Locale('de'),
       );
 
-      await tester.scrollUntilVisible(find.text('Umtopfen'), 100);
+      await tester.scrollUntilVisible(
+        find.text('Umtopfen seit 2 Monaten überfällig'),
+        100,
+      );
       expect(find.text('Alle 14 Tage'), findsOneWidget);
       expect(find.text('Alle 12 Monate'), findsOneWidget);
       expect(find.text('Umtopfen seit 2 Monaten überfällig'), findsOneWidget);

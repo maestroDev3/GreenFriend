@@ -43,7 +43,7 @@ Future<void> pumpDetail(
 }
 
 Future<void> tapButton(WidgetTester tester, String label) async {
-  final button = find.widgetWithText(FilledButton, label);
+  final button = find.widgetWithText(TextButton, label);
   await tester.scrollUntilVisible(button, 100);
   await tester.tap(button);
   await tester.pumpAndSettle();
@@ -62,9 +62,10 @@ void main() {
       expect(find.text('Pruning overdue by 2 months'), findsOneWidget);
       expect(find.text('Every 12 months'), findsOneWidget);
 
-      await tapButton(tester, 'Pruned');
+      await tapButton(tester, 'Prune');
 
       expect(find.text('Olive pruned'), findsOneWidget);
+      expect(find.text('Pruned'), findsWidgets);
       expect(find.text('Prune in 12 months'), findsOneWidget);
       expect(plants.plants.single.lastPrunedOn, DateTime.utc(2026, 9, 30));
       expect(logs.logs.single.kind, const Prune());
@@ -109,13 +110,16 @@ void main() {
         locale: const Locale('de'),
       );
 
-      await tester.scrollUntilVisible(find.text('Zurückschneiden'), 100);
+      await tester.scrollUntilVisible(
+        find.text('Zurückschneiden seit 2 Monaten überfällig'),
+        100,
+      );
       expect(
         find.text('Zurückschneiden seit 2 Monaten überfällig'),
         findsOneWidget,
       );
       expect(
-        find.widgetWithText(FilledButton, 'Zurückgeschnitten'),
+        find.widgetWithText(TextButton, 'Zurückschneiden'),
         findsOneWidget,
       );
     });

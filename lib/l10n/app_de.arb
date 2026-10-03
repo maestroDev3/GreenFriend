@@ -166,5 +166,9 @@
   "winterRestActive": "Weniger gießen, bis März nicht düngen",
   "tipOfTheDay": "Tipp des Tages",
   "tipForPlant": "Für deine Pflanze {plant}",
-  "dismissTip": "Tipp für heute ausblenden"
+  "dismissTip": "Tipp für heute ausblenden",
+  "careVerbWater": "Gießen",
+  "careVerbFertilize": "Düngen",
+  "careVerbRepot": "Umtopfen",
+  "careVerbPrune": "Zurückschneiden"
 }
