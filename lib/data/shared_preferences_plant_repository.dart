@@ -45,6 +45,14 @@ class SharedPreferencesPlantRepository implements PlantRepository {
   @override
   Future<List<Plant>> allPlants() async => _plants;
 
+  /// Re-reads the storage, e.g. after a notification button changed it in
+  /// a background isolate, and emits the result.
+  Future<void> reload() async {
+    await _preferences.reload();
+    _plants = _read();
+    _changes.add(_plants);
+  }
+
   @override
   Future<void> replaceAll(List<Plant> plants) => _save(plants);
 

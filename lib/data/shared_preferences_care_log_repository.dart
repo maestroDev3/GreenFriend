@@ -72,6 +72,14 @@ class SharedPreferencesCareLogRepository implements CareLogRepository {
   Future<void> deleteForPlant(String plantId) =>
       _save(_logs.where((log) => log.plantId != plantId));
 
+  /// Re-reads the storage, e.g. after a notification button changed it in
+  /// a background isolate, and emits the result.
+  Future<void> reload() async {
+    await _preferences.reload();
+    _logs = _read();
+    _changes.add(List.unmodifiable(_logs));
+  }
+
   Future<void> _save(Iterable<CareLog> logs) async {
     _logs = logs.toList();
     await _preferences.setString(

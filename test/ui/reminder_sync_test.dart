@@ -240,5 +240,24 @@ void main() {
         'care:repot:3',
       ]);
     });
+
+    test('can run without asking for permission (background)', () async {
+      final setup = Setup(plants: [monstera()]);
+      final quiet = ReminderSync(
+        plants: setup.plants,
+        settings: setup.settings,
+        scheduler: setup.scheduler,
+        clock: fixedNow,
+        localizations: () => lookupAppLocalizations(const Locale('en')),
+        askPermission: false,
+      );
+
+      await setup.settings.load();
+      quiet.start();
+      await quiet.idle;
+
+      expect(setup.scheduler.scheduled, isNotEmpty);
+      expect(setup.scheduler.permissionRequests, 0);
+    });
   });
 }
