@@ -921,5 +921,14 @@
   "careVerbPrune": "Prune",
   "@careVerbPrune": {
     "description": "Button that records pruning; shown while it was not done today."
+  },
+  "reminderDueToday": "Due today: {tasks}",
+  "@reminderDueToday": {
+    "description": "Body of a plant's reminder notification listing the due care tasks.",
+    "placeholders": {
+      "tasks": {
+        "type": "String"
+      }
+    }
   }
 }

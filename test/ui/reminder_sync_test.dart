@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/care_actions.dart';
+import 'package:green_friend/domain/notification_scheduler.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/l10n/app_localizations.dart';
@@ -56,8 +57,11 @@ void main() {
 
       final first = setup.scheduler.scheduled.first;
       expect(first.at, DateTime(2026, 9, 30, 9));
-      expect(first.title, 'Time to water');
-      expect(first.body, 'Water today: Monstera');
+      expect(first.title, 'Monstera');
+      expect(first.body, 'Due today: Water');
+      expect(first.actions, const [
+        NotificationAction(id: 'care:water:1', label: 'Watered'),
+      ]);
       expect(setup.scheduler.scheduled, hasLength(14));
       expect(
         setup.scheduler.scheduled.map((notification) => notification.id),
@@ -141,10 +145,15 @@ void main() {
 
       await setup.start();
 
-      expect(
-        setup.scheduler.scheduled.first.body,
-        'Water: Monstera · Fertilize: Pothos',
+      final firstDay = setup.scheduler.scheduled.where(
+        (notification) => notification.at == DateTime(2026, 9, 30, 9),
       );
+      expect(firstDay.map((notification) => notification.title), [
+        'Monstera',
+        'Pothos',
+      ]);
+      expect(firstDay.last.body, 'Due today: Fertilize');
+      expect(firstDay.last.actions.single.label, 'Fertilized');
     });
 
     test('lists pruning separately', () async {
@@ -162,10 +171,11 @@ void main() {
 
       await setup.start();
 
-      expect(
-        setup.scheduler.scheduled.first.body,
-        'Water: Monstera · Prune: Olive',
+      final olive = setup.scheduler.scheduled.firstWhere(
+        (notification) => notification.title == 'Olive',
       );
+      expect(olive.body, 'Due today: Prune');
+      expect(olive.actions.single.label, 'Pruned');
     });
 
     test('writes the reminder in German', () async {
@@ -192,11 +202,43 @@ void main() {
       german.start();
       await german.idle;
 
-      expect(setup.scheduler.scheduled.first.title, 'Zeit zum Gießen');
-      expect(
-        setup.scheduler.scheduled.first.body,
-        'Gießen: Monstera · Umtopfen: Pothos',
+      final firstDay = setup.scheduler.scheduled
+          .where((notification) => notification.at == DateTime(2026, 9, 30, 9))
+          .toList();
+      expect(firstDay.first.body, 'Heute fällig: Gießen');
+      expect(firstDay.first.actions.single.label, 'Gegossen');
+      expect(firstDay.last.title, 'Pothos');
+      expect(firstDay.last.body, 'Heute fällig: Umtopfen');
+      expect(firstDay.last.actions.single.label, 'Umgetopft');
+    });
+
+    test('offers at most three buttons when more care is due', () async {
+      final setup = Setup(
+        plants: [
+          Plant(
+            id: '3',
+            name: 'Olive',
+            wateringIntervalDays: 7,
+            lastWateredOn: DateTime(2026, 9, 1),
+            fertilizingIntervalDays: 14,
+            lastFertilizedOn: DateTime(2026, 9, 1),
+            repottingIntervalMonths: 12,
+            lastRepottedOn: DateTime(2025, 9, 1),
+            pruningIntervalMonths: 6,
+            lastPrunedOn: DateTime(2026, 3, 1),
+          ),
+        ],
       );
+
+      await setup.start();
+
+      final first = setup.scheduler.scheduled.first;
+      expect(first.body, 'Due today: Water, Fertilize, Repot, Prune');
+      expect(first.actions.map((action) => action.id), [
+        'care:water:3',
+        'care:fertilize:3',
+        'care:repot:3',
+      ]);
     });
   });
 }

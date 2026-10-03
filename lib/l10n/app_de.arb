@@ -170,5 +170,6 @@
   "careVerbWater": "Gießen",
   "careVerbFertilize": "Düngen",
   "careVerbRepot": "Umtopfen",
-  "careVerbPrune": "Zurückschneiden"
+  "careVerbPrune": "Zurückschneiden",
+  "reminderDueToday": "Heute fällig: {tasks}"
 }
