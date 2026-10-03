@@ -21,6 +21,7 @@ class ReminderSync {
     required this.scheduler,
     required this.localizations,
     this.clock = DateTime.now,
+    this.askPermission = true,
   });
 
   final PlantRepository plants;
@@ -30,6 +31,9 @@ class ReminderSync {
   /// Texts in the app's current language.
   final AppLocalizations Function() localizations;
   final Clock clock;
+
+  /// Off in the background, where no permission dialog can be shown.
+  final bool askPermission;
 
   StreamSubscription<List<Plant>>? _subscription;
   List<Plant> _plants = const [];
@@ -75,7 +79,7 @@ class ReminderSync {
       now: clock(),
       time: reminder.time,
     );
-    if (planned.isNotEmpty && !_permissionAsked) {
+    if (askPermission && planned.isNotEmpty && !_permissionAsked) {
       _permissionAsked = true;
       await scheduler.requestPermission();
     }

@@ -13,6 +13,7 @@ import 'data/shared_preferences_journal_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'data/zip_backup_archive.dart';
+import 'notification_actions.dart';
 import 'ui/app.dart';
 import 'ui/font_licenses.dart';
 import 'ui/reminder_sync.dart';
@@ -33,6 +34,7 @@ Future<void> main() async {
   final scheduler = await LocalNotificationScheduler.create(
     channelName: l10n.dailyReminder,
     channelDescription: l10n.reminderChannelDescription,
+    onBackgroundAction: onNotificationActionInBackground,
   );
   ReminderSync(
     plants: plants,
@@ -44,6 +46,15 @@ Future<void> main() async {
   final careLogs = SharedPreferencesCareLogRepository(preferences);
   final journal = SharedPreferencesJournalRepository(preferences);
   final photos = await FilePhotoStore.create();
+
+  // Reminder buttons record care in a background isolate; pick that up
+  // whenever the app comes back to the foreground.
+  AppLifecycleListener(
+    onResume: () async {
+      await plants.reload();
+      await careLogs.reload();
+    },
+  );
 
   runApp(
     GreenFriendApp(
