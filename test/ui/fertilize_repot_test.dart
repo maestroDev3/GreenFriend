@@ -106,7 +106,10 @@ void main() {
         locale: const Locale('de'),
       );
 
-      await tester.scrollUntilVisible(find.text('Umtopfen'), 100);
+      await tester.scrollUntilVisible(
+        find.text('Umtopfen seit 2 Monaten überfällig'),
+        100,
+      );
       expect(find.text('Alle 14 Tage'), findsOneWidget);
       expect(find.text('Alle 12 Monate'), findsOneWidget);
       expect(find.text('Umtopfen seit 2 Monaten überfällig'), findsOneWidget);

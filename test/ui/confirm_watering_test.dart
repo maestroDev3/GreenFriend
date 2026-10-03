@@ -138,7 +138,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Water in 7 days'), findsOneWidget);
-    expect(find.text('Watered'), findsOneWidget);
+    expect(find.byIcon(Icons.check_circle), findsOneWidget);
     expect(logs.logs, hasLength(1));
   });
 
