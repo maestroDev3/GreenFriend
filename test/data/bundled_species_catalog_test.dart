@@ -18,9 +18,10 @@ void main() {
         catalog.search('Glückskastanie', languageCode: 'de').first.id,
         'pachira-aquatica',
       );
+      // "Money tree" is also a name of the jade plant, so both are found.
       expect(
-        catalog.search('money tree', languageCode: 'en').first.id,
-        'pachira-aquatica',
+        catalog.search('money tree', languageCode: 'en').map((s) => s.id),
+        contains('pachira-aquatica'),
       );
       expect(
         catalog.search('Calathea lancifolia', languageCode: 'en').first.id,
