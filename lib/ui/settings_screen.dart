@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../domain/phone_calendar.dart';
 import '../domain/reminders.dart';
+import '../domain/weather.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_sync.dart';
 import 'settings_controller.dart';
+import 'weather_sync.dart';
 
 /// Lets the user choose the app's appearance, language and reminders.
 class SettingsScreen extends StatelessWidget {
@@ -16,6 +18,7 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final settings = SettingsScope.of(context);
     final calendarSync = CalendarScope.maybeOf(context);
+    final weatherSync = WeatherScope.maybeOf(context);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
@@ -63,6 +66,14 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 24),
           _SectionTitle(l10n.remindersSection),
           Card(clipBehavior: Clip.antiAlias, child: _ReminderTiles(settings)),
+          if (weatherSync != null) ...[
+            const SizedBox(height: 24),
+            _SectionTitle(l10n.weatherSection),
+            Card(
+              clipBehavior: Clip.antiAlias,
+              child: _WeatherPlaceTiles(settings: settings, sync: weatherSync),
+            ),
+          ],
           if (calendarSync != null) ...[
             const SizedBox(height: 24),
             _SectionTitle(l10n.phoneCalendarSection),
@@ -341,6 +352,136 @@ class _CalendarPicker extends StatelessWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Shows the weather place with buttons to choose or remove it.
+class _WeatherPlaceTiles extends StatelessWidget {
+  const _WeatherPlaceTiles({required this.settings, required this.sync});
+
+  final SettingsController settings;
+  final WeatherSync sync;
+
+  Future<void> _choose(BuildContext context) async {
+    final place = await Navigator.of(context).push(
+      MaterialPageRoute<WeatherLocation>(
+        builder: (_) => PlaceSearchScreen(service: sync.service),
+      ),
+    );
+    if (place == null) return;
+    await settings.setWeatherLocation(place);
+    await sync.refresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final place = settings.weatherLocation;
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            place?.label ?? l10n.noWeatherPlace,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            l10n.weatherPlaceHint,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: () => _choose(context),
+                icon: const Icon(Icons.search),
+                label: Text(l10n.choosePlace),
+              ),
+              if (place != null)
+                TextButton(
+                  onPressed: () => settings.setWeatherLocation(null),
+                  child: Text(l10n.removePlace),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Searches a place by name; pops with the chosen [WeatherLocation].
+class PlaceSearchScreen extends StatefulWidget {
+  const PlaceSearchScreen({super.key, required this.service});
+
+  final WeatherService service;
+
+  @override
+  State<PlaceSearchScreen> createState() => _PlaceSearchScreenState();
+}
+
+class _PlaceSearchScreenState extends State<PlaceSearchScreen> {
+  List<WeatherLocation>? _results;
+  var _failed = false;
+  var _searching = false;
+
+  Future<void> _search(String query) async {
+    if (query.trim().isEmpty) return;
+    final language = Localizations.localeOf(context).languageCode;
+    setState(() {
+      _searching = true;
+      _failed = false;
+    });
+    try {
+      final results = await widget.service.searchPlaces(
+        query.trim(),
+        languageCode: language,
+      );
+      if (!mounted) return;
+      setState(() => _results = results);
+    } on WeatherUnavailable {
+      if (!mounted) return;
+      setState(() => _failed = true);
+    } finally {
+      if (mounted) setState(() => _searching = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final results = _results;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.choosePlace)),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+              labelText: l10n.searchPlaceLabel,
+              prefixIcon: const Icon(Icons.search),
+            ),
+            textInputAction: TextInputAction.search,
+            onSubmitted: _search,
+          ),
+          const SizedBox(height: 16),
+          if (_searching) const LinearProgressIndicator(),
+          if (_failed) Text(l10n.weatherUnavailable),
+          if (results != null && results.isEmpty) Text(l10n.noPlacesFound),
+          for (final place in results ?? const <WeatherLocation>[])
+            ListTile(
+              leading: const Icon(Icons.place_outlined),
+              title: Text(place.label),
+              onTap: () => Navigator.of(context).pop(place),
+            ),
         ],
       ),
     );

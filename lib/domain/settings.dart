@@ -1,4 +1,5 @@
 import 'reminders.dart';
+import 'weather.dart';
 
 /// How the app chooses between light and dark colors.
 enum AppThemeMode { system, light, dark }
@@ -40,6 +41,12 @@ abstract interface class SettingsRepository {
 
   /// Stores [choice]; `null` switches the sync off.
   Future<void> savePhoneCalendar(CalendarChoice? choice);
+
+  /// The place the weather is fetched for, or `null`.
+  Future<WeatherLocation?> loadWeatherLocation();
+
+  /// Stores [location]; `null` removes it.
+  Future<void> saveWeatherLocation(WeatherLocation? location);
 }
 
 /// Trims an API key typed by the user; blank means no key.

@@ -9,6 +9,7 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../domain/tips.dart';
+import '../domain/weather.dart';
 import '../domain/urgency.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
@@ -16,6 +17,7 @@ import 'calendar_screen.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_controller.dart';
+import 'weather_sync.dart';
 import 'settings_screen.dart';
 import 'watering_actions.dart';
 import 'widgets/care_button.dart';
@@ -33,6 +35,7 @@ class HomeScreen extends StatefulWidget {
     required this.species,
     required this.photoPicker,
     this.tips,
+    this.weather,
     this.clock = DateTime.now,
     this.showActions = true,
   });
@@ -48,6 +51,9 @@ class HomeScreen extends StatefulWidget {
 
   /// Care tips for the "Tip of the day" card; `null` hides the card.
   final TipCatalog? tips;
+
+  /// Today's weather hint for outdoor plants; `null` hides it.
+  final WeatherSync? weather;
 
   /// Own add button, calendar and settings; off inside the app shell, which
   /// has them in its bottom bar.
@@ -109,12 +115,25 @@ class _HomeScreenState extends State<HomeScreen> {
           final plants => _PlantOverview(
             plants: plants,
             tip: _tipCard(plants),
+            weatherHint: _weatherCard(plants),
             today: widget.clock(),
             onOpen: _openDetail,
             onWatered: _water,
           ),
         },
       ),
+    );
+  }
+
+  Widget? _weatherCard(List<Plant> plants) {
+    final weather = widget.weather;
+    if (weather == null || !plants.any((plant) => plant.outdoor)) return null;
+    return ListenableBuilder(
+      listenable: weather,
+      builder: (context, _) => switch (weather.hint) {
+        null => const SizedBox.shrink(),
+        final hint => _WeatherCard(hint),
+      },
     );
   }
 
@@ -200,6 +219,7 @@ class _PlantOverview extends StatelessWidget {
   const _PlantOverview({
     required this.plants,
     required this.tip,
+    required this.weatherHint,
     required this.today,
     required this.onOpen,
     required this.onWatered,
@@ -209,6 +229,9 @@ class _PlantOverview extends StatelessWidget {
 
   /// The tip of the day card, if there is one today.
   final Widget? tip;
+
+  /// The weather hint for outdoor plants, if any.
+  final Widget? weatherHint;
   final DateTime today;
   final ValueChanged<Plant> onOpen;
   final ValueChanged<Plant> onWatered;
@@ -234,6 +257,7 @@ class _PlantOverview extends StatelessWidget {
                   plants.length,
                 ),
               ),
+              if (weatherHint case final hint?) hint,
               if (tip case final tip?) ...[const SizedBox(height: 12), tip],
               const SizedBox(height: 28),
               Text(l10n.myPlants, style: text.titleLarge),
@@ -264,6 +288,49 @@ class _PlantOverview extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Rain or heat today, for users with outdoor plants.
+class _WeatherCard extends StatelessWidget {
+  const _WeatherCard(this.hint);
+
+  final WeatherHint hint;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final (icon, text) = switch (hint) {
+      Heat(:final celsius) => (
+        Icons.wb_sunny_outlined,
+        l10n.weatherHeat(celsius.round()),
+      ),
+      RainToday(:final mm) => (Icons.umbrella_outlined, l10n.weatherRain(mm.round())),
+    };
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Card(
+        color: theme.colorScheme.tertiaryContainer,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(icon, color: theme.colorScheme.onTertiaryContainer),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  text,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onTertiaryContainer,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

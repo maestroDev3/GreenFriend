@@ -186,5 +186,15 @@
   "missingSpeciesDetail": "{name} · {count}× gefunden · {date}",
   "clearList": "Liste leeren",
   "outdoorSwitch": "Draußen (Balkon, Garten)",
-  "outdoorSwitchHelp": "Regen zählt als Gießen, wenn ein Ort fürs Wetter eingestellt ist."
+  "outdoorSwitchHelp": "Regen zählt als Gießen, wenn ein Ort fürs Wetter eingestellt ist.",
+  "weatherSection": "Wetter",
+  "weatherPlaceHint": "Für Draußen-Pflanzen: Regen zählt als Gießen, Hitze und Regen erscheinen auf dem Startbildschirm. Wetter von Open-Meteo.",
+  "noWeatherPlace": "Kein Ort eingestellt",
+  "choosePlace": "Ort wählen",
+  "removePlace": "Ort entfernen",
+  "searchPlaceLabel": "Stadt oder Ort",
+  "noPlacesFound": "Kein Ort gefunden.",
+  "weatherUnavailable": "Der Wetterdienst ist nicht erreichbar. Prüf deine Internetverbindung.",
+  "weatherHeat": "Heute heiß ({temperature} °C) – schau nach deinen Draußen-Pflanzen",
+  "weatherRain": "Heute Regen erwartet ({millimetres} mm) – Draußen-Pflanzen bekommen Wasser"
 }
