@@ -11,6 +11,7 @@ import 'data/plant_id_identifier.dart';
 import 'data/platform_file_sharing.dart';
 import 'data/shared_preferences_care_log_repository.dart';
 import 'data/shared_preferences_journal_repository.dart';
+import 'data/shared_preferences_missing_species_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'data/zip_backup_archive.dart';
@@ -83,6 +84,7 @@ Future<void> main() async {
       identifier: PlantIdIdentifier(),
       tips: BundledTipCatalog(),
       calendarSync: calendarSync,
+      missingSpecies: SharedPreferencesMissingSpeciesRepository(preferences),
     ),
   );
 }

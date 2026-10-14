@@ -180,5 +180,9 @@
   "calendarAccessDenied": "Der Zugriff auf den Kalender wurde nicht erlaubt. Du kannst ihn in den Systemeinstellungen erlauben.",
   "noWritableCalendars": "Auf diesem Handy gibt es keinen Kalender, in den die App schreiben kann.",
   "calendarEventTitle": "{plant}: {tasks}",
-  "calendarEventNote": "Geplant von Green Friend – verschiebt sich automatisch, wenn du die Pflanze pflegst."
+  "calendarEventNote": "Geplant von Green Friend – verschiebt sich automatisch, wenn du die Pflanze pflegst.",
+  "missingSpeciesTitle": "Fehlende Arten",
+  "missingSpeciesEmpty": "Hier erscheinen Arten, die die Foto-Erkennung gefunden hat, die aber noch nicht in der Pflanzendatenbank stehen – damit sie in einem nächsten Update ergänzt werden können.",
+  "missingSpeciesDetail": "{name} · {count}× gefunden · {date}",
+  "clearList": "Liste leeren"
 }

@@ -8,6 +8,7 @@ import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
+import '../domain/missing_species.dart';
 import '../domain/photos.dart';
 import '../domain/care_status.dart';
 import '../domain/clock.dart';
@@ -31,6 +32,7 @@ class PlantFormScreen extends StatefulWidget {
     this.plant,
     this.photoPicker,
     this.identifier,
+    this.missingSpecies,
     this.clock = DateTime.now,
   });
 
@@ -54,6 +56,9 @@ class PlantFormScreen extends StatefulWidget {
 
   /// Identifies the species from a photo; `null` hides "Identify from photo".
   final PlantIdentifier? identifier;
+
+  /// Remembers identified species that are not in the plant database.
+  final MissingSpeciesRepository? missingSpecies;
 
   @override
   State<PlantFormScreen> createState() => _PlantFormScreenState();
@@ -250,7 +255,16 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   ) {
     final commonName =
         candidate.commonNames.firstOrNull ?? candidate.scientificName;
-    switch (matchSpecies(candidate, widget.species)) {
+    final match = matchSpecies(candidate, widget.species);
+    if (match is! ExactSpecies) {
+      final missing = widget.missingSpecies?.record(
+        scientificName: candidate.scientificName,
+        commonName: candidate.commonNames.firstOrNull,
+        day: widget.clock(),
+      );
+      if (missing != null) unawaited(missing);
+    }
+    switch (match) {
       case ExactSpecies(:final species):
         final name = species.displayName(language);
         _setNameIfEmpty(name);

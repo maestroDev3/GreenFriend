@@ -4,6 +4,7 @@ import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
+import '../domain/missing_species.dart';
 import '../domain/photos.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
@@ -33,6 +34,7 @@ class GreenFriendApp extends StatelessWidget {
     this.identifier,
     this.tips,
     this.calendarSync,
+    this.missingSpecies,
   });
 
   final SettingsController settings;
@@ -55,6 +57,9 @@ class GreenFriendApp extends StatelessWidget {
 
   /// Syncs the care plan into a phone calendar; `null` hides that option.
   final CalendarSync? calendarSync;
+
+  /// Identified species without a care profile; `null` hides the list.
+  final MissingSpeciesRepository? missingSpecies;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +95,7 @@ class GreenFriendApp extends StatelessWidget {
             fileSharing: fileSharing,
             identifier: identifier,
             tips: tips,
+            missingSpecies: missingSpecies,
           ),
         ),
       ),
