@@ -84,7 +84,8 @@ void main() {
 
       await tester.tap(find.text('Personal'));
       await tester.pumpAndSettle();
-      await tester.runAsync(() => setup.sync.idle);
+      await tester.pump();
+      await tester.pumpAndSettle();
       await tester.pumpAndSettle();
 
       expect(setup.repository.phoneCalendar, (id: 'c1', name: 'Personal'));
@@ -112,12 +113,14 @@ void main() {
     testWidgets('removes its events when switched off', (tester) async {
       final setup = Setup(choice: (id: 'c1', name: 'Personal'));
       await setup.pump(tester);
-      await tester.runAsync(() => setup.sync.idle);
+      await tester.pump();
+      await tester.pumpAndSettle();
       expect(setup.calendar.events, isNotEmpty);
 
       await tester.tap(find.text(switchLabel));
       await tester.pumpAndSettle();
-      await tester.runAsync(() => setup.sync.idle);
+      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(setup.repository.phoneCalendar, isNull);
       expect(setup.calendar.events, isEmpty);

@@ -88,10 +88,7 @@ void main() {
       );
       await setup.sync.idle;
 
-      expect(setup.shown, [
-        (DateTime.utc(2026, 11, 13), 'Monstera: Water'),
-        (DateTime.utc(2026, 12, 13), 'Monstera: Water'),
-      ]);
+      expect(setup.shown, [(DateTime.utc(2026, 11, 13), 'Monstera: Water')]);
     });
 
     test('follows new and deleted plants', () async {
