@@ -22,6 +22,7 @@ class Plant {
     int? pruningIntervalMonths,
     DateTime? lastPrunedOn,
     this.winterRest = true,
+    this.outdoor = false,
   }) : name = _requireName(name),
        species = _optional(species),
        speciesId = _optional(speciesId),
@@ -88,6 +89,10 @@ class Plant {
   /// (see `season.dart`).
   final bool winterRest;
 
+  /// Whether the plant lives outdoors (balcony, garden), so the weather
+  /// counts (see `weather.dart`).
+  final bool outdoor;
+
   /// Returns a copy with the given values; `null` keeps the current value.
   Plant copyWith({
     String? name,
@@ -103,6 +108,7 @@ class Plant {
     int? pruningIntervalMonths,
     DateTime? lastPrunedOn,
     bool? winterRest,
+    bool? outdoor,
   }) {
     return Plant(
       id: id,
@@ -122,6 +128,7 @@ class Plant {
           pruningIntervalMonths ?? this.pruningIntervalMonths,
       lastPrunedOn: lastPrunedOn ?? this.lastPrunedOn,
       winterRest: winterRest ?? this.winterRest,
+      outdoor: outdoor ?? this.outdoor,
     );
   }
 
@@ -141,7 +148,8 @@ class Plant {
       other.lastRepottedOn == lastRepottedOn &&
       other.pruningIntervalMonths == pruningIntervalMonths &&
       other.lastPrunedOn == lastPrunedOn &&
-      other.winterRest == winterRest;
+      other.winterRest == winterRest &&
+      other.outdoor == outdoor;
 
   @override
   int get hashCode => Object.hash(
@@ -159,6 +167,7 @@ class Plant {
     pruningIntervalMonths,
     lastPrunedOn,
     winterRest,
+    outdoor,
   );
 
   @override

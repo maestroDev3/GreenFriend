@@ -98,6 +98,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   );
   var _saving = false;
   late var _winterRest = widget.plant?.winterRest ?? true;
+  late var _outdoor = widget.plant?.outdoor ?? false;
 
   /// Photo taken for identification; saved to the journal with the plant,
   /// deleted again when the form is left without saving.
@@ -316,6 +317,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           pruningIntervalMonths: prune,
           lastPrunedOn: _prune.lastToSave(prune),
           winterRest: _winterRest,
+          outdoor: _outdoor,
         ),
       );
     } else {
@@ -333,6 +335,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         pruningIntervalMonths: prune,
         lastPrunedOn: _prune.lastToSave(prune),
         winterRest: _winterRest,
+        outdoor: _outdoor,
       );
       if (_photo case final photo?) {
         await widget.journal.add(plantId: plant.id, day: _today, photo: photo);
@@ -396,6 +399,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           widget.plant == null ? l10n.newPlantTitle : l10n.editPlantTitle,
         ),
         actions: [
+          // In the app bar, so it stays reachable in the long form.
+          TextButton(onPressed: _saving ? null : _save, child: Text(l10n.save)),
           if (widget.plant case final plant?)
             IconButton(
               icon: const Icon(Icons.delete_outline),
@@ -515,11 +520,15 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               value: _winterRest,
               onChanged: (value) => setState(() => _winterRest = value),
             ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: _saving ? null : _save,
-              child: Text(l10n.save),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              secondary: const Icon(Icons.deck_outlined),
+              title: Text(l10n.outdoorSwitch),
+              subtitle: Text(l10n.outdoorSwitchHelp),
+              value: _outdoor,
+              onChanged: (value) => setState(() => _outdoor = value),
             ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
