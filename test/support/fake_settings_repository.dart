@@ -1,5 +1,6 @@
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
+import 'package:green_friend/domain/weather.dart';
 
 /// In-memory [SettingsRepository] for tests.
 class FakeSettingsRepository implements SettingsRepository {
@@ -10,6 +11,7 @@ class FakeSettingsRepository implements SettingsRepository {
     this.plantIdApiKey,
     this.tipDismissedOn,
     this.phoneCalendar,
+    this.weatherLocation,
   });
 
   AppThemeMode themeMode;
@@ -18,6 +20,7 @@ class FakeSettingsRepository implements SettingsRepository {
   String? plantIdApiKey;
   DateTime? tipDismissedOn;
   CalendarChoice? phoneCalendar;
+  WeatherLocation? weatherLocation;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -56,4 +59,11 @@ class FakeSettingsRepository implements SettingsRepository {
   @override
   Future<void> savePhoneCalendar(CalendarChoice? choice) async =>
       phoneCalendar = choice;
+
+  @override
+  Future<WeatherLocation?> loadWeatherLocation() async => weatherLocation;
+
+  @override
+  Future<void> saveWeatherLocation(WeatherLocation? location) async =>
+      weatherLocation = location;
 }

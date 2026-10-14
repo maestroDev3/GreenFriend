@@ -16,6 +16,7 @@ import 'home_screen.dart';
 import 'more_screen.dart';
 import 'plant_form_screen.dart';
 import 'plants_screen.dart';
+import 'weather_sync.dart';
 
 /// The main frame of the app: Home, Plants, Calendar and More in a bottom
 /// bar, with a round add button in the middle.
@@ -33,6 +34,7 @@ class AppShell extends StatefulWidget {
     this.identifier,
     this.tips,
     this.missingSpecies,
+    this.weather,
     this.clock = DateTime.now,
   });
 
@@ -55,6 +57,9 @@ class AppShell extends StatefulWidget {
 
   /// Identified species without a care profile; `null` hides the list.
   final MissingSpeciesRepository? missingSpecies;
+
+  /// Weather hint for outdoor plants; `null` hides it.
+  final WeatherSync? weather;
   final Clock clock;
 
   @override
@@ -104,6 +109,7 @@ class _AppShellState extends State<AppShell> {
             photos: widget.photos,
             photoPicker: widget.photoPicker,
             tips: widget.tips,
+            weather: widget.weather,
             clock: widget.clock,
             showActions: false,
           ),

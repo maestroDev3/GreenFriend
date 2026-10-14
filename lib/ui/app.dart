@@ -16,6 +16,7 @@ import 'calendar_sync.dart';
 import 'locale_resolution.dart';
 import 'settings_controller.dart';
 import 'theme.dart';
+import 'weather_sync.dart';
 
 /// The root widget that sets up settings, localization, theme and the home
 /// screen.
@@ -35,6 +36,7 @@ class GreenFriendApp extends StatelessWidget {
     this.tips,
     this.calendarSync,
     this.missingSpecies,
+    this.weatherSync,
   });
 
   final SettingsController settings;
@@ -60,6 +62,9 @@ class GreenFriendApp extends StatelessWidget {
 
   /// Identified species without a care profile; `null` hides the list.
   final MissingSpeciesRepository? missingSpecies;
+
+  /// Weather for outdoor plants; `null` hides the hint and the setting.
+  final WeatherSync? weatherSync;
 
   @override
   Widget build(BuildContext context) {
@@ -96,13 +101,18 @@ class GreenFriendApp extends StatelessWidget {
             identifier: identifier,
             tips: tips,
             missingSpecies: missingSpecies,
+            weather: weatherSync,
           ),
         ),
       ),
     );
-    return switch (calendarSync) {
-      final sync? => CalendarScope(sync: sync, child: app),
+    final withWeather = switch (weatherSync) {
+      final sync? => WeatherScope(sync: sync, child: app),
       null => app,
+    };
+    return switch (calendarSync) {
+      final sync? => CalendarScope(sync: sync, child: withWeather),
+      null => withWeather,
     };
   }
 }

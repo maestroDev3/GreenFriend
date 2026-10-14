@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/weather.dart';
 
 /// Holds the current app settings for the UI and saves every change.
 class SettingsController extends ChangeNotifier {
@@ -15,6 +16,7 @@ class SettingsController extends ChangeNotifier {
   String? _plantIdApiKey;
   DateTime? _tipDismissedOn;
   CalendarChoice? _phoneCalendar;
+  WeatherLocation? _weatherLocation;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -31,6 +33,9 @@ class SettingsController extends ChangeNotifier {
   /// The phone calendar the care plan is synced to; `null` when off.
   CalendarChoice? get phoneCalendar => _phoneCalendar;
 
+  /// The place for the weather of outdoor plants; `null` when none is set.
+  WeatherLocation? get weatherLocation => _weatherLocation;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
@@ -39,6 +44,7 @@ class SettingsController extends ChangeNotifier {
     _plantIdApiKey = await _repository.loadPlantIdApiKey();
     _tipDismissedOn = await _repository.loadTipDismissedOn();
     _phoneCalendar = await _repository.loadPhoneCalendar();
+    _weatherLocation = await _repository.loadWeatherLocation();
     notifyListeners();
   }
 
@@ -86,6 +92,13 @@ class SettingsController extends ChangeNotifier {
     _phoneCalendar = choice;
     notifyListeners();
     await _repository.savePhoneCalendar(choice);
+  }
+
+  Future<void> setWeatherLocation(WeatherLocation? location) async {
+    if (location == _weatherLocation) return;
+    _weatherLocation = location;
+    notifyListeners();
+    await _repository.saveWeatherLocation(location);
   }
 }
 

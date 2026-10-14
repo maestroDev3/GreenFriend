@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/weather.dart';
 
 /// Keeps the app settings in the platform's key-value storage.
 class SharedPreferencesSettingsRepository implements SettingsRepository {
@@ -19,6 +22,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const tipDismissedOnKey = 'settings.v1.tipDismissedOn';
   static const phoneCalendarIdKey = 'settings.v1.phoneCalendarId';
   static const phoneCalendarNameKey = 'settings.v1.phoneCalendarName';
+  static const weatherLocationKey = 'settings.v1.weatherLocation';
 
   final SharedPreferences _preferences;
 
@@ -116,6 +120,40 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       await _preferences.setString(phoneCalendarIdKey, choice.id);
       await _preferences.setString(phoneCalendarNameKey, choice.name);
     }
+  }
+
+  @override
+  Future<WeatherLocation?> loadWeatherLocation() async {
+    final stored = _preferences.getString(weatherLocationKey);
+    if (stored == null) return null;
+    try {
+      final json = jsonDecode(stored) as Map<String, Object?>;
+      return WeatherLocation(
+        name: json['name'] as String,
+        region: json['region'] as String?,
+        latitude: (json['latitude'] as num).toDouble(),
+        longitude: (json['longitude'] as num).toDouble(),
+      );
+    } on Object {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveWeatherLocation(WeatherLocation? location) async {
+    if (location == null) {
+      await _preferences.remove(weatherLocationKey);
+      return;
+    }
+    await _preferences.setString(
+      weatherLocationKey,
+      jsonEncode({
+        'name': location.name,
+        'region': location.region,
+        'latitude': location.latitude,
+        'longitude': location.longitude,
+      }),
+    );
   }
 
   /// Reads "HH:MM"; `null` for missing or invalid values.

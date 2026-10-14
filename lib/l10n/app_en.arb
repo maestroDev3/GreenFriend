@@ -1014,5 +1014,55 @@
   "outdoorSwitchHelp": "Rain counts as watering when a place is set for the weather.",
   "@outdoorSwitchHelp": {
     "description": "Explanation below the outdoor switch."
+  },
+  "weatherSection": "Weather",
+  "@weatherSection": {
+    "description": "Settings section title for the weather place."
+  },
+  "weatherPlaceHint": "For outdoor plants: rain counts as watering, heat and rain show up on the home screen. Weather by Open-Meteo.",
+  "@weatherPlaceHint": {
+    "description": "Explanation in the weather settings section."
+  },
+  "noWeatherPlace": "No place set",
+  "@noWeatherPlace": {
+    "description": "Shown when no weather place is chosen."
+  },
+  "choosePlace": "Choose place",
+  "@choosePlace": {
+    "description": "Button that opens the place search for the weather."
+  },
+  "removePlace": "Remove place",
+  "@removePlace": {
+    "description": "Button that removes the weather place."
+  },
+  "searchPlaceLabel": "City or place",
+  "@searchPlaceLabel": {
+    "description": "Label of the place search field."
+  },
+  "noPlacesFound": "No place found.",
+  "@noPlacesFound": {
+    "description": "Shown when the place search has no results."
+  },
+  "weatherUnavailable": "The weather service is not reachable. Check your internet connection.",
+  "@weatherUnavailable": {
+    "description": "Shown when the place search fails."
+  },
+  "weatherHeat": "Hot today ({temperature} °C) – check your outdoor plants",
+  "@weatherHeat": {
+    "description": "Home screen hint on hot days.",
+    "placeholders": {
+      "temperature": {
+        "type": "int"
+      }
+    }
+  },
+  "weatherRain": "Rain expected today ({millimetres} mm) – outdoor plants get water",
+  "@weatherRain": {
+    "description": "Home screen hint when rain is expected.",
+    "placeholders": {
+      "millimetres": {
+        "type": "int"
+      }
+    }
   }
 }

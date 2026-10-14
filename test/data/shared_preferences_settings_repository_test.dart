@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/shared_preferences_settings_repository.dart';
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
+import 'package:green_friend/domain/weather.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferencesSettingsRepository> repository() async =>
@@ -90,6 +91,22 @@ void main() {
 
       await (await repository()).savePhoneCalendar(null);
       expect(await (await repository()).loadPhoneCalendar(), isNull);
+    });
+
+    test('stores and removes the weather location', () async {
+      const munich = WeatherLocation(
+        name: 'München',
+        region: 'Bayern, Deutschland',
+        latitude: 48.137,
+        longitude: 11.575,
+      );
+      expect(await (await repository()).loadWeatherLocation(), isNull);
+
+      await (await repository()).saveWeatherLocation(munich);
+      expect(await (await repository()).loadWeatherLocation(), munich);
+
+      await (await repository()).saveWeatherLocation(null);
+      expect(await (await repository()).loadWeatherLocation(), isNull);
     });
 
     test('has the daily reminder on at 9:00 by default', () async {
