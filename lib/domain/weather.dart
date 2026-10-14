@@ -160,7 +160,10 @@ final class Heat extends WeatherHint {
 }
 
 /// Today's hint: heat comes first (outdoor plants dry out fast), then rain.
-WeatherHint? weatherHint(List<DailyWeather> weather, {required DateTime today}) {
+WeatherHint? weatherHint(
+  List<DailyWeather> weather, {
+  required DateTime today,
+}) {
   final now = dayOf(today);
   for (final entry in weather) {
     if (entry.day != now) continue;
