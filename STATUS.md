@@ -8,8 +8,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #161 Extend the plant database (Epic #13), then #26 Weather-aware watering (Epic #31) – on `epic/plant-knowledge-automation`
-- Epics #13, #175 and #184 are waiting for your test: pre-release **epic-test** APK from `epic/plant-knowledge-automation` (#15, #112, #30, #170, #176, #177, #185). Merged into `main` after your OK.
+- Nothing – epics #13, #31, #175 and #184 are done and waiting for your test: pre-release **epic-test** APK from `epic/plant-knowledge-automation`. Merged into `main` after your OK.
 
 ## Up next
 
@@ -21,8 +20,8 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 5 of 6 closed | #161 Extend the plant database with commonly identified species (ready) |
-| #31 Outdoor plants and weather | 0 of 1 closed | #26 Weather-aware watering for outdoor plants (ready) |
+| #13 Plant knowledge and automatic care plans | 6 of 6 closed (on the epic branch) | – |
+| #31 Outdoor plants and weather | 1 of 1 closed (on the epic branch) | – |
 
 **#150 Data safety and multi-device**
 
@@ -47,11 +46,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #26 Weather for outdoor plants (Open-Meteo, place search, rain counts as watering, heat/rain hint)
+- #161 Missing species list + 32 more species (now 141)
 - #185 Care tasks in the phone calendar (auto sync, calendar picked in the app, 60 days, all-day)
 - #177 Reminder buttons: mark care as done right in the notification (one reminder per plant)
 - #176 Care buttons show "Water" until done, then "✓ Watered"
-- #170 Robust identification errors and winter-rest edge cases (review findings) – on the epic branch
-- #30 Tip of the day (48 curated tips EN/DE, home card) – on the epic branch
 
 ## Decisions
 
@@ -69,7 +68,7 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Open decisions (user only)
 
-- Epics #13, #175 and #184: test the epic-test APK (photo identification needs your plant.id key under More → Settings); then OK to merge into `main`?
+- Epics #13, #31, #175, #184: test the epic-test APK (photo identification needs your plant.id key; weather needs a place under More → Settings); then OK to merge into `main`?
 - Initiatives #148–#151 and epics #152, #175, #184 are new – please confirm or re-sort
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - iOS: Android first, plugins chosen iOS-ready (2026-10-14); an iOS build becomes its own epic in #151 when you decide (needs a Mac or macOS CI and an Apple developer account)
