@@ -68,7 +68,10 @@ class SettingsScreen extends StatelessWidget {
             _SectionTitle(l10n.phoneCalendarSection),
             Card(
               clipBehavior: Clip.antiAlias,
-              child: _PhoneCalendarTiles(settings: settings, sync: calendarSync),
+              child: _PhoneCalendarTiles(
+                settings: settings,
+                sync: calendarSync,
+              ),
             ),
           ],
           const SizedBox(height: 24),
@@ -260,9 +263,7 @@ class _PhoneCalendarTilesState extends State<_PhoneCalendarTiles> {
     final calendars = await calendar.writableCalendars();
     if (!mounted) return;
     if (calendars.isEmpty) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.noWritableCalendars)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.noWritableCalendars)));
       return;
     }
     final chosen = await showModalBottomSheet<PhoneCalendarInfo>(
@@ -276,10 +277,7 @@ class _PhoneCalendarTilesState extends State<_PhoneCalendarTiles> {
     if (previous != null && previous.id != chosen.id) {
       await widget.sync.removeUpcoming(previous.id);
     }
-    await widget.settings.setPhoneCalendar((
-      id: chosen.id,
-      name: chosen.name,
-    ));
+    await widget.settings.setPhoneCalendar((id: chosen.id, name: chosen.name));
   }
 
   @override

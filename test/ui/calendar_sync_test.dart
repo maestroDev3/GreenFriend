@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/care_actions.dart';
 import 'package:green_friend/domain/phone_calendar.dart';
 import 'package:green_friend/domain/plant.dart';
+import 'package:green_friend/domain/settings.dart';
 import 'package:green_friend/l10n/app_localizations.dart';
 import 'package:green_friend/ui/calendar_sync.dart';
 import 'package:green_friend/ui/settings_controller.dart';
@@ -28,24 +29,23 @@ class Setup {
     List<Plant> plants = const [],
     CalendarChoice? choice = (id: 'c1', name: 'Personal'),
     List<PhoneCalendarEvent> events = const [],
-    Locale locale = const Locale('en'),
+    this.locale = const Locale('en'),
   }) : plants = FakePlantRepository(plants),
        calendar = FakePhoneCalendar(events: events),
        settings = SettingsController(
          FakeSettingsRepository(phoneCalendar: choice),
-       ),
-       _locale = locale;
+       );
 
   final FakePlantRepository plants;
   final FakePhoneCalendar calendar;
   final SettingsController settings;
-  final Locale _locale;
+  final Locale locale;
   late final sync = CalendarSync(
     plants: plants,
     settings: settings,
     calendar: calendar,
     clock: fixedNow,
-    localizations: () => lookupAppLocalizations(_locale),
+    localizations: () => lookupAppLocalizations(locale),
   );
 
   Future<void> start() async {
@@ -54,9 +54,9 @@ class Setup {
     await sync.idle;
   }
 
-  List<(DateTime, String)> get shown => [
-    for (final event in calendar.events) (event.day, event.title),
-  ]..sort((a, b) => a.$1.compareTo(b.$1));
+  List<(DateTime, String)> get shown =>
+      [for (final event in calendar.events) (event.day, event.title)]
+        ..sort((a, b) => a.$1.compareTo(b.$1));
 }
 
 void main() {
@@ -102,7 +102,10 @@ void main() {
         winterRest: false,
       );
       await setup.sync.idle;
-      expect(setup.shown, contains((DateTime.utc(2026, 11, 20), 'Aloe: Water')));
+      expect(
+        setup.shown,
+        contains((DateTime.utc(2026, 11, 20), 'Aloe: Water')),
+      );
 
       await setup.plants.delete(aloe.id);
       await setup.sync.idle;

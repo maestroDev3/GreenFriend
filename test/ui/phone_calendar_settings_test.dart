@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/phone_calendar.dart';
 import 'package:green_friend/domain/plant.dart';
+import 'package:green_friend/domain/settings.dart';
 import 'package:green_friend/ui/calendar_sync.dart';
 import 'package:green_friend/ui/settings_controller.dart';
 import 'package:green_friend/ui/settings_screen.dart';
@@ -93,9 +94,7 @@ void main() {
       expect(setup.calendar.events, isNotEmpty);
     });
 
-    testWidgets('stays off and explains when access is denied', (
-      tester,
-    ) async {
+    testWidgets('stays off and explains when access is denied', (tester) async {
       final setup = Setup(grantAccess: false);
       await setup.pump(tester);
 
