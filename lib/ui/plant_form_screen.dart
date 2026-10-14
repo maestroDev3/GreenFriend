@@ -399,6 +399,11 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           widget.plant == null ? l10n.newPlantTitle : l10n.editPlantTitle,
         ),
         actions: [
+          // In the app bar, so it stays reachable in the long form.
+          TextButton(
+            onPressed: _saving ? null : _save,
+            child: Text(l10n.save),
+          ),
           if (widget.plant case final plant?)
             IconButton(
               icon: const Icon(Icons.delete_outline),
@@ -527,10 +532,6 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               onChanged: (value) => setState(() => _outdoor = value),
             ),
             const SizedBox(height: 24),
-            FilledButton(
-              onPressed: _saving ? null : _save,
-              child: Text(l10n.save),
-            ),
           ],
         ),
       ),

@@ -32,9 +32,9 @@ Future<void> scrollTo(WidgetTester tester, String text) async {
   await tester.pumpAndSettle();
 }
 
-bool value(WidgetTester tester) =>
-    tester.widget<SwitchListTile>(find.widgetWithText(SwitchListTile, label))
-        .value;
+bool value(WidgetTester tester) => tester
+    .widget<SwitchListTile>(find.widgetWithText(SwitchListTile, label))
+    .value;
 
 void main() {
   group('outdoor switch in the plant form', () {

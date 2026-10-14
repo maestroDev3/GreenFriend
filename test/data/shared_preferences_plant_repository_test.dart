@@ -125,7 +125,8 @@ void main() {
 
     test('loads plants stored before outdoor existed as indoor', () async {
       SharedPreferences.setMockInitialValues({
-        SharedPreferencesPlantRepository.plantsKey: '[{"id":"a","name":"Aloe"}]',
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe"}]',
       });
 
       final plant = (await currentPlants(await openRepository())).single;
