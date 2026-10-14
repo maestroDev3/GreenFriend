@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/identification.dart';
 import 'package:green_friend/domain/missing_species.dart';

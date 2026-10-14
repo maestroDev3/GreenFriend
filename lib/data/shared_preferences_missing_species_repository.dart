@@ -63,9 +63,10 @@ class SharedPreferencesMissingSpeciesRepository
     final stored = _preferences.getString(key);
     if (stored == null) return const [];
     try {
+      final items = (jsonDecode(stored) as List<Object?>)
+          .cast<Map<String, Object?>>();
       return List.unmodifiable([
-        for (final item in (jsonDecode(stored) as List<Object?>)
-            .cast<Map<String, Object?>>())
+        for (final item in items)
           MissingSpecies(
             scientificName: item['scientificName'] as String,
             commonName: item['commonName'] as String?,
