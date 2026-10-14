@@ -3,17 +3,20 @@ import 'dart:ui';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/device_phone_calendar.dart';
 import 'data/local_notification_scheduler.dart';
 import 'data/shared_preferences_care_log_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'domain/care_actions.dart';
 import 'domain/plant_repository.dart';
+import 'ui/calendar_sync.dart';
 import 'ui/reminder_sync.dart';
 import 'ui/settings_controller.dart';
 
 /// Handles a tap on a reminder button ("Watered") in a background isolate:
-/// records the care and replans the reminders, without opening the app.
+/// records the care and replans the reminders and the phone calendar,
+/// without opening the app.
 ///
 /// The app reloads its data when it comes back to the foreground, because
 /// this isolate writes the storage on its own.
@@ -35,8 +38,8 @@ Future<void> onNotificationActionInBackground(
   await replanReminders(preferences, plants);
 }
 
-/// Schedules the reminders once from the stored plants and settings (used
-/// outside the running app).
+/// Schedules the reminders and syncs the phone calendar once from the
+/// stored plants and settings (used outside the running app).
 Future<void> replanReminders(
   SharedPreferences preferences,
   PlantRepository plants,
@@ -60,4 +63,11 @@ Future<void> replanReminders(
   )..start();
   await sync.idle;
   sync.dispose();
+  if (settings.phoneCalendar != null) {
+    await CalendarSync(
+      plants: plants,
+      settings: settings,
+      calendar: DevicePhoneCalendar(),
+    ).syncNow(await plants.allPlants());
+  }
 }

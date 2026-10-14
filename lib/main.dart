@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/bundled_species_catalog.dart';
 import 'data/bundled_tips.dart';
+import 'data/device_phone_calendar.dart';
 import 'data/file_photo_store.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
@@ -15,6 +16,7 @@ import 'data/shared_preferences_settings_repository.dart';
 import 'data/zip_backup_archive.dart';
 import 'notification_actions.dart';
 import 'ui/app.dart';
+import 'ui/calendar_sync.dart';
 import 'ui/font_licenses.dart';
 import 'ui/reminder_sync.dart';
 import 'ui/settings_controller.dart';
@@ -42,6 +44,12 @@ Future<void> main() async {
     scheduler: scheduler,
     localizations: () => appLocalizationsFor(settings),
   ).start();
+
+  final calendarSync = CalendarSync(
+    plants: plants,
+    settings: settings,
+    calendar: DevicePhoneCalendar(),
+  )..start();
 
   final careLogs = SharedPreferencesCareLogRepository(preferences);
   final journal = SharedPreferencesJournalRepository(preferences);
@@ -74,6 +82,7 @@ Future<void> main() async {
       fileSharing: PlatformFileSharing(),
       identifier: PlantIdIdentifier(),
       tips: BundledTipCatalog(),
+      calendarSync: calendarSync,
     ),
   );
 }
