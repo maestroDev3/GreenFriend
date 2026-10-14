@@ -17,12 +17,19 @@ void main() {
 
     test('ask for rain and maximum temperature of past and next days', () {
       final uri = forecastUri(
-        const WeatherLocation(name: 'Munich', latitude: 48.14, longitude: 11.58),
+        const WeatherLocation(
+          name: 'Munich',
+          latitude: 48.14,
+          longitude: 11.58,
+        ),
       );
 
       expect(uri.host, 'api.open-meteo.com');
       expect(uri.queryParameters['latitude'], '48.14');
-      expect(uri.queryParameters['daily'], 'precipitation_sum,temperature_2m_max');
+      expect(
+        uri.queryParameters['daily'],
+        'precipitation_sum,temperature_2m_max',
+      );
       expect(uri.queryParameters['past_days'], '3');
       expect(uri.queryParameters['timezone'], 'auto');
     });
@@ -98,10 +105,7 @@ void main() {
         () => parseDailyWeather(200, 'oops'),
         throwsA(isA<WeatherUnavailable>()),
       );
-      expect(
-        () => parsePlaces(500, ''),
-        throwsA(isA<WeatherUnavailable>()),
-      );
+      expect(() => parsePlaces(500, ''), throwsA(isA<WeatherUnavailable>()));
     });
   });
 }
