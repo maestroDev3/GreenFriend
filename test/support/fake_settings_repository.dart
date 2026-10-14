@@ -9,6 +9,7 @@ class FakeSettingsRepository implements SettingsRepository {
     this.reminder = ReminderSettings.defaults,
     this.plantIdApiKey,
     this.tipDismissedOn,
+    this.phoneCalendar,
   });
 
   AppThemeMode themeMode;
@@ -16,6 +17,7 @@ class FakeSettingsRepository implements SettingsRepository {
   ReminderSettings reminder;
   String? plantIdApiKey;
   DateTime? tipDismissedOn;
+  CalendarChoice? phoneCalendar;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -47,4 +49,11 @@ class FakeSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> saveTipDismissedOn(DateTime day) async => tipDismissedOn = day;
+
+  @override
+  Future<CalendarChoice?> loadPhoneCalendar() async => phoneCalendar;
+
+  @override
+  Future<void> savePhoneCalendar(CalendarChoice? choice) async =>
+      phoneCalendar = choice;
 }

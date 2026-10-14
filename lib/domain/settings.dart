@@ -6,6 +6,9 @@ enum AppThemeMode { system, light, dark }
 /// Which language the app uses; [system] follows the device language.
 enum AppLanguage { system, english, german }
 
+/// The phone calendar the care plan is synced to.
+typedef CalendarChoice = ({String id, String name});
+
 /// Stores the user's app settings, so they survive an app restart.
 abstract interface class SettingsRepository {
   Future<AppThemeMode> loadThemeMode();
@@ -31,6 +34,12 @@ abstract interface class SettingsRepository {
 
   /// Remembers that the tip of the day was closed on [day].
   Future<void> saveTipDismissedOn(DateTime day);
+
+  /// The phone calendar for the care plan, or `null` when the sync is off.
+  Future<CalendarChoice?> loadPhoneCalendar();
+
+  /// Stores [choice]; `null` switches the sync off.
+  Future<void> savePhoneCalendar(CalendarChoice? choice);
 }
 
 /// Trims an API key typed by the user; blank means no key.

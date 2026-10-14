@@ -930,5 +930,54 @@
         "type": "String"
       }
     }
+  },
+  "phoneCalendarSection": "Phone calendar",
+  "@phoneCalendarSection": {
+    "description": "Settings section title for syncing care tasks into a phone calendar."
+  },
+  "phoneCalendarSwitch": "Care tasks in the phone calendar",
+  "@phoneCalendarSwitch": {
+    "description": "Switch that syncs care tasks into a calendar on the phone."
+  },
+  "phoneCalendarHint": "All-day events for the next 60 days, updated automatically.",
+  "@phoneCalendarHint": {
+    "description": "Explanation below the phone calendar switch."
+  },
+  "phoneCalendarChosen": "Calendar: {calendar}",
+  "@phoneCalendarChosen": {
+    "description": "Shows the chosen phone calendar; tapping changes it.",
+    "placeholders": {
+      "calendar": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseCalendar": "Choose a calendar",
+  "@chooseCalendar": {
+    "description": "Title of the sheet listing the phone's calendars."
+  },
+  "calendarAccessDenied": "Calendar access was not allowed. You can allow it in the system settings.",
+  "@calendarAccessDenied": {
+    "description": "Shown when the user denies calendar access."
+  },
+  "noWritableCalendars": "There is no calendar on this phone the app can write to.",
+  "@noWritableCalendars": {
+    "description": "Shown when the phone has no writable calendar."
+  },
+  "calendarEventTitle": "{plant}: {tasks}",
+  "@calendarEventTitle": {
+    "description": "Title of a care event in the phone calendar, e.g. 'Monstera: Water, Fertilize'.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      },
+      "tasks": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarEventNote": "Planned by Green Friend – moves automatically when you care for the plant.",
+  "@calendarEventNote": {
+    "description": "Description of care events in the phone calendar."
   }
 }

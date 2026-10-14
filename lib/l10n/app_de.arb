@@ -171,5 +171,14 @@
   "careVerbFertilize": "Düngen",
   "careVerbRepot": "Umtopfen",
   "careVerbPrune": "Zurückschneiden",
-  "reminderDueToday": "Heute fällig: {tasks}"
+  "reminderDueToday": "Heute fällig: {tasks}",
+  "phoneCalendarSection": "Handykalender",
+  "phoneCalendarSwitch": "Pflegeaufgaben im Handykalender",
+  "phoneCalendarHint": "Ganztägige Termine für die nächsten 60 Tage, automatisch aktuell.",
+  "phoneCalendarChosen": "Kalender: {calendar}",
+  "chooseCalendar": "Kalender auswählen",
+  "calendarAccessDenied": "Der Zugriff auf den Kalender wurde nicht erlaubt. Du kannst ihn in den Systemeinstellungen erlauben.",
+  "noWritableCalendars": "Auf diesem Handy gibt es keinen Kalender, in den die App schreiben kann.",
+  "calendarEventTitle": "{plant}: {tasks}",
+  "calendarEventNote": "Geplant von Green Friend – verschiebt sich automatisch, wenn du die Pflanze pflegst."
 }
