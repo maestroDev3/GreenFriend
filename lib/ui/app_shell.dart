@@ -4,6 +4,7 @@ import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
+import '../domain/missing_species.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant_repository.dart';
@@ -31,6 +32,7 @@ class AppShell extends StatefulWidget {
     required this.fileSharing,
     this.identifier,
     this.tips,
+    this.missingSpecies,
     this.clock = DateTime.now,
   });
 
@@ -50,6 +52,9 @@ class AppShell extends StatefulWidget {
 
   /// Care tips for the home screen; `null` hides the tip card.
   final TipCatalog? tips;
+
+  /// Identified species without a care profile; `null` hides the list.
+  final MissingSpeciesRepository? missingSpecies;
   final Clock clock;
 
   @override
@@ -70,6 +75,7 @@ class _AppShellState extends State<AppShell> {
           photos: widget.photos,
           photoPicker: widget.photoPicker,
           identifier: widget.identifier,
+          missingSpecies: widget.missingSpecies,
           clock: widget.clock,
         ),
       ),
@@ -118,6 +124,7 @@ class _AppShellState extends State<AppShell> {
           MoreScreen(
             backupArchive: widget.backupArchive,
             fileSharing: widget.fileSharing,
+            missingSpecies: widget.missingSpecies,
           ),
         ],
       ),
