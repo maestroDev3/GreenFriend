@@ -8,6 +8,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
+- #161 Extend the plant database (Epic #13), then #26 Weather-aware watering (Epic #31) – on `epic/plant-knowledge-automation`
 - Epics #13, #175 and #184 are waiting for your test: pre-release **epic-test** APK from `epic/plant-knowledge-automation` (#15, #112, #30, #170, #176, #177, #185). Merged into `main` after your OK.
 
 ## Up next
@@ -20,8 +21,8 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 5 of 6 closed | #161 Extend the plant database with commonly identified species (backlog) |
-| #31 Outdoor plants and weather (deliberately last) | 0 of 1 closed | #26 Weather-aware watering for outdoor plants |
+| #13 Plant knowledge and automatic care plans | 5 of 6 closed | #161 Extend the plant database with commonly identified species (ready) |
+| #31 Outdoor plants and weather | 0 of 1 closed | #26 Weather-aware watering for outdoor plants (ready) |
 
 **#150 Data safety and multi-device**
 
@@ -54,6 +55,9 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Decisions
 
+- 2026-10-14: #161 as proposed (local list of missing species + about 30 more species)
+- 2026-10-14: #26 weather from Open-Meteo (no key), place entered manually; rain ≥ 5 mm counts as watering, heat ≥ 30 °C as hint
+- 2026-10-14: winter rest stays on for existing plants
 - 2026-10-14: #185 phone calendar: automatic sync, calendar chosen in the app, all care tasks all-day for 60 days, no alarms; plugin `device_calendar_plus` (Android now, Apple calendar ready)
 - 2026-10-01: planning structure Initiative → Epic → Story → Task (see `docs/planning-structure.md`)
 - 2026-10-02: #15 top 3 candidates; unknown species → same-genus template, else manual intervals (#161 extends the database)
@@ -66,9 +70,6 @@ Guiding principle: as much as possible happens automatically (photo → species 
 ## Open decisions (user only)
 
 - Epics #13, #175 and #184: test the epic-test APK (photo identification needs your plant.id key under More → Settings); then OK to merge into `main`?
-- Winter rest is **on for all existing plants** after the update (Nov–Feb: watering × 1.5, no fertilizer) – OK, or off by default for existing plants?
-- #161 (proposal): remember identified species that are not in the database and add the most common ones in a next batch – OK as next story?
 - Initiatives #148–#151 and epics #152, #175, #184 are new – please confirm or re-sort
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - iOS: Android first, plugins chosen iOS-ready (2026-10-14); an iOS build becomes its own epic in #151 when you decide (needs a Mac or macOS CI and an Apple developer account)
-- Weather for outdoor plants (#26, later): which service (e.g. Open-Meteo, Bright Sky / DWD, wetter.com API) – needs `INTERNET`, possibly an API key or paid plan; location entered manually or via GPS
