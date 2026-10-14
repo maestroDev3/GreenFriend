@@ -132,10 +132,10 @@ List<PlannedCareDay> plannedCareDays(
   );
   final grouped = <(String, DateTime), (Plant, Set<CareKind>)>{};
   for (final task in tasks) {
-    final entry = grouped.putIfAbsent(
-      (task.plant.id, task.day),
-      () => (task.plant, <CareKind>{}),
-    );
+    final entry = grouped.putIfAbsent((
+      task.plant.id,
+      task.day,
+    ), () => (task.plant, <CareKind>{}));
     entry.$2.add(task.kind);
   }
   final result = [
