@@ -9,6 +9,26 @@ void main() {
       expect(catalog.all.length, greaterThanOrEqualTo(100));
     });
 
+    test('contains at least 140 species', () {
+      expect(catalog.all.length, greaterThanOrEqualTo(140));
+    });
+
+    test('finds the money tree and the rattlesnake plant', () {
+      expect(
+        catalog.search('Glückskastanie', languageCode: 'de').first.id,
+        'pachira-aquatica',
+      );
+      // "Money tree" is also a name of the jade plant, so both are found.
+      expect(
+        catalog.search('money tree', languageCode: 'en').map((s) => s.id),
+        contains('pachira-aquatica'),
+      );
+      expect(
+        catalog.search('Calathea lancifolia', languageCode: 'en').first.id,
+        'goeppertia-lancifolia',
+      );
+    });
+
     test('finds bonsai, all with a pruning interval', () {
       final bonsai = catalog.search('bonsai', languageCode: 'en');
 
