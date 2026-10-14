@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Plant identification from a photo (plant.id, #15). -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Care plan in the phone calendar (#185): list calendars, read back and
+         write the app's own events. -->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <!-- Daily watering reminders (flutter_local_notifications). Scheduling is
          inexact on purpose, so no exact-alarm permission is needed. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
