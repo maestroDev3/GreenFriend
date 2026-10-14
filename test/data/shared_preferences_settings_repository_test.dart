@@ -77,6 +77,21 @@ void main() {
       );
     });
 
+    test('has no phone calendar by default', () async {
+      expect(await (await repository()).loadPhoneCalendar(), isNull);
+    });
+
+    test('stores and removes the phone calendar', () async {
+      await (await repository()).savePhoneCalendar((id: '7', name: 'Home'));
+      expect(await (await repository()).loadPhoneCalendar(), (
+        id: '7',
+        name: 'Home',
+      ));
+
+      await (await repository()).savePhoneCalendar(null);
+      expect(await (await repository()).loadPhoneCalendar(), isNull);
+    });
+
     test('has the daily reminder on at 9:00 by default', () async {
       expect(
         await (await repository()).loadReminder(),
