@@ -184,5 +184,7 @@
   "missingSpeciesTitle": "Fehlende Arten",
   "missingSpeciesEmpty": "Hier erscheinen Arten, die die Foto-Erkennung gefunden hat, die aber noch nicht in der Pflanzendatenbank stehen – damit sie in einem nächsten Update ergänzt werden können.",
   "missingSpeciesDetail": "{name} · {count}× gefunden · {date}",
-  "clearList": "Liste leeren"
+  "clearList": "Liste leeren",
+  "outdoorSwitch": "Draußen (Balkon, Garten)",
+  "outdoorSwitchHelp": "Regen zählt als Gießen, wenn ein Ort fürs Wetter eingestellt ist."
 }

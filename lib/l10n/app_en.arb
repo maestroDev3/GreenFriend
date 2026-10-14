@@ -1006,5 +1006,13 @@
   "clearList": "Clear list",
   "@clearList": {
     "description": "Tooltip of the button that clears the missing species list."
+  },
+  "outdoorSwitch": "Outdoors (balcony, garden)",
+  "@outdoorSwitch": {
+    "description": "Switch in the plant form marking an outdoor plant, whose watering follows the weather."
+  },
+  "outdoorSwitchHelp": "Rain counts as watering when a place is set for the weather.",
+  "@outdoorSwitchHelp": {
+    "description": "Explanation below the outdoor switch."
   }
 }
