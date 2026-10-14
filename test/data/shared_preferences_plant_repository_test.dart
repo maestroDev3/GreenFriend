@@ -116,6 +116,23 @@ void main() {
       await subscription.cancel();
     });
 
+    test('keeps an outdoor plant across a restart', () async {
+      await (await openRepository()).add(name: 'Lavender', outdoor: true);
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.outdoor, isTrue);
+    });
+
+    test('loads plants stored before outdoor existed as indoor', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey: '[{"id":"a","name":"Aloe"}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.outdoor, isFalse);
+    });
+
     test('generates unique ids', () async {
       final repository = await openRepository();
 
