@@ -17,6 +17,8 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   /// Not part of the backup, so the key never leaves the phone.
   static const plantIdApiKeyKey = 'settings.v1.plantIdApiKey';
   static const tipDismissedOnKey = 'settings.v1.tipDismissedOn';
+  static const phoneCalendarIdKey = 'settings.v1.phoneCalendarId';
+  static const phoneCalendarNameKey = 'settings.v1.phoneCalendarName';
 
   final SharedPreferences _preferences;
 
@@ -96,6 +98,24 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       '${normalized.month.toString().padLeft(2, '0')}-'
       '${normalized.day.toString().padLeft(2, '0')}',
     );
+  }
+
+  @override
+  Future<CalendarChoice?> loadPhoneCalendar() async {
+    final id = _preferences.getString(phoneCalendarIdKey);
+    if (id == null) return null;
+    return (id: id, name: _preferences.getString(phoneCalendarNameKey) ?? id);
+  }
+
+  @override
+  Future<void> savePhoneCalendar(CalendarChoice? choice) async {
+    if (choice == null) {
+      await _preferences.remove(phoneCalendarIdKey);
+      await _preferences.remove(phoneCalendarNameKey);
+    } else {
+      await _preferences.setString(phoneCalendarIdKey, choice.id);
+      await _preferences.setString(phoneCalendarNameKey, choice.name);
+    }
   }
 
   /// Reads "HH:MM"; `null` for missing or invalid values.

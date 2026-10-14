@@ -11,6 +11,7 @@ import '../domain/settings.dart';
 import '../domain/tips.dart';
 import '../l10n/app_localizations.dart';
 import 'app_shell.dart';
+import 'calendar_sync.dart';
 import 'locale_resolution.dart';
 import 'settings_controller.dart';
 import 'theme.dart';
@@ -31,6 +32,7 @@ class GreenFriendApp extends StatelessWidget {
     required this.fileSharing,
     this.identifier,
     this.tips,
+    this.calendarSync,
   });
 
   final SettingsController settings;
@@ -51,9 +53,12 @@ class GreenFriendApp extends StatelessWidget {
   /// Care tips for the home screen; `null` hides the tip card.
   final TipCatalog? tips;
 
+  /// Syncs the care plan into a phone calendar; `null` hides that option.
+  final CalendarSync? calendarSync;
+
   @override
   Widget build(BuildContext context) {
-    return SettingsScope(
+    final app = SettingsScope(
       controller: settings,
       child: ListenableBuilder(
         listenable: settings,
@@ -89,5 +94,9 @@ class GreenFriendApp extends StatelessWidget {
         ),
       ),
     );
+    return switch (calendarSync) {
+      final sync? => CalendarScope(sync: sync, child: app),
+      null => app,
+    };
   }
 }

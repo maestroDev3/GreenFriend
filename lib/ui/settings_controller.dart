@@ -14,6 +14,7 @@ class SettingsController extends ChangeNotifier {
   ReminderSettings _reminder = ReminderSettings.defaults;
   String? _plantIdApiKey;
   DateTime? _tipDismissedOn;
+  CalendarChoice? _phoneCalendar;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -27,6 +28,9 @@ class SettingsController extends ChangeNotifier {
   /// The day the tip of the day was closed; it stays hidden that day.
   DateTime? get tipDismissedOn => _tipDismissedOn;
 
+  /// The phone calendar the care plan is synced to; `null` when off.
+  CalendarChoice? get phoneCalendar => _phoneCalendar;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
@@ -34,6 +38,7 @@ class SettingsController extends ChangeNotifier {
     _reminder = await _repository.loadReminder();
     _plantIdApiKey = await _repository.loadPlantIdApiKey();
     _tipDismissedOn = await _repository.loadTipDismissedOn();
+    _phoneCalendar = await _repository.loadPhoneCalendar();
     notifyListeners();
   }
 
@@ -74,6 +79,13 @@ class SettingsController extends ChangeNotifier {
     _tipDismissedOn = day;
     notifyListeners();
     await _repository.saveTipDismissedOn(day);
+  }
+
+  Future<void> setPhoneCalendar(CalendarChoice? choice) async {
+    if (choice == _phoneCalendar) return;
+    _phoneCalendar = choice;
+    notifyListeners();
+    await _repository.savePhoneCalendar(choice);
   }
 }
 
