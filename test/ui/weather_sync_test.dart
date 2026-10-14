@@ -62,7 +62,10 @@ void main() {
 
       await setup.refresh();
 
-      expect(setup.plants.plants.single.lastWateredOn, DateTime.utc(2026, 10, 12));
+      expect(
+        setup.plants.plants.single.lastWateredOn,
+        DateTime.utc(2026, 10, 12),
+      );
       expect(setup.logs.logs.single.kind, const Water());
       expect(setup.logs.logs.single.day, DateTime.utc(2026, 10, 12));
       expect(setup.sync.hint, const Heat(31));
@@ -89,23 +92,30 @@ void main() {
       expect(setup.sync.hint, isNull);
     });
 
-    test('fetches at most every three hours unless the place changes', () async {
-      final setup = Setup();
-      await setup.refresh();
+    test(
+      'fetches at most every three hours unless the place changes',
+      () async {
+        final setup = Setup();
+        await setup.refresh();
 
-      setup.now = DateTime(2026, 10, 14, 11);
-      await setup.sync.refresh();
-      expect(setup.service.fetches, hasLength(1));
+        setup.now = DateTime(2026, 10, 14, 11);
+        await setup.sync.refresh();
+        expect(setup.service.fetches, hasLength(1));
 
-      setup.now = DateTime(2026, 10, 14, 12, 30);
-      await setup.sync.refresh();
-      expect(setup.service.fetches, hasLength(2));
+        setup.now = DateTime(2026, 10, 14, 12, 30);
+        await setup.sync.refresh();
+        expect(setup.service.fetches, hasLength(2));
 
-      await setup.settings.setWeatherLocation(
-        const WeatherLocation(name: 'Berlin', latitude: 52.5, longitude: 13.4),
-      );
-      await setup.sync.refresh();
-      expect(setup.service.fetches.last.name, 'Berlin');
-    });
+        await setup.settings.setWeatherLocation(
+          const WeatherLocation(
+            name: 'Berlin',
+            latitude: 52.5,
+            longitude: 13.4,
+          ),
+        );
+        await setup.sync.refresh();
+        expect(setup.service.fetches.last.name, 'Berlin');
+      },
+    );
   });
 }

@@ -257,7 +257,7 @@ class _PlantOverview extends StatelessWidget {
                   plants.length,
                 ),
               ),
-              if (weatherHint case final hint?) hint,
+              ?weatherHint,
               if (tip case final tip?) ...[const SizedBox(height: 12), tip],
               const SizedBox(height: 28),
               Text(l10n.myPlants, style: text.titleLarge),
@@ -307,7 +307,10 @@ class _WeatherCard extends StatelessWidget {
         Icons.wb_sunny_outlined,
         l10n.weatherHeat(celsius.round()),
       ),
-      RainToday(:final mm) => (Icons.umbrella_outlined, l10n.weatherRain(mm.round())),
+      RainToday(:final mm) => (
+        Icons.umbrella_outlined,
+        l10n.weatherRain(mm.round()),
+      ),
     };
     return Padding(
       padding: const EdgeInsets.only(top: 12),

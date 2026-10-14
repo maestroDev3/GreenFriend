@@ -132,7 +132,7 @@ void main() {
         settings: sync.settings,
       );
       await tester.scrollUntilVisible(
-        find.text('Weather'),
+        find.text('Choose place'),
         200,
         scrollable: find.byType(Scrollable).first,
       );
