@@ -121,7 +121,7 @@ void main() {
   group('weather place in the settings', () {
     Future<FakeSettingsRepository> pumpSettings(
       WidgetTester tester, {
-      WeatherLocation? location,
+      WeatherLocation? location = munich,
     }) async {
       final (sync, repository) = await weatherSync(
         plants: FakePlantRepository(),
