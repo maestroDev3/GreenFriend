@@ -4,7 +4,7 @@ Current project state for planning and Claude projects. Maintained by Claude
 after every status change (see CLAUDE.md, “Keeping the status”).
 The GitHub issues are authoritative; this file is the summary.
 
-**Last updated:** 2026-10-14
+**Last updated:** 2026-10-15
 
 ## In progress
 
@@ -22,6 +22,9 @@ The GitHub issues are authoritative; this file is the summary.
 |---|---|---|
 | #13 Plant knowledge and automatic care plans | 6 of 6 closed (on the epic branch) | – |
 | #31 Outdoor plants and weather | 1 of 1 closed (on the epic branch) | – |
+| #213 Frost protection for outdoor plants | 0 of 2 closed | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
+| #216 Plant health check | 0 of 2 closed | #217 Check plant health from a photo → #218 Save health checks in the journal |
+| #219 Right spot and right amount | 0 of 2 closed | #220 Light check at a spot → #221 Water amount from pot size |
 
 **#150 Data safety and multi-device**
 
@@ -34,6 +37,8 @@ The GitHub issues are authoritative; this file is the summary.
 | Epic | Progress | Stories (in order) |
 |---|---|---|
 | #152 Signed, installable releases | 0 of 1 closed | #111 Secure the release signing key (user task) |
+| #222 Published on Google Play | 0 of 4 closed | #223 Onboarding on first start → #224 Privacy policy and data safety → #225 Store listing and screenshots → #226 Signed app bundle and release track |
+| #227 Green Friend on iPhone | 0 of 3 closed | #228 iOS build in CI → #229 iOS permissions, notifications and calendar → #230 TestFlight distribution |
 
 **#148 Daily plant care**
 
@@ -41,6 +46,9 @@ The GitHub issues are authoritative; this file is the summary.
 |---|---|---|
 | #175 Care done in one tap | 2 of 2 closed (on the epic branch) | – |
 | #184 Care plan in the phone calendar | 1 of 1 closed (on the epic branch) | – |
+| #204 Care at a glance on the home screen | 0 of 2 closed | #205 Home-screen widget: care due today → #206 Mark care as done from the widget |
+| #207 Plants cared for while I am away | 0 of 2 closed | #208 Vacation mode pauses my reminders → #209 Share a care plan with a plant sitter |
+| #210 Motivation through progress | 0 of 2 closed | #211 Care statistics and streaks → #212 Growth time-lapse from journal photos |
 
 Guiding principle: as much as possible happens automatically (photo → species → care plan → calendar → one daily notification).
 
@@ -69,6 +77,7 @@ Guiding principle: as much as possible happens automatically (photo → species 
 ## Open decisions (user only)
 
 - Epics #13, #31, #175, #184: test the epic-test APK (photo identification needs your plant.id key; weather needs a place under More → Settings); then OK to merge into `main`?
-- Initiatives #148–#151 and epics #152, #175, #184 are new – please confirm or re-sort
+- Initiatives #148–#151 and epics #152, #175, #184 are new; epics #204, #207, #210, #213, #216, #219, #222, #227 (from the ideas, all stories `backlog`) – please confirm, re-sort and pick the order
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
-- iOS: Android first, plugins chosen iOS-ready (2026-10-14); an iOS build becomes its own epic in #151 when you decide (needs a Mac or macOS CI and an Apple developer account)
+- iOS (epic #227): Android first, plugins iOS-ready (2026-10-14); start only after you decide (needs a Mac or macOS CI and an Apple developer account)
+- Google Play (epic #222): developer account (one-off fee) and where to host the privacy policy
