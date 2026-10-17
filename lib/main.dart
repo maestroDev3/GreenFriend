@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/gif_timelapse_encoder.dart';
 import 'data/bundled_species_catalog.dart';
 import 'data/bundled_tips.dart';
 import 'data/device_phone_calendar.dart';
@@ -110,6 +111,7 @@ Future<void> main() async {
       calendarSync: calendarSync,
       missingSpecies: SharedPreferencesMissingSpeciesRepository(preferences),
       weatherSync: weatherSync,
+      timelapseEncoder: const GifTimelapseEncoder(),
     ),
   );
 }

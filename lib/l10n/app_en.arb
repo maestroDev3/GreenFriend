@@ -1194,5 +1194,33 @@
         "type": "int"
       }
     }
+  },
+  "timelapseTitle": "Time-lapse",
+  "@timelapseTitle": {
+    "description": "Title of the growth time-lapse screen and tooltip of its action in the timeline."
+  },
+  "timelapseShare": "Share as GIF",
+  "@timelapseShare": {
+    "description": "Button that encodes the time-lapse as an animated GIF and shares it."
+  },
+  "timelapseCreating": "Creating GIF …",
+  "@timelapseCreating": {
+    "description": "Button label while the GIF is being encoded."
+  },
+  "timelapseFailed": "The time-lapse could not be created.",
+  "@timelapseFailed": {
+    "description": "Shown when no GIF could be made, e.g. no photo is readable."
+  },
+  "timelapsePosition": "{index} of {count}",
+  "@timelapsePosition": {
+    "description": "Which photo of the time-lapse is shown.",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

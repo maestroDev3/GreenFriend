@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/backup_files.dart';
+import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal.dart';
@@ -35,6 +37,8 @@ class PlantDetailScreen extends StatefulWidget {
     required this.species,
     required this.photoPicker,
     required this.plantId,
+    this.fileSharing,
+    this.timelapseEncoder,
     this.clock = DateTime.now,
   });
 
@@ -47,6 +51,10 @@ class PlantDetailScreen extends StatefulWidget {
   final SpeciesCatalog species;
   final PhotoPicker photoPicker;
   final String plantId;
+
+  /// Used to share a plant's time-lapse; both `null` hide sharing.
+  final FileSharing? fileSharing;
+  final TimelapseEncoder? timelapseEncoder;
 
   /// Supplies today's date for the next watering.
   final Clock clock;
@@ -87,6 +95,8 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
           plantId: widget.plantId,
           journal: widget.journal,
           photos: widget.photos,
+          fileSharing: widget.fileSharing,
+          timelapseEncoder: widget.timelapseEncoder,
         ),
       ),
     );

@@ -27,12 +27,21 @@ class FakeFileSharing implements FileSharing {
   final String? picked;
   final shared = <String>[];
   final sharedTexts = <String>[];
+  final sharedBytes = <({List<int> bytes, String fileName, String mimeType})>[];
 
   @override
   Future<String> temporaryPath(String fileName) async => '/tmp/$fileName';
 
   @override
   Future<void> shareFile(String path) async => shared.add(path);
+
+  @override
+  Future<void> shareBytes(
+    List<int> bytes, {
+    required String fileName,
+    required String mimeType,
+  }) async =>
+      sharedBytes.add((bytes: bytes, fileName: fileName, mimeType: mimeType));
 
   @override
   Future<void> shareText(String text, {String? subject}) async =>
