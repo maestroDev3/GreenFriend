@@ -5,6 +5,7 @@ import 'package:green_friend/domain/care_actions.dart';
 import 'package:green_friend/domain/notification_scheduler.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/domain/reminders.dart';
+import 'package:green_friend/domain/vacation.dart';
 import 'package:green_friend/l10n/app_localizations.dart';
 import 'package:green_friend/ui/reminder_sync.dart';
 import 'package:green_friend/ui/settings_controller.dart';
@@ -258,6 +259,18 @@ void main() {
 
       expect(setup.scheduler.scheduled, isNotEmpty);
       expect(setup.scheduler.permissionRequests, 0);
+    });
+
+    test('replans when a vacation is set', () async {
+      final setup = Setup(plants: [monstera()]);
+      await setup.start();
+
+      await setup.settings.setVacation(
+        Vacation(first: DateTime(2026, 9, 30), last: DateTime(2026, 10, 5)),
+      );
+      await setup.sync.idle;
+
+      expect(setup.scheduler.scheduled.first.at, DateTime(2026, 10, 6, 9));
     });
   });
 }
