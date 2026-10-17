@@ -49,9 +49,10 @@ List<SitterDay> sitterPlan(
   final byDay = <DateTime, Map<String, (Plant, Set<CareKind>)>>{};
   for (final task in tasks) {
     final plantsOfDay = byDay.putIfAbsent(task.day, () => {});
-    plantsOfDay.putIfAbsent(task.plant.id, () => (task.plant, {})).$2.add(
-      task.kind,
-    );
+    plantsOfDay
+        .putIfAbsent(task.plant.id, () => (task.plant, {}))
+        .$2
+        .add(task.kind);
   }
   final days = byDay.keys.toList()..sort();
   return [

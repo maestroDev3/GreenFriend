@@ -37,10 +37,10 @@ void main() {
         today: DateTime(2026, 10, 17),
       );
 
-      expect([for (final day in plan) day.day], [
-        DateTime.utc(2026, 10, 21),
-        DateTime.utc(2026, 10, 24),
-      ]);
+      expect(
+        [for (final day in plan) day.day],
+        [DateTime.utc(2026, 10, 21), DateTime.utc(2026, 10, 24)],
+      );
       final first = plan.first.entries;
       expect(first.map((entry) => entry.plantName), ['Monstera']);
       expect(first.single.location, 'Living room');

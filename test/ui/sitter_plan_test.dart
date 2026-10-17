@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:green_friend/domain/care_log.dart';
 import 'package:green_friend/domain/plant.dart';
 import 'package:green_friend/domain/sitter_plan.dart';
@@ -36,6 +35,8 @@ final plan = [
 ];
 
 void main() {
+  setUpAll(initializeDateFormatting);
+
   group('sitterPlanText', () {
     test('has a heading, one block per day and one line per plant', () {
       final text = sitterPlanText(
