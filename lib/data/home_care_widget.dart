@@ -33,7 +33,10 @@ class HomeCareWidget implements CareWidget {
   Future<void> show(CareWidgetContent content) async {
     final rows = min(content.lines.length, CareWidgetKeys.maxRows);
     final day = content.day.toIso8601String().substring(0, 10);
-    await HomeWidget.saveWidgetData<String>(CareWidgetKeys.title, content.title);
+    await HomeWidget.saveWidgetData<String>(
+      CareWidgetKeys.title,
+      content.title,
+    );
     await HomeWidget.saveWidgetData<String>(
       CareWidgetKeys.empty,
       content.emptyText,

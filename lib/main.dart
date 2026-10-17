@@ -52,8 +52,11 @@ Future<void> main() async {
     localizations: () => appLocalizationsFor(settings),
   ).start();
 
-  WidgetSync(plants: plants, settings: settings, widget: HomeCareWidget())
-    .start();
+  WidgetSync(
+    plants: plants,
+    settings: settings,
+    widget: HomeCareWidget(),
+  ).start();
 
   final calendarSync = CalendarSync(
     plants: plants,

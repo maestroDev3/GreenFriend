@@ -29,37 +29,40 @@ void main() {
           });
     });
 
-    test('saves the texts and up to five rows, then updates the widget', () async {
-      await HomeCareWidget().show(
-        CareWidgetContent(
-          title: 'Care today',
-          emptyText: 'All happy',
-          staleText: 'Open the app',
-          day: DateTime.utc(2026, 10, 17),
-          lines: [
-            for (var i = 0; i < 6; i++)
-              CareWidgetLine(
-                plantId: 'p$i',
-                name: 'Plant $i',
-                tasks: 'Water',
-                kinds: const [Water()],
-              ),
-          ],
-        ),
-      );
+    test(
+      'saves the texts and up to five rows, then updates the widget',
+      () async {
+        await HomeCareWidget().show(
+          CareWidgetContent(
+            title: 'Care today',
+            emptyText: 'All happy',
+            staleText: 'Open the app',
+            day: DateTime.utc(2026, 10, 17),
+            lines: [
+              for (var i = 0; i < 6; i++)
+                CareWidgetLine(
+                  plantId: 'p$i',
+                  name: 'Plant $i',
+                  tasks: 'Water',
+                  kinds: const [Water()],
+                ),
+            ],
+          ),
+        );
 
-      expect(saved[CareWidgetKeys.title], 'Care today');
-      expect(saved[CareWidgetKeys.empty], 'All happy');
-      expect(saved[CareWidgetKeys.stale], 'Open the app');
-      expect(saved[CareWidgetKeys.day], '2026-10-17');
-      expect(saved[CareWidgetKeys.count], 5);
-      expect(saved[CareWidgetKeys.name(0)], 'Plant 0');
-      expect(saved[CareWidgetKeys.tasks(4)], 'Water');
-      expect(saved.containsKey(CareWidgetKeys.name(5)), isFalse);
-      expect(
-        updates.single['qualifiedAndroidName'],
-        CareWidgetKeys.androidProvider,
-      );
-    });
+        expect(saved[CareWidgetKeys.title], 'Care today');
+        expect(saved[CareWidgetKeys.empty], 'All happy');
+        expect(saved[CareWidgetKeys.stale], 'Open the app');
+        expect(saved[CareWidgetKeys.day], '2026-10-17');
+        expect(saved[CareWidgetKeys.count], 5);
+        expect(saved[CareWidgetKeys.name(0)], 'Plant 0');
+        expect(saved[CareWidgetKeys.tasks(4)], 'Water');
+        expect(saved.containsKey(CareWidgetKeys.name(5)), isFalse);
+        expect(
+          updates.single['qualifiedAndroidName'],
+          CareWidgetKeys.androidProvider,
+        );
+      },
+    );
   });
 }

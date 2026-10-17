@@ -9,9 +9,8 @@ const providerPath =
 void main() {
   group('home-screen widget setup', () {
     test('declares the widget receiver with its provider info', () {
-      final manifest = File(
-        'android/app/src/main/AndroidManifest.xml',
-      ).readAsStringSync();
+      final manifest = File('android/app/src/main/AndroidManifest.xml')
+          .readAsStringSync();
 
       expect(manifest, contains('.CareWidgetProvider'));
       expect(manifest, contains('android.appwidget.action.APPWIDGET_UPDATE'));
