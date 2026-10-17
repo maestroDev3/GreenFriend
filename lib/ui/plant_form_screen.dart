@@ -18,6 +18,7 @@ import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../l10n/app_localizations.dart';
 import 'settings_controller.dart';
+import 'widgets/photo_source_sheet.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
 ///
@@ -201,16 +202,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       );
       return;
     }
-    final source = await showModalBottomSheet<_PhotoSource>(
-      context: context,
-      showDragHandle: true,
-      builder: (context) => const _PhotoSourceSheet(),
-    );
-    if (source == null) return;
-    final path = await switch (source) {
-      _PhotoSource.camera => picker.takePhoto(),
-      _PhotoSource.gallery => picker.pickFromGallery(),
-    };
+    final path = await pickPhotoWithSource(context, picker);
     if (path == null || !mounted) return;
     final language = Localizations.localeOf(context).languageCode;
     final messenger = ScaffoldMessenger.of(context);
@@ -587,35 +579,6 @@ String _failureMessage(AppLocalizations l10n, IdentificationFailure failure) =>
       NotAPlant() => l10n.identifyNotAPlant,
       ServiceUnavailable() => l10n.identifyUnavailable,
     };
-
-enum _PhotoSource { camera, gallery }
-
-/// Lets the user choose between camera and gallery for identification.
-class _PhotoSourceSheet extends StatelessWidget {
-  const _PhotoSourceSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.photo_camera_outlined),
-            title: Text(l10n.takePhoto),
-            onTap: () => Navigator.of(context).pop(_PhotoSource.camera),
-          ),
-          ListTile(
-            leading: const Icon(Icons.photo_library_outlined),
-            title: Text(l10n.choosePhoto),
-            onTap: () => Navigator.of(context).pop(_PhotoSource.gallery),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 /// The best identification results; pops with the chosen candidate, or
 /// `null` to enter the plant manually.
