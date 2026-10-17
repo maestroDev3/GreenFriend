@@ -1,5 +1,6 @@
 import 'care_log.dart';
 import 'care_log_repository.dart';
+import 'care_widget.dart';
 import 'clock.dart';
 import 'journal_actions.dart';
 import 'journal_repository.dart';
@@ -102,6 +103,29 @@ Future<bool> completeCareFromAction({
     today: day,
   );
   return true;
+}
+
+/// Records the care of a widget check button ([careWidgetUri]) [today]:
+/// every kind of the row. Returns `false` for other links.
+Future<bool> completeCareFromWidget({
+  required PlantRepository plants,
+  required CareLogRepository careLogs,
+  required Uri? uri,
+  required DateTime today,
+}) async {
+  final row = parseCareWidgetUri(uri);
+  if (row == null) return false;
+  var done = false;
+  for (final kind in row.kinds) {
+    final recorded = await completeCareFromAction(
+      plants: plants,
+      careLogs: careLogs,
+      actionId: careActionId(row.plantId, kind),
+      today: today,
+    );
+    done = done || recorded;
+  }
+  return done;
 }
 
 /// Deletes a plant together with its care history, journal and photos.

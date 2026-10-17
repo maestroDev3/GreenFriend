@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/bundled_species_catalog.dart';
@@ -20,6 +21,7 @@ import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'data/zip_backup_archive.dart';
 import 'notification_actions.dart';
+import 'widget_actions.dart';
 import 'ui/app.dart';
 import 'ui/calendar_sync.dart';
 import 'ui/font_licenses.dart';
@@ -57,6 +59,7 @@ Future<void> main() async {
     settings: settings,
     widget: HomeCareWidget(),
   ).start();
+  unawaited(HomeWidget.registerInteractivityCallback(onCareWidgetClicked));
 
   final calendarSync = CalendarSync(
     plants: plants,

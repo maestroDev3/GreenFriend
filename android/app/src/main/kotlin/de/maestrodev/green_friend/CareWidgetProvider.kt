@@ -3,8 +3,10 @@ package de.maestrodev.green_friend
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
+import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 import java.text.SimpleDateFormat
@@ -51,6 +53,18 @@ class CareWidgetProvider : HomeWidgetProvider() {
                 views.setViewVisibility(row.container, View.VISIBLE)
                 views.setTextViewText(row.name, data.getString("care_row_${index}_name", ""))
                 views.setTextViewText(row.tasks, data.getString("care_row_${index}_tasks", ""))
+                val uri = data.getString("care_row_${index}_uri", null)
+                if (uri == null) {
+                    views.setViewVisibility(row.check, View.GONE)
+                } else {
+                    // Records the care in the background (Dart callback in
+                    // lib/widget_actions.dart) without opening the app.
+                    views.setViewVisibility(row.check, View.VISIBLE)
+                    views.setOnClickPendingIntent(
+                        row.check,
+                        HomeWidgetBackgroundIntent.getBroadcast(context, Uri.parse(uri)),
+                    )
+                }
             } else {
                 views.setViewVisibility(row.container, View.GONE)
             }
