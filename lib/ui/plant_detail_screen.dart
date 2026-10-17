@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../domain/frost.dart';
 import '../domain/health.dart';
+import '../domain/light_check.dart';
 import '../domain/backup_files.dart';
 import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
@@ -21,6 +22,7 @@ import '../domain/season.dart';
 import '../l10n/app_localizations.dart';
 import 'compare_screen.dart';
 import 'health_check_screen.dart';
+import 'light_check_screen.dart';
 import 'journal_entry_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_controller.dart';
@@ -45,6 +47,7 @@ class PlantDetailScreen extends StatefulWidget {
     this.fileSharing,
     this.timelapseEncoder,
     this.healthChecker,
+    this.lightSensor,
     this.clock = DateTime.now,
   });
 
@@ -64,6 +67,9 @@ class PlantDetailScreen extends StatefulWidget {
 
   /// Checks the plant's health on a photo; `null` hides the health check.
   final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
 
   /// Supplies today's date for the next watering.
   final Clock clock;
@@ -174,6 +180,22 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
     );
   }
 
+  void _checkLight(Plant plant, LightSensor sensor) {
+    final need = switch (plant.speciesId) {
+      final id? => widget.species.byId(id)?.light,
+      null => null,
+    };
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => LightCheckScreen(
+          sensor: sensor,
+          plantName: plant.name,
+          need: need,
+        ),
+      ),
+    );
+  }
+
   void _openComparison() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -241,6 +263,15 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
         return Scaffold(
           appBar: AppBar(
             actions: [
+              if ((plant, widget.lightSensor) case (
+                final plant?,
+                final sensor?,
+              ))
+                IconButton(
+                  icon: const Icon(Icons.light_mode_outlined),
+                  tooltip: l10n.lightCheckTitle,
+                  onPressed: () => _checkLight(plant, sensor),
+                ),
               if ((plant, widget.healthChecker) case (_?, final checker?))
                 IconButton(
                   icon: const Icon(Icons.health_and_safety_outlined),

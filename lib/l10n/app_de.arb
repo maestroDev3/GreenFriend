@@ -249,5 +249,18 @@
   "healthChemical": "Chemische Behandlung",
   "healthSaveToJournal": "Im Tagebuch speichern",
   "healthNoteHealthy": "Gesundheitscheck: sieht gesund aus",
-  "healthNoteProblems": "Gesundheitscheck: {problems}"
+  "healthNoteProblems": "Gesundheitscheck: {problems}",
+  "lightCheckTitle": "Lichtcheck",
+  "lightCheckHint": "Halte das Handy dorthin, wo die Pflanze steht, mit dem Bildschirm zum Fenster.",
+  "lightMeasuring": "Messe …",
+  "luxValue": "{lux} lx",
+  "lightTooDark": "Zu dunkel für {plant}",
+  "lightFine": "Gutes Licht für {plant}",
+  "lightTooBright": "Zu hell für {plant}",
+  "lightNeeds": "Braucht: {light}",
+  "lightShadySpot": "Schattiger Platz",
+  "lightBrightSpot": "Heller Platz",
+  "lightSunnySpot": "Sonniger Platz",
+  "lightMeasureAgain": "Neu messen",
+  "lightNoSensor": "Dieses Handy hat keinen Lichtsensor, daher kann das Licht nicht gemessen werden."
 }

@@ -11,6 +11,7 @@ import '../domain/species.dart';
 import '../domain/settings.dart';
 import '../domain/tips.dart';
 import '../domain/health.dart';
+import '../domain/light_check.dart';
 import '../domain/timelapse.dart';
 import '../l10n/app_localizations.dart';
 import 'app_shell.dart';
@@ -41,6 +42,7 @@ class GreenFriendApp extends StatelessWidget {
     this.weatherSync,
     this.timelapseEncoder,
     this.healthChecker,
+    this.lightSensor,
   });
 
   final SettingsController settings;
@@ -60,6 +62,9 @@ class GreenFriendApp extends StatelessWidget {
 
   /// Checks a plant's health on a photo; `null` hides the health check.
   final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
 
   /// Identifies new plants from a photo; `null` hides that option.
   final PlantIdentifier? identifier;
@@ -114,6 +119,7 @@ class GreenFriendApp extends StatelessWidget {
             weather: weatherSync,
             timelapseEncoder: timelapseEncoder,
             healthChecker: healthChecker,
+            lightSensor: lightSensor,
           ),
         ),
       ),

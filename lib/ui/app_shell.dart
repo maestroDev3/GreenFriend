@@ -11,6 +11,7 @@ import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../domain/tips.dart';
 import '../domain/health.dart';
+import '../domain/light_check.dart';
 import '../domain/timelapse.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
@@ -39,6 +40,7 @@ class AppShell extends StatefulWidget {
     this.weather,
     this.timelapseEncoder,
     this.healthChecker,
+    this.lightSensor,
     this.clock = DateTime.now,
   });
 
@@ -58,6 +60,9 @@ class AppShell extends StatefulWidget {
 
   /// Checks a plant's health on a photo; `null` hides the health check.
   final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
 
   /// Identifies new plants from a photo; `null` hides that option.
   final PlantIdentifier? identifier;
@@ -121,6 +126,7 @@ class _AppShellState extends State<AppShell> {
             fileSharing: widget.fileSharing,
             timelapseEncoder: widget.timelapseEncoder,
             healthChecker: widget.healthChecker,
+            lightSensor: widget.lightSensor,
             tips: widget.tips,
             weather: widget.weather,
             clock: widget.clock,
@@ -136,6 +142,7 @@ class _AppShellState extends State<AppShell> {
             fileSharing: widget.fileSharing,
             timelapseEncoder: widget.timelapseEncoder,
             healthChecker: widget.healthChecker,
+            lightSensor: widget.lightSensor,
             clock: widget.clock,
           ),
           CalendarScreen(

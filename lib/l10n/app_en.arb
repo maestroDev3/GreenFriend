@@ -1366,5 +1366,82 @@
         "type": "String"
       }
     }
+  },
+  "lightCheckTitle": "Light check",
+  "@lightCheckTitle": {
+    "description": "Title of the light measurement screen and tooltip of its action on the plant detail page."
+  },
+  "lightCheckHint": "Hold the phone where the plant stands, with the screen facing the window.",
+  "@lightCheckHint": {
+    "description": "Instruction on the light check screen."
+  },
+  "lightMeasuring": "Measuring …",
+  "@lightMeasuring": {
+    "description": "Shown while the light is measured."
+  },
+  "luxValue": "{lux} lx",
+  "@luxValue": {
+    "description": "A light value in lux, e.g. 1,200 lx.",
+    "placeholders": {
+      "lux": {
+        "type": "String"
+      }
+    }
+  },
+  "lightTooDark": "Too dark for {plant}",
+  "@lightTooDark": {
+    "description": "Light check verdict.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "lightFine": "Good light for {plant}",
+  "@lightFine": {
+    "description": "Light check verdict.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "lightTooBright": "Too bright for {plant}",
+  "@lightTooBright": {
+    "description": "Light check verdict.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "lightNeeds": "Needs: {light}",
+  "@lightNeeds": {
+    "description": "The light need of the plant's species on the light check screen.",
+    "placeholders": {
+      "light": {
+        "type": "String"
+      }
+    }
+  },
+  "lightShadySpot": "Shady spot",
+  "@lightShadySpot": {
+    "description": "Rough classification of a measured light below 1,000 lux (plant without species)."
+  },
+  "lightBrightSpot": "Bright spot",
+  "@lightBrightSpot": {
+    "description": "Rough classification of a measured light from 1,000 to 10,000 lux."
+  },
+  "lightSunnySpot": "Sunny spot",
+  "@lightSunnySpot": {
+    "description": "Rough classification of a measured light from 10,000 lux."
+  },
+  "lightMeasureAgain": "Measure again",
+  "@lightMeasureAgain": {
+    "description": "Button that starts another light measurement."
+  },
+  "lightNoSensor": "This phone has no light sensor, so the light cannot be measured.",
+  "@lightNoSensor": {
+    "description": "Shown on phones without ambient light sensor."
   }
 }
