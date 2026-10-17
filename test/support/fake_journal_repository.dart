@@ -48,6 +48,7 @@ class FakeJournalRepository implements JournalRepository {
     required DateTime day,
     String? note,
     String? photo,
+    bool healthCheck = false,
   }) async {
     final entry = JournalEntry(
       id: 'entry-${_nextId++}',
@@ -55,6 +56,7 @@ class FakeJournalRepository implements JournalRepository {
       day: day,
       note: note,
       photo: photo,
+      healthCheck: healthCheck,
     );
     _entries.add(entry);
     _changes.add(List.unmodifiable(_entries));

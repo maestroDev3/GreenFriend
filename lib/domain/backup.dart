@@ -170,6 +170,7 @@ Map<String, Object?> _entryToJson(JournalEntry entry) => {
   'day': _day(entry.day),
   'note': entry.note,
   'photo': entry.photo,
+  if (entry.healthCheck) 'healthCheck': true,
 };
 
 JournalEntry _entryFromJson(Map<String, dynamic> json) => JournalEntry(
@@ -178,4 +179,5 @@ JournalEntry _entryFromJson(Map<String, dynamic> json) => JournalEntry(
   day: DateTime.parse(json['day'] as String),
   note: json['note'] as String?,
   photo: json['photo'] as String?,
+  healthCheck: json['healthCheck'] as bool? ?? false,
 );

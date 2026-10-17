@@ -62,6 +62,7 @@ class SharedPreferencesJournalRepository implements JournalRepository {
     required DateTime day,
     String? note,
     String? photo,
+    bool healthCheck = false,
   }) async {
     final entry = JournalEntry(
       id: _newId(),
@@ -69,6 +70,7 @@ class SharedPreferencesJournalRepository implements JournalRepository {
       day: day,
       note: note,
       photo: photo,
+      healthCheck: healthCheck,
     );
     await _save([..._entries, entry]);
     return entry;
@@ -126,6 +128,7 @@ class SharedPreferencesJournalRepository implements JournalRepository {
         '${entry.day.day.toString().padLeft(2, '0')}',
     'note': entry.note,
     'photo': entry.photo,
+    if (entry.healthCheck) 'healthCheck': true,
   };
 
   static JournalEntry _fromJson(Map<String, dynamic> json) => JournalEntry(
@@ -134,5 +137,6 @@ class SharedPreferencesJournalRepository implements JournalRepository {
     day: DateTime.parse(json['day'] as String),
     note: json['note'] as String?,
     photo: json['photo'] as String?,
+    healthCheck: json['healthCheck'] as bool? ?? false,
   );
 }
