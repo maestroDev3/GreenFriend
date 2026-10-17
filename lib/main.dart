@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'data/gif_timelapse_encoder.dart';
 import 'data/bundled_species_catalog.dart';
 import 'data/bundled_tips.dart';
+import 'data/channel_light_sensor.dart';
 import 'data/device_phone_calendar.dart';
 import 'data/file_photo_store.dart';
 import 'data/home_care_widget.dart';
@@ -116,6 +117,7 @@ Future<void> main() async {
       weatherSync: weatherSync,
       timelapseEncoder: const GifTimelapseEncoder(),
       healthChecker: PlantIdHealthChecker(),
+      lightSensor: const ChannelLightSensor(),
     ),
   );
 }

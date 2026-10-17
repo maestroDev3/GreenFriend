@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../domain/backup_files.dart';
 import '../domain/health.dart';
+import '../domain/light_check.dart';
 import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
@@ -43,6 +44,7 @@ class HomeScreen extends StatefulWidget {
     this.fileSharing,
     this.timelapseEncoder,
     this.healthChecker,
+    this.lightSensor,
     this.tips,
     this.weather,
     this.clock = DateTime.now,
@@ -64,6 +66,9 @@ class HomeScreen extends StatefulWidget {
 
   /// Checks a plant's health on a photo; `null` hides the health check.
   final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
 
   /// Care tips for the "Tip of the day" card; `null` hides the card.
   final TipCatalog? tips;
@@ -233,6 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
           fileSharing: widget.fileSharing,
           timelapseEncoder: widget.timelapseEncoder,
           healthChecker: widget.healthChecker,
+          lightSensor: widget.lightSensor,
           clock: widget.clock,
         ),
       ),
