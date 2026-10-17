@@ -10,13 +10,23 @@ import '../domain/notification_scheduler.dart';
 /// Scheduling is inexact (may be a few minutes late), so the app needs no
 /// exact-alarm permission; the plugin restores notifications after a reboot.
 class LocalNotificationScheduler implements NotificationScheduler {
-  LocalNotificationScheduler._(this._plugin, this._location, this._details);
+  LocalNotificationScheduler._(
+    this._plugin,
+    this._location,
+    this._channelName,
+    this._channelDescription,
+  );
 
   /// Initializes the plugin and time zones; [channelName] and
   /// [channelDescription] appear in the system notification settings.
+  ///
+  /// [onBackgroundAction] runs in a background isolate when the user taps a
+  /// notification button; it must be a top-level function annotated with
+  /// `@pragma('vm:entry-point')`.
   static Future<LocalNotificationScheduler> create({
     required String channelName,
     required String channelDescription,
+    DidReceiveBackgroundNotificationResponseCallback? onBackgroundAction,
   }) async {
     tz_data.initializeTimeZones();
     final zone = await FlutterTimezone.getLocalTimezone();
@@ -30,22 +40,35 @@ class LocalNotificationScheduler implements NotificationScheduler {
           '@drawable/ic_launcher_monochrome',
         ),
       ),
+      onDidReceiveBackgroundNotificationResponse: onBackgroundAction,
     );
-    final details = NotificationDetails(
-      android: AndroidNotificationDetails(
-        'daily_reminder',
-        channelName,
-        channelDescription: channelDescription,
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority,
-      ),
+    return LocalNotificationScheduler._(
+      plugin,
+      location,
+      channelName,
+      channelDescription,
     );
-    return LocalNotificationScheduler._(plugin, location, details);
   }
 
   final FlutterLocalNotificationsPlugin _plugin;
   final tz.Location _location;
-  final NotificationDetails _details;
+  final String _channelName;
+  final String _channelDescription;
+
+  NotificationDetails _detailsFor(ScheduledNotification notification) =>
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          'daily_reminder',
+          _channelName,
+          channelDescription: _channelDescription,
+          importance: Importance.defaultImportance,
+          priority: Priority.defaultPriority,
+          actions: [
+            for (final action in notification.actions)
+              AndroidNotificationAction(action.id, action.label),
+          ],
+        ),
+      );
 
   @override
   Future<bool> requestPermission() async {
@@ -63,7 +86,7 @@ class LocalNotificationScheduler implements NotificationScheduler {
       await _plugin.zonedSchedule(
         id: notification.id,
         scheduledDate: toZonedTime(notification.at, _location),
-        notificationDetails: _details,
+        notificationDetails: _detailsFor(notification),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         title: notification.title,
         body: notification.body,

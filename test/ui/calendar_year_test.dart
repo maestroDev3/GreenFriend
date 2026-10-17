@@ -22,6 +22,7 @@ Future<void> pumpYear(
           name: 'Weekly',
           wateringIntervalDays: 7,
           lastWateredOn: DateTime(2026, 9, 28),
+          winterRest: false,
         ),
       ]),
       careLogs: FakeCareLogRepository(),

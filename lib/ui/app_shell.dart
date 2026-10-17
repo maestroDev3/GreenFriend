@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
 import '../domain/care_log_repository.dart';
+import '../domain/identification.dart';
 import '../domain/journal_repository.dart';
+import '../domain/missing_species.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
+import '../domain/tips.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
 import 'home_screen.dart';
 import 'more_screen.dart';
 import 'plant_form_screen.dart';
 import 'plants_screen.dart';
+import 'weather_sync.dart';
 
 /// The main frame of the app: Home, Plants, Calendar and More in a bottom
 /// bar, with a round add button in the middle.
@@ -27,6 +31,10 @@ class AppShell extends StatefulWidget {
     required this.photoPicker,
     required this.backupArchive,
     required this.fileSharing,
+    this.identifier,
+    this.tips,
+    this.missingSpecies,
+    this.weather,
     this.clock = DateTime.now,
   });
 
@@ -40,6 +48,18 @@ class AppShell extends StatefulWidget {
   final PhotoPicker photoPicker;
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
+
+  /// Identifies new plants from a photo; `null` hides that option.
+  final PlantIdentifier? identifier;
+
+  /// Care tips for the home screen; `null` hides the tip card.
+  final TipCatalog? tips;
+
+  /// Identified species without a care profile; `null` hides the list.
+  final MissingSpeciesRepository? missingSpecies;
+
+  /// Weather hint for outdoor plants; `null` hides it.
+  final WeatherSync? weather;
   final Clock clock;
 
   @override
@@ -58,6 +78,9 @@ class _AppShellState extends State<AppShell> {
           careLogs: widget.careLogs,
           journal: widget.journal,
           photos: widget.photos,
+          photoPicker: widget.photoPicker,
+          identifier: widget.identifier,
+          missingSpecies: widget.missingSpecies,
           clock: widget.clock,
         ),
       ),
@@ -85,6 +108,8 @@ class _AppShellState extends State<AppShell> {
             journal: widget.journal,
             photos: widget.photos,
             photoPicker: widget.photoPicker,
+            tips: widget.tips,
+            weather: widget.weather,
             clock: widget.clock,
             showActions: false,
           ),
@@ -105,6 +130,7 @@ class _AppShellState extends State<AppShell> {
           MoreScreen(
             backupArchive: widget.backupArchive,
             fileSharing: widget.fileSharing,
+            missingSpecies: widget.missingSpecies,
           ),
         ],
       ),

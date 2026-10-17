@@ -782,5 +782,287 @@
         "type": "String"
       }
     }
+  },
+  "plantIdSection": "Plant identification",
+  "@plantIdSection": {
+    "description": "Settings section title for the photo identification service."
+  },
+  "plantIdApiKeyLabel": "plant.id API key",
+  "@plantIdApiKeyLabel": {
+    "description": "Label of the text field for the user's plant.id API key."
+  },
+  "plantIdApiKeyHelp": "Needed to identify plants from a photo. Create a key at admin.kindwise.com – it is stored only on this phone.",
+  "@plantIdApiKeyHelp": {
+    "description": "Explanation below the plant.id API key field."
+  },
+  "showApiKey": "Show key",
+  "@showApiKey": {
+    "description": "Tooltip of the button that reveals the hidden API key."
+  },
+  "hideApiKey": "Hide key",
+  "@hideApiKey": {
+    "description": "Tooltip of the button that hides the API key."
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Button that closes an information dialog."
+  },
+  "identifyFromPhoto": "Identify from photo",
+  "@identifyFromPhoto": {
+    "description": "Button in the add-plant form that identifies the species from a photo."
+  },
+  "identifyingPlant": "Identifying plant…",
+  "@identifyingPlant": {
+    "description": "Shown while the photo is being identified."
+  },
+  "apiKeyNeededTitle": "API key needed",
+  "@apiKeyNeededTitle": {
+    "description": "Title of the dialog shown when photo identification has no API key."
+  },
+  "apiKeyNeededMessage": "To identify plants from a photo, enter your plant.id API key in the settings (More → Settings → Plant identification).",
+  "@apiKeyNeededMessage": {
+    "description": "Explains where to enter the plant.id API key."
+  },
+  "identificationResultsTitle": "Which plant is it?",
+  "@identificationResultsTitle": {
+    "description": "Title of the sheet listing the identified species."
+  },
+  "uncertainCandidate": "Uncertain",
+  "@uncertainCandidate": {
+    "description": "Marks an identification result with a low probability."
+  },
+  "enterManually": "Enter manually",
+  "@enterManually": {
+    "description": "Closes the identification results without picking one."
+  },
+  "intervalsFromGenus": "Care intervals taken from {species} (same genus) – adjust them if needed.",
+  "@intervalsFromGenus": {
+    "description": "Shown when the identified species is unknown but a species of the same genus provided the intervals.",
+    "placeholders": {
+      "species": {
+        "type": "String"
+      }
+    }
+  },
+  "intervalsUnknownSpecies": "{species} is not in the plant database yet – please enter the care intervals.",
+  "@intervalsUnknownSpecies": {
+    "description": "Shown when the identified species and its genus are not in the plant database.",
+    "placeholders": {
+      "species": {
+        "type": "String"
+      }
+    }
+  },
+  "photoGoesToJournal": "This photo will be the first entry in the plant's journal.",
+  "@photoGoesToJournal": {
+    "description": "Hint below the identification photo in the add-plant form."
+  },
+  "identifyInvalidKey": "The plant.id API key was rejected. Please check it in the settings.",
+  "@identifyInvalidKey": {
+    "description": "Error when the identification service rejects the API key."
+  },
+  "identifyNoCredits": "Your plant.id credits are used up.",
+  "@identifyNoCredits": {
+    "description": "Error when the identification account has no credits left."
+  },
+  "identifyNotAPlant": "No plant found on this photo – try another one.",
+  "@identifyNotAPlant": {
+    "description": "Error when the photo does not show a plant."
+  },
+  "identifyUnavailable": "Plant identification is not reachable. Check your internet connection and try again.",
+  "@identifyUnavailable": {
+    "description": "Error when the identification service cannot be reached."
+  },
+  "winterRestSwitch": "Winter rest (Nov–Feb)",
+  "@winterRestSwitch": {
+    "description": "Switch in the plant form that slows down watering and pauses fertilizing in winter."
+  },
+  "winterRestSwitchHelp": "Water less and no fertilizer from November to February.",
+  "@winterRestSwitchHelp": {
+    "description": "Explanation below the winter rest switch."
+  },
+  "winterRestTitle": "Winter rest",
+  "@winterRestTitle": {
+    "description": "Title of the detail-page tile shown while winter rest is active."
+  },
+  "winterRestActive": "Water less, no fertilizer until March",
+  "@winterRestActive": {
+    "description": "Detail-page text while winter rest is active."
+  },
+  "tipOfTheDay": "Tip of the day",
+  "@tipOfTheDay": {
+    "description": "Title of the care tip card on the home screen."
+  },
+  "tipForPlant": "For your {plant}",
+  "@tipForPlant": {
+    "description": "Names the user's plant a tip of the day is about.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "dismissTip": "Hide tip for today",
+  "@dismissTip": {
+    "description": "Tooltip of the button that closes the tip of the day until tomorrow."
+  },
+  "careVerbWater": "Water",
+  "@careVerbWater": {
+    "description": "Button that records watering; shown while the plant was not watered today."
+  },
+  "careVerbFertilize": "Fertilize",
+  "@careVerbFertilize": {
+    "description": "Button that records fertilizing; shown while it was not done today."
+  },
+  "careVerbRepot": "Repot",
+  "@careVerbRepot": {
+    "description": "Button that records repotting; shown while it was not done today."
+  },
+  "careVerbPrune": "Prune",
+  "@careVerbPrune": {
+    "description": "Button that records pruning; shown while it was not done today."
+  },
+  "reminderDueToday": "Due today: {tasks}",
+  "@reminderDueToday": {
+    "description": "Body of a plant's reminder notification listing the due care tasks.",
+    "placeholders": {
+      "tasks": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneCalendarSection": "Phone calendar",
+  "@phoneCalendarSection": {
+    "description": "Settings section title for syncing care tasks into a phone calendar."
+  },
+  "phoneCalendarSwitch": "Care tasks in the phone calendar",
+  "@phoneCalendarSwitch": {
+    "description": "Switch that syncs care tasks into a calendar on the phone."
+  },
+  "phoneCalendarHint": "All-day events for the next 60 days, updated automatically.",
+  "@phoneCalendarHint": {
+    "description": "Explanation below the phone calendar switch."
+  },
+  "phoneCalendarChosen": "Calendar: {calendar}",
+  "@phoneCalendarChosen": {
+    "description": "Shows the chosen phone calendar; tapping changes it.",
+    "placeholders": {
+      "calendar": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseCalendar": "Choose a calendar",
+  "@chooseCalendar": {
+    "description": "Title of the sheet listing the phone's calendars."
+  },
+  "calendarAccessDenied": "Calendar access was not allowed. You can allow it in the system settings.",
+  "@calendarAccessDenied": {
+    "description": "Shown when the user denies calendar access."
+  },
+  "noWritableCalendars": "There is no calendar on this phone the app can write to.",
+  "@noWritableCalendars": {
+    "description": "Shown when the phone has no writable calendar."
+  },
+  "calendarEventTitle": "{plant}: {tasks}",
+  "@calendarEventTitle": {
+    "description": "Title of a care event in the phone calendar, e.g. 'Monstera: Water, Fertilize'.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      },
+      "tasks": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarEventNote": "Planned by Green Friend – moves automatically when you care for the plant.",
+  "@calendarEventNote": {
+    "description": "Description of care events in the phone calendar."
+  },
+  "missingSpeciesTitle": "Missing species",
+  "@missingSpeciesTitle": {
+    "description": "Title of the screen listing identified species that are not in the plant database."
+  },
+  "missingSpeciesEmpty": "Species found by photo identification that are not in the plant database yet appear here, so they can be added in a next update.",
+  "@missingSpeciesEmpty": {
+    "description": "Empty state and explanation of the missing species screen."
+  },
+  "missingSpeciesDetail": "{name} · found {count}× · {date}",
+  "@missingSpeciesDetail": {
+    "description": "Details of a missing species: scientific name, how often it was found, last day.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "clearList": "Clear list",
+  "@clearList": {
+    "description": "Tooltip of the button that clears the missing species list."
+  },
+  "outdoorSwitch": "Outdoors (balcony, garden)",
+  "@outdoorSwitch": {
+    "description": "Switch in the plant form marking an outdoor plant, whose watering follows the weather."
+  },
+  "outdoorSwitchHelp": "Rain counts as watering when a place is set for the weather.",
+  "@outdoorSwitchHelp": {
+    "description": "Explanation below the outdoor switch."
+  },
+  "weatherSection": "Weather",
+  "@weatherSection": {
+    "description": "Settings section title for the weather place."
+  },
+  "weatherPlaceHint": "For outdoor plants: rain counts as watering, heat and rain show up on the home screen. Weather by Open-Meteo.",
+  "@weatherPlaceHint": {
+    "description": "Explanation in the weather settings section."
+  },
+  "noWeatherPlace": "No place set",
+  "@noWeatherPlace": {
+    "description": "Shown when no weather place is chosen."
+  },
+  "choosePlace": "Choose place",
+  "@choosePlace": {
+    "description": "Button that opens the place search for the weather."
+  },
+  "removePlace": "Remove place",
+  "@removePlace": {
+    "description": "Button that removes the weather place."
+  },
+  "searchPlaceLabel": "City or place",
+  "@searchPlaceLabel": {
+    "description": "Label of the place search field."
+  },
+  "noPlacesFound": "No place found.",
+  "@noPlacesFound": {
+    "description": "Shown when the place search has no results."
+  },
+  "weatherUnavailable": "The weather service is not reachable. Check your internet connection.",
+  "@weatherUnavailable": {
+    "description": "Shown when the place search fails."
+  },
+  "weatherHeat": "Hot today ({temperature} °C) – check your outdoor plants",
+  "@weatherHeat": {
+    "description": "Home screen hint on hot days.",
+    "placeholders": {
+      "temperature": {
+        "type": "int"
+      }
+    }
+  },
+  "weatherRain": "Rain expected today ({millimetres} mm) – outdoor plants get water",
+  "@weatherRain": {
+    "description": "Home screen hint when rain is expected.",
+    "placeholders": {
+      "millimetres": {
+        "type": "int"
+      }
+    }
   }
 }

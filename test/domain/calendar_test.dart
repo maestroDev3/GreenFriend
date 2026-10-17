@@ -107,6 +107,7 @@ void main() {
         name: 'Weekly',
         wateringIntervalDays: 7,
         lastWateredOn: day(2026, 9, 28),
+        winterRest: false,
       );
 
       expect(careTaskCountsByMonth([weekly], year: 2026, today: today), {

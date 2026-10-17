@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/shared_preferences_settings_repository.dart';
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
+import 'package:green_friend/domain/weather.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferencesSettingsRepository> repository() async =>
@@ -45,6 +46,67 @@ void main() {
       });
 
       expect(await (await repository()).loadLanguage(), AppLanguage.system);
+    });
+
+    test('has no plant.id API key by default', () async {
+      expect(await (await repository()).loadPlantIdApiKey(), isNull);
+    });
+
+    test('stores and reads the plant.id API key', () async {
+      await (await repository()).savePlantIdApiKey('secret-key');
+
+      expect(await (await repository()).loadPlantIdApiKey(), 'secret-key');
+    });
+
+    test('removes the plant.id API key when a blank one is saved', () async {
+      await (await repository()).savePlantIdApiKey('secret-key');
+      await (await repository()).savePlantIdApiKey('  ');
+
+      expect(await (await repository()).loadPlantIdApiKey(), isNull);
+    });
+
+    test('has no dismissed tip by default', () async {
+      expect(await (await repository()).loadTipDismissedOn(), isNull);
+    });
+
+    test('stores the day the tip was dismissed', () async {
+      await (await repository()).saveTipDismissedOn(DateTime(2026, 10, 3, 18));
+
+      expect(
+        await (await repository()).loadTipDismissedOn(),
+        DateTime.utc(2026, 10, 3),
+      );
+    });
+
+    test('has no phone calendar by default', () async {
+      expect(await (await repository()).loadPhoneCalendar(), isNull);
+    });
+
+    test('stores and removes the phone calendar', () async {
+      await (await repository()).savePhoneCalendar((id: '7', name: 'Home'));
+      expect(await (await repository()).loadPhoneCalendar(), (
+        id: '7',
+        name: 'Home',
+      ));
+
+      await (await repository()).savePhoneCalendar(null);
+      expect(await (await repository()).loadPhoneCalendar(), isNull);
+    });
+
+    test('stores and removes the weather location', () async {
+      const munich = WeatherLocation(
+        name: 'München',
+        region: 'Bayern, Deutschland',
+        latitude: 48.137,
+        longitude: 11.575,
+      );
+      expect(await (await repository()).loadWeatherLocation(), isNull);
+
+      await (await repository()).saveWeatherLocation(munich);
+      expect(await (await repository()).loadWeatherLocation(), munich);
+
+      await (await repository()).saveWeatherLocation(null);
+      expect(await (await repository()).loadWeatherLocation(), isNull);
     });
 
     test('has the daily reminder on at 9:00 by default', () async {

@@ -45,6 +45,14 @@ class SharedPreferencesPlantRepository implements PlantRepository {
   @override
   Future<List<Plant>> allPlants() async => _plants;
 
+  /// Re-reads the storage, e.g. after a notification button changed it in
+  /// a background isolate, and emits the result.
+  Future<void> reload() async {
+    await _preferences.reload();
+    _plants = _read();
+    _changes.add(_plants);
+  }
+
   @override
   Future<void> replaceAll(List<Plant> plants) => _save(plants);
 
@@ -62,6 +70,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     DateTime? lastRepottedOn,
     int? pruningIntervalMonths,
     DateTime? lastPrunedOn,
+    bool winterRest = true,
+    bool outdoor = false,
   }) async {
     final plant = Plant(
       id: _newId(),
@@ -77,6 +87,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
       lastRepottedOn: lastRepottedOn,
       pruningIntervalMonths: pruningIntervalMonths,
       lastPrunedOn: lastPrunedOn,
+      winterRest: winterRest,
+      outdoor: outdoor,
     );
     await _save([..._plants, plant]);
     return plant;
@@ -154,6 +166,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'lastRepottedOn': _isoDayOrNull(plant.lastRepottedOn),
     'pruningIntervalMonths': plant.pruningIntervalMonths,
     'lastPrunedOn': _isoDayOrNull(plant.lastPrunedOn),
+    'winterRest': plant.winterRest,
+    'outdoor': plant.outdoor,
   };
 
   static String? _isoDayOrNull(DateTime? day) =>
@@ -181,5 +195,8 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     lastRepottedOn: _dayOrNull(json['lastRepottedOn']),
     pruningIntervalMonths: json['pruningIntervalMonths'] as int?,
     lastPrunedOn: _dayOrNull(json['lastPrunedOn']),
+    // Plants stored before winter rest existed get it switched on.
+    winterRest: json['winterRest'] as bool? ?? true,
+    outdoor: json['outdoor'] as bool? ?? false,
   );
 }

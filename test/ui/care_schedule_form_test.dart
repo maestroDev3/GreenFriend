@@ -51,6 +51,8 @@ Future<void> enter(WidgetTester tester, Finder finder, String text) async {
 
 Future<void> save(WidgetTester tester) async {
   await scrollTo(tester, find.text('Save'), 100);
+  await tester.ensureVisible(find.text('Save'));
+  await tester.pumpAndSettle();
   await tester.tap(find.text('Save'));
   await tester.pumpAndSettle();
 }

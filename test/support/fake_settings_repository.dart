@@ -1,5 +1,6 @@
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
+import 'package:green_friend/domain/weather.dart';
 
 /// In-memory [SettingsRepository] for tests.
 class FakeSettingsRepository implements SettingsRepository {
@@ -7,11 +8,19 @@ class FakeSettingsRepository implements SettingsRepository {
     this.themeMode = AppThemeMode.system,
     this.language = AppLanguage.system,
     this.reminder = ReminderSettings.defaults,
+    this.plantIdApiKey,
+    this.tipDismissedOn,
+    this.phoneCalendar,
+    this.weatherLocation,
   });
 
   AppThemeMode themeMode;
   AppLanguage language;
   ReminderSettings reminder;
+  String? plantIdApiKey;
+  DateTime? tipDismissedOn;
+  CalendarChoice? phoneCalendar;
+  WeatherLocation? weatherLocation;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -30,4 +39,31 @@ class FakeSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> saveReminder(ReminderSettings value) async => reminder = value;
+
+  @override
+  Future<String?> loadPlantIdApiKey() async => plantIdApiKey;
+
+  @override
+  Future<void> savePlantIdApiKey(String? key) async =>
+      plantIdApiKey = (key == null || key.trim().isEmpty) ? null : key.trim();
+
+  @override
+  Future<DateTime?> loadTipDismissedOn() async => tipDismissedOn;
+
+  @override
+  Future<void> saveTipDismissedOn(DateTime day) async => tipDismissedOn = day;
+
+  @override
+  Future<CalendarChoice?> loadPhoneCalendar() async => phoneCalendar;
+
+  @override
+  Future<void> savePhoneCalendar(CalendarChoice? choice) async =>
+      phoneCalendar = choice;
+
+  @override
+  Future<WeatherLocation?> loadWeatherLocation() async => weatherLocation;
+
+  @override
+  Future<void> saveWeatherLocation(WeatherLocation? location) async =>
+      weatherLocation = location;
 }

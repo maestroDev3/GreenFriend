@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
+import '../domain/missing_species.dart';
 import '../l10n/app_localizations.dart';
 import 'backup_screen.dart';
+import 'missing_species_screen.dart';
 import 'settings_screen.dart';
 
 /// Settings and information about the app.
@@ -11,10 +13,14 @@ class MoreScreen extends StatelessWidget {
     super.key,
     required this.backupArchive,
     required this.fileSharing,
+    this.missingSpecies,
   });
 
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
+
+  /// Identified species without a care profile; `null` hides the entry.
+  final MissingSpeciesRepository? missingSpecies;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +57,18 @@ class MoreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (missingSpecies case final repository?)
+                  ListTile(
+                    leading: const Icon(Icons.playlist_add_outlined),
+                    title: Text(l10n.missingSpeciesTitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) =>
+                            MissingSpeciesScreen(repository: repository),
+                      ),
+                    ),
+                  ),
                 ListTile(
                   leading: const Icon(Icons.info_outline),
                   title: Text(l10n.about),

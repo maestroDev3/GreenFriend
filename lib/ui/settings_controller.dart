@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 
+import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/weather.dart';
 
 /// Holds the current app settings for the UI and saves every change.
 class SettingsController extends ChangeNotifier {
@@ -11,6 +13,10 @@ class SettingsController extends ChangeNotifier {
   AppThemeMode _themeMode = AppThemeMode.system;
   AppLanguage _language = AppLanguage.system;
   ReminderSettings _reminder = ReminderSettings.defaults;
+  String? _plantIdApiKey;
+  DateTime? _tipDismissedOn;
+  CalendarChoice? _phoneCalendar;
+  WeatherLocation? _weatherLocation;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -18,11 +24,27 @@ class SettingsController extends ChangeNotifier {
 
   ReminderSettings get reminder => _reminder;
 
+  /// The user's plant.id API key; `null` hides photo identification.
+  String? get plantIdApiKey => _plantIdApiKey;
+
+  /// The day the tip of the day was closed; it stays hidden that day.
+  DateTime? get tipDismissedOn => _tipDismissedOn;
+
+  /// The phone calendar the care plan is synced to; `null` when off.
+  CalendarChoice? get phoneCalendar => _phoneCalendar;
+
+  /// The place for the weather of outdoor plants; `null` when none is set.
+  WeatherLocation? get weatherLocation => _weatherLocation;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
     _language = await _repository.loadLanguage();
     _reminder = await _repository.loadReminder();
+    _plantIdApiKey = await _repository.loadPlantIdApiKey();
+    _tipDismissedOn = await _repository.loadTipDismissedOn();
+    _phoneCalendar = await _repository.loadPhoneCalendar();
+    _weatherLocation = await _repository.loadWeatherLocation();
     notifyListeners();
   }
 
@@ -45,6 +67,38 @@ class SettingsController extends ChangeNotifier {
     _reminder = reminder;
     notifyListeners();
     await _repository.saveReminder(reminder);
+  }
+
+  /// Saves [key] trimmed; a blank key removes it.
+  Future<void> setPlantIdApiKey(String? key) async {
+    final normalized = normalizedApiKey(key);
+    if (normalized == _plantIdApiKey) return;
+    _plantIdApiKey = normalized;
+    notifyListeners();
+    await _repository.savePlantIdApiKey(normalized);
+  }
+
+  /// Hides the tip of the day until the day after [today].
+  Future<void> dismissTip(DateTime today) async {
+    final day = dayOf(today);
+    if (day == _tipDismissedOn) return;
+    _tipDismissedOn = day;
+    notifyListeners();
+    await _repository.saveTipDismissedOn(day);
+  }
+
+  Future<void> setPhoneCalendar(CalendarChoice? choice) async {
+    if (choice == _phoneCalendar) return;
+    _phoneCalendar = choice;
+    notifyListeners();
+    await _repository.savePhoneCalendar(choice);
+  }
+
+  Future<void> setWeatherLocation(WeatherLocation? location) async {
+    if (location == _weatherLocation) return;
+    _weatherLocation = location;
+    notifyListeners();
+    await _repository.saveWeatherLocation(location);
   }
 }
 

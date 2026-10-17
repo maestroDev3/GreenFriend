@@ -60,18 +60,24 @@ List<CareTask> careTasksBetween(
         DueIn(:final days) => (now.add(Duration(days: days)), 0),
       };
       if (first == null) continue;
-      for (var k = 0; ; k++) {
-        final day = _occurrence(first, kind, interval * k);
-        if (day.isAfter(end)) break;
-        if (day.isBefore(start)) continue;
-        tasks.add(
-          CareTask(
-            plant: plant,
-            kind: kind,
-            day: day,
-            overdueDays: k == 0 ? overdue : 0,
-          ),
-        );
+      var day = first;
+      for (var k = 0; !day.isAfter(end); k++) {
+        if (!day.isBefore(start)) {
+          tasks.add(
+            CareTask(
+              plant: plant,
+              kind: kind,
+              day: day,
+              overdueDays: k == 0 ? overdue : 0,
+            ),
+          );
+        }
+        day = switch (kind) {
+          // Months are counted from the first date, so the day of the month
+          // does not drift after a short month.
+          Repot() || Prune() => addMonths(first, interval * (k + 1)),
+          _ => nextCareDay(plant, kind, day, interval),
+        };
       }
     }
   }
@@ -84,12 +90,6 @@ int? _interval(Plant plant, CareKind kind) => switch (kind) {
   Repot() => plant.repottingIntervalMonths,
   Prune() => plant.pruningIntervalMonths,
 };
-
-DateTime _occurrence(DateTime first, CareKind kind, int offset) =>
-    switch (kind) {
-      Repot() || Prune() => addMonths(first, offset),
-      _ => first.add(Duration(days: offset)),
-    };
 
 int _byDayUrgencyNameKind(CareTask a, CareTask b) {
   final byDay = a.day.compareTo(b.day);

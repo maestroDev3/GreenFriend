@@ -13,12 +13,14 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../domain/care_status.dart';
+import '../domain/season.dart';
 import '../l10n/app_localizations.dart';
 import 'compare_screen.dart';
 import 'journal_entry_screen.dart';
 import 'plant_form_screen.dart';
 import 'timeline_screen.dart';
 import 'watering_actions.dart';
+import 'widgets/care_button.dart';
 import 'widgets/watering_label.dart';
 
 /// Everything about one plant: its details, its watering and when it needs
@@ -286,6 +288,14 @@ class _Details extends StatelessWidget {
             null => l10n.noWateringSchedule,
           },
         ),
+        if (plant.winterRest && isWinterRest(today)) ...[
+          const SizedBox(height: 12),
+          _CareTile(
+            icon: Icons.ac_unit,
+            title: l10n.winterRestTitle,
+            value: l10n.winterRestActive,
+          ),
+        ],
         if (status is! NotScheduled) ...[
           const SizedBox(height: 12),
           Card(
@@ -298,10 +308,10 @@ class _Details extends StatelessWidget {
                   const SizedBox(height: 8),
                   CareLabel(status),
                   const SizedBox(height: 16),
-                  FilledButton.icon(
+                  CareButton(
+                    kind: const Water(),
+                    doneToday: isSameDay(plant.lastWateredOn, today),
                     onPressed: () => onCare(const Water()),
-                    icon: const Icon(Icons.check),
-                    label: Text(l10n.watered),
                   ),
                 ],
               ),
@@ -315,6 +325,7 @@ class _Details extends StatelessWidget {
             _CareCard(
               kind: kind,
               plant: plant,
+              today: today,
               status: status,
               onConfirm: () => onCare(kind),
             ),
@@ -333,12 +344,14 @@ class _CareCard extends StatelessWidget {
   const _CareCard({
     required this.kind,
     required this.plant,
+    required this.today,
     required this.status,
     required this.onConfirm,
   });
 
   final CareKind kind;
   final Plant plant;
+  final DateTime today;
   final CareStatus status;
   final VoidCallback onConfirm;
 
@@ -346,30 +359,26 @@ class _CareCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final (title, interval, icon, confirm) = switch (kind) {
+    final (title, interval, icon) = switch (kind) {
       Water() => (
         l10n.wateringTileTitle,
         l10n.wateringEvery(plant.wateringIntervalDays ?? 0),
         Icons.water_drop_outlined,
-        l10n.watered,
       ),
       Fertilize() => (
         l10n.fertilizingTitle,
         l10n.wateringEvery(plant.fertilizingIntervalDays ?? 0),
         Icons.science_outlined,
-        l10n.fertilized,
       ),
       Repot() => (
         l10n.repottingTitle,
         l10n.everyMonths(plant.repottingIntervalMonths ?? 0),
         Icons.yard_outlined,
-        l10n.repotted,
       ),
       Prune() => (
         l10n.pruningTitle,
         l10n.everyMonths(plant.pruningIntervalMonths ?? 0),
         Icons.content_cut,
-        l10n.pruned,
       ),
     };
     return Card(
@@ -400,7 +409,16 @@ class _CareCard extends StatelessWidget {
             const SizedBox(height: 12),
             CareLabel(status, kind: kind),
             const SizedBox(height: 12),
-            FilledButton(onPressed: onConfirm, child: Text(confirm)),
+            CareButton(
+              kind: kind,
+              doneToday: isSameDay(switch (kind) {
+                Water() => plant.lastWateredOn,
+                Fertilize() => plant.lastFertilizedOn,
+                Repot() => plant.lastRepottedOn,
+                Prune() => plant.lastPrunedOn,
+              }, today),
+              onPressed: onConfirm,
+            ),
           ],
         ),
       ),

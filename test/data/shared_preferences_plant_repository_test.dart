@@ -79,6 +79,61 @@ void main() {
       expect(plant.repottingIntervalMonths, 24);
     });
 
+    test('keeps a switched-off winter rest across a restart', () async {
+      final plant = await (await openRepository()).add(
+        name: 'Lemon tree',
+        winterRest: false,
+      );
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.winterRest, isFalse);
+      expect(loaded, plant);
+    });
+
+    test('loads plants stored before winter rest existed with it on', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe","wateringIntervalDays":14}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.winterRest, isTrue);
+    });
+
+    test('picks up plants written elsewhere after reload', () async {
+      final shown = await openRepository();
+      final elsewhere = await openRepository();
+      final seen = <List<Plant>>[];
+      final subscription = shown.watchPlants().listen(seen.add);
+
+      await elsewhere.add(name: 'Monstera');
+      await shown.reload();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(await shown.allPlants(), hasLength(1));
+      expect(seen.last.single.name, 'Monstera');
+      await subscription.cancel();
+    });
+
+    test('keeps an outdoor plant across a restart', () async {
+      await (await openRepository()).add(name: 'Lavender', outdoor: true);
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.outdoor, isTrue);
+    });
+
+    test('loads plants stored before outdoor existed as indoor', () async {
+      SharedPreferences.setMockInitialValues({
+        SharedPreferencesPlantRepository.plantsKey:
+            '[{"id":"a","name":"Aloe"}]',
+      });
+
+      final plant = (await currentPlants(await openRepository())).single;
+
+      expect(plant.outdoor, isFalse);
+    });
+
     test('generates unique ids', () async {
       final repository = await openRepository();
 

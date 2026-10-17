@@ -1,10 +1,12 @@
 import 'care_log.dart';
 import 'care_log_repository.dart';
+import 'clock.dart';
 import 'journal_actions.dart';
 import 'journal_repository.dart';
 import 'photos.dart';
 import 'plant.dart';
 import 'plant_repository.dart';
+import 'reminders.dart';
 
 /// What [confirmCare] changed, so it can be undone.
 class CareConfirmation {
@@ -66,6 +68,41 @@ Future<void> undoWatering({
   required CareLogRepository careLogs,
   required CareConfirmation confirmation,
 }) => undoCare(plants: plants, careLogs: careLogs, confirmation: confirmation);
+
+/// Records the care of a notification button ([careActionId]) [today].
+///
+/// Returns `false` and changes nothing for unknown ids or plants, or when
+/// that care was already recorded today (a button tapped twice).
+Future<bool> completeCareFromAction({
+  required PlantRepository plants,
+  required CareLogRepository careLogs,
+  required String? actionId,
+  required DateTime today,
+}) async {
+  final action = parseCareActionId(actionId);
+  if (action == null) return false;
+  Plant? plant;
+  for (final candidate in await plants.allPlants()) {
+    if (candidate.id == action.plantId) plant = candidate;
+  }
+  if (plant == null) return false;
+  final last = switch (action.kind) {
+    Water() => plant.lastWateredOn,
+    Fertilize() => plant.lastFertilizedOn,
+    Repot() => plant.lastRepottedOn,
+    Prune() => plant.lastPrunedOn,
+  };
+  final day = dayOf(today);
+  if (last == day) return false;
+  await confirmCare(
+    plants: plants,
+    careLogs: careLogs,
+    plant: plant,
+    kind: action.kind,
+    today: day,
+  );
+  return true;
+}
 
 /// Deletes a plant together with its care history, journal and photos.
 Future<void> deletePlant({

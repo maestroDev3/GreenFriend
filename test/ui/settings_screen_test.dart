@@ -172,7 +172,11 @@ void main() {
       );
 
       await tester.pumpApp(const SettingsScreen(), settings: settings);
-      await tester.scrollUntilVisible(find.byKey(languageGerman), 100);
+      await tester.scrollUntilVisible(
+        find.byKey(languageGerman),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
 
       expect(find.text('Language'), findsOneWidget);
       expect(find.text('English'), findsOneWidget);
@@ -227,7 +231,11 @@ void main() {
 
       await openSettingsFromApp(tester);
       await tester.pumpAndSettle();
-      await tester.scrollUntilVisible(find.byKey(languageGerman), 100);
+      await tester.scrollUntilVisible(
+        find.byKey(languageGerman),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.tap(find.byKey(languageGerman));
       await tester.pumpAndSettle();
 

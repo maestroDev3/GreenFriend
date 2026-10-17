@@ -26,6 +26,8 @@ abstract interface class PlantRepository {
     DateTime? lastRepottedOn,
     int? pruningIntervalMonths,
     DateTime? lastPrunedOn,
+    bool winterRest = true,
+    bool outdoor = false,
   });
 
   /// Replaces the stored plant with the same id; throws [StateError] if the

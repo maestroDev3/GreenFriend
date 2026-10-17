@@ -98,6 +98,44 @@ void main() {
       expect(backup.plants.single.species, 'Aloe vera');
     });
 
+    test('keeps a switched-off winter rest', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(winterRest: false)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+
+      final restored = decodeBackup(encodeBackup(backup));
+
+      expect(restored.plants.single.winterRest, isFalse);
+    });
+
+    test('reads backups made before winter rest existed with it on', () {
+      final backup = decodeBackup(
+        '{"format":"green-friend-backup","version":1,'
+        '"plants":[{"id":"p","name":"Aloe"}],'
+        '"careLogs":[],"journal":[]}',
+      );
+
+      expect(backup.plants.single.winterRest, isTrue);
+    });
+
+    test('keeps outdoor plants and reads old backups as indoor', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(outdoor: true)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+      expect(decodeBackup(encodeBackup(backup)).plants.single.outdoor, isTrue);
+
+      final old = decodeBackup(
+        '{"format":"green-friend-backup","version":1,'
+        '"plants":[{"id":"p","name":"Aloe"}],'
+        '"careLogs":[],"journal":[]}',
+      );
+      expect(old.plants.single.outdoor, isFalse);
+    });
+
     test('rejects broken or unknown backups', () {
       expect(() => decodeBackup('not json'), throwsFormatException);
       expect(() => decodeBackup('{"format":"other"}'), throwsFormatException);

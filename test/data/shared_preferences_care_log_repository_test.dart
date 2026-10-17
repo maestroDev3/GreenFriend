@@ -10,6 +10,21 @@ void main() {
   group('SharedPreferencesCareLogRepository', () {
     setUp(() => SharedPreferences.setMockInitialValues({}));
 
+    test('picks up logs written elsewhere after reload', () async {
+      final shown = await openRepository();
+      final elsewhere = await openRepository();
+
+      await elsewhere.add(
+        plantId: 'p1',
+        kind: const Water(),
+        day: DateTime(2026, 10, 3),
+      );
+      await shown.reload();
+
+      expect(await shown.allLogs(), hasLength(1));
+      expect((await shown.watchLogs('p1').first).single.kind, const Water());
+    });
+
     test('keeps logs across a restart', () async {
       final log = await (await openRepository()).add(
         plantId: 'p1',

@@ -38,10 +38,12 @@ void main() {
       );
       expect(find.text('Water in 4 days'), findsOneWidget);
 
-      await tester.tap(find.text('Watered'));
+      await tester.tap(find.widgetWithText(TextButton, 'Water'));
       await tester.pumpAndSettle();
 
       expect(find.text('Water in 7 days'), findsOneWidget);
+      expect(find.text('Watered'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Water'), findsNothing);
       expect(find.text('Monstera watered'), findsOneWidget);
       expect(plants.plants.single.lastWateredOn, DateTime.utc(2026, 9, 30));
       expect(logs.logs.single.day, DateTime.utc(2026, 9, 30));
@@ -62,7 +64,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.text('Watered'));
+      await tester.tap(find.widgetWithText(TextButton, 'Water'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Undo'));
       await tester.pumpAndSettle();
@@ -87,6 +89,7 @@ void main() {
         ),
       );
 
+      expect(find.widgetWithText(TextButton, 'Water'), findsNothing);
       expect(find.text('Watered'), findsNothing);
     });
 
@@ -104,10 +107,11 @@ void main() {
         locale: const Locale('de'),
       );
 
-      await tester.tap(find.text('Gegossen'));
+      await tester.tap(find.widgetWithText(TextButton, 'Gießen'));
       await tester.pumpAndSettle();
 
       expect(find.text('Monstera gegossen'), findsOneWidget);
+      expect(find.text('Gegossen'), findsOneWidget);
       expect(find.text('Rückgängig'), findsOneWidget);
     });
   });
@@ -128,11 +132,38 @@ void main() {
       ),
     );
 
-    await tester.ensureVisible(find.text('Watered'));
-    await tester.tap(find.text('Watered'));
+    final button = find.widgetWithText(TextButton, 'Water');
+    await tester.ensureVisible(button);
+    await tester.tap(button);
     await tester.pumpAndSettle();
 
     expect(find.text('Water in 7 days'), findsOneWidget);
+    expect(find.byIcon(Icons.check_circle), findsOneWidget);
     expect(logs.logs, hasLength(1));
+  });
+
+  testWidgets('shows a plant watered today as done', (tester) async {
+    await tester.pumpApp(
+      HomeScreen(
+        species: FakeSpeciesCatalog(const []),
+        journal: FakeJournalRepository(),
+        photos: FakePhotoStore(),
+        photoPicker: FakePhotoPicker(),
+        plants: FakePlantRepository([
+          Plant(
+            id: '1',
+            name: 'Monstera',
+            wateringIntervalDays: 7,
+            lastWateredOn: DateTime(2026, 9, 30),
+          ),
+        ]),
+        careLogs: FakeCareLogRepository(),
+        clock: fixedNow,
+      ),
+    );
+
+    expect(find.text('Watered'), findsOneWidget);
+    expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    expect(find.widgetWithText(TextButton, 'Water'), findsNothing);
   });
 }
