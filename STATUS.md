@@ -8,7 +8,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Nothing – planning the next initiative
+- Initiative #148 (epics #204, #207, #210), then #149 (#213, #216, #219) – branch `epic/care-and-knowledge`
 
 ## Up next
 
@@ -58,6 +58,7 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Decisions
 
+- 2026-10-17: next: initiative #148, then #149, on one test branch; time-lapse as GIF (#212); sitter plan as text (#209); health check may use credits after one confirmation (#217)
 - 2026-10-14: #161 as proposed (local list of missing species + about 30 more species)
 - 2026-10-14: #26 weather from Open-Meteo (no key), place entered manually; rain ≥ 5 mm counts as watering, heat ≥ 30 °C as hint
 - 2026-10-14: winter rest stays on for existing plants
@@ -72,7 +73,7 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Open decisions (user only)
 
-- Initiatives #148–#151 and epics #152, #175, #184 are new; epics #204, #207, #210, #213, #216, #219, #222, #227 (from the ideas, all stories `backlog`) – please confirm, re-sort and pick the order
+- Epics #152, #222, #227 (initiative #151) still to confirm
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - iOS (epic #227): Android first, plugins iOS-ready (2026-10-14); start only after you decide (needs a Mac or macOS CI and an Apple developer account)
 - Google Play (epic #222): developer account (one-off fee) and where to host the privacy policy
