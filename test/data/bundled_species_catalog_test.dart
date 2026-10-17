@@ -5,6 +5,27 @@ void main() {
   final catalog = BundledSpeciesCatalog();
 
   group('BundledSpeciesCatalog', () {
+    test('every bundled species has a lowest temperature between -30 and '
+        '20 °C', () {
+      for (final species in catalog.all) {
+        expect(
+          species.minTemperature,
+          inInclusiveRange(-30, 20),
+          reason: species.id,
+        );
+      }
+    });
+
+    test('tropical species tolerate no frost, hardy species do', () {
+      for (final id in ['monstera-deliciosa', 'anthurium-andraeanum']) {
+        expect(catalog.byId(id)!.minTemperature, greaterThanOrEqualTo(10));
+      }
+      for (final id in ['buxus-sempervirens', 'lavandula-angustifolia']) {
+        expect(catalog.byId(id)!.minTemperature, lessThanOrEqualTo(-10));
+      }
+      expect(catalog.byId('nerium-oleander')!.minTemperature, inInclusiveRange(-10, 0));
+    });
+
     test('contains at least 100 species', () {
       expect(catalog.all.length, greaterThanOrEqualTo(100));
     });
