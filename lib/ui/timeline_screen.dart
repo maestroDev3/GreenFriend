@@ -149,6 +149,13 @@ class _TimelineTile extends StatelessWidget {
                     ListTile(
                       title: Text(l10n.timelineDay(item.dayNumber)),
                       subtitle: Text(date),
+                      trailing: entry.healthCheck
+                          ? Icon(
+                              Icons.health_and_safety_outlined,
+                              color: scheme.primary,
+                              semanticLabel: l10n.healthCheckTitle,
+                            )
+                          : null,
                     ),
                     if (entry.photo case final photo?)
                       AspectRatio(

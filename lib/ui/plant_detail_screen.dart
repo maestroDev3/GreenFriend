@@ -166,6 +166,9 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
           checker: checker,
           apiKey: apiKey,
           languageCode: languageCode,
+          plantId: widget.plantId,
+          journal: widget.journal,
+          clock: widget.clock,
         ),
       ),
     );
