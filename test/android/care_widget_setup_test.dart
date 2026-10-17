@@ -39,5 +39,19 @@ void main() {
         'de.maestrodev.green_friend.CareWidgetProvider',
       );
     });
+
+    test('ticks off care through the background receiver', () {
+      final manifest = File(
+        'android/app/src/main/AndroidManifest.xml',
+      ).readAsStringSync();
+      final provider = File(providerPath).readAsStringSync();
+
+      expect(
+        manifest,
+        contains('es.antonborri.home_widget.HomeWidgetBackgroundReceiver'),
+      );
+      expect(provider, contains('HomeWidgetBackgroundIntent.getBroadcast'));
+      expect(provider, contains('_uri"'));
+    });
   });
 }
