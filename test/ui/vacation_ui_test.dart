@@ -61,13 +61,16 @@ void main() {
       );
 
       // The picker's header needs more width than a phone in the test font.
-      tester.view.physicalSize = const Size(900, 1400) * tester.view.devicePixelRatio;
+      tester.view.physicalSize =
+          const Size(900, 1400) * tester.view.devicePixelRatio;
       await tester.pumpAndSettle();
       await tester.tap(find.text('Plan vacation'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('20').first);
+      await tester.pumpAndSettle();
       await tester.tap(find.text('25').first);
-      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Save').last);
       await tester.pumpAndSettle();
 
       expect(
