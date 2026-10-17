@@ -47,6 +47,8 @@ Future<void> pumpDetail(
 Future<void> tapButton(WidgetTester tester, String label) async {
   final button = find.widgetWithText(TextButton, label);
   await tester.scrollUntilVisible(button, 100);
+  await tester.ensureVisible(button);
+  await tester.pumpAndSettle();
   await tester.tap(button);
   await tester.pumpAndSettle();
 }

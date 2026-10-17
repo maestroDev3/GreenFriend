@@ -556,9 +556,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
                 hintText: '${_speciesMinTemperature ?? defaultMinTemperature}',
                 prefixIcon: const Icon(Icons.thermostat_outlined),
               ),
-              keyboardType: const TextInputType.numberWithOptions(
-                signed: true,
-              ),
+              keyboardType: const TextInputType.numberWithOptions(signed: true),
               validator: (value) => _validMinTemperature(value)
                   ? null
                   : l10n.minTemperatureInvalid,

@@ -74,8 +74,8 @@ Future<void> pumpDetail(
   );
 }
 
-Future<void> scrollDetailTo(WidgetTester tester, String text) => tester
-    .scrollUntilVisible(find.text(text), 100, scrollable: formList);
+Future<void> scrollDetailTo(WidgetTester tester, String text) =>
+    tester.scrollUntilVisible(find.text(text), 100, scrollable: formList);
 
 void main() {
   group('lowest temperature in the plant form', () {
@@ -134,7 +134,10 @@ void main() {
       await enter(tester, field(fieldLabel), '25');
       await save(tester);
 
-      expect(find.text('Enter a temperature from -30 to 20 °C'), findsOneWidget);
+      expect(
+        find.text('Enter a temperature from -30 to 20 °C'),
+        findsOneWidget,
+      );
       expect(plants.plants.single.minTemperature, isNull);
     });
   });

@@ -170,7 +170,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'lastPrunedOn': _isoDayOrNull(plant.lastPrunedOn),
     'winterRest': plant.winterRest,
     'outdoor': plant.outdoor,
-    if (plant.minTemperature case final celsius?) 'minTemperature': celsius,
+    'minTemperature': ?plant.minTemperature,
   };
 
   static String? _isoDayOrNull(DateTime? day) =>
