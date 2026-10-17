@@ -1076,5 +1076,50 @@
   "widgetOpenToRefresh": "Open Green Friend to refresh",
   "@widgetOpenToRefresh": {
     "description": "Home-screen widget text when its data is from an earlier day."
+  },
+  "vacationSection": "Vacation",
+  "@vacationSection": {
+    "description": "Settings section title for the vacation period."
+  },
+  "noVacation": "No vacation planned – reminders run as usual.",
+  "@noVacation": {
+    "description": "Shown in the vacation section without a vacation."
+  },
+  "planVacation": "Plan vacation",
+  "@planVacation": {
+    "description": "Button that opens the date range picker for a vacation."
+  },
+  "changeVacation": "Change",
+  "@changeVacation": {
+    "description": "Button that changes the vacation period."
+  },
+  "endVacation": "End vacation",
+  "@endVacation": {
+    "description": "Button that removes the vacation."
+  },
+  "vacationPeriod": "{first} – {last}",
+  "@vacationPeriod": {
+    "description": "The vacation period.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "vacationHint": "No reminders on these days. Calendar and widget keep showing the plan.",
+  "@vacationHint": {
+    "description": "Explanation below a planned vacation."
+  },
+  "onVacationUntil": "On vacation until {date}",
+  "@onVacationUntil": {
+    "description": "Home screen banner during a vacation.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -199,5 +199,13 @@
   "weatherRain": "Heute Regen erwartet ({millimetres} mm) – Draußen-Pflanzen bekommen Wasser",
   "widgetTitle": "Heute zu tun",
   "widgetAllHappy": "Alle Pflanzen sind heute glücklich",
-  "widgetOpenToRefresh": "Öffne Green Friend zum Aktualisieren"
+  "widgetOpenToRefresh": "Öffne Green Friend zum Aktualisieren",
+  "vacationSection": "Urlaub",
+  "noVacation": "Kein Urlaub geplant – Erinnerungen laufen wie gewohnt.",
+  "planVacation": "Urlaub planen",
+  "changeVacation": "Ändern",
+  "endVacation": "Urlaub beenden",
+  "vacationPeriod": "{first} – {last}",
+  "vacationHint": "An diesen Tagen kommen keine Erinnerungen. Kalender und Widget zeigen den Plan weiter.",
+  "onVacationUntil": "Im Urlaub bis {date}"
 }

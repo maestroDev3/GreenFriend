@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
@@ -114,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
           [] => _EmptyHint(l10n.emptyPlantsHint),
           final plants => _PlantOverview(
             plants: plants,
+            vacation: _vacationBanner(),
             tip: _tipCard(plants),
             weatherHint: _weatherCard(plants),
             today: widget.clock(),
@@ -122,6 +124,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         },
       ),
+    );
+  }
+
+  Widget? _vacationBanner() {
+    final settings = SettingsScope.of(context);
+    final vacation = settings.vacation;
+    if (vacation == null || !vacation.covers(widget.clock())) return null;
+    return _VacationBanner(
+      until: vacation.last,
+      onEnd: () => settings.setVacation(null),
     );
   }
 
@@ -218,6 +230,7 @@ class _EmptyHint extends StatelessWidget {
 class _PlantOverview extends StatelessWidget {
   const _PlantOverview({
     required this.plants,
+    required this.vacation,
     required this.tip,
     required this.weatherHint,
     required this.today,
@@ -228,6 +241,8 @@ class _PlantOverview extends StatelessWidget {
   final List<Plant> plants;
 
   /// The tip of the day card, if there is one today.
+  /// Banner while the user is on vacation.
+  final Widget? vacation;
   final Widget? tip;
 
   /// The weather hint for outdoor plants, if any.
@@ -251,6 +266,10 @@ class _PlantOverview extends StatelessWidget {
               const SizedBox(height: 4),
               Text(l10n.greetingSubtitle, style: text.bodyLarge),
               const SizedBox(height: 20),
+              if (vacation case final banner?) ...[
+                banner,
+                const SizedBox(height: 12),
+              ],
               _SummaryCard(
                 l10n.attentionSummary(
                   needingAttention(plants, today),
@@ -288,6 +307,47 @@ class _PlantOverview extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Shown while reminders pause for a vacation.
+class _VacationBanner extends StatelessWidget {
+  const _VacationBanner({required this.until, required this.onEnd});
+
+  final DateTime until;
+  final VoidCallback onEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final date = DateFormat.yMMMd(
+      Localizations.localeOf(context).toString(),
+    ).format(until);
+    return Card(
+      color: theme.colorScheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+        child: Row(
+          children: [
+            Icon(
+              Icons.beach_access_outlined,
+              color: theme.colorScheme.onSecondaryContainer,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                l10n.onVacationUntil(date),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ),
+            TextButton(onPressed: onEnd, child: Text(l10n.endVacation)),
+          ],
+        ),
+      ),
     );
   }
 }

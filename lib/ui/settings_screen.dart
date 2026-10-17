@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../domain/clock.dart';
 import '../domain/phone_calendar.dart';
 import '../domain/reminders.dart';
+import '../domain/vacation.dart';
 import '../domain/weather.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
@@ -11,7 +14,10 @@ import 'weather_sync.dart';
 
 /// Lets the user choose the app's appearance, language and reminders.
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({super.key, this.clock = DateTime.now});
+
+  /// Supplies today for the vacation picker.
+  final Clock clock;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +72,12 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 24),
           _SectionTitle(l10n.remindersSection),
           Card(clipBehavior: Clip.antiAlias, child: _ReminderTiles(settings)),
+          const SizedBox(height: 24),
+          _SectionTitle(l10n.vacationSection),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: _VacationTiles(settings: settings, clock: clock),
+          ),
           if (weatherSync != null) ...[
             const SizedBox(height: 24),
             _SectionTitle(l10n.weatherSection),
@@ -482,6 +494,80 @@ class _PlaceSearchScreenState extends State<PlaceSearchScreen> {
               title: Text(place.label),
               onTap: () => Navigator.of(context).pop(place),
             ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Plans, changes or ends the vacation (reminders pause on its days).
+class _VacationTiles extends StatelessWidget {
+  const _VacationTiles({required this.settings, required this.clock});
+
+  final SettingsController settings;
+  final Clock clock;
+
+  Future<void> _pick(BuildContext context) async {
+    final today = dayOf(clock());
+    final current = settings.vacation;
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(today.year, today.month, today.day),
+      lastDate: DateTime(today.year + 1, today.month, today.day),
+      currentDate: DateTime(today.year, today.month, today.day),
+      initialDateRange: current == null
+          ? null
+          : DateTimeRange(start: current.first, end: current.last),
+    );
+    if (picked == null) return;
+    await settings.setVacation(
+      Vacation(first: picked.start, last: picked.end),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final vacation = settings.vacation;
+    final format = DateFormat.yMMMd(Localizations.localeOf(context).toString());
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (vacation == null)
+            Text(l10n.noVacation, style: text.bodyMedium)
+          else ...[
+            Text(
+              l10n.vacationPeriod(
+                format.format(vacation.first),
+                format.format(vacation.last),
+              ),
+              style: text.titleMedium,
+            ),
+            const SizedBox(height: 4),
+            Text(l10n.vacationHint, style: text.bodySmall),
+          ],
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: () => _pick(context),
+                icon: const Icon(Icons.beach_access_outlined),
+                label: Text(
+                  vacation == null ? l10n.planVacation : l10n.changeVacation,
+                ),
+              ),
+              if (vacation != null)
+                TextButton(
+                  onPressed: () => settings.setVacation(null),
+                  child: Text(l10n.endVacation),
+                ),
+            ],
+          ),
         ],
       ),
     );
