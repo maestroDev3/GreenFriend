@@ -57,6 +57,10 @@ class HomeCareWidget implements CareWidget {
         CareWidgetKeys.tasks(row),
         line.tasks,
       );
+      await HomeWidget.saveWidgetData<String>(
+        CareWidgetKeys.uri(row),
+        careWidgetUri(line.plantId, line.kinds).toString(),
+      );
     }
     await HomeWidget.updateWidget(
       qualifiedAndroidName: CareWidgetKeys.androidProvider,

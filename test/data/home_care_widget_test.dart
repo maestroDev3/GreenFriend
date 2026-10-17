@@ -57,6 +57,10 @@ void main() {
         expect(saved[CareWidgetKeys.count], 5);
         expect(saved[CareWidgetKeys.name(0)], 'Plant 0');
         expect(saved[CareWidgetKeys.tasks(4)], 'Water');
+        expect(
+          saved[CareWidgetKeys.uri(0)],
+          careWidgetUri('p0', const [Water()]).toString(),
+        );
         expect(saved.containsKey(CareWidgetKeys.name(5)), isFalse);
         expect(
           updates.single['qualifiedAndroidName'],

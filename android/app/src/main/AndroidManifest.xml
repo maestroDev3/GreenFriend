@@ -47,6 +47,14 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/care_widget_info" />
         </receiver>
+        <!-- Check buttons in the widget, handled in Dart without opening the app. -->
+        <receiver
+            android:name="es.antonborri.home_widget.HomeWidgetBackgroundReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="es.antonborri.home_widget.action.BACKGROUND" />
+            </intent-filter>
+        </receiver>
         <!-- Show scheduled reminders and restore them after a reboot. -->
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <!-- Buttons in the reminders ("Watered"), handled without opening the app. -->

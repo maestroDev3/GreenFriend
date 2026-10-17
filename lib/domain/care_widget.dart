@@ -95,3 +95,26 @@ class CareWidgetContent {
 abstract interface class CareWidget {
   Future<void> show(CareWidgetContent content);
 }
+
+/// The link behind a row's check button: records [kinds] for [plantId].
+Uri careWidgetUri(String plantId, List<CareKind> kinds) => Uri(
+  scheme: 'greenfriend',
+  host: 'care',
+  queryParameters: {
+    'plant': plantId,
+    'kinds': kinds.map((kind) => kind.name).join(','),
+  },
+);
+
+/// Reads a link made by [careWidgetUri]; `null` for any other link.
+({String plantId, List<CareKind> kinds})? parseCareWidgetUri(Uri? uri) {
+  if (uri == null || uri.scheme != 'greenfriend' || uri.host != 'care') {
+    return null;
+  }
+  final plantId = uri.queryParameters['plant'];
+  final names = uri.queryParameters['kinds']?.split(',') ?? const [];
+  final kinds = [for (final name in names) CareKind.byName(name)];
+  if (plantId == null || plantId.isEmpty || kinds.isEmpty) return null;
+  if (kinds.contains(null)) return null;
+  return (plantId: plantId, kinds: kinds.whereType<CareKind>().toList());
+}
