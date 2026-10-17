@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="care_widget_name">Care today</string>
+    <string name="care_widget_description">Plants that need care today</string>
+    <string name="care_widget_done">Done</string>
+    <color name="widget_background">#F1F5EC</color>
+    <color name="widget_text">#1B3A2D</color>
+    <color name="widget_text_secondary">#4A5D52</color>
+    <color name="widget_accent">#2E6B4A</color>
+</resources>

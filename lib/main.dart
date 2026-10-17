@@ -7,6 +7,7 @@ import 'data/bundled_species_catalog.dart';
 import 'data/bundled_tips.dart';
 import 'data/device_phone_calendar.dart';
 import 'data/file_photo_store.dart';
+import 'data/home_care_widget.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
 import 'data/open_meteo_weather_service.dart';
@@ -25,6 +26,7 @@ import 'ui/font_licenses.dart';
 import 'ui/reminder_sync.dart';
 import 'ui/settings_controller.dart';
 import 'ui/weather_sync.dart';
+import 'ui/widget_sync.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +51,9 @@ Future<void> main() async {
     scheduler: scheduler,
     localizations: () => appLocalizationsFor(settings),
   ).start();
+
+  WidgetSync(plants: plants, settings: settings, widget: HomeCareWidget())
+    .start();
 
   final calendarSync = CalendarSync(
     plants: plants,
