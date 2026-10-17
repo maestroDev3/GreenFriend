@@ -21,6 +21,7 @@ class SettingsController extends ChangeNotifier {
   WeatherLocation? _weatherLocation;
   Vacation? _vacation;
   List<FrostWarning> _frostWarnings = const [];
+  var _healthCheckConsent = false;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -43,6 +44,9 @@ class SettingsController extends ChangeNotifier {
   /// The current or next vacation; reminders pause on its days.
   Vacation? get vacation => _vacation;
 
+  /// Whether the user agreed that health checks use plant.id credits.
+  bool get healthCheckConsent => _healthCheckConsent;
+
   /// Frost warnings of the last weather fetch, see `frostWarnings`.
   List<FrostWarning> get frostWarnings => _frostWarnings;
 
@@ -57,6 +61,7 @@ class SettingsController extends ChangeNotifier {
     _weatherLocation = await _repository.loadWeatherLocation();
     _vacation = await _repository.loadVacation();
     _frostWarnings = List.unmodifiable(await _repository.loadFrostWarnings());
+    _healthCheckConsent = await _repository.loadHealthCheckConsent();
     notifyListeners();
   }
 
@@ -111,6 +116,14 @@ class SettingsController extends ChangeNotifier {
     _weatherLocation = location;
     notifyListeners();
     await _repository.saveWeatherLocation(location);
+  }
+
+  /// Remembers that the user agreed to spend credits on health checks.
+  Future<void> confirmHealthCheckCredits() async {
+    if (_healthCheckConsent) return;
+    _healthCheckConsent = true;
+    notifyListeners();
+    await _repository.saveHealthCheckConsent(true);
   }
 
   Future<void> setFrostWarnings(List<FrostWarning> warnings) async {

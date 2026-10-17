@@ -111,6 +111,13 @@ void main() {
       expect(await (await repository()).loadWeatherLocation(), isNull);
     });
 
+    test('stores the health check credit consent', () async {
+      expect(await (await repository()).loadHealthCheckConsent(), isFalse);
+
+      await (await repository()).saveHealthCheckConsent(true);
+      expect(await (await repository()).loadHealthCheckConsent(), isTrue);
+    });
+
     test('stores the frost warnings', () async {
       final warnings = [
         FrostWarning(
