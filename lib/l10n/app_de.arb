@@ -228,5 +228,10 @@
   "minTemperatureHelp": "Frostwarnungen für Pflanzen draußen nutzen diesen Wert. Leer: Wert der Art.",
   "minTemperatureInvalid": "Gib eine Temperatur von -30 bis 20 °C ein",
   "coldToleranceTitle": "Kälteverträglichkeit",
-  "toleratesDownTo": "Verträgt bis {celsius} °C"
+  "toleratesDownTo": "Verträgt bis {celsius} °C",
+  "frostTonight": "Heute Nacht Frost: bis {celsius} °C",
+  "frostTomorrowNight": "Morgen Nacht Frost: bis {celsius} °C",
+  "coldTonight": "Heute Nacht kalt: bis {celsius} °C",
+  "coldTomorrowNight": "Morgen Nacht kalt: bis {celsius} °C",
+  "frostPlants": "Reinholen oder schützen: {plants}"
 }

@@ -9,8 +9,15 @@ import '../domain/plant_repository.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
+import 'frost_texts.dart';
 import 'locale_resolution.dart';
 import 'settings_controller.dart';
+
+/// Frost notifications get ids from here on, after the care reminders.
+const frostNotificationIdBase = 10000;
+
+/// Frost warnings are announced at this local hour the evening before.
+const frostNotificationHour = 17;
 
 /// Keeps the scheduled reminders in line with the plants and the settings:
 /// replans whenever a plant, its watering or a setting changes.
@@ -85,6 +92,7 @@ class ReminderSync {
       await scheduler.requestPermission();
     }
     final l10n = localizations();
+    final now = clock();
     await scheduler.replaceAll([
       for (final (index, reminder) in planned.indexed)
         ScheduledNotification(
@@ -102,6 +110,20 @@ class ReminderSync {
               ),
           ],
         ),
+      for (final (index, warning) in settings.frostWarnings.indexed)
+        if (DateTime(
+              warning.day.year,
+              warning.day.month,
+              warning.day.day - 1,
+              frostNotificationHour,
+            )
+            case final at when at.isAfter(now))
+          ScheduledNotification(
+            id: frostNotificationIdBase + index,
+            at: at,
+            title: frostTitle(l10n, warning, tonight: true),
+            body: frostPlantsText(l10n, warning),
+          ),
     ]);
   }
 }

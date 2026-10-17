@@ -8,6 +8,7 @@ import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
+import '../domain/frost.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
@@ -17,6 +18,7 @@ import '../domain/urgency.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
+import 'frost_texts.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_controller.dart';
@@ -125,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
             plants: plants,
             vacation: _vacationBanner(),
             tip: _tipCard(plants),
+            frost: _frostCard(),
             weatherHint: _weatherCard(plants),
             today: widget.clock(),
             onOpen: _openDetail,
@@ -142,6 +145,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return _VacationBanner(
       until: vacation.last,
       onEnd: () => settings.setVacation(null),
+    );
+  }
+
+  /// The next frost warning from the last weather fetch, if any.
+  Widget? _frostCard() {
+    final today = dayOf(widget.clock());
+    final settings = SettingsScope.of(context);
+    if (settings.weatherLocation == null) return null;
+    final next = settings.frostWarnings
+        .where((warning) => warning.day.isAfter(today))
+        .firstOrNull;
+    if (next == null) return null;
+    return _FrostCard(
+      warning: next,
+      tonight: next.day == today.add(const Duration(days: 1)),
     );
   }
 
@@ -243,6 +261,7 @@ class _PlantOverview extends StatelessWidget {
     required this.vacation,
     required this.tip,
     required this.weatherHint,
+    required this.frost,
     required this.today,
     required this.onOpen,
     required this.onWatered,
@@ -257,6 +276,9 @@ class _PlantOverview extends StatelessWidget {
 
   /// The weather hint for outdoor plants, if any.
   final Widget? weatherHint;
+
+  /// The frost warning for outdoor plants, if any.
+  final Widget? frost;
   final DateTime today;
   final ValueChanged<Plant> onOpen;
   final ValueChanged<Plant> onWatered;
@@ -286,6 +308,7 @@ class _PlantOverview extends StatelessWidget {
                   plants.length,
                 ),
               ),
+              ?frost,
               ?weatherHint,
               if (tip case final tip?) ...[const SizedBox(height: 12), tip],
               const SizedBox(height: 28),
@@ -355,6 +378,56 @@ class _VacationBanner extends StatelessWidget {
             ),
             TextButton(onPressed: onEnd, child: Text(l10n.endVacation)),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Frost in one of the next two nights, naming the plants at risk.
+class _FrostCard extends StatelessWidget {
+  const _FrostCard({required this.warning, required this.tonight});
+
+  final FrostWarning warning;
+  final bool tonight;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Card(
+        color: scheme.errorContainer,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(Icons.ac_unit, color: scheme.onErrorContainer),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      frostTitle(l10n, warning, tonight: tonight),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: scheme.onErrorContainer,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      frostPlantsText(l10n, warning),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: scheme.onErrorContainer,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

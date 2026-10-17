@@ -1,3 +1,4 @@
+import 'frost.dart';
 import 'reminders.dart';
 import 'vacation.dart';
 import 'weather.dart';
@@ -54,6 +55,12 @@ abstract interface class SettingsRepository {
 
   /// Stores [vacation]; `null` removes it.
   Future<void> saveVacation(Vacation? vacation);
+
+  /// The frost warnings of the last weather fetch; empty if none.
+  Future<List<FrostWarning>> loadFrostWarnings();
+
+  /// Stores [warnings]; an empty list removes them.
+  Future<void> saveFrostWarnings(List<FrostWarning> warnings);
 }
 
 /// Trims an API key typed by the user; blank means no key.
