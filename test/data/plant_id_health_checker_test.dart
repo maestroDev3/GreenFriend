@@ -22,17 +22,15 @@ Map<String, Object?> suggestion(
   },
 };
 
-String answer({
-  bool healthy = false,
-  List<Object?> suggestions = const [],
-}) => jsonEncode({
-  'access_token': 'abc',
-  'result': {
-    'is_plant': {'binary': true, 'probability': 0.99},
-    'is_healthy': {'binary': healthy, 'probability': healthy ? 0.9 : 0.1},
-    'disease': {'suggestions': suggestions},
-  },
-});
+String answer({bool healthy = false, List<Object?> suggestions = const []}) =>
+    jsonEncode({
+      'access_token': 'abc',
+      'result': {
+        'is_plant': {'binary': true, 'probability': 0.99},
+        'is_healthy': {'binary': healthy, 'probability': healthy ? 0.9 : 0.1},
+        'disease': {'suggestions': suggestions},
+      },
+    });
 
 void main() {
   group('healthRequest', () {
