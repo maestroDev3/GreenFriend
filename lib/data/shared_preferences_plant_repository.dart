@@ -73,6 +73,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     bool winterRest = true,
     bool outdoor = false,
     int? minTemperature,
+    int? potDiameterCm,
   }) async {
     final plant = Plant(
       id: _newId(),
@@ -91,6 +92,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
       winterRest: winterRest,
       outdoor: outdoor,
       minTemperature: minTemperature,
+      potDiameterCm: potDiameterCm,
     );
     await _save([..._plants, plant]);
     return plant;
@@ -171,6 +173,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'winterRest': plant.winterRest,
     'outdoor': plant.outdoor,
     'minTemperature': ?plant.minTemperature,
+    'potDiameterCm': ?plant.potDiameterCm,
   };
 
   static String? _isoDayOrNull(DateTime? day) =>
@@ -202,5 +205,6 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     winterRest: json['winterRest'] as bool? ?? true,
     outdoor: json['outdoor'] as bool? ?? false,
     minTemperature: json['minTemperature'] as int?,
+    potDiameterCm: json['potDiameterCm'] as int?,
   );
 }

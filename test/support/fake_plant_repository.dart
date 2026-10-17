@@ -48,6 +48,7 @@ class FakePlantRepository implements PlantRepository {
     bool winterRest = true,
     bool outdoor = false,
     int? minTemperature,
+    int? potDiameterCm,
   }) async {
     final plant = Plant(
       id: 'fake-${_nextId++}',
@@ -66,6 +67,7 @@ class FakePlantRepository implements PlantRepository {
       winterRest: winterRest,
       outdoor: outdoor,
       minTemperature: minTemperature,
+      potDiameterCm: potDiameterCm,
     );
     _plants.add(plant);
     _changes.add(plants);
