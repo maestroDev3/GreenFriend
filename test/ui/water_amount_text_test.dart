@@ -96,19 +96,18 @@ void main() {
   });
 
   group('water amount on the detail page', () {
-    Future<void> pumpDetail(WidgetTester tester, Plant plant) =>
-        tester.pumpApp(
-          PlantDetailScreen(
-            species: FakeSpeciesCatalog(const []),
-            plants: FakePlantRepository([plant]),
-            careLogs: FakeCareLogRepository(),
-            journal: FakeJournalRepository(),
-            photos: FakePhotoStore(),
-            photoPicker: FakePhotoPicker(),
-            plantId: 'm',
-            clock: now,
-          ),
-        );
+    Future<void> pumpDetail(WidgetTester tester, Plant plant) => tester.pumpApp(
+      PlantDetailScreen(
+        species: FakeSpeciesCatalog(const []),
+        plants: FakePlantRepository([plant]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+        photos: FakePhotoStore(),
+        photoPicker: FakePhotoPicker(),
+        plantId: 'm',
+        clock: now,
+      ),
+    );
 
     testWidgets('with pot size the detail page shows the amount', (
       tester,
