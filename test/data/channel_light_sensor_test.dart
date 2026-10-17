@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/channel_light_sensor.dart';
 
@@ -26,27 +25,33 @@ void main() {
       }
     });
 
-    test('the channel sensor reports no sensor without the platform side', () async {
-      expect(await const ChannelLightSensor().isAvailable(), isFalse);
-    });
+    test(
+      'the channel sensor reports no sensor without the platform side',
+      () async {
+        expect(await const ChannelLightSensor().isAvailable(), isFalse);
+      },
+    );
 
-    test('the channel sensor streams the lux values from the platform', () async {
-      messenger.setMockStreamHandler(
-        ChannelLightSensor.luxChannel,
-        MockStreamHandler.inline(
-          onListen: (arguments, events) {
-            events
-              ..success(120.5)
-              ..success(130)
-              ..endOfStream();
-          },
-        ),
-      );
+    test(
+      'the channel sensor streams the lux values from the platform',
+      () async {
+        messenger.setMockStreamHandler(
+          ChannelLightSensor.luxChannel,
+          MockStreamHandler.inline(
+            onListen: (arguments, events) {
+              events
+                ..success(120.5)
+                ..success(130)
+                ..endOfStream();
+            },
+          ),
+        );
 
-      expect(await const ChannelLightSensor().luxStream().toList(), [
-        120.5,
-        130.0,
-      ]);
-    });
+        expect(await const ChannelLightSensor().luxStream().toList(), [
+          120.5,
+          130.0,
+        ]);
+      },
+    );
   });
 }
