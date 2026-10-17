@@ -150,7 +150,11 @@ class _LightCheckScreenState extends State<LightCheckScreen> {
                     style: theme.textTheme.bodyLarge,
                   )
                 else if (_result case final lux?)
-                  _Verdict(lux: lux, need: widget.need, plant: widget.plantName),
+                  _Verdict(
+                    lux: lux,
+                    need: widget.need,
+                    plant: widget.plantName,
+                  ),
                 const Spacer(),
                 if (_phase == _Phase.done)
                   FilledButton.icon(

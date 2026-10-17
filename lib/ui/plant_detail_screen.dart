@@ -187,11 +187,8 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
     };
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => LightCheckScreen(
-          sensor: sensor,
-          plantName: plant.name,
-          need: need,
-        ),
+        builder: (_) =>
+            LightCheckScreen(sensor: sensor, plantName: plant.name, need: need),
       ),
     );
   }
