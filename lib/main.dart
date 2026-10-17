@@ -72,11 +72,13 @@ Future<void> main() async {
   final journal = SharedPreferencesJournalRepository(preferences);
   final photos = await FilePhotoStore.create();
 
+  final species = BundledSpeciesCatalog();
   final weatherSync = WeatherSync(
     plants: plants,
     careLogs: careLogs,
     settings: settings,
     service: OpenMeteoWeatherService(),
+    species: species,
   );
   unawaited(weatherSync.refresh());
 
@@ -92,7 +94,7 @@ Future<void> main() async {
 
   runApp(
     GreenFriendApp(
-      species: BundledSpeciesCatalog(),
+      species: species,
       settings: settings,
       plants: plants,
       careLogs: careLogs,

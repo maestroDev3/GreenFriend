@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../domain/clock.dart';
+import '../domain/frost.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
 import '../domain/vacation.dart';
@@ -19,6 +20,7 @@ class SettingsController extends ChangeNotifier {
   CalendarChoice? _phoneCalendar;
   WeatherLocation? _weatherLocation;
   Vacation? _vacation;
+  List<FrostWarning> _frostWarnings = const [];
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -41,6 +43,9 @@ class SettingsController extends ChangeNotifier {
   /// The current or next vacation; reminders pause on its days.
   Vacation? get vacation => _vacation;
 
+  /// Frost warnings of the last weather fetch, see `frostWarnings`.
+  List<FrostWarning> get frostWarnings => _frostWarnings;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
@@ -51,6 +56,7 @@ class SettingsController extends ChangeNotifier {
     _phoneCalendar = await _repository.loadPhoneCalendar();
     _weatherLocation = await _repository.loadWeatherLocation();
     _vacation = await _repository.loadVacation();
+    _frostWarnings = List.unmodifiable(await _repository.loadFrostWarnings());
     notifyListeners();
   }
 
@@ -105,6 +111,17 @@ class SettingsController extends ChangeNotifier {
     _weatherLocation = location;
     notifyListeners();
     await _repository.saveWeatherLocation(location);
+  }
+
+  Future<void> setFrostWarnings(List<FrostWarning> warnings) async {
+    if (warnings.length == _frostWarnings.length &&
+        Iterable.generate(warnings.length)
+            .every((i) => warnings[i] == _frostWarnings[i])) {
+      return;
+    }
+    _frostWarnings = List.unmodifiable(warnings);
+    notifyListeners();
+    await _repository.saveFrostWarnings(_frostWarnings);
   }
 
   Future<void> setVacation(Vacation? vacation) async {

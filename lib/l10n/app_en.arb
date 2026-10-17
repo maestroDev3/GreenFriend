@@ -1247,5 +1247,50 @@
         "type": "int"
       }
     }
+  },
+  "frostTonight": "Frost tonight: down to {celsius} °C",
+  "@frostTonight": {
+    "description": "Frost warning for the coming night.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "frostTomorrowNight": "Frost tomorrow night: down to {celsius} °C",
+  "@frostTomorrowNight": {
+    "description": "Frost warning for the night after.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "coldTonight": "Cold tonight: down to {celsius} °C",
+  "@coldTonight": {
+    "description": "Cold warning (above zero, but too cold for some plants) for the coming night.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "coldTomorrowNight": "Cold tomorrow night: down to {celsius} °C",
+  "@coldTomorrowNight": {
+    "description": "Cold warning (above zero) for the night after.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "frostPlants": "Bring inside or protect: {plants}",
+  "@frostPlants": {
+    "description": "The outdoor plants at risk from the cold.",
+    "placeholders": {
+      "plants": {
+        "type": "String"
+      }
+    }
   }
 }

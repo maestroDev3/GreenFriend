@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../domain/frost.dart';
 import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
@@ -25,6 +26,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const phoneCalendarNameKey = 'settings.v1.phoneCalendarName';
   static const weatherLocationKey = 'settings.v1.weatherLocation';
   static const vacationKey = 'settings.v1.vacation';
+  static const frostKey = 'settings.v1.frost';
 
   final SharedPreferences _preferences;
 
@@ -185,6 +187,48 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
         'first': vacation.first.toIso8601String().substring(0, 10),
         'last': vacation.last.toIso8601String().substring(0, 10),
       }),
+    );
+  }
+
+  @override
+  Future<List<FrostWarning>> loadFrostWarnings() async {
+    final stored = _preferences.getString(frostKey);
+    if (stored == null) return const [];
+    try {
+      return [
+        for (final entry in jsonDecode(stored) as List<Object?>)
+          if (entry case {
+            'day': final String day,
+            'min': final num min,
+            'plants': final List<Object?> plants,
+          })
+            FrostWarning(
+              day: DateTime.parse('${day}T00:00:00Z'),
+              minTemperature: min.toDouble(),
+              plantNames: plants.cast<String>(),
+            ),
+      ];
+    } on Object {
+      return const [];
+    }
+  }
+
+  @override
+  Future<void> saveFrostWarnings(List<FrostWarning> warnings) async {
+    if (warnings.isEmpty) {
+      await _preferences.remove(frostKey);
+      return;
+    }
+    await _preferences.setString(
+      frostKey,
+      jsonEncode([
+        for (final warning in warnings)
+          {
+            'day': warning.day.toIso8601String().substring(0, 10),
+            'min': warning.minTemperature,
+            'plants': warning.plantNames,
+          },
+      ]),
     );
   }
 

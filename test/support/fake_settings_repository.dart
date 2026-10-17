@@ -1,3 +1,4 @@
+import 'package:green_friend/domain/frost.dart';
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
 import 'package:green_friend/domain/vacation.dart';
@@ -14,6 +15,7 @@ class FakeSettingsRepository implements SettingsRepository {
     this.phoneCalendar,
     this.weatherLocation,
     this.vacation,
+    this.frostWarnings = const [],
   });
 
   AppThemeMode themeMode;
@@ -24,6 +26,7 @@ class FakeSettingsRepository implements SettingsRepository {
   CalendarChoice? phoneCalendar;
   WeatherLocation? weatherLocation;
   Vacation? vacation;
+  List<FrostWarning> frostWarnings;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -75,4 +78,11 @@ class FakeSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> saveVacation(Vacation? value) async => vacation = value;
+
+  @override
+  Future<List<FrostWarning>> loadFrostWarnings() async => frostWarnings;
+
+  @override
+  Future<void> saveFrostWarnings(List<FrostWarning> value) async =>
+      frostWarnings = value;
 }
