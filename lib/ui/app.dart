@@ -10,6 +10,7 @@ import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../domain/settings.dart';
 import '../domain/tips.dart';
+import '../domain/timelapse.dart';
 import '../l10n/app_localizations.dart';
 import 'app_shell.dart';
 import 'calendar_sync.dart';
@@ -37,6 +38,7 @@ class GreenFriendApp extends StatelessWidget {
     this.calendarSync,
     this.missingSpecies,
     this.weatherSync,
+    this.timelapseEncoder,
   });
 
   final SettingsController settings;
@@ -50,6 +52,9 @@ class GreenFriendApp extends StatelessWidget {
   final PhotoPicker photoPicker;
   final BackupArchive backupArchive;
   final FileSharing fileSharing;
+
+  /// Encodes a plant's time-lapse for sharing; `null` hides sharing.
+  final TimelapseEncoder? timelapseEncoder;
 
   /// Identifies new plants from a photo; `null` hides that option.
   final PlantIdentifier? identifier;
@@ -102,6 +107,7 @@ class GreenFriendApp extends StatelessWidget {
             tips: tips,
             missingSpecies: missingSpecies,
             weather: weatherSync,
+            timelapseEncoder: timelapseEncoder,
           ),
         ),
       ),

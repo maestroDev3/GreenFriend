@@ -218,5 +218,10 @@
   "dayCount": "{count, plural, =1{1 Tag} other{{count} Tage}}",
   "carePerMonth": "Pflege pro Monat",
   "mostCaredFor": "Am meisten gepflegt: {plant} ({count}×)",
-  "monthCareCount": "{month}: {count}"
+  "monthCareCount": "{month}: {count}",
+  "timelapseTitle": "Zeitraffer",
+  "timelapseShare": "Als GIF teilen",
+  "timelapseCreating": "GIF wird erstellt …",
+  "timelapseFailed": "Der Zeitraffer konnte nicht erstellt werden.",
+  "timelapsePosition": "{index} von {count}"
 }

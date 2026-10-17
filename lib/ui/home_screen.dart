@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/backup_files.dart';
+import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
@@ -35,6 +37,8 @@ class HomeScreen extends StatefulWidget {
     required this.photos,
     required this.species,
     required this.photoPicker,
+    this.fileSharing,
+    this.timelapseEncoder,
     this.tips,
     this.weather,
     this.clock = DateTime.now,
@@ -49,6 +53,10 @@ class HomeScreen extends StatefulWidget {
   /// The plant database used to suggest species and their care profile.
   final SpeciesCatalog species;
   final PhotoPicker photoPicker;
+
+  /// Used to share a plant's time-lapse; both `null` hide sharing.
+  final FileSharing? fileSharing;
+  final TimelapseEncoder? timelapseEncoder;
 
   /// Care tips for the "Tip of the day" card; `null` hides the card.
   final TipCatalog? tips;
@@ -199,6 +207,8 @@ class _HomeScreenState extends State<HomeScreen> {
           photos: widget.photos,
           photoPicker: widget.photoPicker,
           plantId: plant.id,
+          fileSharing: widget.fileSharing,
+          timelapseEncoder: widget.timelapseEncoder,
           clock: widget.clock,
         ),
       ),
