@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/frost.dart';
@@ -81,16 +79,18 @@ Future<(WeatherSync, FakeSettingsRepository)> refreshed({
   return (sync, repository);
 }
 
-Widget home(SettingsController settings, {DateTime Function() clock = morning}) =>
-    HomeScreen(
-      plants: FakePlantRepository([lemon, box]),
-      careLogs: FakeCareLogRepository(),
-      journal: FakeJournalRepository(),
-      photos: FakePhotoStore(),
-      photoPicker: FakePhotoPicker(),
-      species: FakeSpeciesCatalog([lemonSpecies]),
-      clock: clock,
-    );
+Widget home(
+  SettingsController settings, {
+  DateTime Function() clock = morning,
+}) => HomeScreen(
+  plants: FakePlantRepository([lemon, box]),
+  careLogs: FakeCareLogRepository(),
+  journal: FakeJournalRepository(),
+  photos: FakePhotoStore(),
+  photoPicker: FakePhotoPicker(),
+  species: FakeSpeciesCatalog([lemonSpecies]),
+  clock: clock,
+);
 
 Future<FakeNotificationScheduler> planned(DateTime now) async {
   final settings = SettingsController(
@@ -111,12 +111,15 @@ Future<FakeNotificationScheduler> planned(DateTime now) async {
 
 void main() {
   group('frost warning from the weather', () {
-    test('after a fetch with frost the warning names the plants at risk', () async {
-      final (sync, repository) = await refreshed();
+    test(
+      'after a fetch with frost the warning names the plants at risk',
+      () async {
+        final (sync, repository) = await refreshed();
 
-      expect(sync.settings.frostWarnings, [tonight]);
-      expect(repository.frostWarnings, [tonight]);
-    });
+        expect(sync.settings.frostWarnings, [tonight]);
+        expect(repository.frostWarnings, [tonight]);
+      },
+    );
 
     test('without a weather place no warning is stored', () async {
       final (sync, repository) = await refreshed(
@@ -158,6 +161,7 @@ void main() {
     ) async {
       final settings = SettingsController(
         FakeSettingsRepository(
+          weatherLocation: munich,
           frostWarnings: [
             FrostWarning(
               day: DateTime.utc(2026, 10, 19),
@@ -174,10 +178,20 @@ void main() {
       expect(find.text('Frost tomorrow night: down to -4 °C'), findsOneWidget);
     });
 
-    testWidgets('without a weather place no warning is shown; old warnings '
-        'are not shown', (tester) async {
+    testWidgets('without a weather place no warning is shown', (tester) async {
       final settings = SettingsController(
         FakeSettingsRepository(frostWarnings: [tonight]),
+      );
+      await settings.load();
+
+      await tester.pumpApp(home(settings), settings: settings);
+
+      expect(find.textContaining('Frost'), findsNothing);
+    });
+
+    testWidgets('old warnings are not shown', (tester) async {
+      final settings = SettingsController(
+        FakeSettingsRepository(weatherLocation: munich, frostWarnings: [tonight]),
       );
       await settings.load();
 

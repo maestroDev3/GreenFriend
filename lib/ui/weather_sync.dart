@@ -88,13 +88,11 @@ class WeatherSync extends ChangeNotifier {
     );
   }
 
-  int _tolerance(Plant plant) => toleratedMinimum(
-    plant,
-    switch (plant.speciesId) {
-      final id? => species?.byId(id),
-      null => null,
-    },
-  );
+  int _tolerance(Plant plant) =>
+      toleratedMinimum(plant, switch (plant.speciesId) {
+        final id? => species?.byId(id),
+        null => null,
+      });
 
   void _setHint(WeatherHint? hint) {
     if (hint == _hint) return;

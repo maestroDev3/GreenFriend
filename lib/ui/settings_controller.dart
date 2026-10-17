@@ -115,9 +115,8 @@ class SettingsController extends ChangeNotifier {
 
   Future<void> setFrostWarnings(List<FrostWarning> warnings) async {
     if (warnings.length == _frostWarnings.length &&
-        Iterable.generate(
-          warnings.length,
-        ).every((i) => warnings[i] == _frostWarnings[i])) {
+        Iterable.generate(warnings.length)
+            .every((i) => warnings[i] == _frostWarnings[i])) {
       return;
     }
     _frostWarnings = List.unmodifiable(warnings);
