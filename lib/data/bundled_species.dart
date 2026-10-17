@@ -5,7 +5,8 @@ import '../domain/species.dart';
 ///
 /// Intervals are typical values for the growing season (spring to autumn;
 /// balcony plants outdoors in summer), taken from general horticultural care
-/// guides; they are a starting point the user can adjust per plant. Seasonal
+/// guides; they are a starting point the user can adjust per plant. The
+/// lowest temperature is a rough guide value in whole °C. Seasonal
 /// adjustment follows in #112.
 final List<Species> bundledSpecies = List.unmodifiable([
   Species(
@@ -20,6 +21,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'monstera-adansonii',
@@ -34,6 +36,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 13,
   ),
   Species(
     id: 'rhaphidophora-tetrasperma',
@@ -47,6 +50,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'epipremnum-aureum',
@@ -61,6 +65,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'philodendron-hederaceum',
@@ -75,6 +80,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'thaumatophyllum-bipinnatifidum',
@@ -88,6 +94,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'syngonium-podophyllum',
@@ -102,6 +109,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'dracaena-trifasciata',
@@ -115,6 +123,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.medium,
     humidity: Humidity.low,
+    minTemperature: 10,
   ),
   Species(
     id: 'dracaena-angolensis',
@@ -128,6 +137,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.low,
+    minTemperature: 10,
   ),
   Species(
     id: 'zamioculcas-zamiifolia',
@@ -141,6 +151,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.low,
     humidity: Humidity.low,
+    minTemperature: 12,
   ),
   Species(
     id: 'dracaena-fragrans',
@@ -154,6 +165,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'dracaena-marginata',
@@ -167,6 +179,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.low,
+    minTemperature: 12,
   ),
   Species(
     id: 'dracaena-sanderiana',
@@ -180,6 +193,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'spathiphyllum-wallisii',
@@ -193,6 +207,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.low,
     humidity: Humidity.high,
+    minTemperature: 13,
   ),
   Species(
     id: 'ficus-lyrata',
@@ -206,6 +221,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'ficus-elastica',
@@ -219,6 +235,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'ficus-benjamina',
@@ -233,6 +250,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'ficus-microcarpa',
@@ -247,6 +265,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'ficus-pumila',
@@ -261,6 +280,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 5,
   ),
   Species(
     id: 'chlorophytum-comosum',
@@ -274,6 +294,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 7,
   ),
   Species(
     id: 'aloe-vera',
@@ -287,6 +308,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'crassula-ovata',
@@ -300,6 +322,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'echeveria',
@@ -313,6 +336,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'haworthiopsis-attenuata',
@@ -326,6 +350,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'sedum-morganianum',
@@ -339,6 +364,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'curio-rowleyanus',
@@ -352,6 +378,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.low,
+    minTemperature: 7,
   ),
   Species(
     id: 'ceropegia-woodii',
@@ -365,6 +392,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.low,
+    minTemperature: 10,
   ),
   Species(
     id: 'mammillaria',
@@ -378,6 +406,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'schlumbergera',
@@ -391,6 +420,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'euphorbia-trigona',
@@ -404,6 +434,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 12,
   ),
   Species(
     id: 'kalanchoe-blossfeldiana',
@@ -417,6 +448,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 10,
   ),
   Species(
     id: 'beaucarnea-recurvata',
@@ -430,6 +462,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 7,
   ),
   Species(
     id: 'yucca-gigantea',
@@ -443,6 +476,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 2,
   ),
   Species(
     id: 'cycas-revoluta',
@@ -456,6 +490,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.low,
+    minTemperature: -5,
   ),
   Species(
     id: 'dypsis-lutescens',
@@ -469,6 +504,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'chamaedorea-elegans',
@@ -482,6 +518,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.low,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'howea-forsteriana',
@@ -495,6 +532,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'strelitzia-reginae',
@@ -508,6 +546,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'strelitzia-nicolai',
@@ -521,6 +560,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'schefflera-arboricola',
@@ -535,6 +575,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'radermachera-sinica',
@@ -549,6 +590,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'araucaria-heterophylla',
@@ -562,6 +604,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'aspidistra-elatior',
@@ -575,6 +618,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.low,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'aglaonema-commutatum',
@@ -588,6 +632,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.low,
     humidity: Humidity.medium,
+    minTemperature: 15,
   ),
   Species(
     id: 'dieffenbachia-seguine',
@@ -601,6 +646,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'anthurium-andraeanum',
@@ -614,6 +660,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'alocasia-amazonica',
@@ -627,6 +674,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'goeppertia-orbifolia',
@@ -640,6 +688,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'goeppertia-makoyana',
@@ -653,6 +702,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'maranta-leuconeura',
@@ -666,6 +716,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'fittonia-albivenis',
@@ -680,6 +731,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'peperomia-obtusifolia',
@@ -693,6 +745,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'pilea-peperomioides',
@@ -706,6 +759,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'tradescantia-zebrina',
@@ -720,6 +774,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'hedera-helix',
@@ -734,6 +789,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: -15,
   ),
   Species(
     id: 'cissus-rhombifolia',
@@ -748,6 +804,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'hoya-carnosa',
@@ -761,6 +818,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'aeschynanthus-radicans',
@@ -775,6 +833,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'plectranthus-verticillatus',
@@ -789,6 +848,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'nephrolepis-exaltata',
@@ -802,6 +862,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'asplenium-nidus',
@@ -815,6 +876,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'adiantum-raddianum',
@@ -828,6 +890,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 13,
   ),
   Species(
     id: 'asparagus-setaceus',
@@ -841,6 +904,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'soleirolia-soleirolii',
@@ -855,6 +919,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 0,
   ),
   Species(
     id: 'phalaenopsis',
@@ -868,6 +933,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'guzmania-lingulata',
@@ -881,6 +947,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'streptocarpus-ionanthus',
@@ -894,6 +961,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'begonia-maculata',
@@ -908,6 +976,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'codiaeum-variegatum',
@@ -922,6 +991,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'clivia-miniata',
@@ -935,6 +1005,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 8,
   ),
   Species(
     id: 'hibiscus-rosa-sinensis',
@@ -949,6 +1020,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'ulmus-parvifolia',
@@ -963,6 +1035,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: -10,
   ),
   Species(
     id: 'carmona-retusa',
@@ -977,6 +1050,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'juniperus-procumbens',
@@ -991,6 +1065,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: -20,
   ),
   Species(
     id: 'serissa-japonica',
@@ -1005,6 +1080,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 5,
   ),
   Species(
     id: 'sageretia-theezans',
@@ -1019,6 +1095,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'portulacaria-afra',
@@ -1033,6 +1110,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'ligustrum-sinense',
@@ -1047,6 +1125,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: -10,
   ),
   Species(
     id: 'acer-palmatum',
@@ -1061,6 +1140,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: -20,
   ),
   Species(
     id: 'pelargonium-zonale',
@@ -1075,6 +1155,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 3,
   ),
   Species(
     id: 'petunia-atkinsiana',
@@ -1089,6 +1170,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 1,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 2,
   ),
   Species(
     id: 'calibrachoa',
@@ -1103,6 +1185,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 2,
   ),
   Species(
     id: 'lobelia-erinus',
@@ -1117,6 +1200,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 2,
   ),
   Species(
     id: 'fuchsia',
@@ -1131,6 +1215,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 3,
   ),
   Species(
     id: 'hydrangea-macrophylla',
@@ -1145,6 +1230,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: -15,
   ),
   Species(
     id: 'lavandula-angustifolia',
@@ -1159,6 +1245,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: -15,
   ),
   Species(
     id: 'nerium-oleander',
@@ -1173,6 +1260,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: -5,
   ),
   Species(
     id: 'olea-europaea',
@@ -1187,6 +1275,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: -7,
   ),
   Species(
     id: 'citrus-limon',
@@ -1201,6 +1290,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 3,
   ),
   Species(
     id: 'bougainvillea-glabra',
@@ -1215,6 +1305,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 7,
   ),
   Species(
     id: 'mandevilla-sanderi',
@@ -1229,6 +1320,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'rosa-chinensis',
@@ -1243,6 +1335,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: -10,
   ),
   Species(
     id: 'buxus-sempervirens',
@@ -1257,6 +1350,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: -20,
   ),
   Species(
     id: 'solanum-lycopersicum',
@@ -1271,6 +1365,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 1,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'ocimum-basilicum',
@@ -1285,6 +1380,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 1,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'salvia-rosmarinus',
@@ -1299,6 +1395,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: -10,
   ),
   Species(
     id: 'mentha-piperita',
@@ -1313,6 +1410,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 2,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: -20,
   ),
   Species(
     id: 'thymus-vulgaris',
@@ -1327,6 +1425,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: -15,
   ),
   Species(
     id: 'petroselinum-crispum',
@@ -1340,6 +1439,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: -10,
   ),
   Species(
     id: 'allium-schoenoprasum',
@@ -1354,6 +1454,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 2,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: -20,
   ),
   Species(
     id: 'salvia-officinalis',
@@ -1368,6 +1469,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: -15,
   ),
   Species(
     id: 'cucumis-sativus',
@@ -1382,6 +1484,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 1,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 8,
   ),
   Species(
     id: 'fragaria-ananassa',
@@ -1395,6 +1498,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: -15,
   ),
   Species(
     id: 'cucurbita-pepo',
@@ -1408,6 +1512,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'brassica-oleracea-italica',
@@ -1421,6 +1526,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: -5,
   ),
   Species(
     id: 'capsicum-annuum',
@@ -1434,6 +1540,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 8,
   ),
   Species(
     id: 'lactuca-sativa',
@@ -1447,6 +1554,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: -3,
   ),
   Species(
     id: 'raphanus-sativus',
@@ -1460,6 +1568,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: -3,
   ),
   Species(
     id: 'phaseolus-vulgaris',
@@ -1473,6 +1582,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'goeppertia-lancifolia',
@@ -1486,6 +1596,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'ctenanthe-burle-marxii',
@@ -1499,6 +1610,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'stromanthe-sanguinea',
@@ -1512,6 +1624,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'philodendron-erubescens',
@@ -1525,6 +1638,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
   Species(
     id: 'scindapsus-pictus',
@@ -1539,6 +1653,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 6,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 15,
   ),
   Species(
     id: 'alocasia-zebrina',
@@ -1552,6 +1667,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'alocasia-macrorrhizos',
@@ -1565,6 +1681,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'peperomia-argyreia',
@@ -1578,6 +1695,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'peperomia-caperata',
@@ -1591,6 +1709,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'pilea-cadierei',
@@ -1605,6 +1724,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'oxalis-triangularis',
@@ -1618,6 +1738,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'cyclamen-persicum',
@@ -1631,6 +1752,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'lithops',
@@ -1644,6 +1766,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'opuntia-microdasys',
@@ -1657,6 +1780,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'echinocactus-grusonii',
@@ -1670,6 +1794,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 5,
   ),
   Species(
     id: 'agave-attenuata',
@@ -1683,6 +1808,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 3,
   ),
   Species(
     id: 'euphorbia-milii',
@@ -1696,6 +1822,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.direct,
     humidity: Humidity.low,
+    minTemperature: 12,
   ),
   Species(
     id: 'ficus-benghalensis',
@@ -1710,6 +1837,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'pachira-aquatica',
@@ -1724,6 +1852,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'coffea-arabica',
@@ -1737,6 +1866,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 13,
   ),
   Species(
     id: 'musa-acuminata',
@@ -1750,6 +1880,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.direct,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'rhapis-excelsa',
@@ -1763,6 +1894,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 5,
   ),
   Species(
     id: 'phoenix-roebelenii',
@@ -1776,6 +1908,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'begonia-rex',
@@ -1789,6 +1922,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 15,
   ),
   Species(
     id: 'hypoestes-phyllostachya',
@@ -1803,6 +1937,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 3,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 15,
   ),
   Species(
     id: 'tillandsia',
@@ -1816,6 +1951,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 60,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'platycerium-bifurcatum',
@@ -1829,6 +1965,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'cordyline-fruticosa',
@@ -1842,6 +1979,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 12,
   ),
   Species(
     id: 'gardenia-jasminoides',
@@ -1856,6 +1994,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     pruningIntervalMonths: 12,
     light: Light.brightIndirect,
     humidity: Humidity.high,
+    minTemperature: 12,
   ),
   Species(
     id: 'dendrobium-nobile',
@@ -1869,6 +2008,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 10,
   ),
   Species(
     id: 'aechmea-fasciata',
@@ -1882,6 +2022,7 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 36,
     light: Light.brightIndirect,
     humidity: Humidity.medium,
+    minTemperature: 15,
   ),
   Species(
     id: 'paphiopedilum',
@@ -1895,5 +2036,6 @@ final List<Species> bundledSpecies = List.unmodifiable([
     repottingIntervalMonths: 24,
     light: Light.medium,
     humidity: Humidity.medium,
+    minTemperature: 13,
   ),
 ]);
