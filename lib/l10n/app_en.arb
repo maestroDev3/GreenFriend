@@ -1064,5 +1064,17 @@
         "type": "int"
       }
     }
+  },
+  "widgetTitle": "Care today",
+  "@widgetTitle": {
+    "description": "Title of the home-screen widget."
+  },
+  "widgetAllHappy": "All plants are happy today",
+  "@widgetAllHappy": {
+    "description": "Home-screen widget text when nothing is due."
+  },
+  "widgetOpenToRefresh": "Open Green Friend to refresh",
+  "@widgetOpenToRefresh": {
+    "description": "Home-screen widget text when its data is from an earlier day."
   }
 }
