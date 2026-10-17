@@ -1292,5 +1292,62 @@
         "type": "String"
       }
     }
+  },
+  "healthCheckTitle": "Health check",
+  "@healthCheckTitle": {
+    "description": "Title of the health check screen and tooltip of its action on the plant detail page."
+  },
+  "healthCreditsTitle": "Uses plant.id credits",
+  "@healthCreditsTitle": {
+    "description": "Title of the one-time dialog before the first health check."
+  },
+  "healthCreditsMessage": "Each health check uses credits of your plant.id account.",
+  "@healthCreditsMessage": {
+    "description": "Text of the one-time dialog before the first health check."
+  },
+  "healthCreditsConfirm": "Check",
+  "@healthCreditsConfirm": {
+    "description": "Button that confirms the credit dialog and starts the health check."
+  },
+  "healthApiKeyNeeded": "To check plant health, enter your plant.id API key in the settings (More → Settings → Plant identification).",
+  "@healthApiKeyNeeded": {
+    "description": "Shown when a health check is started without API key."
+  },
+  "healthChecking": "Checking health …",
+  "@healthChecking": {
+    "description": "Progress text while the health check runs."
+  },
+  "healthUnavailable": "The health check is not reachable. Check your internet connection and try again.",
+  "@healthUnavailable": {
+    "description": "Shown when the health check service cannot be reached."
+  },
+  "healthLooksHealthy": "Your plant looks healthy",
+  "@healthLooksHealthy": {
+    "description": "Health check result: no problem found."
+  },
+  "healthProblems": "Possible problems",
+  "@healthProblems": {
+    "description": "Health check result: heading of the likely problems."
+  },
+  "healthProbability": "{percent} % likely",
+  "@healthProbability": {
+    "description": "How likely a health problem is.",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "healthPrevention": "Prevention",
+  "@healthPrevention": {
+    "description": "Heading of the prevention advice of a health problem."
+  },
+  "healthBiological": "Biological treatment",
+  "@healthBiological": {
+    "description": "Heading of the biological treatments of a health problem."
+  },
+  "healthChemical": "Chemical treatment",
+  "@healthChemical": {
+    "description": "Heading of the chemical treatments of a health problem."
   }
 }

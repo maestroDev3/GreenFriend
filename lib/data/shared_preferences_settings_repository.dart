@@ -27,6 +27,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const weatherLocationKey = 'settings.v1.weatherLocation';
   static const vacationKey = 'settings.v1.vacation';
   static const frostKey = 'settings.v1.frost';
+  static const healthConsentKey = 'settings.v1.healthConsent';
 
   final SharedPreferences _preferences;
 
@@ -189,6 +190,14 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       }),
     );
   }
+
+  @override
+  Future<bool> loadHealthCheckConsent() async =>
+      _preferences.getBool(healthConsentKey) ?? false;
+
+  @override
+  Future<void> saveHealthCheckConsent(bool consent) =>
+      _preferences.setBool(healthConsentKey, consent);
 
   @override
   Future<List<FrostWarning>> loadFrostWarnings() async {

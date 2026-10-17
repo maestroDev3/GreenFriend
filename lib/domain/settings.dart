@@ -56,6 +56,11 @@ abstract interface class SettingsRepository {
   /// Stores [vacation]; `null` removes it.
   Future<void> saveVacation(Vacation? vacation);
 
+  /// Whether the user agreed that health checks use plant.id credits.
+  Future<bool> loadHealthCheckConsent();
+
+  Future<void> saveHealthCheckConsent(bool consent);
+
   /// The frost warnings of the last weather fetch; empty if none.
   Future<List<FrostWarning>> loadFrostWarnings();
 

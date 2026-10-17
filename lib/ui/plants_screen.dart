@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
+import '../domain/health.dart';
 import '../domain/timelapse.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
@@ -24,6 +25,7 @@ class PlantsScreen extends StatefulWidget {
     required this.photoPicker,
     this.fileSharing,
     this.timelapseEncoder,
+    this.healthChecker,
     this.clock = DateTime.now,
   });
 
@@ -39,6 +41,9 @@ class PlantsScreen extends StatefulWidget {
   /// Used to share a plant's time-lapse; both `null` hide sharing.
   final FileSharing? fileSharing;
   final TimelapseEncoder? timelapseEncoder;
+
+  /// Checks a plant's health on a photo; `null` hides the health check.
+  final PlantHealthChecker? healthChecker;
   final Clock clock;
 
   @override
@@ -61,6 +66,7 @@ class _PlantsScreenState extends State<PlantsScreen> {
           plantId: plant.id,
           fileSharing: widget.fileSharing,
           timelapseEncoder: widget.timelapseEncoder,
+          healthChecker: widget.healthChecker,
           clock: widget.clock,
         ),
       ),

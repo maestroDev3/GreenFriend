@@ -13,6 +13,7 @@ import 'data/home_care_widget.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
 import 'data/open_meteo_weather_service.dart';
+import 'data/plant_id_health_checker.dart';
 import 'data/plant_id_identifier.dart';
 import 'data/platform_file_sharing.dart';
 import 'data/shared_preferences_care_log_repository.dart';
@@ -114,6 +115,7 @@ Future<void> main() async {
       missingSpecies: SharedPreferencesMissingSpeciesRepository(preferences),
       weatherSync: weatherSync,
       timelapseEncoder: const GifTimelapseEncoder(),
+      healthChecker: PlantIdHealthChecker(),
     ),
   );
 }

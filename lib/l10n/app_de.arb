@@ -233,5 +233,18 @@
   "frostTomorrowNight": "Morgen Nacht Frost: bis {celsius} °C",
   "coldTonight": "Heute Nacht kalt: bis {celsius} °C",
   "coldTomorrowNight": "Morgen Nacht kalt: bis {celsius} °C",
-  "frostPlants": "Reinholen oder schützen: {plants}"
+  "frostPlants": "Reinholen oder schützen: {plants}",
+  "healthCheckTitle": "Gesundheitscheck",
+  "healthCreditsTitle": "Verbraucht plant.id-Credits",
+  "healthCreditsMessage": "Jeder Gesundheitscheck verbraucht Credits deines plant.id-Kontos.",
+  "healthCreditsConfirm": "Prüfen",
+  "healthApiKeyNeeded": "Für den Gesundheitscheck trage deinen plant.id-API-Schlüssel in den Einstellungen ein (Mehr → Einstellungen → Pflanzenerkennung).",
+  "healthChecking": "Gesundheit wird geprüft …",
+  "healthUnavailable": "Der Gesundheitscheck ist nicht erreichbar. Prüfe deine Internetverbindung und versuche es noch einmal.",
+  "healthLooksHealthy": "Deine Pflanze sieht gesund aus",
+  "healthProblems": "Mögliche Probleme",
+  "healthProbability": "{percent} % wahrscheinlich",
+  "healthPrevention": "Vorbeugung",
+  "healthBiological": "Biologische Behandlung",
+  "healthChemical": "Chemische Behandlung"
 }
