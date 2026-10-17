@@ -8,10 +8,12 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Initiative #148 (epics #204, #207, #210), then #149 (#213, #216, #219) – branch `epic/care-and-knowledge`
+- Branch `epic/care-and-knowledge`: initiative #148 done on the branch (epics #204, #207, #210 – awaiting your APK test), now #149
+- #214 Frost sensitivity per species (epic #213)
 
 ## Up next
 
+- #215 Frost warning for outdoor plants, then epics #216 and #219
 - #111 Secure the release signing key – user task (store keystore and password separately)
 
 ## Backlog by initiative → epic
@@ -20,7 +22,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #213 Frost protection for outdoor plants | 0 of 2 closed | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
+| #213 Frost protection for outdoor plants | 0 of 2 closed (#214 in progress, #215 ready) | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
 | #216 Plant health check | 0 of 2 closed | #217 Check plant health from a photo → #218 Save health checks in the journal |
 | #219 Right spot and right amount | 0 of 2 closed | #220 Light check at a spot → #221 Water amount from pot size |
 
@@ -42,19 +44,19 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #204 Care at a glance on the home screen | 0 of 2 closed | #205 Home-screen widget: care due today → #206 Mark care as done from the widget |
-| #207 Plants cared for while I am away | 0 of 2 closed | #208 Vacation mode pauses my reminders → #209 Share a care plan with a plant sitter |
-| #210 Motivation through progress | 0 of 2 closed | #211 Care statistics and streaks → #212 Growth time-lapse from journal photos |
+| #204 Care at a glance on the home screen | 2 of 2 closed (on the test branch) | #205 Home-screen widget: care due today → #206 Mark care as done from the widget |
+| #207 Plants cared for while I am away | 2 of 2 closed (on the test branch) | #208 Vacation mode pauses my reminders → #209 Share a care plan with a plant sitter |
+| #210 Motivation through progress | 2 of 2 closed (on the test branch) | #211 Care statistics and streaks → #212 Growth time-lapse from journal photos |
 
 Guiding principle: as much as possible happens automatically (photo → species → care plan → calendar → one daily notification).
 
 ## Recently done
 
+- #210 Motivation: care statistics with streaks (#211), growth time-lapse as GIF (#212) – test branch
+- #207 Vacation mode (#208) and plant-sitter plan via share (#209) – test branch
+- #204 Home-screen widget with one-tap done (#205, #206) – test branch
 - Epics #13, #31, #175, #184 merged into `main` (#231) after the user test
 - #26 Weather for outdoor plants (Open-Meteo, place search, rain counts as watering, heat/rain hint)
-- #161 Missing species list + 32 more species (now 141)
-- #185 Care tasks in the phone calendar (auto sync, calendar picked in the app, 60 days, all-day)
-- #177 Reminder buttons: mark care as done right in the notification (one reminder per plant)
 
 ## Decisions
 
