@@ -246,5 +246,8 @@
   "healthProbability": "{percent} % wahrscheinlich",
   "healthPrevention": "Vorbeugung",
   "healthBiological": "Biologische Behandlung",
-  "healthChemical": "Chemische Behandlung"
+  "healthChemical": "Chemische Behandlung",
+  "healthSaveToJournal": "Im Tagebuch speichern",
+  "healthNoteHealthy": "Gesundheitscheck: sieht gesund aus",
+  "healthNoteProblems": "Gesundheitscheck: {problems}"
 }

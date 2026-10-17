@@ -1349,5 +1349,22 @@
   "healthChemical": "Chemical treatment",
   "@healthChemical": {
     "description": "Heading of the chemical treatments of a health problem."
+  },
+  "healthSaveToJournal": "Save to journal",
+  "@healthSaveToJournal": {
+    "description": "Button on the health check result that saves it as a journal entry."
+  },
+  "healthNoteHealthy": "Health check: looks healthy",
+  "@healthNoteHealthy": {
+    "description": "Journal note of a health check without problems."
+  },
+  "healthNoteProblems": "Health check: {problems}",
+  "@healthNoteProblems": {
+    "description": "Journal note of a health check listing the likely problems with probability.",
+    "placeholders": {
+      "problems": {
+        "type": "String"
+      }
+    }
   }
 }
