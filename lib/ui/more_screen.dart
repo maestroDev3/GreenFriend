@@ -63,8 +63,10 @@ class MoreScreen extends StatelessWidget {
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) =>
-                            StatisticsScreen(plants: plants, careLogs: careLogs),
+                        builder: (_) => StatisticsScreen(
+                          plants: plants,
+                          careLogs: careLogs,
+                        ),
                       ),
                     ),
                   ),

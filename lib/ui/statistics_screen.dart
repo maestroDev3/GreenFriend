@@ -139,7 +139,10 @@ class _MonthChart extends StatelessWidget {
     final locale = Localizations.localeOf(context).toString();
     final initial = DateFormat('MMMMM', locale);
     final name = DateFormat.yMMM(locale);
-    final highest = counts.fold(1, (max, entry) => entry.count > max ? entry.count : max);
+    final highest = counts.fold(
+      1,
+      (max, entry) => entry.count > max ? entry.count : max,
+    );
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
