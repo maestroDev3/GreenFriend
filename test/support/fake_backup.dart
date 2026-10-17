@@ -26,12 +26,17 @@ class FakeFileSharing implements FileSharing {
   /// `null` simulates a cancelled file picker.
   final String? picked;
   final shared = <String>[];
+  final sharedTexts = <String>[];
 
   @override
   Future<String> temporaryPath(String fileName) async => '/tmp/$fileName';
 
   @override
   Future<void> shareFile(String path) async => shared.add(path);
+
+  @override
+  Future<void> shareText(String text, {String? subject}) async =>
+      sharedTexts.add(text);
 
   @override
   Future<String?> pickFile() async => picked;
