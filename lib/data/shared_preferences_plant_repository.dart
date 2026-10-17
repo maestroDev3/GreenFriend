@@ -72,6 +72,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     DateTime? lastPrunedOn,
     bool winterRest = true,
     bool outdoor = false,
+    int? minTemperature,
   }) async {
     final plant = Plant(
       id: _newId(),
@@ -89,6 +90,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
       lastPrunedOn: lastPrunedOn,
       winterRest: winterRest,
       outdoor: outdoor,
+      minTemperature: minTemperature,
     );
     await _save([..._plants, plant]);
     return plant;
@@ -168,6 +170,7 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     'lastPrunedOn': _isoDayOrNull(plant.lastPrunedOn),
     'winterRest': plant.winterRest,
     'outdoor': plant.outdoor,
+    if (plant.minTemperature case final celsius?) 'minTemperature': celsius,
   };
 
   static String? _isoDayOrNull(DateTime? day) =>
@@ -198,5 +201,6 @@ class SharedPreferencesPlantRepository implements PlantRepository {
     // Plants stored before winter rest existed get it switched on.
     winterRest: json['winterRest'] as bool? ?? true,
     outdoor: json['outdoor'] as bool? ?? false,
+    minTemperature: json['minTemperature'] as int?,
   );
 }
