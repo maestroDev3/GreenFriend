@@ -1,16 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/gif_timelapse_encoder.dart';
 import 'package:green_friend/domain/timelapse.dart';
 import 'package:image/image.dart' as img;
 
 List<int> _jpeg(int width, int height) => img.encodeJpg(
-  img.Image(width: width, height: height)
-    ..clear(img.ColorRgb8(30, 140, 60)),
+  img.Image(width: width, height: height)..clear(img.ColorRgb8(30, 140, 60)),
 );
 
 List<int> _png(int width, int height) => img.encodePng(
-  img.Image(width: width, height: height)
-    ..clear(img.ColorRgb8(200, 200, 40)),
+  img.Image(width: width, height: height)..clear(img.ColorRgb8(200, 200, 40)),
 );
 
 void main() {
@@ -38,16 +38,19 @@ void main() {
     expect(decoded.height, 360);
   });
 
-  test('the encoder keeps small photos at their size (at most 480 px)', () async {
-    final gif = await encoder.encode([
-      TimelapseFrame(bytes: _png(200, 100), label: '1 Aug 2026'),
-      TimelapseFrame(bytes: _png(200, 100), label: '2 Aug 2026'),
-    ]);
+  test(
+    'the encoder keeps small photos at their size (at most 480 px)',
+    () async {
+      final gif = await encoder.encode([
+        TimelapseFrame(bytes: _png(200, 100), label: '1 Aug 2026'),
+        TimelapseFrame(bytes: _png(200, 100), label: '2 Aug 2026'),
+      ]);
 
-    final decoded = img.decodeGif(Uint8List.fromList(gif))!;
-    expect(decoded.width, 200);
-    expect(decoded.height, 100);
-  });
+      final decoded = img.decodeGif(Uint8List.fromList(gif))!;
+      expect(decoded.width, 200);
+      expect(decoded.height, 100);
+    },
+  );
 
   test('unreadable photos are skipped instead of failing', () async {
     final gif = await encoder.encode([

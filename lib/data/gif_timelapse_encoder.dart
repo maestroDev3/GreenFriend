@@ -35,7 +35,8 @@ List<int> _encodeGif(
 ) {
   final photos = [
     for (final frame in frames)
-      if (_decode(frame.bytes) case final photo?) (photo: photo, label: frame.label),
+      if (_decode(frame.bytes) case final photo?)
+        (photo: photo, label: frame.label),
   ];
   if (photos.isEmpty) {
     throw const TimelapseException('None of the photos is readable.');
