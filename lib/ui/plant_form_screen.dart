@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/frost.dart';
 import '../domain/care_actions.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
@@ -69,6 +70,9 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   late final _name = TextEditingController(text: widget.plant?.name);
   late final _species = TextEditingController(text: widget.plant?.species);
   late final _location = TextEditingController(text: widget.plant?.location);
+  late final _minTemperature = TextEditingController(
+    text: widget.plant?.minTemperature?.toString(),
+  );
   final _speciesFocus = FocusNode();
 
   /// Care profile the plant is linked to; cleared when the species text is
@@ -131,6 +135,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _name.dispose();
     _species.dispose();
     _location.dispose();
+    _minTemperature.dispose();
     _speciesFocus.dispose();
     for (final (_, input) in _schedules) {
       input.controller.dispose();
@@ -158,7 +163,17 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _fertilize.controller.text = '${species.fertilizingIntervalDays}';
     _repot.controller.text = '${species.repottingIntervalMonths}';
     _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
+    if (species.minTemperature case final celsius?) {
+      _minTemperature.text = '$celsius';
+    }
   }
+
+  /// The lowest temperature of the linked species, used when the field is
+  /// left empty.
+  int? get _speciesMinTemperature => switch (_speciesId) {
+    final id? => widget.species.byId(id)?.minTemperature,
+    null => null,
+  };
 
   void _setNameIfEmpty(String name) {
     if (_name.text.trim().isEmpty) _name.text = name;
@@ -300,6 +315,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     final fertilize = _fertilize.interval(max: 365);
     final repot = _repot.interval(max: 60);
     final prune = _prune.interval(max: 60);
+    final minTemperature = int.tryParse(_minTemperature.text.trim());
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -318,6 +334,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           lastPrunedOn: _prune.lastToSave(prune),
           winterRest: _winterRest,
           outdoor: _outdoor,
+          minTemperature: minTemperature,
         ),
       );
     } else {
@@ -336,6 +353,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         lastPrunedOn: _prune.lastToSave(prune),
         winterRest: _winterRest,
         outdoor: _outdoor,
+        minTemperature: minTemperature,
       );
       if (_photo case final photo?) {
         await widget.journal.add(plantId: plant.id, day: _today, photo: photo);
@@ -528,12 +546,37 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               value: _outdoor,
               onChanged: (value) => setState(() => _outdoor = value),
             ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _minTemperature,
+              decoration: InputDecoration(
+                labelText: l10n.minTemperatureLabel,
+                helperText: l10n.minTemperatureHelp,
+                helperMaxLines: 2,
+                hintText: '${_speciesMinTemperature ?? defaultMinTemperature}',
+                prefixIcon: const Icon(Icons.thermostat_outlined),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(signed: true),
+              validator: (value) => _validMinTemperature(value)
+                  ? null
+                  : l10n.minTemperatureInvalid,
+            ),
             const SizedBox(height: 24),
           ],
         ),
       ),
     );
   }
+}
+
+/// Whether [value] is empty or a whole °C value a plant can have.
+bool _validMinTemperature(String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return true;
+  final celsius = int.tryParse(text);
+  return celsius != null &&
+      celsius >= minTemperatureRange.min &&
+      celsius <= minTemperatureRange.max;
 }
 
 String _failureMessage(AppLocalizations l10n, IdentificationFailure failure) =>

@@ -1222,5 +1222,30 @@
         "type": "int"
       }
     }
+  },
+  "minTemperatureLabel": "Lowest temperature (°C)",
+  "@minTemperatureLabel": {
+    "description": "Plant form field: the lowest temperature the plant tolerates."
+  },
+  "minTemperatureHelp": "Frost warnings for outdoor plants use this value. Empty: value of the species.",
+  "@minTemperatureHelp": {
+    "description": "Helper text below the lowest temperature field."
+  },
+  "minTemperatureInvalid": "Enter a temperature from -30 to 20 °C",
+  "@minTemperatureInvalid": {
+    "description": "Validation error of the lowest temperature field."
+  },
+  "coldToleranceTitle": "Cold tolerance",
+  "@coldToleranceTitle": {
+    "description": "Detail page tile title: the lowest temperature the plant tolerates."
+  },
+  "toleratesDownTo": "Tolerates down to {celsius} °C",
+  "@toleratesDownTo": {
+    "description": "Detail page: the lowest temperature the plant tolerates.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
   }
 }

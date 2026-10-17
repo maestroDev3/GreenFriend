@@ -98,6 +98,18 @@ void main() {
       expect(backup.plants.single.species, 'Aloe vera');
     });
 
+    test('the backup keeps the lowest temperature', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(minTemperature: -4)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+
+      final restored = decodeBackup(encodeBackup(backup));
+
+      expect(restored.plants.single.minTemperature, -4);
+    });
+
     test('keeps a switched-off winter rest', () async {
       final backup = await createBackup(
         plants: FakePlantRepository([plant.copyWith(winterRest: false)]),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/frost.dart';
 import '../domain/backup_files.dart';
 import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
@@ -297,6 +298,12 @@ class _Details extends StatelessWidget {
             final days? => l10n.wateringEvery(days),
             null => l10n.noWateringSchedule,
           },
+        ),
+        const SizedBox(height: 12),
+        _CareTile(
+          icon: Icons.thermostat_outlined,
+          title: l10n.coldToleranceTitle,
+          value: l10n.toleratesDownTo(toleratedMinimum(plant, profile)),
         ),
         if (plant.winterRest && isWinterRest(today)) ...[
           const SizedBox(height: 12),

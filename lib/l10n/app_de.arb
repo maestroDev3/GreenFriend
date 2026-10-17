@@ -223,5 +223,10 @@
   "timelapseShare": "Als GIF teilen",
   "timelapseCreating": "GIF wird erstellt …",
   "timelapseFailed": "Der Zeitraffer konnte nicht erstellt werden.",
-  "timelapsePosition": "{index} von {count}"
+  "timelapsePosition": "{index} von {count}",
+  "minTemperatureLabel": "Tiefste Temperatur (°C)",
+  "minTemperatureHelp": "Frostwarnungen für Pflanzen draußen nutzen diesen Wert. Leer: Wert der Art.",
+  "minTemperatureInvalid": "Gib eine Temperatur von -30 bis 20 °C ein",
+  "coldToleranceTitle": "Kälteverträglichkeit",
+  "toleratesDownTo": "Verträgt bis {celsius} °C"
 }
