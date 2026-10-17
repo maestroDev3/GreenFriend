@@ -41,6 +41,7 @@ class DailyWeather {
     required this.day,
     required this.rainMm,
     this.maxTemperature,
+    this.minTemperature,
   });
 
   /// Calendar day (UTC midnight).
@@ -52,18 +53,23 @@ class DailyWeather {
   /// Highest temperature in °C, if known.
   final double? maxTemperature;
 
+  /// Lowest temperature in °C (usually in the night before), if known.
+  final double? minTemperature;
+
   @override
   bool operator ==(Object other) =>
       other is DailyWeather &&
       other.day == day &&
       other.rainMm == rainMm &&
-      other.maxTemperature == maxTemperature;
+      other.maxTemperature == maxTemperature &&
+      other.minTemperature == minTemperature;
 
   @override
-  int get hashCode => Object.hash(day, rainMm, maxTemperature);
+  int get hashCode => Object.hash(day, rainMm, maxTemperature, minTemperature);
 
   @override
-  String toString() => 'DailyWeather($day, $rainMm mm, $maxTemperature °C)';
+  String toString() =>
+      'DailyWeather($day, $rainMm mm, $minTemperature–$maxTemperature °C)';
 }
 
 /// The weather service could not be reached or answered with an error.
