@@ -132,6 +132,7 @@ class _AppShellState extends State<AppShell> {
             fileSharing: widget.fileSharing,
             missingSpecies: widget.missingSpecies,
             plants: widget.plants,
+            careLogs: widget.careLogs,
           ),
         ],
       ),

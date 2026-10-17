@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
+import '../domain/care_log_repository.dart';
 import '../domain/missing_species.dart';
 import '../domain/plant_repository.dart';
 import '../l10n/app_localizations.dart';
 import 'backup_screen.dart';
 import 'missing_species_screen.dart';
 import 'settings_screen.dart';
+import 'statistics_screen.dart';
 
 /// Settings and information about the app.
 class MoreScreen extends StatelessWidget {
@@ -16,6 +18,7 @@ class MoreScreen extends StatelessWidget {
     required this.fileSharing,
     this.missingSpecies,
     this.plants,
+    this.careLogs,
   });
 
   final BackupArchive backupArchive;
@@ -26,6 +29,9 @@ class MoreScreen extends StatelessWidget {
 
   /// For the plant sitter plan in the settings.
   final PlantRepository? plants;
+
+  /// With [plants], enables the statistics.
+  final CareLogRepository? careLogs;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +56,20 @@ class MoreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                if ((plants, careLogs) case (final plants?, final careLogs?))
+                  ListTile(
+                    leading: const Icon(Icons.insights_outlined),
+                    title: Text(l10n.statisticsTitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => StatisticsScreen(
+                          plants: plants,
+                          careLogs: careLogs,
+                        ),
+                      ),
+                    ),
+                  ),
                 ListTile(
                   leading: const Icon(Icons.backup_outlined),
                   title: Text(l10n.backupTitle),
