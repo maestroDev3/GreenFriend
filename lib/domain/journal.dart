@@ -9,6 +9,7 @@ class JournalEntry {
     required DateTime day,
     String? note,
     this.photo,
+    this.healthCheck = false,
   }) : day = dayOf(day),
        note = _optional(note) {
     if (this.note == null && photo == null) {
@@ -26,6 +27,9 @@ class JournalEntry {
   /// File name of the photo in the app's photo folder.
   final String? photo;
 
+  /// Whether the entry records a health check (shown with a health icon).
+  final bool healthCheck;
+
   @override
   bool operator ==(Object other) =>
       other is JournalEntry &&
@@ -33,10 +37,11 @@ class JournalEntry {
       other.plantId == plantId &&
       other.day == day &&
       other.note == note &&
-      other.photo == photo;
+      other.photo == photo &&
+      other.healthCheck == healthCheck;
 
   @override
-  int get hashCode => Object.hash(id, plantId, day, note, photo);
+  int get hashCode => Object.hash(id, plantId, day, note, photo, healthCheck);
 
   @override
   String toString() => 'JournalEntry($id, $plantId, $day)';
