@@ -12,6 +12,7 @@ import '../domain/journal.dart';
 import '../domain/journal_actions.dart';
 import '../domain/journal_repository.dart';
 import '../domain/timeline.dart';
+import '../domain/water_amount.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
@@ -399,9 +400,11 @@ class _Details extends StatelessWidget {
         _CareTile(
           icon: Icons.water_drop_outlined,
           title: l10n.wateringTileTitle,
-          value: switch (plant.wateringIntervalDays) {
-            final days? => l10n.wateringEvery(days),
-            null => l10n.noWateringSchedule,
+          value: switch ((plant.wateringIntervalDays, waterAmountMl(plant))) {
+            (final days?, final ml?) =>
+              '${l10n.wateringEvery(days)} · ${l10n.waterAmount(ml)}',
+            (final days?, null) => l10n.wateringEvery(days),
+            (null, _) => l10n.noWateringSchedule,
           },
         ),
         const SizedBox(height: 12),

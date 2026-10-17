@@ -1455,5 +1455,23 @@
   "potDiameterInvalid": "Enter a diameter from 5 to 100 cm",
   "@potDiameterInvalid": {
     "description": "Validation error of the pot diameter field."
+  },
+  "waterAmount": "about {ml} ml",
+  "@waterAmount": {
+    "description": "Suggested water amount per watering, from the pot size.",
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "careVerbWaterAmount": "Water (about {ml} ml)",
+  "@careVerbWaterAmount": {
+    "description": "Watering task with the suggested amount, in reminders and calendar events.",
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
   }
 }
