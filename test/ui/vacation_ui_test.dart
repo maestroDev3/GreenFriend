@@ -53,14 +53,16 @@ void main() {
   group('vacation in the settings', () {
     testWidgets('plans a vacation with the date range picker', (tester) async {
       final (settings, repository) = await loaded();
-      await tester.pumpApp(
-        SettingsScreen(clock: fixedNow),
-        settings: settings,
-      );
+      await tester.pumpApp(SettingsScreen(clock: fixedNow), settings: settings);
       await scrollTo(tester, 'Plan vacation');
-      expect(find.text('No vacation planned – reminders run as usual.'),
-          findsOneWidget);
+      expect(
+        find.text('No vacation planned – reminders run as usual.'),
+        findsOneWidget,
+      );
 
+      // The picker's header needs more width than a phone in the test font.
+      tester.view.physicalSize = const Size(900, 1400) * tester.view.devicePixelRatio;
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Plan vacation'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('20').first);
@@ -77,10 +79,7 @@ void main() {
 
     testWidgets('ends a planned vacation', (tester) async {
       final (settings, repository) = await loaded(current: vacation);
-      await tester.pumpApp(
-        SettingsScreen(clock: fixedNow),
-        settings: settings,
-      );
+      await tester.pumpApp(SettingsScreen(clock: fixedNow), settings: settings);
       await scrollTo(tester, 'End vacation');
 
       await tester.tap(find.text('End vacation'));

@@ -520,9 +520,7 @@ class _VacationTiles extends StatelessWidget {
           : DateTimeRange(start: current.first, end: current.last),
     );
     if (picked == null) return;
-    await settings.setVacation(
-      Vacation(first: picked.start, last: picked.end),
-    );
+    await settings.setVacation(Vacation(first: picked.start, last: picked.end));
   }
 
   @override

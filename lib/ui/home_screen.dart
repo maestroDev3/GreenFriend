@@ -322,9 +322,8 @@ class _VacationBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final date = DateFormat.yMMMd(
-      Localizations.localeOf(context).toString(),
-    ).format(until);
+    final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(until);
     return Card(
       color: theme.colorScheme.secondaryContainer,
       child: Padding(
