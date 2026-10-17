@@ -210,5 +210,13 @@
   "onVacationUntil": "Im Urlaub bis {date}",
   "sitterPlanTitle": "Pflegeplan: {first} – {last}",
   "sitterPlanEmpty": "In diesem Zeitraum ist keine Pflege nötig.",
-  "shareSitterPlan": "Plan für den Pflanzensitter teilen"
+  "shareSitterPlan": "Plan für den Pflanzensitter teilen",
+  "statisticsTitle": "Statistik",
+  "statisticsEmpty": "Deine Statistik erscheint hier, sobald du Pflege einträgst.",
+  "currentStreak": "Aktuelle Serie",
+  "bestStreak": "Beste Serie",
+  "dayCount": "{count, plural, =1{1 Tag} other{{count} Tage}}",
+  "carePerMonth": "Pflege pro Monat",
+  "mostCaredFor": "Am meisten gepflegt: {plant} ({count}×)",
+  "monthCareCount": "{month}: {count}"
 }

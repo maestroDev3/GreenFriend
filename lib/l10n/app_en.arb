@@ -1141,5 +1141,58 @@
   "shareSitterPlan": "Share plan for the plant sitter",
   "@shareSitterPlan": {
     "description": "Button in the vacation section that shares the care plan as text."
+  },
+  "statisticsTitle": "Statistics",
+  "@statisticsTitle": {
+    "description": "Title of the care statistics screen and its entry in More."
+  },
+  "statisticsEmpty": "Your statistics appear here once you record care.",
+  "@statisticsEmpty": {
+    "description": "Statistics screen without any care history."
+  },
+  "currentStreak": "Current streak",
+  "@currentStreak": {
+    "description": "Label: days in a row without overdue care, up to today."
+  },
+  "bestStreak": "Best streak",
+  "@bestStreak": {
+    "description": "Label: longest run of days without overdue care."
+  },
+  "dayCount": "{count, plural, =1{1 day} other{{count} days}}",
+  "@dayCount": {
+    "description": "A number of days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "carePerMonth": "Care per month",
+  "@carePerMonth": {
+    "description": "Title of the monthly care chart."
+  },
+  "mostCaredFor": "Most cared for: {plant} ({count}×)",
+  "@mostCaredFor": {
+    "description": "The plant with the most care actions in the last year.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monthCareCount": "{month}: {count}",
+  "@monthCareCount": {
+    "description": "Accessibility label of a month bar.",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
