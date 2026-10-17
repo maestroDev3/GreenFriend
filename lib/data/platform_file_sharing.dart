@@ -21,6 +21,11 @@ class PlatformFileSharing implements FileSharing {
   }
 
   @override
+  Future<void> shareText(String text, {String? subject}) async {
+    await SharePlus.instance.share(ShareParams(text: text, subject: subject));
+  }
+
+  @override
   Future<String?> pickFile() async {
     final file = await FilePicker.pickFile();
     return file?.path;

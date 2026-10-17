@@ -207,5 +207,8 @@
   "endVacation": "Urlaub beenden",
   "vacationPeriod": "{first} – {last}",
   "vacationHint": "An diesen Tagen kommen keine Erinnerungen. Kalender und Widget zeigen den Plan weiter.",
-  "onVacationUntil": "Im Urlaub bis {date}"
+  "onVacationUntil": "Im Urlaub bis {date}",
+  "sitterPlanTitle": "Pflegeplan: {first} – {last}",
+  "sitterPlanEmpty": "In diesem Zeitraum ist keine Pflege nötig.",
+  "shareSitterPlan": "Plan für den Pflanzensitter teilen"
 }

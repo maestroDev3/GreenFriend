@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/backup_files.dart';
 import '../domain/missing_species.dart';
+import '../domain/plant_repository.dart';
 import '../l10n/app_localizations.dart';
 import 'backup_screen.dart';
 import 'missing_species_screen.dart';
@@ -14,6 +15,7 @@ class MoreScreen extends StatelessWidget {
     required this.backupArchive,
     required this.fileSharing,
     this.missingSpecies,
+    this.plants,
   });
 
   final BackupArchive backupArchive;
@@ -21,6 +23,9 @@ class MoreScreen extends StatelessWidget {
 
   /// Identified species without a care profile; `null` hides the entry.
   final MissingSpeciesRepository? missingSpecies;
+
+  /// For the plant sitter plan in the settings.
+  final PlantRepository? plants;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,8 @@ class MoreScreen extends StatelessWidget {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute<void>(
-                      builder: (_) => const SettingsScreen(),
+                      builder: (_) =>
+                          SettingsScreen(plants: plants, sharing: fileSharing),
                     ),
                   ),
                 ),
