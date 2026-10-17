@@ -2,6 +2,7 @@ import 'care_log.dart';
 import 'care_status.dart';
 import 'clock.dart';
 import 'plant.dart';
+import 'vacation.dart';
 
 /// Time of day for the daily reminder.
 class ReminderTime {
@@ -194,12 +195,14 @@ class PlantReminder {
 
 /// Plans one reminder per plant and day for up to [days] days (see
 /// [plannedReminders] for the start day), so each notification can offer
-/// buttons for exactly that plant's due care.
+/// buttons for exactly that plant's due care. Days of [vacation] get no
+/// reminders; the day after shows everything due or overdue.
 List<PlantReminder> plannedPlantReminders(
   Iterable<Plant> plants, {
   required DateTime now,
   required ReminderTime time,
   int days = 14,
+  Vacation? vacation,
 }) {
   final today = dayOf(now);
   final passed =
@@ -208,14 +211,15 @@ List<PlantReminder> plannedPlantReminders(
   final sorted = sortedByName(plants);
   return [
     for (var offset = passed ? 1 : 0; offset < days; offset++)
-      for (final plant in sorted)
-        if (_dueKinds(plant, today.add(Duration(days: offset))) case final kinds
-            when kinds.isNotEmpty)
-          PlantReminder(
-            at: _localAt(today.add(Duration(days: offset)), time),
-            plant: plant,
-            kinds: kinds,
-          ),
+      if (!(vacation?.covers(today.add(Duration(days: offset))) ?? false))
+        for (final plant in sorted)
+          if (_dueKinds(plant, today.add(Duration(days: offset)))
+              case final kinds when kinds.isNotEmpty)
+            PlantReminder(
+              at: _localAt(today.add(Duration(days: offset)), time),
+              plant: plant,
+              kinds: kinds,
+            ),
   ];
 }
 

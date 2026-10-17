@@ -1,4 +1,5 @@
 import 'reminders.dart';
+import 'vacation.dart';
 import 'weather.dart';
 
 /// How the app chooses between light and dark colors.
@@ -47,6 +48,12 @@ abstract interface class SettingsRepository {
 
   /// Stores [location]; `null` removes it.
   Future<void> saveWeatherLocation(WeatherLocation? location);
+
+  /// The current or next vacation, or `null`.
+  Future<Vacation?> loadVacation();
+
+  /// Stores [vacation]; `null` removes it.
+  Future<void> saveVacation(Vacation? vacation);
 }
 
 /// Trims an API key typed by the user; blank means no key.
