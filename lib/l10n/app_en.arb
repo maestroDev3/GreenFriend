@@ -1121,5 +1121,25 @@
         "type": "String"
       }
     }
+  },
+  "sitterPlanTitle": "Plant care plan: {first} – {last}",
+  "@sitterPlanTitle": {
+    "description": "Heading of the shared plant sitter plan.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "sitterPlanEmpty": "No care needed in this period.",
+  "@sitterPlanEmpty": {
+    "description": "Shared sitter plan without any care."
+  },
+  "shareSitterPlan": "Share plan for the plant sitter",
+  "@shareSitterPlan": {
+    "description": "Button in the vacation section that shares the care plan as text."
   }
 }
