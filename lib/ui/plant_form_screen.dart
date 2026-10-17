@@ -521,18 +521,6 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _potDiameter,
-              decoration: InputDecoration(
-                labelText: l10n.potDiameterLabel,
-                helperText: l10n.potDiameterHelp,
-                helperMaxLines: 2,
-                prefixIcon: const Icon(Icons.straighten),
-              ),
-              keyboardType: TextInputType.number,
-              validator: (value) =>
-                  _validPotDiameter(value) ? null : l10n.potDiameterInvalid,
-            ),
             const SizedBox(height: 16),
             for (final (kind, input) in _schedules) ...[
               _ScheduleFields(
@@ -560,6 +548,19 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              controller: _potDiameter,
+              decoration: InputDecoration(
+                labelText: l10n.potDiameterLabel,
+                helperText: l10n.potDiameterHelp,
+                helperMaxLines: 2,
+                prefixIcon: const Icon(Icons.straighten),
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) =>
+                  _validPotDiameter(value) ? null : l10n.potDiameterInvalid,
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
               controller: _minTemperature,
               decoration: InputDecoration(
                 labelText: l10n.minTemperatureLabel,
@@ -586,9 +587,7 @@ bool _validPotDiameter(String? value) {
   final text = value?.trim() ?? '';
   if (text.isEmpty) return true;
   final cm = int.tryParse(text);
-  return cm != null &&
-      cm >= potDiameterRange.min &&
-      cm <= potDiameterRange.max;
+  return cm != null && cm >= potDiameterRange.min && cm <= potDiameterRange.max;
 }
 
 /// Whether [value] is empty or a whole °C value a plant can have.

@@ -132,7 +132,10 @@ void main() {
         journal: FakeJournalRepository(),
       );
 
-      expect(decodeBackup(encodeBackup(backup)).plants.single.potDiameterCm, 18);
+      expect(
+        decodeBackup(encodeBackup(backup)).plants.single.potDiameterCm,
+        18,
+      );
     });
 
     test('the backup keeps the lowest temperature', () async {
