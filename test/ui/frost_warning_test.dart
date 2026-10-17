@@ -191,7 +191,10 @@ void main() {
 
     testWidgets('old warnings are not shown', (tester) async {
       final settings = SettingsController(
-        FakeSettingsRepository(weatherLocation: munich, frostWarnings: [tonight]),
+        FakeSettingsRepository(
+          weatherLocation: munich,
+          frostWarnings: [tonight],
+        ),
       );
       await settings.load();
 
