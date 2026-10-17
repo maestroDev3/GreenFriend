@@ -9,11 +9,11 @@ The GitHub issues are authoritative; this file is the summary.
 ## In progress
 
 - Branch `epic/care-and-knowledge`: initiative #148 done on the branch (epics #204, #207, #210 – awaiting your APK test), now #149
-- #217 Check plant health from a photo (epic #216)
+- #220 Light check at a spot (epic #219)
 
 ## Up next
 
-- #218 Save health checks in the journal, then epic #219
+- #221 Water amount from pot size; then your APK test of `epic/care-and-knowledge`
 - #111 Secure the release signing key – user task (store keystore and password separately)
 
 ## Backlog by initiative → epic
@@ -23,8 +23,8 @@ The GitHub issues are authoritative; this file is the summary.
 | Epic | Progress | Stories (in order) |
 |---|---|---|
 | #213 Frost protection for outdoor plants | 2 of 2 closed (on the test branch) | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
-| #216 Plant health check | 0 of 2 closed (#217 in progress, #218 ready) | #217 Check plant health from a photo → #218 Save health checks in the journal |
-| #219 Right spot and right amount | 0 of 2 closed | #220 Light check at a spot → #221 Water amount from pot size |
+| #216 Plant health check | 2 of 2 closed (on the test branch) | #217 Check plant health from a photo → #218 Save health checks in the journal |
+| #219 Right spot and right amount | 0 of 2 closed (#220 in progress, #221 ready) | #220 Light check at a spot → #221 Water amount from pot size |
 
 **#150 Data safety and multi-device**
 
@@ -52,11 +52,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- #216 Plant health check: plant.id health assessment with one-time credit consent (#217), saved to the journal (#218) – test branch
 - #213 Frost protection: lowest temperature per species/plant (#214), frost warning card and 5 pm notification (#215) – test branch
 - #210 Motivation: care statistics with streaks (#211), growth time-lapse as GIF (#212) – test branch
 - #207 Vacation mode (#208) and plant-sitter plan via share (#209) – test branch
 - #204 Home-screen widget with one-tap done (#205, #206) – test branch
-- Epics #13, #31, #175, #184 merged into `main` (#231) after the user test
 
 ## Decisions
 
