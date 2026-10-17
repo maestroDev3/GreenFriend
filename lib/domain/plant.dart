@@ -23,7 +23,9 @@ class Plant {
     DateTime? lastPrunedOn,
     this.winterRest = true,
     this.outdoor = false,
+    int? minTemperature,
   }) : name = _requireName(name),
+       minTemperature = checkMinTemperature(minTemperature, 'minTemperature'),
        species = _optional(species),
        speciesId = _optional(speciesId),
        location = _optional(location),
@@ -93,6 +95,10 @@ class Plant {
   /// counts (see `weather.dart`).
   final bool outdoor;
 
+  /// The lowest temperature in °C this plant tolerates, if set for it; see
+  /// `toleratedMinimum`.
+  final int? minTemperature;
+
   /// Returns a copy with the given values; `null` keeps the current value.
   Plant copyWith({
     String? name,
@@ -109,6 +115,7 @@ class Plant {
     DateTime? lastPrunedOn,
     bool? winterRest,
     bool? outdoor,
+    int? minTemperature,
   }) {
     return Plant(
       id: id,
@@ -129,6 +136,7 @@ class Plant {
       lastPrunedOn: lastPrunedOn ?? this.lastPrunedOn,
       winterRest: winterRest ?? this.winterRest,
       outdoor: outdoor ?? this.outdoor,
+      minTemperature: minTemperature ?? this.minTemperature,
     );
   }
 
@@ -149,7 +157,8 @@ class Plant {
       other.pruningIntervalMonths == pruningIntervalMonths &&
       other.lastPrunedOn == lastPrunedOn &&
       other.winterRest == winterRest &&
-      other.outdoor == outdoor;
+      other.outdoor == outdoor &&
+      other.minTemperature == minTemperature;
 
   @override
   int get hashCode => Object.hash(
@@ -168,6 +177,7 @@ class Plant {
     lastPrunedOn,
     winterRest,
     outdoor,
+    minTemperature,
   );
 
   @override
@@ -194,6 +204,23 @@ class Plant {
     final trimmed = value?.trim();
     return (trimmed == null || trimmed.isEmpty) ? null : trimmed;
   }
+}
+
+/// Lowest temperatures in °C a plant or species can have.
+const minTemperatureRange = (min: -30, max: 20);
+
+/// Returns [value]; throws [ArgumentError] if it is outside
+/// [minTemperatureRange].
+int? checkMinTemperature(int? value, String name) {
+  if (value != null &&
+      (value < minTemperatureRange.min || value > minTemperatureRange.max)) {
+    throw ArgumentError.value(
+      value,
+      name,
+      'must be ${minTemperatureRange.min} to ${minTemperatureRange.max}',
+    );
+  }
+  return value;
 }
 
 /// Returns [plants] sorted by name, ignoring case, so lists are predictable.
