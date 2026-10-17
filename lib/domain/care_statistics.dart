@@ -55,7 +55,9 @@ CareStreak careStreak(
 }) {
   if (logs.isEmpty) return (current: 0, best: 0);
   final now = dayOf(today);
-  final start = logs.map((log) => log.day).reduce((a, b) => a.isBefore(b) ? a : b);
+  final start = logs
+      .map((log) => log.day)
+      .reduce((a, b) => a.isBefore(b) ? a : b);
   final overdue = overdueDays(plants, logs, today: now);
   var run = 0;
   var best = 0;

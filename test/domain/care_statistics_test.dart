@@ -12,13 +12,17 @@ final monstera = Plant(
 final aloe = Plant(id: 'a', name: 'Aloe', wateringIntervalDays: 14);
 
 var _id = 0;
-CareLog log(String plantId, int month, int day, [CareKind kind = const Water()]) =>
-    CareLog(
-      id: '${_id++}',
-      plantId: plantId,
-      kind: kind,
-      day: DateTime(2026, month, day),
-    );
+CareLog log(
+  String plantId,
+  int month,
+  int day, [
+  CareKind kind = const Water(),
+]) => CareLog(
+  id: '${_id++}',
+  plantId: plantId,
+  kind: kind,
+  day: DateTime(2026, month, day),
+);
 
 final logs = [
   log('m', 10, 1),
@@ -61,7 +65,11 @@ void main() {
     });
 
     test('is zero without care logs', () {
-      final streak = careStreak([monstera], const [], today: DateTime(2026, 10, 13));
+      final streak = careStreak(
+        [monstera],
+        const [],
+        today: DateTime(2026, 10, 13),
+      );
 
       expect(streak.current, 0);
       expect(streak.best, 0);
@@ -70,10 +78,10 @@ void main() {
 
   group('careCountsByMonth', () {
     test('covers the last 12 months, oldest first, with empty months', () {
-      final counts = careCountsByMonth(
-        [...logs, log('a', 8, 20)],
-        today: DateTime(2026, 10, 13),
-      );
+      final counts = careCountsByMonth([
+        ...logs,
+        log('a', 8, 20),
+      ], today: DateTime(2026, 10, 13));
 
       expect(counts, hasLength(12));
       expect(counts.first, (year: 2025, month: 11, count: 0));
