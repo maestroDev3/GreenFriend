@@ -55,7 +55,10 @@ void main() {
       expect(done, isTrue);
       expect(plants.plants.single.lastWateredOn, DateTime.utc(2026, 10, 17));
       expect(plants.plants.single.lastFertilizedOn, DateTime.utc(2026, 10, 17));
-      expect(logs.logs.map((log) => log.kind), [const Water(), const Fertilize()]);
+      expect(logs.logs.map((log) => log.kind), [
+        const Water(),
+        const Fertilize(),
+      ]);
       expect(careWidgetRows(plants.plants, today: today), isEmpty);
     });
 

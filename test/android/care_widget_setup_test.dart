@@ -41,9 +41,8 @@ void main() {
     });
 
     test('ticks off care through the background receiver', () {
-      final manifest = File(
-        'android/app/src/main/AndroidManifest.xml',
-      ).readAsStringSync();
+      final manifest = File('android/app/src/main/AndroidManifest.xml')
+          .readAsStringSync();
       final provider = File(providerPath).readAsStringSync();
 
       expect(
