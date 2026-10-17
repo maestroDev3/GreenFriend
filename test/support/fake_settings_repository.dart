@@ -16,6 +16,7 @@ class FakeSettingsRepository implements SettingsRepository {
     this.weatherLocation,
     this.vacation,
     this.frostWarnings = const [],
+    this.healthCheckConsent = false,
   });
 
   AppThemeMode themeMode;
@@ -27,6 +28,7 @@ class FakeSettingsRepository implements SettingsRepository {
   WeatherLocation? weatherLocation;
   Vacation? vacation;
   List<FrostWarning> frostWarnings;
+  bool healthCheckConsent;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -78,6 +80,13 @@ class FakeSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> saveVacation(Vacation? value) async => vacation = value;
+
+  @override
+  Future<bool> loadHealthCheckConsent() async => healthCheckConsent;
+
+  @override
+  Future<void> saveHealthCheckConsent(bool value) async =>
+      healthCheckConsent = value;
 
   @override
   Future<List<FrostWarning>> loadFrostWarnings() async => frostWarnings;
