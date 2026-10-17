@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../domain/clock.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/vacation.dart';
 import '../domain/weather.dart';
 
 /// Keeps the app settings in the platform's key-value storage.
@@ -23,6 +24,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const phoneCalendarIdKey = 'settings.v1.phoneCalendarId';
   static const phoneCalendarNameKey = 'settings.v1.phoneCalendarName';
   static const weatherLocationKey = 'settings.v1.weatherLocation';
+  static const vacationKey = 'settings.v1.vacation';
 
   final SharedPreferences _preferences;
 
@@ -152,6 +154,36 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
         'region': location.region,
         'latitude': location.latitude,
         'longitude': location.longitude,
+      }),
+    );
+  }
+
+  @override
+  Future<Vacation?> loadVacation() async {
+    final stored = _preferences.getString(vacationKey);
+    if (stored == null) return null;
+    try {
+      final json = jsonDecode(stored) as Map<String, Object?>;
+      return Vacation(
+        first: DateTime.parse('${json['first']}T00:00:00Z'),
+        last: DateTime.parse('${json['last']}T00:00:00Z'),
+      );
+    } on Object {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveVacation(Vacation? vacation) async {
+    if (vacation == null) {
+      await _preferences.remove(vacationKey);
+      return;
+    }
+    await _preferences.setString(
+      vacationKey,
+      jsonEncode({
+        'first': vacation.first.toIso8601String().substring(0, 10),
+        'last': vacation.last.toIso8601String().substring(0, 10),
       }),
     );
   }

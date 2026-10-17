@@ -78,6 +78,7 @@ class ReminderSync {
       _plants,
       now: clock(),
       time: reminder.time,
+      vacation: settings.vacation,
     );
     if (askPermission && planned.isNotEmpty && !_permissionAsked) {
       _permissionAsked = true;
