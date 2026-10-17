@@ -196,5 +196,8 @@
   "noPlacesFound": "Kein Ort gefunden.",
   "weatherUnavailable": "Der Wetterdienst ist nicht erreichbar. Prüf deine Internetverbindung.",
   "weatherHeat": "Heute heiß ({temperature} °C) – schau nach deinen Draußen-Pflanzen",
-  "weatherRain": "Heute Regen erwartet ({millimetres} mm) – Draußen-Pflanzen bekommen Wasser"
+  "weatherRain": "Heute Regen erwartet ({millimetres} mm) – Draußen-Pflanzen bekommen Wasser",
+  "widgetTitle": "Heute zu tun",
+  "widgetAllHappy": "Alle Pflanzen sind heute glücklich",
+  "widgetOpenToRefresh": "Öffne Green Friend zum Aktualisieren"
 }
