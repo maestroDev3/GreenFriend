@@ -257,7 +257,9 @@ String healthResultNote(AppLocalizations l10n, HealthAssessment result) {
   if (result.isHealthy || result.issues.isEmpty) return l10n.healthNoteHealthy;
   return l10n.healthNoteProblems(
     result.issues
-        .map((issue) => '${issue.name} (${(issue.probability * 100).round()} %)')
+        .map(
+          (issue) => '${issue.name} (${(issue.probability * 100).round()} %)',
+        )
         .join(', '),
   );
 }

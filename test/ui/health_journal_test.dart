@@ -40,13 +40,16 @@ class Setup {
   );
 
   /// Opens the screen from a start page, so it can be left again.
-  Future<void> open(WidgetTester tester, {Locale locale = const Locale('en')}) async {
+  Future<void> open(
+    WidgetTester tester, {
+    Locale locale = const Locale('en'),
+  }) async {
     await tester.pumpApp(
       Builder(
         builder: (context) => TextButton(
-          onPressed: () => Navigator.of(
-            context,
-          ).push(MaterialPageRoute<void>(builder: (_) => screen())),
+          onPressed: () =>
+              Navigator.of(context)
+                  .push(MaterialPageRoute<void>(builder: (_) => screen())),
           child: const Text('open'),
         ),
       ),
@@ -151,10 +154,7 @@ void main() {
         ),
       );
 
-      expect(
-        find.byIcon(Icons.health_and_safety_outlined),
-        findsOneWidget,
-      );
+      expect(find.byIcon(Icons.health_and_safety_outlined), findsOneWidget);
     });
   });
 }
