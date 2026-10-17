@@ -4,11 +4,11 @@ Current project state for planning and Claude projects. Maintained by Claude
 after every status change (see CLAUDE.md, “Keeping the status”).
 The GitHub issues are authoritative; this file is the summary.
 
-**Last updated:** 2026-10-15
+**Last updated:** 2026-10-17
 
 ## In progress
 
-- Nothing – epics #13, #31, #175 and #184 are done and waiting for your test: pre-release **epic-test** APK from `epic/plant-knowledge-automation`. Merged into `main` after your OK.
+- Nothing – planning the next initiative
 
 ## Up next
 
@@ -20,8 +20,6 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #13 Plant knowledge and automatic care plans | 6 of 6 closed (on the epic branch) | – |
-| #31 Outdoor plants and weather | 1 of 1 closed (on the epic branch) | – |
 | #213 Frost protection for outdoor plants | 0 of 2 closed | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
 | #216 Plant health check | 0 of 2 closed | #217 Check plant health from a photo → #218 Save health checks in the journal |
 | #219 Right spot and right amount | 0 of 2 closed | #220 Light check at a spot → #221 Water amount from pot size |
@@ -44,8 +42,6 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #175 Care done in one tap | 2 of 2 closed (on the epic branch) | – |
-| #184 Care plan in the phone calendar | 1 of 1 closed (on the epic branch) | – |
 | #204 Care at a glance on the home screen | 0 of 2 closed | #205 Home-screen widget: care due today → #206 Mark care as done from the widget |
 | #207 Plants cared for while I am away | 0 of 2 closed | #208 Vacation mode pauses my reminders → #209 Share a care plan with a plant sitter |
 | #210 Motivation through progress | 0 of 2 closed | #211 Care statistics and streaks → #212 Growth time-lapse from journal photos |
@@ -54,11 +50,11 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Recently done
 
+- Epics #13, #31, #175, #184 merged into `main` (#231) after the user test
 - #26 Weather for outdoor plants (Open-Meteo, place search, rain counts as watering, heat/rain hint)
 - #161 Missing species list + 32 more species (now 141)
 - #185 Care tasks in the phone calendar (auto sync, calendar picked in the app, 60 days, all-day)
 - #177 Reminder buttons: mark care as done right in the notification (one reminder per plant)
-- #176 Care buttons show "Water" until done, then "✓ Watered"
 
 ## Decisions
 
@@ -76,7 +72,6 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Open decisions (user only)
 
-- Epics #13, #31, #175, #184: test the epic-test APK (photo identification needs your plant.id key; weather needs a place under More → Settings); then OK to merge into `main`?
 - Initiatives #148–#151 and epics #152, #175, #184 are new; epics #204, #207, #210, #213, #216, #219, #222, #227 (from the ideas, all stories `backlog`) – please confirm, re-sort and pick the order
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - iOS (epic #227): Android first, plugins iOS-ready (2026-10-14); start only after you decide (needs a Mac or macOS CI and an Apple developer account)
