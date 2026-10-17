@@ -42,8 +42,10 @@ void main() {
     });
 
     test('is empty when nothing is due', () {
-      expect(careWidgetRows([Plant(id: 'x', name: 'Stone')], today: today),
-          isEmpty);
+      expect(
+        careWidgetRows([Plant(id: 'x', name: 'Stone')], today: today),
+        isEmpty,
+      );
     });
   });
 }
