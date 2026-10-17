@@ -265,5 +265,7 @@
   "lightNoSensor": "Dieses Handy hat keinen Lichtsensor, daher kann das Licht nicht gemessen werden.",
   "potDiameterLabel": "Topfdurchmesser (cm)",
   "potDiameterHelp": "Optional – daraus wird die Wassermenge berechnet.",
-  "potDiameterInvalid": "Gib einen Durchmesser von 5 bis 100 cm ein"
+  "potDiameterInvalid": "Gib einen Durchmesser von 5 bis 100 cm ein",
+  "waterAmount": "etwa {ml} ml",
+  "careVerbWaterAmount": "Gießen (etwa {ml} ml)"
 }

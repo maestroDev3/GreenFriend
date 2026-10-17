@@ -8,6 +8,7 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/water_amount.dart';
 import '../l10n/app_localizations.dart';
 import 'frost_texts.dart';
 import 'locale_resolution.dart';
@@ -100,7 +101,9 @@ class ReminderSync {
           at: reminder.at,
           title: reminder.plant.name,
           body: l10n.reminderDueToday(
-            reminder.kinds.map((kind) => careVerb(l10n, kind)).join(', '),
+            reminder.kinds
+                .map((kind) => careTask(l10n, kind, reminder.plant))
+                .join(', '),
           ),
           actions: [
             for (final kind in reminder.kinds.take(3))
@@ -155,6 +158,14 @@ String careVerb(AppLocalizations l10n, CareKind kind) => switch (kind) {
   Repot() => l10n.careVerbRepot,
   Prune() => l10n.careVerbPrune,
 };
+
+/// The task for [plant], with the water amount when it has a pot size, e.g.
+/// "Water (about 400 ml)".
+String careTask(AppLocalizations l10n, CareKind kind, Plant plant) =>
+    switch ((kind, waterAmountMl(plant))) {
+      (Water(), final ml?) => l10n.careVerbWaterAmount(ml),
+      _ => careVerb(l10n, kind),
+    };
 
 /// The task as done, e.g. "Watered" (also the notification button).
 String careDoneLabel(AppLocalizations l10n, CareKind kind) => switch (kind) {
