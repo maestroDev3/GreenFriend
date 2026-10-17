@@ -72,11 +72,7 @@ void main() {
 
 final _today = DateTime(2026, 10, 17, 9);
 
-Plant _plant(
-  String name, {
-  bool outdoor = true,
-  int? minTemperature,
-}) => Plant(
+Plant _plant(String name, {bool outdoor = true, int? minTemperature}) => Plant(
   id: name,
   name: name,
   outdoor: outdoor,

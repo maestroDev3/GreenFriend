@@ -35,9 +35,8 @@ class FrostWarning {
       other.day == day &&
       other.minTemperature == minTemperature &&
       other.plantNames.length == plantNames.length &&
-      Iterable.generate(
-        plantNames.length,
-      ).every((i) => other.plantNames[i] == plantNames[i]);
+      Iterable.generate(plantNames.length)
+          .every((i) => other.plantNames[i] == plantNames[i]);
 
   @override
   int get hashCode =>
@@ -57,7 +56,10 @@ List<FrostWarning> frostWarnings(
   required DateTime today,
 }) {
   final now = dayOf(today);
-  final nights = {now.add(const Duration(days: 1)), now.add(const Duration(days: 2))};
+  final nights = {
+    now.add(const Duration(days: 1)),
+    now.add(const Duration(days: 2)),
+  };
   final outdoor = sortedByName(plants.where((plant) => plant.outdoor));
   return [
     for (final entry in weather)
@@ -68,6 +70,10 @@ List<FrostWarning> frostWarnings(
                   if (min < tolerance(plant)) plant.name,
               ]
               case final names when names.isNotEmpty)
-            FrostWarning(day: entry.day, minTemperature: min, plantNames: names),
+            FrostWarning(
+              day: entry.day,
+              minTemperature: min,
+              plantNames: names,
+            ),
   ];
 }
