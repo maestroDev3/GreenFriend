@@ -23,7 +23,10 @@ void main() {
       for (final id in ['buxus-sempervirens', 'lavandula-angustifolia']) {
         expect(catalog.byId(id)!.minTemperature, lessThanOrEqualTo(-10));
       }
-      expect(catalog.byId('nerium-oleander')!.minTemperature, inInclusiveRange(-10, 0));
+      expect(
+        catalog.byId('nerium-oleander')!.minTemperature,
+        inInclusiveRange(-10, 0),
+      );
     });
 
     test('contains at least 100 species', () {
