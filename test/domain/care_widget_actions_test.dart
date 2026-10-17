@@ -24,11 +24,9 @@ void main() {
       final uri = careWidgetUri('m:1', const [Water(), Fertilize()]);
 
       expect(uri.scheme, 'greenfriend');
-      expect(parseCareWidgetUri(uri), (
-        plantId: 'm:1',
-        kinds: const [Water(), Fertilize()],
-      ));
-    });
+      final parsed = parseCareWidgetUri(uri);
+      expect(parsed?.plantId, 'm:1');
+      expect(parsed?.kinds, const [Water(), Fertilize()]);    });
 
     test('give null for other URIs', () {
       expect(parseCareWidgetUri(null), isNull);
