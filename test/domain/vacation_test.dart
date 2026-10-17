@@ -21,7 +21,10 @@ void main() {
 
     test('rejects a last day before the first', () {
       expect(
-        () => Vacation(first: DateTime(2026, 10, 25), last: DateTime(2026, 10, 20)),
+        () => Vacation(
+          first: DateTime(2026, 10, 25),
+          last: DateTime(2026, 10, 20),
+        ),
         throwsArgumentError,
       );
     });

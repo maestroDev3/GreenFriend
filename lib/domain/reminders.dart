@@ -213,8 +213,8 @@ List<PlantReminder> plannedPlantReminders(
     for (var offset = passed ? 1 : 0; offset < days; offset++)
       if (!(vacation?.covers(today.add(Duration(days: offset))) ?? false))
         for (final plant in sorted)
-          if (_dueKinds(plant, today.add(Duration(days: offset))) case final kinds
-              when kinds.isNotEmpty)
+          if (_dueKinds(plant, today.add(Duration(days: offset)))
+              case final kinds when kinds.isNotEmpty)
             PlantReminder(
               at: _localAt(today.add(Duration(days: offset)), time),
               plant: plant,
