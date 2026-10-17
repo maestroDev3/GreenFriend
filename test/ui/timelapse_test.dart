@@ -61,9 +61,7 @@ Future<void> pumpTimeline(WidgetTester tester, List<JournalEntry> entries) {
 
 void main() {
   group('Time-lapse action', () {
-    testWidgets('the action appears with three or more photos', (
-      tester,
-    ) async {
+    testWidgets('the action appears with three or more photos', (tester) async {
       await pumpTimeline(tester, photoEntries);
 
       await tester.tap(find.byTooltip('Time-lapse'));
