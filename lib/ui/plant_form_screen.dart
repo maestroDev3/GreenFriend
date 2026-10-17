@@ -521,7 +521,6 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 16),
-            const SizedBox(height: 16),
             for (final (kind, input) in _schedules) ...[
               _ScheduleFields(
                 kind: kind,
