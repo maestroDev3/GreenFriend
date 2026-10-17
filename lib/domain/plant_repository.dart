@@ -29,6 +29,7 @@ abstract interface class PlantRepository {
     bool winterRest = true,
     bool outdoor = false,
     int? minTemperature,
+    int? potDiameterCm,
   });
 
   /// Replaces the stored plant with the same id; throws [StateError] if the

@@ -71,6 +71,9 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   late final _name = TextEditingController(text: widget.plant?.name);
   late final _species = TextEditingController(text: widget.plant?.species);
   late final _location = TextEditingController(text: widget.plant?.location);
+  late final _potDiameter = TextEditingController(
+    text: widget.plant?.potDiameterCm?.toString(),
+  );
   late final _minTemperature = TextEditingController(
     text: widget.plant?.minTemperature?.toString(),
   );
@@ -137,6 +140,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _species.dispose();
     _location.dispose();
     _minTemperature.dispose();
+    _potDiameter.dispose();
     _speciesFocus.dispose();
     for (final (_, input) in _schedules) {
       input.controller.dispose();
@@ -308,6 +312,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     final repot = _repot.interval(max: 60);
     final prune = _prune.interval(max: 60);
     final minTemperature = int.tryParse(_minTemperature.text.trim());
+    final potDiameter = int.tryParse(_potDiameter.text.trim());
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -327,6 +332,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           winterRest: _winterRest,
           outdoor: _outdoor,
           minTemperature: minTemperature,
+          potDiameterCm: potDiameter,
         ),
       );
     } else {
@@ -346,6 +352,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         winterRest: _winterRest,
         outdoor: _outdoor,
         minTemperature: minTemperature,
+        potDiameterCm: potDiameter,
       );
       if (_photo case final photo?) {
         await widget.journal.add(plantId: plant.id, day: _today, photo: photo);
@@ -540,6 +547,19 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              controller: _potDiameter,
+              decoration: InputDecoration(
+                labelText: l10n.potDiameterLabel,
+                helperText: l10n.potDiameterHelp,
+                helperMaxLines: 2,
+                prefixIcon: const Icon(Icons.straighten),
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) =>
+                  _validPotDiameter(value) ? null : l10n.potDiameterInvalid,
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
               controller: _minTemperature,
               decoration: InputDecoration(
                 labelText: l10n.minTemperatureLabel,
@@ -559,6 +579,14 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       ),
     );
   }
+}
+
+/// Whether [value] is empty or a pot diameter a plant can have.
+bool _validPotDiameter(String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return true;
+  final cm = int.tryParse(text);
+  return cm != null && cm >= potDiameterRange.min && cm <= potDiameterRange.max;
 }
 
 /// Whether [value] is empty or a whole °C value a plant can have.

@@ -1443,5 +1443,17 @@
   "lightNoSensor": "This phone has no light sensor, so the light cannot be measured.",
   "@lightNoSensor": {
     "description": "Shown on phones without ambient light sensor."
+  },
+  "potDiameterLabel": "Pot diameter (cm)",
+  "@potDiameterLabel": {
+    "description": "Plant form field: diameter of the pot."
+  },
+  "potDiameterHelp": "Optional – used to suggest how much water to give.",
+  "@potDiameterHelp": {
+    "description": "Helper text below the pot diameter field."
+  },
+  "potDiameterInvalid": "Enter a diameter from 5 to 100 cm",
+  "@potDiameterInvalid": {
+    "description": "Validation error of the pot diameter field."
   }
 }

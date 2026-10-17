@@ -124,6 +124,7 @@ Map<String, Object?> _plantToJson(Plant plant) => {
   'winterRest': plant.winterRest,
   'outdoor': plant.outdoor,
   'minTemperature': plant.minTemperature,
+  'potDiameterCm': plant.potDiameterCm,
 };
 
 Plant _plantFromJson(Map<String, dynamic> json) => Plant(
@@ -144,6 +145,7 @@ Plant _plantFromJson(Map<String, dynamic> json) => Plant(
   winterRest: json['winterRest'] as bool? ?? true,
   outdoor: json['outdoor'] as bool? ?? false,
   minTemperature: json['minTemperature'] as int?,
+  potDiameterCm: json['potDiameterCm'] as int?,
 );
 
 Map<String, Object?> _logToJson(CareLog log) => {

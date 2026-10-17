@@ -125,6 +125,19 @@ void main() {
       expect(old.journal.single.healthCheck, isFalse);
     });
 
+    test('the backup keeps the pot size', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(potDiameterCm: 18)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+
+      expect(
+        decodeBackup(encodeBackup(backup)).plants.single.potDiameterCm,
+        18,
+      );
+    });
+
     test('the backup keeps the lowest temperature', () async {
       final backup = await createBackup(
         plants: FakePlantRepository([plant.copyWith(minTemperature: -4)]),
