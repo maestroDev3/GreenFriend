@@ -6,7 +6,8 @@ import 'plant.dart';
 /// Days on which some plant's watering or fertilizing was overdue, judged
 /// from the care history and the current intervals (winter rest included):
 /// the days after a due date until the care was done, and up to [today] for
-/// care still open.
+/// care still open. The plant's own last-done date counts like a care log,
+/// so plants never logged in the app are judged too.
 Set<DateTime> overdueDays(
   Iterable<Plant> plants,
   Iterable<CareLog> logs, {
@@ -21,9 +22,14 @@ Set<DateTime> overdueDays(
         _ => plant.fertilizingIntervalDays,
       };
       if (interval == null) continue;
+      final lastDone = switch (kind) {
+        Water() => plant.lastWateredOn,
+        _ => plant.lastFertilizedOn,
+      };
       final done = {
         for (final log in logs)
           if (log.plantId == plant.id && log.kind == kind) log.day,
+        ?lastDone,
       }.toList()..sort();
       for (var i = 0; i < done.length; i++) {
         final due = nextCareDay(plant, kind, done[i], interval);

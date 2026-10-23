@@ -36,7 +36,10 @@ class LightSensorHandler(context: Context) : EventChannel.StreamHandler, SensorE
         sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
-    override fun onCancel(arguments: Any?) {
+    override fun onCancel(arguments: Any?) = stop()
+
+    /** Stops listening, e.g. when the Flutter engine is cleaned up. */
+    fun stop() {
         sensorManager.unregisterListener(this)
         events = null
     }
