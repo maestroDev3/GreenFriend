@@ -31,6 +31,9 @@ void main() {
         'precipitation_sum,temperature_2m_max,temperature_2m_min',
       );
       expect(uri.queryParameters['past_days'], '3');
+      // Today counts as the first forecast day: 3 covers the night after
+      // tomorrow.
+      expect(uri.queryParameters['forecast_days'], '3');
       expect(uri.queryParameters['timezone'], 'auto');
     });
   });
