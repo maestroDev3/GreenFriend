@@ -109,4 +109,21 @@ void main() {
       );
     });
   });
+
+  test('an overdue plant without care log produces overdue days', () {
+    final plant = Plant(
+      id: 'never-logged',
+      name: 'Fern',
+      wateringIntervalDays: 3,
+      lastWateredOn: DateTime(2026, 10, 10),
+      winterRest: false,
+    );
+
+    expect(overdueDays([plant], const [], today: DateTime(2026, 10, 17)), {
+      DateTime.utc(2026, 10, 14),
+      DateTime.utc(2026, 10, 15),
+      DateTime.utc(2026, 10, 16),
+      DateTime.utc(2026, 10, 17),
+    });
+  });
 }

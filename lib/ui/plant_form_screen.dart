@@ -168,9 +168,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _fertilize.controller.text = '${species.fertilizingIntervalDays}';
     _repot.controller.text = '${species.repottingIntervalMonths}';
     _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
-    if (species.minTemperature case final celsius?) {
-      _minTemperature.text = '$celsius';
-    }
+    _minTemperature.text = species.minTemperature?.toString() ?? '';
   }
 
   /// The lowest temperature of the linked species, used when the field is
