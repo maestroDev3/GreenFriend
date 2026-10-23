@@ -106,24 +106,26 @@ class GreenFriendApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
           home: settings.onboardingDone
-              ? _Shell(builder: (addPlant) => AppShell(
-              openAddPlantOnStart: addPlant,
-            species: species,
-            plants: plants,
-            careLogs: careLogs,
-            journal: journal,
-            photos: photos,
-            photoPicker: photoPicker,
-            backupArchive: backupArchive,
-            fileSharing: fileSharing,
-            identifier: identifier,
-            tips: tips,
-            missingSpecies: missingSpecies,
-            weather: weatherSync,
-            timelapseEncoder: timelapseEncoder,
-            healthChecker: healthChecker,
-            lightSensor: lightSensor,
-          ))
+              ? _Shell(
+                  builder: (addPlant) => AppShell(
+                    openAddPlantOnStart: addPlant,
+                    species: species,
+                    plants: plants,
+                    careLogs: careLogs,
+                    journal: journal,
+                    photos: photos,
+                    photoPicker: photoPicker,
+                    backupArchive: backupArchive,
+                    fileSharing: fileSharing,
+                    identifier: identifier,
+                    tips: tips,
+                    missingSpecies: missingSpecies,
+                    weather: weatherSync,
+                    timelapseEncoder: timelapseEncoder,
+                    healthChecker: healthChecker,
+                    lightSensor: lightSensor,
+                  ),
+                )
               : OnboardingScreen(
                   onDone: (result) {
                     _Shell.addPlantOnStart =
