@@ -4,6 +4,7 @@ library;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/bundled_species_catalog.dart';
@@ -46,7 +47,7 @@ List<Plant> demoPlants(String locale) {
       lastWateredOn: DateTime(2026, 5, 5),
       fertilizingIntervalDays: 14,
       lastFertilizedOn: DateTime(2026, 5, 1),
-      potDiameterCm: 21,
+      potDiameterCm: 17,
     ),
     Plant(
       id: 'basil',
@@ -118,6 +119,9 @@ Future<void> shoot(
   SettingsController? settings,
   Future<void> Function()? before,
 }) async {
+  // Real shadows instead of the test framework's solid outlines.
+  debugDisableShadows = false;
+  addTearDown(() => debugDisableShadows = true);
   // Touch mode: no keyboard focus frames in the pictures.
   FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;
   await tester.pumpApp(
