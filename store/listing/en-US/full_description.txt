@@ -1,0 +1,34 @@
+Green Friend makes sure none of your houseplants dries out again.
+
+Every plant gets its own care plan for watering, fertilizing, repotting and pruning. Green Friend reminds you on the right day, and one tap marks the care as done – right in the notification or on the home-screen widget.
+
+CARE THAT FITS EACH PLANT
+• Care profiles for more than 140 houseplants, balcony plants, herbs, vegetables and bonsai – works offline
+• Winter rest: less water and no fertilizer from November to February
+• Water amount from the pot size, e.g. "about 400 ml"
+• Vacation mode pauses reminders and creates a care plan to share with your plant sitter
+
+KNOW YOUR PLANT
+• Identify a plant from a photo and take over its care profile*
+• Health check: find out what a sick-looking plant has and how to treat it*
+• Light check with your phone's light sensor: is this spot bright enough?
+
+WEATHER FOR OUTDOOR PLANTS
+• Rain counts as watering for balcony and garden plants
+• Heat hint on hot days
+• Frost warning in the evening before a cold night, naming the plants at risk
+
+SEE YOUR PLANTS GROW
+• Growth journal with photos and notes
+• Timeline, before/after comparison and a time-lapse you can share as a GIF
+• Care statistics and streaks
+
+EVERYTHING IN ITS PLACE
+• Care days in your phone calendar
+• Monthly and yearly care calendar in the app
+• Backup and restore of all plants, care history and photos
+• English and German, light and dark theme
+
+No account, no ads. Your plants and photos stay on your phone – only photos you identify or check are sent to plant.id, and only your weather place to Open-Meteo.
+
+* Photo identification and the health check use the plant.id service with your own API key (entered in the settings); each check uses credits of your plant.id account.
