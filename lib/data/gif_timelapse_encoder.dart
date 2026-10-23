@@ -33,22 +33,20 @@ List<int> _encodeGif(
   int maxWidth,
   int milliseconds,
 ) {
-  final photos = [
-    for (final frame in frames)
-      if (_decode(frame.bytes) case final photo?)
-        (photo: photo, label: frame.label),
-  ];
-  if (photos.isEmpty) {
-    throw const TimelapseException('None of the photos is readable.');
-  }
-  final first = photos.first.photo;
-  final width = min(maxWidth, first.width);
-  final height = max(1, (first.height * width / first.width).round());
-
+  // Photos are decoded one at a time and only their small frame is kept, so
+  // many large photos do not exhaust the memory.
   img.Image? animation;
-  for (final (:photo, :label) in photos) {
+  var width = 0;
+  var height = 0;
+  for (final frame in frames) {
+    final photo = _decode(frame.bytes);
+    if (photo == null) continue;
+    if (animation == null) {
+      width = min(maxWidth, photo.width);
+      height = max(1, (photo.height * width / photo.width).round());
+    }
     final canvas = _fit(photo, width, height);
-    _drawLabel(canvas, label);
+    _drawLabel(canvas, frame.label);
     canvas.frameDuration = milliseconds;
     if (animation == null) {
       animation = canvas;
@@ -56,7 +54,10 @@ List<int> _encodeGif(
       animation.addFrame(canvas);
     }
   }
-  return img.encodeGif(animation!);
+  if (animation == null) {
+    throw const TimelapseException('None of the photos is readable.');
+  }
+  return img.encodeGif(animation);
 }
 
 img.Image? _decode(List<int> bytes) {

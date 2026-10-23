@@ -44,6 +44,7 @@ class HealthCheckScreen extends StatefulWidget {
 class _HealthCheckScreenState extends State<HealthCheckScreen> {
   late final Future<HealthAssessment> _result = _check();
   var _saved = false;
+  var _saving = false;
 
   @override
   void dispose() {
@@ -52,6 +53,8 @@ class _HealthCheckScreenState extends State<HealthCheckScreen> {
   }
 
   Future<void> _save(HealthAssessment result) async {
+    if (_saving || _saved) return;
+    setState(() => _saving = true);
     final l10n = AppLocalizations.of(context);
     final navigator = Navigator.of(context);
     await widget.journal.add(
@@ -89,7 +92,7 @@ class _HealthCheckScreenState extends State<HealthCheckScreen> {
           if (snapshot.data case final result?) {
             return _Result(
               result: result,
-              onSave: () => _save(result),
+              onSave: _saving ? null : () => _save(result),
               photo: Image.file(
                 widget.photos.fileFor(widget.photo),
                 height: 200,
@@ -156,7 +159,8 @@ class _Result extends StatelessWidget {
 
   final HealthAssessment result;
   final Widget photo;
-  final VoidCallback onSave;
+  /// `null` while saving.
+  final VoidCallback? onSave;
 
   @override
   Widget build(BuildContext context) {

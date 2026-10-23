@@ -551,17 +551,28 @@ class _VacationTiles extends StatelessWidget {
     );
   }
 
+  /// The planned or running vacation; an ended one counts as none.
+  Vacation? get _current => switch (settings.vacation) {
+    final vacation? when !vacation.last.isBefore(dayOf(clock())) => vacation,
+    _ => null,
+  };
+
   Future<void> _pick(BuildContext context) async {
     final today = dayOf(clock());
-    final current = settings.vacation;
+    final current = _current;
+    DateTime local(DateTime day) => DateTime(day.year, day.month, day.day);
     final picked = await showDateRangePicker(
       context: context,
-      firstDate: DateTime(today.year, today.month, today.day),
+      firstDate: local(today),
       lastDate: DateTime(today.year + 1, today.month, today.day),
-      currentDate: DateTime(today.year, today.month, today.day),
+      currentDate: local(today),
+      // The picker starts at today, so a running vacation is shown from today.
       initialDateRange: current == null
           ? null
-          : DateTimeRange(start: current.first, end: current.last),
+          : DateTimeRange(
+              start: local(current.first.isBefore(today) ? today : current.first),
+              end: local(current.last),
+            ),
     );
     if (picked == null) return;
     await settings.setVacation(Vacation(first: picked.start, last: picked.end));
@@ -571,7 +582,7 @@ class _VacationTiles extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final vacation = settings.vacation;
+    final vacation = _current;
     final format = DateFormat.yMMMd(Localizations.localeOf(context).toString());
     return Padding(
       padding: const EdgeInsets.all(16),
