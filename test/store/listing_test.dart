@@ -26,7 +26,11 @@ void main() {
           'characters: $locale', () {
         for (final MapEntry(key: name, value: max) in limits.entries) {
           final text = File('store/listing/$locale/$name').readAsStringSync();
-          expect(text.trim().runes.length, lessThanOrEqualTo(max), reason: name);
+          expect(
+            text.trim().runes.length,
+            lessThanOrEqualTo(max),
+            reason: name,
+          );
         }
       });
     }

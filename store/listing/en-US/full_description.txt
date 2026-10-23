@@ -29,6 +29,6 @@ EVERYTHING IN ITS PLACE
 • Backup and restore of all plants, care history and photos
 • English and German, light and dark theme
 
-No account, no ads. Your plants and photos stay on your phone.
+No account, no ads. Your plants and photos stay on your phone – only photos you identify or check are sent to plant.id, and only your weather place to Open-Meteo.
 
 * Photo identification and the health check use the plant.id service with your own API key (entered in the settings); each check uses credits of your plant.id account.

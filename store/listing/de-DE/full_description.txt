@@ -29,6 +29,6 @@ ALLES AN SEINEM PLATZ
 • Sicherung und Wiederherstellung aller Pflanzen, Pflegedaten und Fotos
 • Deutsch und Englisch, helles und dunkles Design
 
-Kein Konto, keine Werbung. Deine Pflanzen und Fotos bleiben auf deinem Handy.
+Kein Konto, keine Werbung. Deine Pflanzen und Fotos bleiben auf deinem Handy – nur Fotos, die du erkennen oder prüfen lässt, gehen an plant.id, und nur dein Wetterort an Open-Meteo.
 
 * Pflanzenerkennung und Gesundheitscheck nutzen den Dienst plant.id mit deinem eigenen API-Schlüssel (in den Einstellungen); jede Prüfung verbraucht Credits deines plant.id-Kontos.
