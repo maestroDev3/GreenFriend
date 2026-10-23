@@ -4,7 +4,7 @@ name: CI
 # every commit is tested once (saves Actions minutes).
 on:
   push:
-    branches: ['**']
+    branches: ['**', '!store-screenshots']
   workflow_dispatch:
 
 permissions:
@@ -76,6 +76,16 @@ jobs:
         with:
           name: store-screenshots
           path: store/screenshots
+      # Also on the branch "store-screenshots", to view them on GitHub.
+      - name: Publish to branch store-screenshots
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd store/screenshots
+          git init -q -b store-screenshots
+          git add .
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "Store screenshots of ${GITHUB_SHA::7}"
+          git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" store-screenshots
 
   # Build the APK only on main; on branches only with “[apk]” in the commit message
   # (saves ~6 min per TDD cycle).
