@@ -119,8 +119,8 @@ Future<void> shoot(
   Future<void> Function()? before,
 }) async {
   // Real shadows instead of the test framework's solid outlines.
+  // Reset before the test ends: the framework checks it right after the body.
   debugDisableShadows = false;
-  addTearDown(() => debugDisableShadows = true);
   // Touch mode: no keyboard focus frames in the pictures.
   FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;
   await tester.pumpApp(
@@ -133,11 +133,15 @@ Future<void> shoot(
   tester.view.devicePixelRatio = pixelRatio;
   addTearDown(tester.view.reset);
   await tester.pumpAndSettle();
-  if (before != null) await before();
-  await expectLater(
-    find.byType(MaterialApp),
-    matchesGoldenFile('../../store/screenshots/$locale/$name.png'),
-  );
+  try {
+    if (before != null) await before();
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('../../store/screenshots/$locale/$name.png'),
+    );
+  } finally {
+    debugDisableShadows = true;
+  }
 }
 
 void main() {
