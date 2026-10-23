@@ -57,14 +57,15 @@ Uri placeSearchUri(String query, {required String languageCode}) => Uri.https(
   {'name': query, 'count': '5', 'language': languageCode, 'format': 'json'},
 );
 
-/// Daily rain and maximum temperature of the last three and next two days.
+/// Daily rain and temperatures of the last three days, today and the next two
+/// days (Open-Meteo counts today as the first forecast day).
 Uri forecastUri(WeatherLocation location) =>
     Uri.https('api.open-meteo.com', '/v1/forecast', {
       'latitude': '${location.latitude}',
       'longitude': '${location.longitude}',
       'daily': 'precipitation_sum,temperature_2m_max,temperature_2m_min',
       'past_days': '3',
-      'forecast_days': '2',
+      'forecast_days': '3',
       'timezone': 'auto',
     });
 
