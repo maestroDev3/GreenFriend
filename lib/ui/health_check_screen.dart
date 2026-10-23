@@ -159,6 +159,7 @@ class _Result extends StatelessWidget {
 
   final HealthAssessment result;
   final Widget photo;
+
   /// `null` while saving.
   final VoidCallback? onSave;
 

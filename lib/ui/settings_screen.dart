@@ -570,7 +570,9 @@ class _VacationTiles extends StatelessWidget {
       initialDateRange: current == null
           ? null
           : DateTimeRange(
-              start: local(current.first.isBefore(today) ? today : current.first),
+              start: local(
+                current.first.isBefore(today) ? today : current.first,
+              ),
               end: local(current.last),
             ),
     );

@@ -101,9 +101,7 @@ void main() {
   });
 
   group('vacation', () {
-    testWidgets('changing a running vacation opens the picker', (
-      tester,
-    ) async {
+    testWidgets('changing a running vacation opens the picker', (tester) async {
       final settings = await settingsWith(
         Vacation(first: DateTime(2026, 10, 10), last: DateTime(2026, 10, 25)),
       );
