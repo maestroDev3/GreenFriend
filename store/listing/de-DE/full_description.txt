@@ -1,0 +1,34 @@
+Green Friend sorgt dafür, dass keine deiner Zimmerpflanzen mehr vertrocknet.
+
+Jede Pflanze bekommt ihren eigenen Pflegeplan fürs Gießen, Düngen, Umtopfen und Schneiden. Green Friend erinnert dich am richtigen Tag, und ein Tipp markiert die Pflege als erledigt – direkt in der Benachrichtigung oder im Widget auf dem Startbildschirm.
+
+PFLEGE, DIE ZUR PFLANZE PASST
+• Pflegeprofile für über 140 Zimmer- und Balkonpflanzen, Kräuter, Gemüse und Bonsai – funktioniert offline
+• Winterruhe: weniger Wasser und kein Dünger von November bis Februar
+• Wassermenge aus der Topfgröße, z. B. „etwa 400 ml“
+• Urlaubsmodus pausiert die Erinnerungen und erstellt einen Pflegeplan für deinen Pflanzensitter
+
+LERNE DEINE PFLANZE KENNEN
+• Pflanze per Foto erkennen und ihr Pflegeprofil übernehmen*
+• Gesundheitscheck: Erfahre, was einer kränkelnden Pflanze fehlt und wie du sie behandelst*
+• Lichtcheck mit dem Lichtsensor deines Handys: Ist dieser Platz hell genug?
+
+WETTER FÜR PFLANZEN DRAUSSEN
+• Regen zählt als Gießen für Balkon- und Gartenpflanzen
+• Hinweis an heißen Tagen
+• Frostwarnung am Abend vor einer kalten Nacht, mit den gefährdeten Pflanzen
+
+SIEH DEINE PFLANZEN WACHSEN
+• Wachstumstagebuch mit Fotos und Notizen
+• Zeitleiste, Vorher-Nachher-Vergleich und ein Zeitraffer, den du als GIF teilen kannst
+• Pflegestatistik und Serien
+
+ALLES AN SEINEM PLATZ
+• Pflegetage in deinem Handykalender
+• Monats- und Jahreskalender der Pflege in der App
+• Sicherung und Wiederherstellung aller Pflanzen, Pflegedaten und Fotos
+• Deutsch und Englisch, helles und dunkles Design
+
+Kein Konto, keine Werbung. Deine Pflanzen und Fotos bleiben auf deinem Handy.
+
+* Pflanzenerkennung und Gesundheitscheck nutzen den Dienst plant.id mit deinem eigenen API-Schlüssel (in den Einstellungen); jede Prüfung verbraucht Credits deines plant.id-Kontos.
