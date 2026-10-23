@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../domain/backup_files.dart';
+import '../domain/clock.dart';
 import '../domain/phone_calendar.dart';
+import '../domain/plant_repository.dart';
 import '../domain/reminders.dart';
+import '../domain/sitter_plan.dart';
+import '../domain/vacation.dart';
 import '../domain/weather.dart';
 import '../domain/settings.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_sync.dart';
 import 'settings_controller.dart';
+import 'sitter_plan_text.dart';
 import 'weather_sync.dart';
 
 /// Lets the user choose the app's appearance, language and reminders.
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({
+    super.key,
+    this.clock = DateTime.now,
+    this.plants,
+    this.sharing,
+  });
+
+  /// Supplies today for the vacation picker.
+  final Clock clock;
+
+  /// With [sharing], offers the plant sitter plan during a vacation.
+  final PlantRepository? plants;
+  final FileSharing? sharing;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +85,17 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 24),
           _SectionTitle(l10n.remindersSection),
           Card(clipBehavior: Clip.antiAlias, child: _ReminderTiles(settings)),
+          const SizedBox(height: 24),
+          _SectionTitle(l10n.vacationSection),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: _VacationTiles(
+              settings: settings,
+              clock: clock,
+              plants: plants,
+              sharing: sharing,
+            ),
+          ),
           if (weatherSync != null) ...[
             const SizedBox(height: 24),
             _SectionTitle(l10n.weatherSection),
@@ -482,6 +512,127 @@ class _PlaceSearchScreenState extends State<PlaceSearchScreen> {
               title: Text(place.label),
               onTap: () => Navigator.of(context).pop(place),
             ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Plans, changes or ends the vacation (reminders pause on its days).
+class _VacationTiles extends StatelessWidget {
+  const _VacationTiles({
+    required this.settings,
+    required this.clock,
+    this.plants,
+    this.sharing,
+  });
+
+  final SettingsController settings;
+  final Clock clock;
+  final PlantRepository? plants;
+  final FileSharing? sharing;
+
+  Future<void> _share(
+    BuildContext context,
+    PlantRepository plants,
+    FileSharing sharing,
+    Vacation vacation,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final plan = sitterPlan(
+      await plants.allPlants(),
+      vacation: vacation,
+      today: clock(),
+    );
+    await sharing.shareText(
+      sitterPlanText(l10n, locale, vacation, plan),
+      subject: l10n.shareSitterPlan,
+    );
+  }
+
+  /// The planned or running vacation; an ended one counts as none.
+  Vacation? get _current => switch (settings.vacation) {
+    final vacation? when !vacation.last.isBefore(dayOf(clock())) => vacation,
+    _ => null,
+  };
+
+  Future<void> _pick(BuildContext context) async {
+    final today = dayOf(clock());
+    final current = _current;
+    DateTime local(DateTime day) => DateTime(day.year, day.month, day.day);
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: local(today),
+      lastDate: DateTime(today.year + 1, today.month, today.day),
+      currentDate: local(today),
+      // The picker starts at today, so a running vacation is shown from today.
+      initialDateRange: current == null
+          ? null
+          : DateTimeRange(
+              start: local(
+                current.first.isBefore(today) ? today : current.first,
+              ),
+              end: local(current.last),
+            ),
+    );
+    if (picked == null) return;
+    await settings.setVacation(Vacation(first: picked.start, last: picked.end));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final vacation = _current;
+    final format = DateFormat.yMMMd(Localizations.localeOf(context).toString());
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (vacation == null)
+            Text(l10n.noVacation, style: text.bodyMedium)
+          else ...[
+            Text(
+              l10n.vacationPeriod(
+                format.format(vacation.first),
+                format.format(vacation.last),
+              ),
+              style: text.titleMedium,
+            ),
+            const SizedBox(height: 4),
+            Text(l10n.vacationHint, style: text.bodySmall),
+          ],
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: () => _pick(context),
+                icon: const Icon(Icons.beach_access_outlined),
+                label: Text(
+                  vacation == null ? l10n.planVacation : l10n.changeVacation,
+                ),
+              ),
+              if (vacation != null)
+                TextButton(
+                  onPressed: () => settings.setVacation(null),
+                  child: Text(l10n.endVacation),
+                ),
+              if ((vacation, plants, sharing) case (
+                final vacation?,
+                final plants?,
+                final sharing?,
+              ))
+                FilledButton.tonalIcon(
+                  onPressed: () => _share(context, plants, sharing, vacation),
+                  icon: const Icon(Icons.share_outlined),
+                  label: Text(l10n.shareSitterPlan),
+                ),
+            ],
+          ),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/device_phone_calendar.dart';
+import 'data/home_care_widget.dart';
 import 'data/local_notification_scheduler.dart';
 import 'data/shared_preferences_care_log_repository.dart';
 import 'data/shared_preferences_plant_repository.dart';
@@ -13,6 +14,7 @@ import 'domain/plant_repository.dart';
 import 'ui/calendar_sync.dart';
 import 'ui/reminder_sync.dart';
 import 'ui/settings_controller.dart';
+import 'ui/widget_sync.dart';
 
 /// Handles a tap on a reminder button ("Watered") in a background isolate:
 /// records the care and replans the reminders and the phone calendar,
@@ -63,6 +65,11 @@ Future<void> replanReminders(
   )..start();
   await sync.idle;
   sync.dispose();
+  await WidgetSync(
+    plants: plants,
+    settings: settings,
+    widget: HomeCareWidget(),
+  ).syncNow(await plants.allPlants());
   if (settings.phoneCalendar != null) {
     await CalendarSync(
       plants: plants,

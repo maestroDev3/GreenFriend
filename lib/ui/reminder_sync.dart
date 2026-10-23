@@ -8,9 +8,17 @@ import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/water_amount.dart';
 import '../l10n/app_localizations.dart';
+import 'frost_texts.dart';
 import 'locale_resolution.dart';
 import 'settings_controller.dart';
+
+/// Frost notifications get ids from here on, after the care reminders.
+const frostNotificationIdBase = 10000;
+
+/// Frost warnings are announced at this local hour the evening before.
+const frostNotificationHour = 17;
 
 /// Keeps the scheduled reminders in line with the plants and the settings:
 /// replans whenever a plant, its watering or a setting changes.
@@ -70,28 +78,27 @@ class ReminderSync {
 
   Future<void> _sync() async {
     final reminder = settings.reminder;
-    if (!reminder.enabled) {
-      await scheduler.replaceAll(const []);
-      return;
-    }
-    final planned = plannedPlantReminders(
-      _plants,
-      now: clock(),
-      time: reminder.time,
-    );
-    if (askPermission && planned.isNotEmpty && !_permissionAsked) {
-      _permissionAsked = true;
-      await scheduler.requestPermission();
-    }
+    final now = clock();
+    // Frost warnings are planned even when the daily care reminder is off.
+    final planned = reminder.enabled
+        ? plannedPlantReminders(
+            _plants,
+            now: now,
+            time: reminder.time,
+            vacation: settings.vacation,
+          )
+        : const <PlantReminder>[];
     final l10n = localizations();
-    await scheduler.replaceAll([
+    final notifications = [
       for (final (index, reminder) in planned.indexed)
         ScheduledNotification(
           id: index + 1,
           at: reminder.at,
           title: reminder.plant.name,
           body: l10n.reminderDueToday(
-            reminder.kinds.map((kind) => careVerb(l10n, kind)).join(', '),
+            reminder.kinds
+                .map((kind) => careTask(l10n, kind, reminder.plant))
+                .join(', '),
           ),
           actions: [
             for (final kind in reminder.kinds.take(3))
@@ -101,7 +108,26 @@ class ReminderSync {
               ),
           ],
         ),
-    ]);
+      for (final (index, warning) in settings.frostWarnings.indexed)
+        if (DateTime(
+              warning.day.year,
+              warning.day.month,
+              warning.day.day - 1,
+              frostNotificationHour,
+            )
+            case final at when at.isAfter(now))
+          ScheduledNotification(
+            id: frostNotificationIdBase + index,
+            at: at,
+            title: frostTitle(l10n, warning, tonight: true),
+            body: frostPlantsText(l10n, warning),
+          ),
+    ];
+    if (askPermission && notifications.isNotEmpty && !_permissionAsked) {
+      _permissionAsked = true;
+      await scheduler.requestPermission();
+    }
+    await scheduler.replaceAll(notifications);
   }
 }
 
@@ -132,6 +158,14 @@ String careVerb(AppLocalizations l10n, CareKind kind) => switch (kind) {
   Repot() => l10n.careVerbRepot,
   Prune() => l10n.careVerbPrune,
 };
+
+/// The task for [plant], with the water amount when it has a pot size, e.g.
+/// "Water (about 400 ml)".
+String careTask(AppLocalizations l10n, CareKind kind, Plant plant) =>
+    switch ((kind, waterAmountMl(plant))) {
+      (Water(), final ml?) => l10n.careVerbWaterAmount(ml),
+      _ => careVerb(l10n, kind),
+    };
 
 /// The task as done, e.g. "Watered" (also the notification button).
 String careDoneLabel(AppLocalizations l10n, CareKind kind) => switch (kind) {

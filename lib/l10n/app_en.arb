@@ -1064,5 +1064,414 @@
         "type": "int"
       }
     }
+  },
+  "widgetTitle": "Care today",
+  "@widgetTitle": {
+    "description": "Title of the home-screen widget."
+  },
+  "widgetAllHappy": "All plants are happy today",
+  "@widgetAllHappy": {
+    "description": "Home-screen widget text when nothing is due."
+  },
+  "widgetOpenToRefresh": "Open Green Friend to refresh",
+  "@widgetOpenToRefresh": {
+    "description": "Home-screen widget text when its data is from an earlier day."
+  },
+  "vacationSection": "Vacation",
+  "@vacationSection": {
+    "description": "Settings section title for the vacation period."
+  },
+  "noVacation": "No vacation planned – reminders run as usual.",
+  "@noVacation": {
+    "description": "Shown in the vacation section without a vacation."
+  },
+  "planVacation": "Plan vacation",
+  "@planVacation": {
+    "description": "Button that opens the date range picker for a vacation."
+  },
+  "changeVacation": "Change",
+  "@changeVacation": {
+    "description": "Button that changes the vacation period."
+  },
+  "endVacation": "End vacation",
+  "@endVacation": {
+    "description": "Button that removes the vacation."
+  },
+  "vacationPeriod": "{first} – {last}",
+  "@vacationPeriod": {
+    "description": "The vacation period.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "vacationHint": "No reminders on these days. Calendar and widget keep showing the plan.",
+  "@vacationHint": {
+    "description": "Explanation below a planned vacation."
+  },
+  "onVacationUntil": "On vacation until {date}",
+  "@onVacationUntil": {
+    "description": "Home screen banner during a vacation.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "sitterPlanTitle": "Plant care plan: {first} – {last}",
+  "@sitterPlanTitle": {
+    "description": "Heading of the shared plant sitter plan.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "sitterPlanEmpty": "No care needed in this period.",
+  "@sitterPlanEmpty": {
+    "description": "Shared sitter plan without any care."
+  },
+  "shareSitterPlan": "Share plan for the plant sitter",
+  "@shareSitterPlan": {
+    "description": "Button in the vacation section that shares the care plan as text."
+  },
+  "statisticsTitle": "Statistics",
+  "@statisticsTitle": {
+    "description": "Title of the care statistics screen and its entry in More."
+  },
+  "statisticsEmpty": "Your statistics appear here once you record care.",
+  "@statisticsEmpty": {
+    "description": "Statistics screen without any care history."
+  },
+  "currentStreak": "Current streak",
+  "@currentStreak": {
+    "description": "Label: days in a row without overdue care, up to today."
+  },
+  "bestStreak": "Best streak",
+  "@bestStreak": {
+    "description": "Label: longest run of days without overdue care."
+  },
+  "dayCount": "{count, plural, =1{1 day} other{{count} days}}",
+  "@dayCount": {
+    "description": "A number of days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "carePerMonth": "Care per month",
+  "@carePerMonth": {
+    "description": "Title of the monthly care chart."
+  },
+  "mostCaredFor": "Most cared for: {plant} ({count}×)",
+  "@mostCaredFor": {
+    "description": "The plant with the most care actions in the last year.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monthCareCount": "{month}: {count}",
+  "@monthCareCount": {
+    "description": "Accessibility label of a month bar.",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timelapseTitle": "Time-lapse",
+  "@timelapseTitle": {
+    "description": "Title of the growth time-lapse screen and tooltip of its action in the timeline."
+  },
+  "timelapseShare": "Share as GIF",
+  "@timelapseShare": {
+    "description": "Button that encodes the time-lapse as an animated GIF and shares it."
+  },
+  "timelapseCreating": "Creating GIF …",
+  "@timelapseCreating": {
+    "description": "Button label while the GIF is being encoded."
+  },
+  "timelapseFailed": "The time-lapse could not be created.",
+  "@timelapseFailed": {
+    "description": "Shown when no GIF could be made, e.g. no photo is readable."
+  },
+  "timelapsePosition": "{index} of {count}",
+  "@timelapsePosition": {
+    "description": "Which photo of the time-lapse is shown.",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minTemperatureLabel": "Lowest temperature (°C)",
+  "@minTemperatureLabel": {
+    "description": "Plant form field: the lowest temperature the plant tolerates."
+  },
+  "minTemperatureHelp": "Frost warnings for outdoor plants use this value. Empty: value of the species.",
+  "@minTemperatureHelp": {
+    "description": "Helper text below the lowest temperature field."
+  },
+  "minTemperatureInvalid": "Enter a temperature from -30 to 20 °C",
+  "@minTemperatureInvalid": {
+    "description": "Validation error of the lowest temperature field."
+  },
+  "coldToleranceTitle": "Cold tolerance",
+  "@coldToleranceTitle": {
+    "description": "Detail page tile title: the lowest temperature the plant tolerates."
+  },
+  "toleratesDownTo": "Tolerates down to {celsius} °C",
+  "@toleratesDownTo": {
+    "description": "Detail page: the lowest temperature the plant tolerates.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "frostTonight": "Frost tonight: down to {celsius} °C",
+  "@frostTonight": {
+    "description": "Frost warning for the coming night.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "frostTomorrowNight": "Frost tomorrow night: down to {celsius} °C",
+  "@frostTomorrowNight": {
+    "description": "Frost warning for the night after.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "coldTonight": "Cold tonight: down to {celsius} °C",
+  "@coldTonight": {
+    "description": "Cold warning (above zero, but too cold for some plants) for the coming night.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "coldTomorrowNight": "Cold tomorrow night: down to {celsius} °C",
+  "@coldTomorrowNight": {
+    "description": "Cold warning (above zero) for the night after.",
+    "placeholders": {
+      "celsius": {
+        "type": "int"
+      }
+    }
+  },
+  "frostPlants": "Bring inside or protect: {plants}",
+  "@frostPlants": {
+    "description": "The outdoor plants at risk from the cold.",
+    "placeholders": {
+      "plants": {
+        "type": "String"
+      }
+    }
+  },
+  "healthCheckTitle": "Health check",
+  "@healthCheckTitle": {
+    "description": "Title of the health check screen and tooltip of its action on the plant detail page."
+  },
+  "healthCreditsTitle": "Uses plant.id credits",
+  "@healthCreditsTitle": {
+    "description": "Title of the one-time dialog before the first health check."
+  },
+  "healthCreditsMessage": "Each health check uses credits of your plant.id account.",
+  "@healthCreditsMessage": {
+    "description": "Text of the one-time dialog before the first health check."
+  },
+  "healthCreditsConfirm": "Check",
+  "@healthCreditsConfirm": {
+    "description": "Button that confirms the credit dialog and starts the health check."
+  },
+  "healthApiKeyNeeded": "To check plant health, enter your plant.id API key in the settings (More → Settings → Plant identification).",
+  "@healthApiKeyNeeded": {
+    "description": "Shown when a health check is started without API key."
+  },
+  "healthChecking": "Checking health …",
+  "@healthChecking": {
+    "description": "Progress text while the health check runs."
+  },
+  "healthUnavailable": "The health check is not reachable. Check your internet connection and try again.",
+  "@healthUnavailable": {
+    "description": "Shown when the health check service cannot be reached."
+  },
+  "healthLooksHealthy": "Your plant looks healthy",
+  "@healthLooksHealthy": {
+    "description": "Health check result: no problem found."
+  },
+  "healthProblems": "Possible problems",
+  "@healthProblems": {
+    "description": "Health check result: heading of the likely problems."
+  },
+  "healthProbability": "{percent} % likely",
+  "@healthProbability": {
+    "description": "How likely a health problem is.",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "healthPrevention": "Prevention",
+  "@healthPrevention": {
+    "description": "Heading of the prevention advice of a health problem."
+  },
+  "healthBiological": "Biological treatment",
+  "@healthBiological": {
+    "description": "Heading of the biological treatments of a health problem."
+  },
+  "healthChemical": "Chemical treatment",
+  "@healthChemical": {
+    "description": "Heading of the chemical treatments of a health problem."
+  },
+  "healthSaveToJournal": "Save to journal",
+  "@healthSaveToJournal": {
+    "description": "Button on the health check result that saves it as a journal entry."
+  },
+  "healthNoteHealthy": "Health check: looks healthy",
+  "@healthNoteHealthy": {
+    "description": "Journal note of a health check without problems."
+  },
+  "healthNoteProblems": "Health check: {problems}",
+  "@healthNoteProblems": {
+    "description": "Journal note of a health check listing the likely problems with probability.",
+    "placeholders": {
+      "problems": {
+        "type": "String"
+      }
+    }
+  },
+  "lightCheckTitle": "Light check",
+  "@lightCheckTitle": {
+    "description": "Title of the light measurement screen and tooltip of its action on the plant detail page."
+  },
+  "lightCheckHint": "Hold the phone where the plant stands, with the screen facing the window.",
+  "@lightCheckHint": {
+    "description": "Instruction on the light check screen."
+  },
+  "lightMeasuring": "Measuring …",
+  "@lightMeasuring": {
+    "description": "Shown while the light is measured."
+  },
+  "luxValue": "{lux} lx",
+  "@luxValue": {
+    "description": "A light value in lux, e.g. 1,200 lx.",
+    "placeholders": {
+      "lux": {
+        "type": "String"
+      }
+    }
+  },
+  "lightTooDark": "Too dark for {plant}",
+  "@lightTooDark": {
+    "description": "Light check verdict.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "lightFine": "Good light for {plant}",
+  "@lightFine": {
+    "description": "Light check verdict.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "lightTooBright": "Too bright for {plant}",
+  "@lightTooBright": {
+    "description": "Light check verdict.",
+    "placeholders": {
+      "plant": {
+        "type": "String"
+      }
+    }
+  },
+  "lightNeeds": "Needs: {light}",
+  "@lightNeeds": {
+    "description": "The light need of the plant's species on the light check screen.",
+    "placeholders": {
+      "light": {
+        "type": "String"
+      }
+    }
+  },
+  "lightShadySpot": "Shady spot",
+  "@lightShadySpot": {
+    "description": "Rough classification of a measured light below 1,000 lux (plant without species)."
+  },
+  "lightBrightSpot": "Bright spot",
+  "@lightBrightSpot": {
+    "description": "Rough classification of a measured light from 1,000 to 10,000 lux."
+  },
+  "lightSunnySpot": "Sunny spot",
+  "@lightSunnySpot": {
+    "description": "Rough classification of a measured light from 10,000 lux."
+  },
+  "lightMeasureAgain": "Measure again",
+  "@lightMeasureAgain": {
+    "description": "Button that starts another light measurement."
+  },
+  "lightNoSensor": "This phone has no light sensor, so the light cannot be measured.",
+  "@lightNoSensor": {
+    "description": "Shown on phones without ambient light sensor."
+  },
+  "potDiameterLabel": "Pot diameter (cm)",
+  "@potDiameterLabel": {
+    "description": "Plant form field: diameter of the pot."
+  },
+  "potDiameterHelp": "Optional – used to suggest how much water to give.",
+  "@potDiameterHelp": {
+    "description": "Helper text below the pot diameter field."
+  },
+  "potDiameterInvalid": "Enter a diameter from 5 to 100 cm",
+  "@potDiameterInvalid": {
+    "description": "Validation error of the pot diameter field."
+  },
+  "waterAmount": "about {ml} ml",
+  "@waterAmount": {
+    "description": "Suggested water amount per watering, from the pot size.",
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "careVerbWaterAmount": "Water (about {ml} ml)",
+  "@careVerbWaterAmount": {
+    "description": "Watering task with the suggested amount, in reminders and calendar events.",
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
   }
 }

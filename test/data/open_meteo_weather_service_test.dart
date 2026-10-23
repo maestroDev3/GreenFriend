@@ -28,9 +28,12 @@ void main() {
       expect(uri.queryParameters['latitude'], '48.14');
       expect(
         uri.queryParameters['daily'],
-        'precipitation_sum,temperature_2m_max',
+        'precipitation_sum,temperature_2m_max,temperature_2m_min',
       );
       expect(uri.queryParameters['past_days'], '3');
+      // Today counts as the first forecast day: 3 covers the night after
+      // tomorrow.
+      expect(uri.queryParameters['forecast_days'], '3');
       expect(uri.queryParameters['timezone'], 'auto');
     });
   });
@@ -70,6 +73,37 @@ void main() {
   });
 
   group('parseDailyWeather', () {
+    test('the Open-Meteo service reads the daily minimum temperature', () {
+      final days = parseDailyWeather(
+        200,
+        jsonEncode({
+          'daily': {
+            'time': ['2026-10-18', '2026-10-19'],
+            'precipitation_sum': [0, 0],
+            'temperature_2m_max': [8, 6.5],
+            'temperature_2m_min': [-2.4, null],
+          },
+        }),
+      );
+
+      expect(days.map((day) => day.minTemperature), [-2.4, null]);
+    });
+
+    test('the Open-Meteo service reads answers without minimum as unknown', () {
+      final days = parseDailyWeather(
+        200,
+        jsonEncode({
+          'daily': {
+            'time': ['2026-10-18'],
+            'precipitation_sum': [0],
+            'temperature_2m_max': [8],
+          },
+        }),
+      );
+
+      expect(days.single.minTemperature, isNull);
+    });
+
     test('reads one entry per day; missing values count as nothing', () {
       final days = parseDailyWeather(
         200,

@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/data/shared_preferences_settings_repository.dart';
+import 'package:green_friend/domain/frost.dart';
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
+import 'package:green_friend/domain/vacation.dart';
 import 'package:green_friend/domain/weather.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -107,6 +109,44 @@ void main() {
 
       await (await repository()).saveWeatherLocation(null);
       expect(await (await repository()).loadWeatherLocation(), isNull);
+    });
+
+    test('stores the health check credit consent', () async {
+      expect(await (await repository()).loadHealthCheckConsent(), isFalse);
+
+      await (await repository()).saveHealthCheckConsent(true);
+      expect(await (await repository()).loadHealthCheckConsent(), isTrue);
+    });
+
+    test('stores the frost warnings', () async {
+      final warnings = [
+        FrostWarning(
+          day: DateTime.utc(2026, 10, 18),
+          minTemperature: -2.5,
+          plantNames: const ['Lemon', 'Oleander'],
+        ),
+      ];
+      expect(await (await repository()).loadFrostWarnings(), isEmpty);
+
+      await (await repository()).saveFrostWarnings(warnings);
+      expect(await (await repository()).loadFrostWarnings(), warnings);
+
+      await (await repository()).saveFrostWarnings(const []);
+      expect(await (await repository()).loadFrostWarnings(), isEmpty);
+    });
+
+    test('stores and removes the vacation', () async {
+      final vacation = Vacation(
+        first: DateTime(2026, 10, 20),
+        last: DateTime(2026, 10, 25),
+      );
+      expect(await (await repository()).loadVacation(), isNull);
+
+      await (await repository()).saveVacation(vacation);
+      expect(await (await repository()).loadVacation(), vacation);
+
+      await (await repository()).saveVacation(null);
+      expect(await (await repository()).loadVacation(), isNull);
     });
 
     test('has the daily reminder on at 9:00 by default', () async {

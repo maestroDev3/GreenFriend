@@ -123,6 +123,8 @@ Map<String, Object?> _plantToJson(Plant plant) => {
   'lastPrunedOn': _day(plant.lastPrunedOn),
   'winterRest': plant.winterRest,
   'outdoor': plant.outdoor,
+  'minTemperature': plant.minTemperature,
+  'potDiameterCm': plant.potDiameterCm,
 };
 
 Plant _plantFromJson(Map<String, dynamic> json) => Plant(
@@ -142,6 +144,8 @@ Plant _plantFromJson(Map<String, dynamic> json) => Plant(
   // Backups made before winter rest existed get it switched on.
   winterRest: json['winterRest'] as bool? ?? true,
   outdoor: json['outdoor'] as bool? ?? false,
+  minTemperature: json['minTemperature'] as int?,
+  potDiameterCm: json['potDiameterCm'] as int?,
 );
 
 Map<String, Object?> _logToJson(CareLog log) => {
@@ -168,6 +172,7 @@ Map<String, Object?> _entryToJson(JournalEntry entry) => {
   'day': _day(entry.day),
   'note': entry.note,
   'photo': entry.photo,
+  if (entry.healthCheck) 'healthCheck': true,
 };
 
 JournalEntry _entryFromJson(Map<String, dynamic> json) => JournalEntry(
@@ -176,4 +181,5 @@ JournalEntry _entryFromJson(Map<String, dynamic> json) => JournalEntry(
   day: DateTime.parse(json['day'] as String),
   note: json['note'] as String?,
   photo: json['photo'] as String?,
+  healthCheck: json['healthCheck'] as bool? ?? false,
 );

@@ -57,14 +57,15 @@ Uri placeSearchUri(String query, {required String languageCode}) => Uri.https(
   {'name': query, 'count': '5', 'language': languageCode, 'format': 'json'},
 );
 
-/// Daily rain and maximum temperature of the last three and next two days.
+/// Daily rain and temperatures of the last three days, today and the next two
+/// days (Open-Meteo counts today as the first forecast day).
 Uri forecastUri(WeatherLocation location) =>
     Uri.https('api.open-meteo.com', '/v1/forecast', {
       'latitude': '${location.latitude}',
       'longitude': '${location.longitude}',
-      'daily': 'precipitation_sum,temperature_2m_max',
+      'daily': 'precipitation_sum,temperature_2m_max,temperature_2m_min',
       'past_days': '3',
-      'forecast_days': '2',
+      'forecast_days': '3',
       'timezone': 'auto',
     });
 
@@ -102,12 +103,14 @@ List<DailyWeather> parseDailyWeather(int statusCode, String body) {
     final days = (daily['time'] as List<Object?>).cast<String>();
     final rain = daily['precipitation_sum'] as List<Object?>;
     final max = daily['temperature_2m_max'] as List<Object?>;
+    final min = daily['temperature_2m_min'] as List<Object?>?;
     return [
       for (var i = 0; i < days.length; i++)
         DailyWeather(
           day: DateTime.parse('${days[i]}T00:00:00Z'),
           rainMm: (rain[i] as num?)?.toDouble() ?? 0,
           maxTemperature: (max[i] as num?)?.toDouble(),
+          minTemperature: (min?[i] as num?)?.toDouble(),
         ),
     ];
   } on Object catch (error) {

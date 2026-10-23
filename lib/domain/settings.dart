@@ -1,4 +1,6 @@
+import 'frost.dart';
 import 'reminders.dart';
+import 'vacation.dart';
 import 'weather.dart';
 
 /// How the app chooses between light and dark colors.
@@ -47,6 +49,23 @@ abstract interface class SettingsRepository {
 
   /// Stores [location]; `null` removes it.
   Future<void> saveWeatherLocation(WeatherLocation? location);
+
+  /// The current or next vacation, or `null`.
+  Future<Vacation?> loadVacation();
+
+  /// Stores [vacation]; `null` removes it.
+  Future<void> saveVacation(Vacation? vacation);
+
+  /// Whether the user agreed that health checks use plant.id credits.
+  Future<bool> loadHealthCheckConsent();
+
+  Future<void> saveHealthCheckConsent(bool consent);
+
+  /// The frost warnings of the last weather fetch; empty if none.
+  Future<List<FrostWarning>> loadFrostWarnings();
+
+  /// Stores [warnings]; an empty list removes them.
+  Future<void> saveFrostWarnings(List<FrostWarning> warnings);
 }
 
 /// Trims an API key typed by the user; blank means no key.

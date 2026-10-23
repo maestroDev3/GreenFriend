@@ -1,5 +1,7 @@
+import 'package:green_friend/domain/frost.dart';
 import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/settings.dart';
+import 'package:green_friend/domain/vacation.dart';
 import 'package:green_friend/domain/weather.dart';
 
 /// In-memory [SettingsRepository] for tests.
@@ -12,6 +14,9 @@ class FakeSettingsRepository implements SettingsRepository {
     this.tipDismissedOn,
     this.phoneCalendar,
     this.weatherLocation,
+    this.vacation,
+    this.frostWarnings = const [],
+    this.healthCheckConsent = false,
   });
 
   AppThemeMode themeMode;
@@ -21,6 +26,9 @@ class FakeSettingsRepository implements SettingsRepository {
   DateTime? tipDismissedOn;
   CalendarChoice? phoneCalendar;
   WeatherLocation? weatherLocation;
+  Vacation? vacation;
+  List<FrostWarning> frostWarnings;
+  bool healthCheckConsent;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -66,4 +74,24 @@ class FakeSettingsRepository implements SettingsRepository {
   @override
   Future<void> saveWeatherLocation(WeatherLocation? location) async =>
       weatherLocation = location;
+
+  @override
+  Future<Vacation?> loadVacation() async => vacation;
+
+  @override
+  Future<void> saveVacation(Vacation? value) async => vacation = value;
+
+  @override
+  Future<bool> loadHealthCheckConsent() async => healthCheckConsent;
+
+  @override
+  Future<void> saveHealthCheckConsent(bool value) async =>
+      healthCheckConsent = value;
+
+  @override
+  Future<List<FrostWarning>> loadFrostWarnings() async => frostWarnings;
+
+  @override
+  Future<void> saveFrostWarnings(List<FrostWarning> value) async =>
+      frostWarnings = value;
 }

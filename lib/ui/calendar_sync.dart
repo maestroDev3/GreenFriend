@@ -106,7 +106,9 @@ class CalendarSync {
           day: planned.day,
           title: l10n.calendarEventTitle(
             planned.plant.name,
-            planned.kinds.map((kind) => careVerb(l10n, kind)).join(', '),
+            planned.kinds
+                .map((kind) => careTask(l10n, kind, planned.plant))
+                .join(', '),
           ),
           marker: calendarMarker(planned.plant.id, planned.day),
         ),

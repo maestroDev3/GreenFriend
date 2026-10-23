@@ -1,15 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/gif_timelapse_encoder.dart';
 import 'data/bundled_species_catalog.dart';
 import 'data/bundled_tips.dart';
+import 'data/channel_light_sensor.dart';
 import 'data/device_phone_calendar.dart';
 import 'data/file_photo_store.dart';
+import 'data/home_care_widget.dart';
 import 'data/image_picker_photo_picker.dart';
 import 'data/local_notification_scheduler.dart';
 import 'data/open_meteo_weather_service.dart';
+import 'data/plant_id_health_checker.dart';
 import 'data/plant_id_identifier.dart';
 import 'data/platform_file_sharing.dart';
 import 'data/shared_preferences_care_log_repository.dart';
@@ -19,12 +24,14 @@ import 'data/shared_preferences_plant_repository.dart';
 import 'data/shared_preferences_settings_repository.dart';
 import 'data/zip_backup_archive.dart';
 import 'notification_actions.dart';
+import 'widget_actions.dart';
 import 'ui/app.dart';
 import 'ui/calendar_sync.dart';
 import 'ui/font_licenses.dart';
 import 'ui/reminder_sync.dart';
 import 'ui/settings_controller.dart';
 import 'ui/weather_sync.dart';
+import 'ui/widget_sync.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +57,13 @@ Future<void> main() async {
     localizations: () => appLocalizationsFor(settings),
   ).start();
 
+  WidgetSync(
+    plants: plants,
+    settings: settings,
+    widget: HomeCareWidget(),
+  ).start();
+  unawaited(HomeWidget.registerInteractivityCallback(onCareWidgetClicked));
+
   final calendarSync = CalendarSync(
     plants: plants,
     settings: settings,
@@ -60,11 +74,13 @@ Future<void> main() async {
   final journal = SharedPreferencesJournalRepository(preferences);
   final photos = await FilePhotoStore.create();
 
+  final species = BundledSpeciesCatalog();
   final weatherSync = WeatherSync(
     plants: plants,
     careLogs: careLogs,
     settings: settings,
     service: OpenMeteoWeatherService(),
+    species: species,
   );
   unawaited(weatherSync.refresh());
 
@@ -80,7 +96,7 @@ Future<void> main() async {
 
   runApp(
     GreenFriendApp(
-      species: BundledSpeciesCatalog(),
+      species: species,
       settings: settings,
       plants: plants,
       careLogs: careLogs,
@@ -99,6 +115,9 @@ Future<void> main() async {
       calendarSync: calendarSync,
       missingSpecies: SharedPreferencesMissingSpeciesRepository(preferences),
       weatherSync: weatherSync,
+      timelapseEncoder: const GifTimelapseEncoder(),
+      healthChecker: PlantIdHealthChecker(),
+      lightSensor: const ChannelLightSensor(),
     ),
   );
 }

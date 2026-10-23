@@ -1,3 +1,5 @@
+import 'plant.dart';
+
 /// How much light a species needs at its spot indoors.
 enum Light {
   /// Tolerates shade, e.g. a north window or the back of a room.
@@ -36,7 +38,9 @@ class Species {
     this.pruningIntervalMonths,
     required this.light,
     required this.humidity,
-  }) : id = _required(id, 'id'),
+    int? minTemperature,
+  }) : minTemperature = checkMinTemperature(minTemperature, 'minTemperature'),
+       id = _required(id, 'id'),
        scientificName = _required(scientificName, 'scientificName'),
        names = Map.unmodifiable({
          for (final MapEntry(:key, :value) in names.entries)
@@ -70,6 +74,9 @@ class Species {
   final Light light;
   final Humidity humidity;
 
+  /// The lowest temperature in °C the species tolerates (rough guide value).
+  final int? minTemperature;
+
   /// The name shown to the user: the first name in [languageCode], otherwise
   /// the first English name.
   String displayName(String languageCode) {
@@ -88,7 +95,8 @@ class Species {
       other.repottingIntervalMonths == repottingIntervalMonths &&
       other.pruningIntervalMonths == pruningIntervalMonths &&
       other.light == light &&
-      other.humidity == humidity;
+      other.humidity == humidity &&
+      other.minTemperature == minTemperature;
 
   @override
   int get hashCode => Object.hash(
@@ -100,6 +108,7 @@ class Species {
     pruningIntervalMonths,
     light,
     humidity,
+    minTemperature,
   );
 
   @override

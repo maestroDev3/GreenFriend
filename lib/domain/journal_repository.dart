@@ -21,6 +21,7 @@ abstract interface class JournalRepository {
     required DateTime day,
     String? note,
     String? photo,
+    bool healthCheck = false,
   });
 
   Future<void> delete(String id);

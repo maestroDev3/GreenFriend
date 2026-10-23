@@ -6,6 +6,8 @@ import '../support/fake_journal_repository.dart';
 import '../support/fake_photos.dart';
 
 void main() {
+  healthFlagTests();
+
   group('JournalEntry', () {
     test('needs a note or a photo', () {
       expect(
@@ -111,5 +113,24 @@ void main() {
         expect(photos.stored, {other});
       },
     );
+  });
+}
+
+void healthFlagTests() {
+  test('a journal entry is no health check by default; the flag counts for '
+      'equality', () {
+    final day = DateTime(2026, 10, 17);
+    final plain = JournalEntry(id: '1', plantId: 'p', day: day, note: 'x');
+    final check = JournalEntry(
+      id: '1',
+      plantId: 'p',
+      day: day,
+      note: 'x',
+      healthCheck: true,
+    );
+
+    expect(plain.healthCheck, isFalse);
+    expect(check.healthCheck, isTrue);
+    expect(check, isNot(plain));
   });
 }

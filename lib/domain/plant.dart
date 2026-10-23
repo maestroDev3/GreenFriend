@@ -23,7 +23,11 @@ class Plant {
     DateTime? lastPrunedOn,
     this.winterRest = true,
     this.outdoor = false,
+    int? minTemperature,
+    int? potDiameterCm,
   }) : name = _requireName(name),
+       minTemperature = checkMinTemperature(minTemperature, 'minTemperature'),
+       potDiameterCm = _checkPot(potDiameterCm),
        species = _optional(species),
        speciesId = _optional(speciesId),
        location = _optional(location),
@@ -93,6 +97,13 @@ class Plant {
   /// counts (see `weather.dart`).
   final bool outdoor;
 
+  /// The lowest temperature in °C this plant tolerates, if set for it; see
+  /// `toleratedMinimum`.
+  final int? minTemperature;
+
+  /// Diameter of the pot in cm (5–100), used for the water amount.
+  final int? potDiameterCm;
+
   /// Returns a copy with the given values; `null` keeps the current value.
   Plant copyWith({
     String? name,
@@ -109,6 +120,8 @@ class Plant {
     DateTime? lastPrunedOn,
     bool? winterRest,
     bool? outdoor,
+    int? minTemperature,
+    int? potDiameterCm,
   }) {
     return Plant(
       id: id,
@@ -129,6 +142,8 @@ class Plant {
       lastPrunedOn: lastPrunedOn ?? this.lastPrunedOn,
       winterRest: winterRest ?? this.winterRest,
       outdoor: outdoor ?? this.outdoor,
+      minTemperature: minTemperature ?? this.minTemperature,
+      potDiameterCm: potDiameterCm ?? this.potDiameterCm,
     );
   }
 
@@ -149,7 +164,9 @@ class Plant {
       other.pruningIntervalMonths == pruningIntervalMonths &&
       other.lastPrunedOn == lastPrunedOn &&
       other.winterRest == winterRest &&
-      other.outdoor == outdoor;
+      other.outdoor == outdoor &&
+      other.minTemperature == minTemperature &&
+      other.potDiameterCm == potDiameterCm;
 
   @override
   int get hashCode => Object.hash(
@@ -168,6 +185,8 @@ class Plant {
     lastPrunedOn,
     winterRest,
     outdoor,
+    minTemperature,
+    potDiameterCm,
   );
 
   @override
@@ -188,12 +207,44 @@ class Plant {
     return value;
   }
 
+  static int? _checkPot(int? value) {
+    if (value != null &&
+        (value < potDiameterRange.min || value > potDiameterRange.max)) {
+      throw ArgumentError.value(
+        value,
+        'potDiameterCm',
+        'must be ${potDiameterRange.min}-${potDiameterRange.max}',
+      );
+    }
+    return value;
+  }
+
   static DateTime? _day(DateTime? value) => value == null ? null : dayOf(value);
 
   static String? _optional(String? value) {
     final trimmed = value?.trim();
     return (trimmed == null || trimmed.isEmpty) ? null : trimmed;
   }
+}
+
+/// Pot diameters in cm a plant can have.
+const potDiameterRange = (min: 5, max: 100);
+
+/// Lowest temperatures in °C a plant or species can have.
+const minTemperatureRange = (min: -30, max: 20);
+
+/// Returns [value]; throws [ArgumentError] if it is outside
+/// [minTemperatureRange].
+int? checkMinTemperature(int? value, String name) {
+  if (value != null &&
+      (value < minTemperatureRange.min || value > minTemperatureRange.max)) {
+    throw ArgumentError.value(
+      value,
+      name,
+      'must be ${minTemperatureRange.min} to ${minTemperatureRange.max}',
+    );
+  }
+  return value;
 }
 
 /// Returns [plants] sorted by name, ignoring case, so lists are predictable.

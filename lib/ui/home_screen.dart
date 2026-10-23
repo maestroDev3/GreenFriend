@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../domain/backup_files.dart';
+import '../domain/health.dart';
+import '../domain/light_check.dart';
+import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
+import '../domain/frost.dart';
 import '../domain/plant.dart';
 import '../domain/plant_repository.dart';
 import '../domain/species.dart';
@@ -14,6 +20,7 @@ import '../domain/urgency.dart';
 import '../domain/care_status.dart';
 import '../l10n/app_localizations.dart';
 import 'calendar_screen.dart';
+import 'frost_texts.dart';
 import 'plant_detail_screen.dart';
 import 'plant_form_screen.dart';
 import 'settings_controller.dart';
@@ -34,6 +41,10 @@ class HomeScreen extends StatefulWidget {
     required this.photos,
     required this.species,
     required this.photoPicker,
+    this.fileSharing,
+    this.timelapseEncoder,
+    this.healthChecker,
+    this.lightSensor,
     this.tips,
     this.weather,
     this.clock = DateTime.now,
@@ -48,6 +59,16 @@ class HomeScreen extends StatefulWidget {
   /// The plant database used to suggest species and their care profile.
   final SpeciesCatalog species;
   final PhotoPicker photoPicker;
+
+  /// Used to share a plant's time-lapse; both `null` hide sharing.
+  final FileSharing? fileSharing;
+  final TimelapseEncoder? timelapseEncoder;
+
+  /// Checks a plant's health on a photo; `null` hides the health check.
+  final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
 
   /// Care tips for the "Tip of the day" card; `null` hides the card.
   final TipCatalog? tips;
@@ -114,7 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
           [] => _EmptyHint(l10n.emptyPlantsHint),
           final plants => _PlantOverview(
             plants: plants,
+            vacation: _vacationBanner(),
             tip: _tipCard(plants),
+            frost: _frostCard(),
             weatherHint: _weatherCard(plants),
             today: widget.clock(),
             onOpen: _openDetail,
@@ -122,6 +145,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         },
       ),
+    );
+  }
+
+  Widget? _vacationBanner() {
+    final settings = SettingsScope.of(context);
+    final vacation = settings.vacation;
+    if (vacation == null || !vacation.covers(widget.clock())) return null;
+    return _VacationBanner(
+      until: vacation.last,
+      onEnd: () => settings.setVacation(null),
+    );
+  }
+
+  /// The next frost warning from the last weather fetch, if any.
+  Widget? _frostCard() {
+    final today = dayOf(widget.clock());
+    final settings = SettingsScope.of(context);
+    if (settings.weatherLocation == null) return null;
+    final next = settings.frostWarnings
+        .where((warning) => warning.day.isAfter(today))
+        .firstOrNull;
+    if (next == null) return null;
+    return _FrostCard(
+      warning: next,
+      tonight: next.day == today.add(const Duration(days: 1)),
     );
   }
 
@@ -187,6 +235,10 @@ class _HomeScreenState extends State<HomeScreen> {
           photos: widget.photos,
           photoPicker: widget.photoPicker,
           plantId: plant.id,
+          fileSharing: widget.fileSharing,
+          timelapseEncoder: widget.timelapseEncoder,
+          healthChecker: widget.healthChecker,
+          lightSensor: widget.lightSensor,
           clock: widget.clock,
         ),
       ),
@@ -218,8 +270,10 @@ class _EmptyHint extends StatelessWidget {
 class _PlantOverview extends StatelessWidget {
   const _PlantOverview({
     required this.plants,
+    required this.vacation,
     required this.tip,
     required this.weatherHint,
+    required this.frost,
     required this.today,
     required this.onOpen,
     required this.onWatered,
@@ -228,10 +282,15 @@ class _PlantOverview extends StatelessWidget {
   final List<Plant> plants;
 
   /// The tip of the day card, if there is one today.
+  /// Banner while the user is on vacation.
+  final Widget? vacation;
   final Widget? tip;
 
   /// The weather hint for outdoor plants, if any.
   final Widget? weatherHint;
+
+  /// The frost warning for outdoor plants, if any.
+  final Widget? frost;
   final DateTime today;
   final ValueChanged<Plant> onOpen;
   final ValueChanged<Plant> onWatered;
@@ -251,12 +310,17 @@ class _PlantOverview extends StatelessWidget {
               const SizedBox(height: 4),
               Text(l10n.greetingSubtitle, style: text.bodyLarge),
               const SizedBox(height: 20),
+              if (vacation case final banner?) ...[
+                banner,
+                const SizedBox(height: 12),
+              ],
               _SummaryCard(
                 l10n.attentionSummary(
                   needingAttention(plants, today),
                   plants.length,
                 ),
               ),
+              ?frost,
               ?weatherHint,
               if (tip case final tip?) ...[const SizedBox(height: 12), tip],
               const SizedBox(height: 28),
@@ -288,6 +352,96 @@ class _PlantOverview extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Shown while reminders pause for a vacation.
+class _VacationBanner extends StatelessWidget {
+  const _VacationBanner({required this.until, required this.onEnd});
+
+  final DateTime until;
+  final VoidCallback onEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final date = DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(until);
+    return Card(
+      color: theme.colorScheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+        child: Row(
+          children: [
+            Icon(
+              Icons.beach_access_outlined,
+              color: theme.colorScheme.onSecondaryContainer,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                l10n.onVacationUntil(date),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ),
+            TextButton(onPressed: onEnd, child: Text(l10n.endVacation)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Frost in one of the next two nights, naming the plants at risk.
+class _FrostCard extends StatelessWidget {
+  const _FrostCard({required this.warning, required this.tonight});
+
+  final FrostWarning warning;
+  final bool tonight;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Card(
+        color: scheme.errorContainer,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(Icons.ac_unit, color: scheme.onErrorContainer),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      frostTitle(l10n, warning, tonight: tonight),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: scheme.onErrorContainer,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      frostPlantsText(l10n, warning),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: scheme.onErrorContainer,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

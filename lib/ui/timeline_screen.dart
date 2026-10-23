@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/backup_files.dart';
 import '../domain/journal.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
+import '../domain/timelapse.dart';
 import '../domain/timeline.dart';
 import '../l10n/app_localizations.dart';
+import 'timelapse_screen.dart';
 
 /// The journal of a plant as a timeline, oldest first, grouped by month.
 class TimelineScreen extends StatefulWidget {
@@ -14,11 +17,20 @@ class TimelineScreen extends StatefulWidget {
     required this.plantId,
     required this.journal,
     required this.photos,
+    this.fileSharing,
+    this.timelapseEncoder,
   });
 
   final String plantId;
   final JournalRepository journal;
   final PhotoStore photos;
+
+  /// With [timelapseEncoder], lets the user share the time-lapse as a GIF.
+  final FileSharing? fileSharing;
+  final TimelapseEncoder? timelapseEncoder;
+
+  /// Photos needed before the time-lapse is offered.
+  static const minTimelapsePhotos = 3;
 
   @override
   State<TimelineScreen> createState() => _TimelineScreenState();
@@ -34,13 +46,25 @@ class _TimelineScreenState extends State<TimelineScreen> {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).toString();
     final text = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.timelineTitle)),
-      body: StreamBuilder<List<JournalEntry>>(
-        stream: _entries,
-        builder: (context, snapshot) {
-          final months = journalTimeline(snapshot.data ?? const []);
-          return ListView(
+    return StreamBuilder<List<JournalEntry>>(
+      stream: _entries,
+      builder: (context, snapshot) {
+        final entries = snapshot.data ?? const <JournalEntry>[];
+        final months = journalTimeline(entries);
+        final timelapse = timelapseEntries(entries);
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(l10n.timelineTitle),
+            actions: [
+              if (timelapse.length >= TimelineScreen.minTimelapsePhotos)
+                IconButton(
+                  icon: const Icon(Icons.movie_outlined),
+                  tooltip: l10n.timelapseTitle,
+                  onPressed: () => _openTimelapse(timelapse),
+                ),
+            ],
+          ),
+          body: ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             children: [
               for (final month in months) ...[
@@ -56,8 +80,21 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   _TimelineTile(item: item, photos: widget.photos),
               ],
             ],
-          );
-        },
+          ),
+        );
+      },
+    );
+  }
+
+  void _openTimelapse(List<JournalEntry> entries) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => TimelapseScreen(
+          entries: entries,
+          photos: widget.photos,
+          fileSharing: widget.fileSharing,
+          encoder: widget.timelapseEncoder,
+        ),
       ),
     );
   }
@@ -112,6 +149,13 @@ class _TimelineTile extends StatelessWidget {
                     ListTile(
                       title: Text(l10n.timelineDay(item.dayNumber)),
                       subtitle: Text(date),
+                      trailing: entry.healthCheck
+                          ? Icon(
+                              Icons.health_and_safety_outlined,
+                              color: scheme.primary,
+                              semanticLabel: l10n.healthCheckTitle,
+                            )
+                          : null,
                     ),
                     if (entry.photo case final photo?)
                       AspectRatio(

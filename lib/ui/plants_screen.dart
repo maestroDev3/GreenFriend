@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../domain/backup_files.dart';
+import '../domain/health.dart';
+import '../domain/light_check.dart';
+import '../domain/timelapse.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal_repository.dart';
 import '../domain/photos.dart';
@@ -20,6 +24,10 @@ class PlantsScreen extends StatefulWidget {
     required this.photos,
     required this.species,
     required this.photoPicker,
+    this.fileSharing,
+    this.timelapseEncoder,
+    this.healthChecker,
+    this.lightSensor,
     this.clock = DateTime.now,
   });
 
@@ -31,6 +39,16 @@ class PlantsScreen extends StatefulWidget {
   /// The plant database used to suggest species and their care profile.
   final SpeciesCatalog species;
   final PhotoPicker photoPicker;
+
+  /// Used to share a plant's time-lapse; both `null` hide sharing.
+  final FileSharing? fileSharing;
+  final TimelapseEncoder? timelapseEncoder;
+
+  /// Checks a plant's health on a photo; `null` hides the health check.
+  final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
   final Clock clock;
 
   @override
@@ -51,6 +69,10 @@ class _PlantsScreenState extends State<PlantsScreen> {
           photos: widget.photos,
           photoPicker: widget.photoPicker,
           plantId: plant.id,
+          fileSharing: widget.fileSharing,
+          timelapseEncoder: widget.timelapseEncoder,
+          healthChecker: widget.healthChecker,
+          lightSensor: widget.lightSensor,
           clock: widget.clock,
         ),
       ),

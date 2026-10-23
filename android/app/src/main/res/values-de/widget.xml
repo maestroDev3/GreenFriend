@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="care_widget_name">Heute zu tun</string>
+    <string name="care_widget_description">Pflanzen, die heute Pflege brauchen</string>
+    <string name="care_widget_done">Erledigt</string>
+</resources>

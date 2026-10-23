@@ -98,6 +98,58 @@ void main() {
       expect(backup.plants.single.species, 'Aloe vera');
     });
 
+    test('the backup keeps the health check flag; old data reads as no '
+        'health check', () async {
+      final check = JournalEntry(
+        id: 'h',
+        plantId: 'p',
+        day: DateTime(2026, 10, 17),
+        photo: 'check.jpg',
+        healthCheck: true,
+      );
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository([check]),
+      );
+
+      final restored = decodeBackup(encodeBackup(backup));
+
+      expect(restored.journal.single.healthCheck, isTrue);
+      expect(restored.journal.single, check);
+      final old = decodeBackup(
+        '{"format":"green-friend-backup","version":1,'
+        '"plants":[],"careLogs":[],'
+        '"journal":[{"id":"j","plantId":"p","day":"2026-10-01","note":"x"}]}',
+      );
+      expect(old.journal.single.healthCheck, isFalse);
+    });
+
+    test('the backup keeps the pot size', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(potDiameterCm: 18)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+
+      expect(
+        decodeBackup(encodeBackup(backup)).plants.single.potDiameterCm,
+        18,
+      );
+    });
+
+    test('the backup keeps the lowest temperature', () async {
+      final backup = await createBackup(
+        plants: FakePlantRepository([plant.copyWith(minTemperature: -4)]),
+        careLogs: FakeCareLogRepository(),
+        journal: FakeJournalRepository(),
+      );
+
+      final restored = decodeBackup(encodeBackup(backup));
+
+      expect(restored.plants.single.minTemperature, -4);
+    });
+
     test('keeps a switched-off winter rest', () async {
       final backup = await createBackup(
         plants: FakePlantRepository([plant.copyWith(winterRest: false)]),

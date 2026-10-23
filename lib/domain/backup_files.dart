@@ -16,6 +16,17 @@ abstract interface class FileSharing {
   /// Opens the system share sheet for the file.
   Future<void> shareFile(String path);
 
+  /// Writes [bytes] to a temporary file named [fileName] and opens the
+  /// system share sheet for it, e.g. an animated GIF.
+  Future<void> shareBytes(
+    List<int> bytes, {
+    required String fileName,
+    required String mimeType,
+  });
+
+  /// Opens the system share sheet for a text, e.g. a care plan.
+  Future<void> shareText(String text, {String? subject});
+
   /// Lets the user choose a file; `null` if cancelled.
   Future<String?> pickFile();
 }

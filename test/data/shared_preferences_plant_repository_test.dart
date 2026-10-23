@@ -116,6 +116,20 @@ void main() {
       await subscription.cancel();
     });
 
+    test('the repository keeps the pot size', () async {
+      await (await openRepository()).add(name: 'Monstera', potDiameterCm: 14);
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.potDiameterCm, 14);
+    });
+
+    test('the plant repository keeps the lowest temperature', () async {
+      await (await openRepository()).add(name: 'Lemon', minTemperature: -3);
+
+      final loaded = (await currentPlants(await openRepository())).single;
+      expect(loaded.minTemperature, -3);
+    });
+
     test('keeps an outdoor plant across a restart', () async {
       await (await openRepository()).add(name: 'Lavender', outdoor: true);
 

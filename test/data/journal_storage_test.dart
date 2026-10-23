@@ -28,6 +28,28 @@ void main() {
       expect(loaded.single.day, DateTime.utc(2026, 9, 30));
     });
 
+    test('the journal repository keeps the health check flag; old data reads '
+        'as no health check', () async {
+      final check = await (await openJournal()).add(
+        plantId: 'p',
+        day: DateTime(2026, 10, 17),
+        note: 'Possible problems: Fungi (70 %)',
+        photo: 'check.jpg',
+        healthCheck: true,
+      );
+      final plain = await (await openJournal()).add(
+        plantId: 'p',
+        day: DateTime(2026, 10, 16),
+        note: 'New leaf',
+      );
+
+      final loaded = await (await openJournal()).entriesFor('p');
+
+      expect(loaded, [check, plain]);
+      expect(loaded.first.healthCheck, isTrue);
+      expect(loaded.last.healthCheck, isFalse);
+    });
+
     test('deletes entries and all entries of a plant', () async {
       final journal = await openJournal();
       final first = await journal.add(

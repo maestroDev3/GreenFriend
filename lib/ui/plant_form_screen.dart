@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/frost.dart';
 import '../domain/care_actions.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
@@ -17,6 +18,7 @@ import '../domain/plant_repository.dart';
 import '../domain/species.dart';
 import '../l10n/app_localizations.dart';
 import 'settings_controller.dart';
+import 'widgets/photo_source_sheet.dart';
 
 /// Form to add a new plant or to edit and delete an existing one.
 ///
@@ -69,6 +71,12 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
   late final _name = TextEditingController(text: widget.plant?.name);
   late final _species = TextEditingController(text: widget.plant?.species);
   late final _location = TextEditingController(text: widget.plant?.location);
+  late final _potDiameter = TextEditingController(
+    text: widget.plant?.potDiameterCm?.toString(),
+  );
+  late final _minTemperature = TextEditingController(
+    text: widget.plant?.minTemperature?.toString(),
+  );
   final _speciesFocus = FocusNode();
 
   /// Care profile the plant is linked to; cleared when the species text is
@@ -131,6 +139,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _name.dispose();
     _species.dispose();
     _location.dispose();
+    _minTemperature.dispose();
+    _potDiameter.dispose();
     _speciesFocus.dispose();
     for (final (_, input) in _schedules) {
       input.controller.dispose();
@@ -158,7 +168,15 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     _fertilize.controller.text = '${species.fertilizingIntervalDays}';
     _repot.controller.text = '${species.repottingIntervalMonths}';
     _prune.controller.text = species.pruningIntervalMonths?.toString() ?? '';
+    _minTemperature.text = species.minTemperature?.toString() ?? '';
   }
+
+  /// The lowest temperature of the linked species, used when the field is
+  /// left empty.
+  int? get _speciesMinTemperature => switch (_speciesId) {
+    final id? => widget.species.byId(id)?.minTemperature,
+    null => null,
+  };
 
   void _setNameIfEmpty(String name) {
     if (_name.text.trim().isEmpty) _name.text = name;
@@ -186,16 +204,7 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
       );
       return;
     }
-    final source = await showModalBottomSheet<_PhotoSource>(
-      context: context,
-      showDragHandle: true,
-      builder: (context) => const _PhotoSourceSheet(),
-    );
-    if (source == null) return;
-    final path = await switch (source) {
-      _PhotoSource.camera => picker.takePhoto(),
-      _PhotoSource.gallery => picker.pickFromGallery(),
-    };
+    final path = await pickPhotoWithSource(context, picker);
     if (path == null || !mounted) return;
     final language = Localizations.localeOf(context).languageCode;
     final messenger = ScaffoldMessenger.of(context);
@@ -300,6 +309,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
     final fertilize = _fertilize.interval(max: 365);
     final repot = _repot.interval(max: 60);
     final prune = _prune.interval(max: 60);
+    final minTemperature = int.tryParse(_minTemperature.text.trim());
+    final potDiameter = int.tryParse(_potDiameter.text.trim());
     if (widget.plant case final existing?) {
       await widget.plants.update(
         Plant(
@@ -318,6 +329,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
           lastPrunedOn: _prune.lastToSave(prune),
           winterRest: _winterRest,
           outdoor: _outdoor,
+          minTemperature: minTemperature,
+          potDiameterCm: potDiameter,
         ),
       );
     } else {
@@ -336,6 +349,8 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
         lastPrunedOn: _prune.lastToSave(prune),
         winterRest: _winterRest,
         outdoor: _outdoor,
+        minTemperature: minTemperature,
+        potDiameterCm: potDiameter,
       );
       if (_photo case final photo?) {
         await widget.journal.add(plantId: plant.id, day: _today, photo: photo);
@@ -528,12 +543,58 @@ class _PlantFormScreenState extends State<PlantFormScreen> {
               value: _outdoor,
               onChanged: (value) => setState(() => _outdoor = value),
             ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _potDiameter,
+              decoration: InputDecoration(
+                labelText: l10n.potDiameterLabel,
+                helperText: l10n.potDiameterHelp,
+                helperMaxLines: 2,
+                prefixIcon: const Icon(Icons.straighten),
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) =>
+                  _validPotDiameter(value) ? null : l10n.potDiameterInvalid,
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _minTemperature,
+              decoration: InputDecoration(
+                labelText: l10n.minTemperatureLabel,
+                helperText: l10n.minTemperatureHelp,
+                helperMaxLines: 2,
+                hintText: '${_speciesMinTemperature ?? defaultMinTemperature}',
+                prefixIcon: const Icon(Icons.thermostat_outlined),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(signed: true),
+              validator: (value) => _validMinTemperature(value)
+                  ? null
+                  : l10n.minTemperatureInvalid,
+            ),
             const SizedBox(height: 24),
           ],
         ),
       ),
     );
   }
+}
+
+/// Whether [value] is empty or a pot diameter a plant can have.
+bool _validPotDiameter(String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return true;
+  final cm = int.tryParse(text);
+  return cm != null && cm >= potDiameterRange.min && cm <= potDiameterRange.max;
+}
+
+/// Whether [value] is empty or a whole °C value a plant can have.
+bool _validMinTemperature(String? value) {
+  final text = value?.trim() ?? '';
+  if (text.isEmpty) return true;
+  final celsius = int.tryParse(text);
+  return celsius != null &&
+      celsius >= minTemperatureRange.min &&
+      celsius <= minTemperatureRange.max;
 }
 
 String _failureMessage(AppLocalizations l10n, IdentificationFailure failure) =>
@@ -544,35 +605,6 @@ String _failureMessage(AppLocalizations l10n, IdentificationFailure failure) =>
       NotAPlant() => l10n.identifyNotAPlant,
       ServiceUnavailable() => l10n.identifyUnavailable,
     };
-
-enum _PhotoSource { camera, gallery }
-
-/// Lets the user choose between camera and gallery for identification.
-class _PhotoSourceSheet extends StatelessWidget {
-  const _PhotoSourceSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.photo_camera_outlined),
-            title: Text(l10n.takePhoto),
-            onTap: () => Navigator.of(context).pop(_PhotoSource.camera),
-          ),
-          ListTile(
-            leading: const Icon(Icons.photo_library_outlined),
-            title: Text(l10n.choosePhoto),
-            onTap: () => Navigator.of(context).pop(_PhotoSource.gallery),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 /// The best identification results; pops with the chosen candidate, or
 /// `null` to enter the plant manually.

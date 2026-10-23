@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/frost.dart';
+import '../domain/health.dart';
+import '../domain/light_check.dart';
+import '../domain/backup_files.dart';
+import '../domain/timelapse.dart';
 import '../domain/care_log.dart';
 import '../domain/care_log_repository.dart';
 import '../domain/journal.dart';
 import '../domain/journal_actions.dart';
 import '../domain/journal_repository.dart';
 import '../domain/timeline.dart';
+import '../domain/water_amount.dart';
 import '../domain/photos.dart';
 import '../domain/clock.dart';
 import '../domain/plant.dart';
@@ -16,11 +22,15 @@ import '../domain/care_status.dart';
 import '../domain/season.dart';
 import '../l10n/app_localizations.dart';
 import 'compare_screen.dart';
+import 'health_check_screen.dart';
+import 'light_check_screen.dart';
 import 'journal_entry_screen.dart';
 import 'plant_form_screen.dart';
+import 'settings_controller.dart';
 import 'timeline_screen.dart';
 import 'watering_actions.dart';
 import 'widgets/care_button.dart';
+import 'widgets/photo_source_sheet.dart';
 import 'widgets/watering_label.dart';
 
 /// Everything about one plant: its details, its watering and when it needs
@@ -35,6 +45,10 @@ class PlantDetailScreen extends StatefulWidget {
     required this.species,
     required this.photoPicker,
     required this.plantId,
+    this.fileSharing,
+    this.timelapseEncoder,
+    this.healthChecker,
+    this.lightSensor,
     this.clock = DateTime.now,
   });
 
@@ -47,6 +61,16 @@ class PlantDetailScreen extends StatefulWidget {
   final SpeciesCatalog species;
   final PhotoPicker photoPicker;
   final String plantId;
+
+  /// Used to share a plant's time-lapse; both `null` hide sharing.
+  final FileSharing? fileSharing;
+  final TimelapseEncoder? timelapseEncoder;
+
+  /// Checks the plant's health on a photo; `null` hides the health check.
+  final PlantHealthChecker? healthChecker;
+
+  /// Measures the light at a spot; `null` hides the light check.
+  final LightSensor? lightSensor;
 
   /// Supplies today's date for the next watering.
   final Clock clock;
@@ -87,7 +111,85 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
           plantId: widget.plantId,
           journal: widget.journal,
           photos: widget.photos,
+          fileSharing: widget.fileSharing,
+          timelapseEncoder: widget.timelapseEncoder,
         ),
+      ),
+    );
+  }
+
+  Future<void> _checkHealth(PlantHealthChecker checker) async {
+    final l10n = AppLocalizations.of(context);
+    final settings = SettingsScope.of(context);
+    final apiKey = settings.plantIdApiKey;
+    if (apiKey == null) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.apiKeyNeededTitle),
+          content: Text(l10n.healthApiKeyNeeded),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.ok),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    if (!settings.healthCheckConsent) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.healthCreditsTitle),
+          content: Text(l10n.healthCreditsMessage),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.healthCreditsConfirm),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true) return;
+      await settings.confirmHealthCheckCredits();
+    }
+    if (!mounted) return;
+    final path = await pickPhotoWithSource(context, widget.photoPicker);
+    if (path == null || !mounted) return;
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final navigator = Navigator.of(context);
+    final photo = await widget.photos.save(path);
+    await navigator.push(
+      MaterialPageRoute<void>(
+        builder: (_) => HealthCheckScreen(
+          photo: photo,
+          photos: widget.photos,
+          checker: checker,
+          apiKey: apiKey,
+          languageCode: languageCode,
+          plantId: widget.plantId,
+          journal: widget.journal,
+          clock: widget.clock,
+        ),
+      ),
+    );
+  }
+
+  void _checkLight(Plant plant, LightSensor sensor) {
+    final need = switch (plant.speciesId) {
+      final id? => widget.species.byId(id)?.light,
+      null => null,
+    };
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            LightCheckScreen(sensor: sensor, plantName: plant.name, need: need),
       ),
     );
   }
@@ -159,6 +261,21 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
         return Scaffold(
           appBar: AppBar(
             actions: [
+              if ((plant, widget.lightSensor) case (
+                final plant?,
+                final sensor?,
+              ))
+                IconButton(
+                  icon: const Icon(Icons.light_mode_outlined),
+                  tooltip: l10n.lightCheckTitle,
+                  onPressed: () => _checkLight(plant, sensor),
+                ),
+              if ((plant, widget.healthChecker) case (_?, final checker?))
+                IconButton(
+                  icon: const Icon(Icons.health_and_safety_outlined),
+                  tooltip: l10n.healthCheckTitle,
+                  onPressed: () => _checkHealth(checker),
+                ),
               if (plant != null)
                 IconButton(
                   icon: const Icon(Icons.edit_outlined),
@@ -283,10 +400,18 @@ class _Details extends StatelessWidget {
         _CareTile(
           icon: Icons.water_drop_outlined,
           title: l10n.wateringTileTitle,
-          value: switch (plant.wateringIntervalDays) {
-            final days? => l10n.wateringEvery(days),
-            null => l10n.noWateringSchedule,
+          value: switch ((plant.wateringIntervalDays, waterAmountMl(plant))) {
+            (final days?, final ml?) =>
+              '${l10n.wateringEvery(days)} · ${l10n.waterAmount(ml)}',
+            (final days?, null) => l10n.wateringEvery(days),
+            (null, _) => l10n.noWateringSchedule,
           },
+        ),
+        const SizedBox(height: 12),
+        _CareTile(
+          icon: Icons.thermostat_outlined,
+          title: l10n.coldToleranceTitle,
+          value: l10n.toleratesDownTo(toleratedMinimum(plant, profile)),
         ),
         if (plant.winterRest && isWinterRest(today)) ...[
           const SizedBox(height: 12),

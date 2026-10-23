@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../domain/clock.dart';
+import '../domain/frost.dart';
 import '../domain/reminders.dart';
 import '../domain/settings.dart';
+import '../domain/vacation.dart';
 import '../domain/weather.dart';
 
 /// Holds the current app settings for the UI and saves every change.
@@ -17,6 +19,9 @@ class SettingsController extends ChangeNotifier {
   DateTime? _tipDismissedOn;
   CalendarChoice? _phoneCalendar;
   WeatherLocation? _weatherLocation;
+  Vacation? _vacation;
+  List<FrostWarning> _frostWarnings = const [];
+  var _healthCheckConsent = false;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -36,6 +41,15 @@ class SettingsController extends ChangeNotifier {
   /// The place for the weather of outdoor plants; `null` when none is set.
   WeatherLocation? get weatherLocation => _weatherLocation;
 
+  /// The current or next vacation; reminders pause on its days.
+  Vacation? get vacation => _vacation;
+
+  /// Whether the user agreed that health checks use plant.id credits.
+  bool get healthCheckConsent => _healthCheckConsent;
+
+  /// Frost warnings of the last weather fetch, see `frostWarnings`.
+  List<FrostWarning> get frostWarnings => _frostWarnings;
+
   /// Reads the stored settings; call once before the app starts.
   Future<void> load() async {
     _themeMode = await _repository.loadThemeMode();
@@ -45,6 +59,9 @@ class SettingsController extends ChangeNotifier {
     _tipDismissedOn = await _repository.loadTipDismissedOn();
     _phoneCalendar = await _repository.loadPhoneCalendar();
     _weatherLocation = await _repository.loadWeatherLocation();
+    _vacation = await _repository.loadVacation();
+    _frostWarnings = List.unmodifiable(await _repository.loadFrostWarnings());
+    _healthCheckConsent = await _repository.loadHealthCheckConsent();
     notifyListeners();
   }
 
@@ -99,6 +116,32 @@ class SettingsController extends ChangeNotifier {
     _weatherLocation = location;
     notifyListeners();
     await _repository.saveWeatherLocation(location);
+  }
+
+  /// Remembers that the user agreed to spend credits on health checks.
+  Future<void> confirmHealthCheckCredits() async {
+    if (_healthCheckConsent) return;
+    _healthCheckConsent = true;
+    notifyListeners();
+    await _repository.saveHealthCheckConsent(true);
+  }
+
+  Future<void> setFrostWarnings(List<FrostWarning> warnings) async {
+    if (warnings.length == _frostWarnings.length &&
+        Iterable.generate(warnings.length)
+            .every((i) => warnings[i] == _frostWarnings[i])) {
+      return;
+    }
+    _frostWarnings = List.unmodifiable(warnings);
+    notifyListeners();
+    await _repository.saveFrostWarnings(_frostWarnings);
+  }
+
+  Future<void> setVacation(Vacation? vacation) async {
+    if (vacation == _vacation) return;
+    _vacation = vacation;
+    notifyListeners();
+    await _repository.saveVacation(vacation);
   }
 }
 
