@@ -28,6 +28,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const vacationKey = 'settings.v1.vacation';
   static const frostKey = 'settings.v1.frost';
   static const healthConsentKey = 'settings.v1.healthConsent';
+  static const onboardingKey = 'settings.v1.onboardingDone';
 
   final SharedPreferences _preferences;
 
@@ -190,6 +191,14 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       }),
     );
   }
+
+  @override
+  Future<bool> loadOnboardingDone() async =>
+      _preferences.getBool(onboardingKey) ?? false;
+
+  @override
+  Future<void> saveOnboardingDone(bool done) =>
+      _preferences.setBool(onboardingKey, done);
 
   @override
   Future<bool> loadHealthCheckConsent() async =>

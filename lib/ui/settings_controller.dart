@@ -22,6 +22,7 @@ class SettingsController extends ChangeNotifier {
   Vacation? _vacation;
   List<FrostWarning> _frostWarnings = const [];
   var _healthCheckConsent = false;
+  var _onboardingDone = false;
 
   AppThemeMode get themeMode => _themeMode;
 
@@ -44,6 +45,9 @@ class SettingsController extends ChangeNotifier {
   /// The current or next vacation; reminders pause on its days.
   Vacation? get vacation => _vacation;
 
+  /// Whether the introduction on first start was finished or skipped.
+  bool get onboardingDone => _onboardingDone;
+
   /// Whether the user agreed that health checks use plant.id credits.
   bool get healthCheckConsent => _healthCheckConsent;
 
@@ -62,6 +66,7 @@ class SettingsController extends ChangeNotifier {
     _vacation = await _repository.loadVacation();
     _frostWarnings = List.unmodifiable(await _repository.loadFrostWarnings());
     _healthCheckConsent = await _repository.loadHealthCheckConsent();
+    _onboardingDone = await _repository.loadOnboardingDone();
     notifyListeners();
   }
 
@@ -116,6 +121,14 @@ class SettingsController extends ChangeNotifier {
     _weatherLocation = location;
     notifyListeners();
     await _repository.saveWeatherLocation(location);
+  }
+
+  /// Remembers that the introduction is finished; it is not shown again.
+  Future<void> finishOnboarding() async {
+    if (_onboardingDone) return;
+    _onboardingDone = true;
+    notifyListeners();
+    await _repository.saveOnboardingDone(true);
   }
 
   /// Remembers that the user agreed to spend credits on health checks.
