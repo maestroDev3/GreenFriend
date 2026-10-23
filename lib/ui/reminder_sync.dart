@@ -78,23 +78,18 @@ class ReminderSync {
 
   Future<void> _sync() async {
     final reminder = settings.reminder;
-    if (!reminder.enabled) {
-      await scheduler.replaceAll(const []);
-      return;
-    }
-    final planned = plannedPlantReminders(
-      _plants,
-      now: clock(),
-      time: reminder.time,
-      vacation: settings.vacation,
-    );
-    if (askPermission && planned.isNotEmpty && !_permissionAsked) {
-      _permissionAsked = true;
-      await scheduler.requestPermission();
-    }
-    final l10n = localizations();
     final now = clock();
-    await scheduler.replaceAll([
+    // Frost warnings are planned even when the daily care reminder is off.
+    final planned = reminder.enabled
+        ? plannedPlantReminders(
+            _plants,
+            now: now,
+            time: reminder.time,
+            vacation: settings.vacation,
+          )
+        : const <PlantReminder>[];
+    final l10n = localizations();
+    final notifications = [
       for (final (index, reminder) in planned.indexed)
         ScheduledNotification(
           id: index + 1,
@@ -127,7 +122,12 @@ class ReminderSync {
             title: frostTitle(l10n, warning, tonight: true),
             body: frostPlantsText(l10n, warning),
           ),
-    ]);
+    ];
+    if (askPermission && notifications.isNotEmpty && !_permissionAsked) {
+      _permissionAsked = true;
+      await scheduler.requestPermission();
+    }
+    await scheduler.replaceAll(notifications);
   }
 }
 

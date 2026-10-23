@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:green_friend/domain/frost.dart';
 import 'package:green_friend/domain/plant.dart';
+import 'package:green_friend/domain/reminders.dart';
 import 'package:green_friend/domain/species.dart';
 import 'package:green_friend/domain/weather.dart';
 import 'package:green_friend/l10n/app_localizations.dart';
@@ -92,14 +93,18 @@ Widget home(
   clock: clock,
 );
 
-Future<FakeNotificationScheduler> planned(DateTime now) async {
+Future<FakeNotificationScheduler> planned(
+  DateTime now, {
+  ReminderSettings reminder = ReminderSettings.defaults,
+  List<Plant>? plants,
+}) async {
   final settings = SettingsController(
-    FakeSettingsRepository(frostWarnings: [tonight]),
+    FakeSettingsRepository(frostWarnings: [tonight], reminder: reminder),
   );
   await settings.load();
   final scheduler = FakeNotificationScheduler();
   final sync = ReminderSync(
-    plants: FakePlantRepository([lemon, box]),
+    plants: FakePlantRepository(plants ?? [lemon, box]),
     settings: settings,
     scheduler: scheduler,
     clock: () => now,
@@ -218,6 +223,34 @@ void main() {
       expect(frost.single.at, DateTime(2026, 10, 17, 17));
       expect(frost.single.title, 'Frost tonight: down to -2 °C');
       expect(frost.single.body, 'Bring inside or protect: Lemon');
+    });
+
+    test('with reminders off the plan contains only the frost '
+        'notifications', () async {
+      final scheduler = await planned(
+        morning(),
+        reminder: const ReminderSettings(
+          enabled: false,
+          time: ReminderTime.defaultTime,
+        ),
+        plants: [
+          Plant(
+            id: 'w',
+            name: 'Watered',
+            wateringIntervalDays: 1,
+            lastWateredOn: DateTime(2026, 10, 1),
+          ),
+        ],
+      );
+
+      expect(scheduler.scheduled.single.id, frostNotificationIdBase);
+    });
+
+    test('permission is requested when only frost notifications are '
+        'planned', () async {
+      final scheduler = await planned(morning());
+
+      expect(scheduler.permissionRequests, 1);
     });
 
     test('the reminder plan has no frost notification when 5 pm has '
