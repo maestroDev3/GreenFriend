@@ -56,3 +56,6 @@ screenshots/failures/
 /android/key.properties
 *.jks
 *.keystore
+
+# Rendered in CI (job "screenshots")
+/store/screenshots/

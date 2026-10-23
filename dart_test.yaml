@@ -1,0 +1,5 @@
+tags:
+  # Store screenshots (test/store/screenshots_test.dart) only run in the CI
+  # job "screenshots": flutter test --tags screenshot --run-skipped --update-goldens
+  screenshot:
+    skip: "Store screenshots run in the CI job 'screenshots'."
