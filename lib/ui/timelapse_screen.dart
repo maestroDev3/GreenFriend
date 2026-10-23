@@ -76,7 +76,8 @@ class _TimelapseScreenState extends State<TimelapseScreen> {
         fileName: 'green-friend-timelapse.gif',
         mimeType: 'image/gif',
       );
-    } on TimelapseException {
+    } on Object {
+      // Any failure, including running out of memory in the encoder.
       messenger.showSnackBar(SnackBar(content: Text(l10n.timelapseFailed)));
     } finally {
       if (mounted) setState(() => _sharing = false);
