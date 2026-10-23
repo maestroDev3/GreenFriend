@@ -29,6 +29,19 @@ final lemon = Species(
   minTemperature: 3,
 );
 
+final pothos = Species(
+  id: 'epipremnum-aureum',
+  scientificName: 'Epipremnum aureum',
+  names: const {
+    'en': ['Pothos'],
+  },
+  wateringIntervalDays: 7,
+  fertilizingIntervalDays: 14,
+  repottingIntervalMonths: 24,
+  light: Light.medium,
+  humidity: Humidity.medium,
+);
+
 Finder field(String label) => find.widgetWithText(TextFormField, label);
 
 Finder get formList => find.byType(Scrollable).first;
@@ -38,7 +51,7 @@ Widget form(FakePlantRepository plants, {Plant? plant}) => PlantFormScreen(
   careLogs: FakeCareLogRepository(),
   journal: FakeJournalRepository(),
   photos: FakePhotoStore(),
-  species: FakeSpeciesCatalog([lemon]),
+  species: FakeSpeciesCatalog([lemon, pothos]),
   plant: plant,
   clock: () => DateTime(2026, 10, 17),
 );
@@ -111,6 +124,20 @@ void main() {
       await save(tester);
 
       expect(plants.plants.single.minTemperature, -2);
+    });
+
+    testWidgets('choosing a species without value clears the lowest '
+        'temperature', (tester) async {
+      final plant = Plant(id: '1', name: 'Lemmy', minTemperature: 3);
+      final plants = FakePlantRepository([plant]);
+      await tester.pumpApp(form(plants, plant: plant));
+
+      await enter(tester, field('Species (optional)'), 'Pothos');
+      await tester.tap(find.text('Pothos').last);
+      await tester.pumpAndSettle();
+      await save(tester);
+
+      expect(plants.plants.single.minTemperature, isNull);
     });
 
     testWidgets('an empty value leaves the plant without own value', (
