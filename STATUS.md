@@ -8,7 +8,7 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- Initiative #148 (epics #204, #207, #210), then #149 (#213, #216, #219) – branch `epic/care-and-knowledge`
+- Branch `epic/care-and-knowledge`: initiatives #148 and #149 complete (epics #204, #207, #210, #213, #216, #219) – waiting for your APK test, then merge to `main`
 
 ## Up next
 
@@ -20,9 +20,9 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #213 Frost protection for outdoor plants | 0 of 2 closed | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
-| #216 Plant health check | 0 of 2 closed | #217 Check plant health from a photo → #218 Save health checks in the journal |
-| #219 Right spot and right amount | 0 of 2 closed | #220 Light check at a spot → #221 Water amount from pot size |
+| #213 Frost protection for outdoor plants | 2 of 2 closed (on the test branch) | #214 Frost sensitivity per species → #215 Frost warning for outdoor plants |
+| #216 Plant health check | 2 of 2 closed (on the test branch) | #217 Check plant health from a photo → #218 Save health checks in the journal |
+| #219 Right spot and right amount | 2 of 2 closed (on the test branch) | #220 Light check at a spot → #221 Water amount from pot size |
 
 **#150 Data safety and multi-device**
 
@@ -42,19 +42,19 @@ The GitHub issues are authoritative; this file is the summary.
 
 | Epic | Progress | Stories (in order) |
 |---|---|---|
-| #204 Care at a glance on the home screen | 0 of 2 closed | #205 Home-screen widget: care due today → #206 Mark care as done from the widget |
-| #207 Plants cared for while I am away | 0 of 2 closed | #208 Vacation mode pauses my reminders → #209 Share a care plan with a plant sitter |
-| #210 Motivation through progress | 0 of 2 closed | #211 Care statistics and streaks → #212 Growth time-lapse from journal photos |
+| #204 Care at a glance on the home screen | 2 of 2 closed (on the test branch) | #205 Home-screen widget: care due today → #206 Mark care as done from the widget |
+| #207 Plants cared for while I am away | 2 of 2 closed (on the test branch) | #208 Vacation mode pauses my reminders → #209 Share a care plan with a plant sitter |
+| #210 Motivation through progress | 2 of 2 closed (on the test branch) | #211 Care statistics and streaks → #212 Growth time-lapse from journal photos |
 
 Guiding principle: as much as possible happens automatically (photo → species → care plan → calendar → one daily notification).
 
 ## Recently done
 
-- Epics #13, #31, #175, #184 merged into `main` (#231) after the user test
-- #26 Weather for outdoor plants (Open-Meteo, place search, rain counts as watering, heat/rain hint)
-- #161 Missing species list + 32 more species (now 141)
-- #185 Care tasks in the phone calendar (auto sync, calendar picked in the app, 60 days, all-day)
-- #177 Reminder buttons: mark care as done right in the notification (one reminder per plant)
+- #219 Light check with the phone's light sensor (#220), water amount from pot size (#221) – test branch
+- #216 Plant health check: plant.id health assessment with one-time credit consent (#217), saved to the journal (#218) – test branch
+- #213 Frost protection: lowest temperature per species/plant (#214), frost warning card and 5 pm notification (#215) – test branch
+- #210 Motivation: care statistics with streaks (#211), growth time-lapse as GIF (#212) – test branch
+- #207 Vacation mode (#208) and plant-sitter plan via share (#209) – test branch
 
 ## Decisions
 
@@ -73,6 +73,7 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Open decisions (user only)
 
+- APK test of `epic/care-and-knowledge` and OK to merge into `main`; afterwards the epics are closed and initiatives #148 and #149 can be closed (all epics done)
 - Epics #152, #222, #227 (initiative #151) still to confirm
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
 - iOS (epic #227): Android first, plugins iOS-ready (2026-10-14); start only after you decide (needs a Mac or macOS CI and an Apple developer account)
