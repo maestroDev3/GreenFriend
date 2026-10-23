@@ -8,12 +8,11 @@ The GitHub issues are authoritative; this file is the summary.
 
 ## In progress
 
-- #223 Onboarding on first start (epic #222, branch `epic/google-play`)
+- Branch `epic/google-play` (epic #222): #223 onboarding and #225 store listing + screenshots done – waiting for your APK test
 
 ## Up next
 
-- #225 Store listing and screenshots
-- Blocked by your decisions: #224 privacy policy (hosting), #226 release track (Play account), #111 signing key (user task)
+- Blocked by your decisions: #224 privacy policy (where to host it), #226 release track (Play developer account), #111 signing key (user task)
 
 ## Backlog by initiative → epic
 
@@ -28,13 +27,15 @@ The GitHub issues are authoritative; this file is the summary.
 | Epic | Progress | Stories (in order) |
 |---|---|---|
 | #152 Signed, installable releases | 0 of 1 closed | #111 Secure the release signing key (user task) |
-| #222 Published on Google Play | 0 of 4 closed (#223 in progress) | #223 Onboarding on first start → #224 Privacy policy and data safety → #225 Store listing and screenshots → #226 Signed app bundle and release track |
+| #222 Published on Google Play | 2 of 4 closed (#224, #226 blocked) | #223 Onboarding on first start → #224 Privacy policy and data safety → #225 Store listing and screenshots → #226 Signed app bundle and release track |
 | #227 Green Friend on iPhone | 0 of 3 closed | #228 iOS build in CI → #229 iOS permissions, notifications and calendar → #230 TestFlight distribution |
 
 Guiding principle: as much as possible happens automatically (photo → species → care plan → calendar → one daily notification).
 
 ## Recently done
 
+- #225 Store listing EN/DE and screenshots from widget tests (branch `store-screenshots`) – test branch
+- #223 Onboarding on first start – test branch
 - Initiatives #148 and #149 merged into `main` (#283): widget, vacation, statistics, time-lapse, frost, health check, light check, water amount; review fixes #276
 
 ## Decisions
@@ -55,6 +56,8 @@ Guiding principle: as much as possible happens automatically (photo → species 
 
 ## Open decisions (user only)
 
+- APK test of `epic/google-play` (onboarding) and OK to merge into `main`
+- #224 privacy policy: where to host it (proposal: GitHub Pages of this public repo, no costs)
 - Close initiatives #148 Daily plant care and #149 Plant knowledge and automation? All their epics are done (only you close initiatives)
 - Epics #152 and #227 (initiative #151) still to confirm
 - Household sync (#127): which service (e.g. Firebase, Supabase, self-hosted) – needs `INTERNET`, an account, possibly costs; photos in the cloud
