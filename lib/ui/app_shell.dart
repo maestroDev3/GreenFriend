@@ -41,6 +41,7 @@ class AppShell extends StatefulWidget {
     this.timelapseEncoder,
     this.healthChecker,
     this.lightSensor,
+    this.openAddPlantOnStart = false,
     this.clock = DateTime.now,
   });
 
@@ -64,6 +65,9 @@ class AppShell extends StatefulWidget {
   /// Measures the light at a spot; `null` hides the light check.
   final LightSensor? lightSensor;
 
+  /// Opens the form for a new plant right away, e.g. after the introduction.
+  final bool openAddPlantOnStart;
+
   /// Identifies new plants from a photo; `null` hides that option.
   final PlantIdentifier? identifier;
 
@@ -83,6 +87,16 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   var _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.openAddPlantOnStart) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _addPlant();
+      });
+    }
+  }
 
   void _addPlant() {
     Navigator.of(context).push(

@@ -267,5 +267,15 @@
   "potDiameterHelp": "Optional – daraus wird die Wassermenge berechnet.",
   "potDiameterInvalid": "Gib einen Durchmesser von 5 bis 100 cm ein",
   "waterAmount": "etwa {ml} ml",
-  "careVerbWaterAmount": "Gießen (etwa {ml} ml)"
+  "careVerbWaterAmount": "Gießen (etwa {ml} ml)",
+  "onboardingRemindersTitle": "Nie wieder Gießen vergessen",
+  "onboardingRemindersText": "Jede Pflanze bekommt ihren eigenen Gieß- und Düngeplan. Green Friend erinnert dich, und ein Tipp markiert die Pflege als erledigt – direkt in der Benachrichtigung oder im Widget.",
+  "onboardingPhotoTitle": "Erkenne deine Pflanze per Foto",
+  "onboardingPhotoText": "Mach ein Foto, um die Art zu erkennen und ihr Pflegeprofil zu bekommen. Der Gesundheitscheck sagt dir, was eine kränkelnde Pflanze braucht.",
+  "onboardingCalendarTitle": "Alles an seinem Platz",
+  "onboardingCalendarText": "Pflegetage landen in deinem Handykalender, das Wetter zählt Regen für Pflanzen draußen und warnt vor Frost, und das Wachstumstagebuch hält Fotos deiner Pflanze fest.",
+  "onboardingSkip": "Überspringen",
+  "onboardingNext": "Weiter",
+  "onboardingNotNow": "Später",
+  "onboardingAddPlant": "Erste Pflanze hinzufügen"
 }

@@ -15,6 +15,7 @@ import '../domain/light_check.dart';
 import '../domain/timelapse.dart';
 import '../l10n/app_localizations.dart';
 import 'app_shell.dart';
+import 'onboarding_screen.dart';
 import 'calendar_sync.dart';
 import 'locale_resolution.dart';
 import 'settings_controller.dart';
@@ -104,7 +105,9 @@ class GreenFriendApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           localeListResolutionCallback: resolveLocale,
-          home: AppShell(
+          home: settings.onboardingDone
+              ? _Shell(builder: (addPlant) => AppShell(
+              openAddPlantOnStart: addPlant,
             species: species,
             plants: plants,
             careLogs: careLogs,
@@ -120,7 +123,14 @@ class GreenFriendApp extends StatelessWidget {
             timelapseEncoder: timelapseEncoder,
             healthChecker: healthChecker,
             lightSensor: lightSensor,
-          ),
+          ))
+              : OnboardingScreen(
+                  onDone: (result) {
+                    _Shell.addPlantOnStart =
+                        result == OnboardingResult.addPlant;
+                    settings.finishOnboarding();
+                  },
+                ),
         ),
       ),
     );
@@ -132,5 +142,23 @@ class GreenFriendApp extends StatelessWidget {
       final sync? => CalendarScope(sync: sync, child: withWeather),
       null => withWeather,
     };
+  }
+}
+
+/// The app shell; opens the plant form once when the introduction ended with
+/// "Add your first plant".
+class _Shell extends StatelessWidget {
+  const _Shell({required this.builder});
+
+  /// Set by the introduction just before the shell replaces it.
+  static var addPlantOnStart = false;
+
+  final Widget Function(bool addPlant) builder;
+
+  @override
+  Widget build(BuildContext context) {
+    final addPlant = addPlantOnStart;
+    addPlantOnStart = false;
+    return builder(addPlant);
   }
 }
