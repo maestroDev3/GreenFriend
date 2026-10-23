@@ -1473,5 +1473,45 @@
         "type": "int"
       }
     }
+  },
+  "onboardingRemindersTitle": "Never forget to water again",
+  "@onboardingRemindersTitle": {
+    "description": "Introduction page 1 title."
+  },
+  "onboardingRemindersText": "Every plant gets its own watering and fertilizing plan. Green Friend reminds you, and one tap marks the care as done – right in the notification or on the home-screen widget.",
+  "@onboardingRemindersText": {
+    "description": "Introduction page 1 text."
+  },
+  "onboardingPhotoTitle": "Know your plant from a photo",
+  "@onboardingPhotoTitle": {
+    "description": "Introduction page 2 title."
+  },
+  "onboardingPhotoText": "Take a photo to identify the species and get its care profile. A health check tells you what a sick-looking plant needs.",
+  "@onboardingPhotoText": {
+    "description": "Introduction page 2 text."
+  },
+  "onboardingCalendarTitle": "Everything in its place",
+  "@onboardingCalendarTitle": {
+    "description": "Introduction page 3 title."
+  },
+  "onboardingCalendarText": "Care days appear in your phone calendar, the weather counts rain for outdoor plants and warns of frost, and the growth journal keeps photos of your plant's progress.",
+  "@onboardingCalendarText": {
+    "description": "Introduction page 3 text."
+  },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {
+    "description": "Introduction button: leave to the home screen."
+  },
+  "onboardingNext": "Next",
+  "@onboardingNext": {
+    "description": "Introduction button: next page."
+  },
+  "onboardingNotNow": "Not now",
+  "@onboardingNotNow": {
+    "description": "Introduction last page: go to the home screen without adding a plant."
+  },
+  "onboardingAddPlant": "Add your first plant",
+  "@onboardingAddPlant": {
+    "description": "Introduction last page: finish and open the form for a new plant."
   }
 }

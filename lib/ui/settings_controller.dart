@@ -22,7 +22,8 @@ class SettingsController extends ChangeNotifier {
   Vacation? _vacation;
   List<FrostWarning> _frostWarnings = const [];
   var _healthCheckConsent = false;
-  var _onboardingDone = false;
+  // Not shown before the stored value is loaded.
+  var _onboardingDone = true;
 
   AppThemeMode get themeMode => _themeMode;
 
