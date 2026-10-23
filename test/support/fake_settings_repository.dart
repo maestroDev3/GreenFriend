@@ -17,6 +17,8 @@ class FakeSettingsRepository implements SettingsRepository {
     this.vacation,
     this.frostWarnings = const [],
     this.healthCheckConsent = false,
+    // Most tests start in the app, not in the introduction.
+    this.onboardingDone = true,
   });
 
   AppThemeMode themeMode;
@@ -29,6 +31,7 @@ class FakeSettingsRepository implements SettingsRepository {
   Vacation? vacation;
   List<FrostWarning> frostWarnings;
   bool healthCheckConsent;
+  bool onboardingDone;
 
   @override
   Future<AppThemeMode> loadThemeMode() async => themeMode;
@@ -80,6 +83,12 @@ class FakeSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> saveVacation(Vacation? value) async => vacation = value;
+
+  @override
+  Future<bool> loadOnboardingDone() async => onboardingDone;
+
+  @override
+  Future<void> saveOnboardingDone(bool value) async => onboardingDone = value;
 
   @override
   Future<bool> loadHealthCheckConsent() async => healthCheckConsent;
