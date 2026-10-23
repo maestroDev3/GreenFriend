@@ -17,6 +17,7 @@ extension PumpApp on WidgetTester {
     Locale locale = const Locale('en'),
     ThemeData? theme,
     SettingsController? settings,
+    bool debugBanner = true,
   }) async {
     view.physicalSize = phoneSize * view.devicePixelRatio;
     addTearDown(view.reset);
@@ -24,6 +25,7 @@ extension PumpApp on WidgetTester {
       SettingsScope(
         controller: settings ?? SettingsController(FakeSettingsRepository()),
         child: MaterialApp(
+          debugShowCheckedModeBanner: debugBanner,
           theme: theme ?? lightTheme,
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,

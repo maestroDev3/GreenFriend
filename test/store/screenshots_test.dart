@@ -32,14 +32,16 @@ DateTime now() => DateTime(2026, 5, 12, 9);
 
 final species = BundledSpeciesCatalog();
 
-/// Demo plants with names that work in both languages.
-List<Plant> demoPlants() => [
+/// Demo plants in the screenshot's language.
+List<Plant> demoPlants(String locale) {
+  final de = locale.startsWith('de');
+  return [
   Plant(
     id: 'monty',
     name: 'Monty',
     species: 'Monstera deliciosa',
     speciesId: 'monstera-deliciosa',
-    location: 'Living room',
+    location: de ? 'Wohnzimmer' : 'Living room',
     wateringIntervalDays: 7,
     lastWateredOn: DateTime(2026, 5, 5),
     fertilizingIntervalDays: 14,
@@ -48,7 +50,7 @@ List<Plant> demoPlants() => [
   ),
   Plant(
     id: 'basil',
-    name: 'Basil',
+    name: de ? 'Basilikum' : 'Basil',
     species: 'Ocimum basilicum',
     speciesId: 'ocimum-basilicum',
     wateringIntervalDays: 2,
@@ -73,7 +75,8 @@ List<Plant> demoPlants() => [
     fertilizingIntervalDays: 14,
     lastFertilizedOn: DateTime(2026, 4, 30),
   ),
-];
+  ];
+}
 
 List<CareLog> demoLogs() => [
   for (var day = 1; day <= 11; day += 2)
@@ -115,10 +118,14 @@ Future<void> shoot(
   SettingsController? settings,
   Future<void> Function()? before,
 }) async {
+  // Touch mode: no keyboard focus frames in the pictures.
+  FocusManager.instance.highlightStrategy =
+      FocusHighlightStrategy.alwaysTouch;
   await tester.pumpApp(
     screen,
     locale: Locale(locale.substring(0, 2)),
     settings: settings,
+    debugBanner: false,
   );
   tester.view.physicalSize = pixels;
   tester.view.devicePixelRatio = pixelRatio;
@@ -139,7 +146,7 @@ void main() {
       await shoot(
         tester,
         HomeScreen(
-          plants: FakePlantRepository(demoPlants()),
+          plants: FakePlantRepository(demoPlants(locale)),
           careLogs: FakeCareLogRepository(),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
@@ -156,7 +163,7 @@ void main() {
       await shoot(
         tester,
         PlantDetailScreen(
-          plants: FakePlantRepository(demoPlants()),
+          plants: FakePlantRepository(demoPlants(locale)),
           careLogs: FakeCareLogRepository(demoLogs()),
           journal: FakeJournalRepository(),
           photos: FakePhotoStore(),
@@ -174,7 +181,7 @@ void main() {
       await shoot(
         tester,
         CalendarScreen(
-          plants: FakePlantRepository(demoPlants()),
+          plants: FakePlantRepository(demoPlants(locale)),
           careLogs: FakeCareLogRepository(demoLogs()),
           clock: now,
         ),
@@ -201,17 +208,25 @@ void main() {
             candidates: [
               IdentificationCandidate(
                 scientificName: 'Monstera deliciosa',
-                commonNames: const ['Swiss cheese plant'],
+                commonNames: [
+                  locale.startsWith('de') ? 'Fensterblatt' : 'Swiss cheese plant',
+                ],
                 probability: 0.93,
               ),
               IdentificationCandidate(
                 scientificName: 'Philodendron hederaceum',
-                commonNames: const ['Heartleaf philodendron'],
+                commonNames: [
+                  locale.startsWith('de')
+                      ? 'Kletterphilodendron'
+                      : 'Heartleaf philodendron',
+                ],
                 probability: 0.04,
               ),
               IdentificationCandidate(
                 scientificName: 'Epipremnum aureum',
-                commonNames: const ['Pothos'],
+                commonNames: [
+                  locale.startsWith('de') ? 'Efeutute' : 'Pothos',
+                ],
                 probability: 0.02,
               ),
             ],
