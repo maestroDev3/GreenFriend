@@ -36,45 +36,45 @@ final species = BundledSpeciesCatalog();
 List<Plant> demoPlants(String locale) {
   final de = locale.startsWith('de');
   return [
-  Plant(
-    id: 'monty',
-    name: 'Monty',
-    species: 'Monstera deliciosa',
-    speciesId: 'monstera-deliciosa',
-    location: de ? 'Wohnzimmer' : 'Living room',
-    wateringIntervalDays: 7,
-    lastWateredOn: DateTime(2026, 5, 5),
-    fertilizingIntervalDays: 14,
-    lastFertilizedOn: DateTime(2026, 5, 1),
-    potDiameterCm: 21,
-  ),
-  Plant(
-    id: 'basil',
-    name: de ? 'Basilikum' : 'Basil',
-    species: 'Ocimum basilicum',
-    speciesId: 'ocimum-basilicum',
-    wateringIntervalDays: 2,
-    lastWateredOn: DateTime(2026, 5, 9),
-    outdoor: true,
-  ),
-  Plant(
-    id: 'aloe',
-    name: 'Aloe',
-    species: 'Aloe vera',
-    speciesId: 'aloe-vera',
-    wateringIntervalDays: 14,
-    lastWateredOn: DateTime(2026, 5, 4),
-  ),
-  Plant(
-    id: 'ficus',
-    name: 'Ficus',
-    species: 'Ficus lyrata',
-    speciesId: 'ficus-lyrata',
-    wateringIntervalDays: 7,
-    lastWateredOn: DateTime(2026, 5, 9),
-    fertilizingIntervalDays: 14,
-    lastFertilizedOn: DateTime(2026, 4, 30),
-  ),
+    Plant(
+      id: 'monty',
+      name: 'Monty',
+      species: 'Monstera deliciosa',
+      speciesId: 'monstera-deliciosa',
+      location: de ? 'Wohnzimmer' : 'Living room',
+      wateringIntervalDays: 7,
+      lastWateredOn: DateTime(2026, 5, 5),
+      fertilizingIntervalDays: 14,
+      lastFertilizedOn: DateTime(2026, 5, 1),
+      potDiameterCm: 21,
+    ),
+    Plant(
+      id: 'basil',
+      name: de ? 'Basilikum' : 'Basil',
+      species: 'Ocimum basilicum',
+      speciesId: 'ocimum-basilicum',
+      wateringIntervalDays: 2,
+      lastWateredOn: DateTime(2026, 5, 9),
+      outdoor: true,
+    ),
+    Plant(
+      id: 'aloe',
+      name: 'Aloe',
+      species: 'Aloe vera',
+      speciesId: 'aloe-vera',
+      wateringIntervalDays: 14,
+      lastWateredOn: DateTime(2026, 5, 4),
+    ),
+    Plant(
+      id: 'ficus',
+      name: 'Ficus',
+      species: 'Ficus lyrata',
+      speciesId: 'ficus-lyrata',
+      wateringIntervalDays: 7,
+      lastWateredOn: DateTime(2026, 5, 9),
+      fertilizingIntervalDays: 14,
+      lastFertilizedOn: DateTime(2026, 4, 30),
+    ),
   ];
 }
 
@@ -119,8 +119,7 @@ Future<void> shoot(
   Future<void> Function()? before,
 }) async {
   // Touch mode: no keyboard focus frames in the pictures.
-  FocusManager.instance.highlightStrategy =
-      FocusHighlightStrategy.alwaysTouch;
+  FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;
   await tester.pumpApp(
     screen,
     locale: Locale(locale.substring(0, 2)),
@@ -209,7 +208,9 @@ void main() {
               IdentificationCandidate(
                 scientificName: 'Monstera deliciosa',
                 commonNames: [
-                  locale.startsWith('de') ? 'Fensterblatt' : 'Swiss cheese plant',
+                  locale.startsWith('de')
+                      ? 'Fensterblatt'
+                      : 'Swiss cheese plant',
                 ],
                 probability: 0.93,
               ),
@@ -224,9 +225,7 @@ void main() {
               ),
               IdentificationCandidate(
                 scientificName: 'Epipremnum aureum',
-                commonNames: [
-                  locale.startsWith('de') ? 'Efeutute' : 'Pothos',
-                ],
+                commonNames: [locale.startsWith('de') ? 'Efeutute' : 'Pothos'],
                 probability: 0.02,
               ),
             ],
