@@ -26,6 +26,7 @@ import 'data/zip_backup_archive.dart';
 import 'notification_actions.dart';
 import 'widget_actions.dart';
 import 'ui/app.dart';
+import 'ui/onboarding.dart';
 import 'ui/calendar_sync.dart';
 import 'ui/font_licenses.dart';
 import 'ui/reminder_sync.dart';
@@ -44,6 +45,7 @@ Future<void> main() async {
   await settings.load();
 
   final plants = SharedPreferencesPlantRepository(preferences);
+  await skipOnboardingForExistingUsers(settings, plants);
   final l10n = appLocalizationsFor(settings);
   final scheduler = await LocalNotificationScheduler.create(
     channelName: l10n.dailyReminder,

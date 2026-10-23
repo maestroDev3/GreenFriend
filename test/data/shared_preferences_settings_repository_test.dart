@@ -111,6 +111,14 @@ void main() {
       expect(await (await repository()).loadWeatherLocation(), isNull);
     });
 
+    test('the repository keeps the onboarding flag; it is false on a new '
+        'installation', () async {
+      expect(await (await repository()).loadOnboardingDone(), isFalse);
+
+      await (await repository()).saveOnboardingDone(true);
+      expect(await (await repository()).loadOnboardingDone(), isTrue);
+    });
+
     test('stores the health check credit consent', () async {
       expect(await (await repository()).loadHealthCheckConsent(), isFalse);
 

@@ -56,6 +56,11 @@ abstract interface class SettingsRepository {
   /// Stores [vacation]; `null` removes it.
   Future<void> saveVacation(Vacation? vacation);
 
+  /// Whether the introduction on first start was finished or skipped.
+  Future<bool> loadOnboardingDone();
+
+  Future<void> saveOnboardingDone(bool done);
+
   /// Whether the user agreed that health checks use plant.id credits.
   Future<bool> loadHealthCheckConsent();
 
